@@ -1,8 +1,8 @@
 {
-	"name": "react-retro",
+	"name": "retro-react",
 	"version": "0.0.0",
-	"private": true,
-	"description": "",
+	"private": false,
+	"description": "A React component library for building retro-style websites",
 	"repository": {
 		"type": "git",
 		"url": ""
@@ -29,7 +29,8 @@
 		"test": "NODE_ENV=test jest",
 		"test:coverage": "NODE_ENV=test jest --coverage",
 		"test:watch": "NODE_ENV=test jest --watch",
-		"format": "prettier **/*.tsx --write"
+		"format": "prettier **/*.tsx --write",
+		"pre-commit": "lint-staged"
 	},
 	"lint-staged": {
 		"*.{js,jsx,ts,tsx}": [
