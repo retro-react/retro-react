@@ -6,7 +6,7 @@ export type Color = 'primary' | 'secondary' | 'success' | 'error' | 'warn';
 
 export interface ChipProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
-	 * The color of the Chip.
+	 * The color of the Chip component.
 	 *
 	 * @default 'primary'
 	 */
