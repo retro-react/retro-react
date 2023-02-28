@@ -20,7 +20,7 @@
 	],
 	"scripts": {
 		"build": "NODE_ENV=production rollup -c",
-		"build:storybook": "build-storybook",
+		"build:storybook": "build-storybook -o docs-build -s ./src/assets",
 		"changeset": "changeset",
 		"lint": "eslint . --ext .ts,.tsx,.js,.jsx",
 		"prepare": "husky install",
