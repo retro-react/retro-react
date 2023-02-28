@@ -2,6 +2,7 @@ name: Build and Deploy
 on:
   push:
     paths: ['.storybook/**', 'src/components/**'] # Trigger the action only when files change in the folders defined here
+permissions: read-all|write-all
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
