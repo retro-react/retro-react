@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import '../fonts.css';
-import { Variant } from './Text';
+import { TextVariant } from './Text';
 
 export const Text = styled.div<{
 	$color: string;
-	$variant: Variant;
+	$variant: TextVariant;
 }>`
 	font-family: 'FrauncesLatin', sans-serif;
 	font-size: 1rem;

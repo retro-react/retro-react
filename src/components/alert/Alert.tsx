@@ -2,7 +2,7 @@ import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
 import * as Sc from './Alert.styled';
 
-export type Color = 'primary' | 'secondary' | 'success' | 'error' | 'warn';
+export type AlertColor = 'primary' | 'secondary' | 'success' | 'error' | 'warn';
 
 export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
@@ -10,7 +10,7 @@ export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
 	 *
 	 * @default 'primary'
 	 */
-	color?: Color;
+	color?: AlertColor;
 	/**
 	 * The title of the Alert.
 	 *

@@ -2,7 +2,7 @@ import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
 import * as Sc from './Chip.styled';
 
-export type Color = 'primary' | 'secondary' | 'success' | 'error' | 'warn';
+export type ChipColor = 'primary' | 'secondary' | 'success' | 'error' | 'warn';
 
 export interface ChipProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
@@ -10,7 +10,7 @@ export interface ChipProps extends React.HTMLAttributes<HTMLDivElement> {
 	 *
 	 * @default 'primary'
 	 */
-	color?: Color;
+	color?: ChipColor;
 }
 
 export const Chip = forwardRef<HTMLDivElement, ChipProps>(

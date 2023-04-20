@@ -3,7 +3,7 @@ import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
 import * as Sc from './Text.styled';
 
-export type Variant =
+export type TextVariant =
 	| 'h1'
 	| 'h2'
 	| 'h3'
@@ -19,7 +19,7 @@ export interface TextProps extends React.HTMLAttributes<HTMLDivElement> {
 	 *
 	 * @default 'body1'
 	 */
-	variant?: Variant;
+	variant?: TextVariant;
 	/**
 	 * The color of the Text.
 	 *

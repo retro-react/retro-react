@@ -10,9 +10,9 @@ import {
 	WARN,
 } from '@src/constants/colors';
 import '../fonts.css';
-import type { Color } from './Alert';
+import type { AlertColor } from './Alert';
 
-function getColorScheme(color: Color) {
+function getColorScheme(color: AlertColor) {
 	switch (color) {
 		case 'error':
 			return ERROR;
@@ -28,7 +28,7 @@ function getColorScheme(color: Color) {
 	}
 }
 
-export const Alert = styled.div<{ $color: Color }>`
+export const Alert = styled.div<{ $color: AlertColor }>`
 	display: inline-flex;
 	flex-direction: column;
 	position: relative;

@@ -10,9 +10,9 @@ import {
 	WARN,
 } from '@src/constants/colors';
 import '../fonts.css';
-import type { Color } from './Chip';
+import type { ChipColor } from './Chip';
 
-function getColorScheme(color: Color) {
+function getColorScheme(color: ChipColor) {
 	switch (color) {
 		case 'error':
 			return ERROR;
@@ -28,7 +28,7 @@ function getColorScheme(color: Color) {
 	}
 }
 
-export const Chip = styled.div<{ $color: Color }>`
+export const Chip = styled.div<{ $color: ChipColor }>`
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
