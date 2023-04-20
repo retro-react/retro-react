@@ -4,12 +4,13 @@
  * @param hex hex color code.
  * @returns a new hex color code.
  */
-export const alterColor = (hex) => {
+export const alterColor = (hex: string, amount = 0) => {
 	// Convert the hex color code to RGB
 	let r = parseInt(hex.substring(1, 3), 16);
 	const g = parseInt(hex.substring(3, 5), 16);
 	let b = parseInt(hex.substring(5, 7), 16);
 
+	r = (r + amount) % 256;
 	// Alter the color by increasing the red value and decreasing the blue value
 	r = (r + 50) % 256;
 	b = (b - 50 + 256) % 256;
