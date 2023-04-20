@@ -6,7 +6,7 @@ A retro-themed UI library for React that provides 10 unique components to easily
 
 ## Demo
 
-You can view the demo of the library and its components [here](https://retro-react.netlify.app/).
+You can view the demo of the library and its components [here](https://retro-react.github.io/retro-react/).
 
 ## Installation
 
@@ -39,7 +39,7 @@ import {
 	Modal,
 	ProgressBar,
 	Text,
-} from 'your-ui-library-name';
+} from 'retro-react';
 
 const App = () => {
 	return (
@@ -48,12 +48,14 @@ const App = () => {
 			<Container>{/* Your content here */}</Container>
 			<Input placeholder="Enter text" />
 			<Box>Box content</Box>
-			<Card>{/* Card content */}</Card>
+			<Card header="Header" footer="Footer">
+				{/* Card content */}
+			</Card>
 			<Text variant="h1">Hello, world!</Text>
-			<Modal>{/* Modal content */}</Modal>
+			<Modal open={true}>{/* Modal content */}</Modal>
 			<ProgressBar value={50} />
-			<Chip label="Tag" />
-			<Alert type="success" message="Success!" />
+			<Chip color="primary">Chip</Chip>
+			<Alert color="success" message="Success!" />
 		</div>
 	);
 };
@@ -134,7 +136,7 @@ A retro-styled progress bar component with customizable styles and progress valu
 A retro-styled chip component with customizable styles and click event handling.
 
 ```jsx
-<Chip label="Tag" onClick={() => console.log('Chip clicked!')} />
+<Chip color="primary">Chip</Chip>
 ```
 
 ### Alert
@@ -142,9 +144,5 @@ A retro-styled chip component with customizable styles and click event handling.
 A retro-styled alert component with customizable styles and click event handling.
 
 ```jsx
-<Alert
-	type="success"
-	message="Success!"
-	onClick={() => console.log('Alert clicked!')}
-/>
+<Alert variant="success">{/* Alert content */}</Alert>
 ```
