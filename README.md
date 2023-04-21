@@ -4,6 +4,8 @@
 
 A retro-themed UI library for React that provides 10 unique components to easily build user interfaces with a nostalgic vibe. The library includes components such as buttons, containers, inputs, boxes, cards, text, modals, progress bars, chips, and alerts.
 
+Expect more components to be added in the near future! If you have any suggestions for new components or features, feel free to open an issue [here](https://github.com/retro-react/retro-react).
+
 ## Demo
 
 You can view the demo of the library and its components [here](https://retro-react.github.io/retro-react/).
@@ -146,3 +148,11 @@ A retro-styled alert component with customizable styles and click event handling
 ```jsx
 <Alert variant="success">{/* Alert content */}</Alert>
 ```
+
+## License
+
+This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit/).
+
+## Contributing
+
+Contributions are welcome! People who want to contribute to this project can open an issue or submit a pull request [here](https://github.com/retro-react/retro-react). If you are dedicated to contributing to this project, you can also contact me there.
