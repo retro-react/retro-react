@@ -8,3 +8,6 @@ export * from './components/modal';
 export * from './components/progress_bar';
 export * from './components/chip';
 export * from './components/alert';
+export * from './components/checkbox';
+export * from './components/switch';
+export * from './components/wordart';

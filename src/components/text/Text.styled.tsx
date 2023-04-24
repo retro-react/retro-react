@@ -246,7 +246,23 @@ export const Text = styled.div<{
 					@media (min-width: 2048px) {
 						font-size: 2.25rem;
 					}`;
+			case 'paragraph':
+				return `
+					font-size: 0.5rem;
+					font-weight: 400;
 
+					@media (min-width: 768px) {
+						font-size: 0.75rem;
+					}
+
+					@media (min-width: 1024px) {
+						font-size: 1rem;
+					}
+
+					@media (min-width: 1280px) {
+						font-size: 1.25rem;
+					}
+					`;
 			default:
 				return `
 					font-size: 1rem;

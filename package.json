@@ -3,10 +3,27 @@
 	"version": "1.0.5",
 	"private": false,
 	"description": "A React component library for building retro-style websites",
+	"keywords": [
+		"react",
+		"react-component",
+		"react-component-library",
+		"react-library",
+		"react-ui",
+		"react-ui-library",
+		"retro",
+		"retro-react",
+		"retro-style",
+		"retro-ui",
+		"retro-ui-library",
+		"ui",
+		"ui-library"
+	],
+	"author": "Retro React",
 	"repository": {
 		"type": "git",
-		"url": ""
+		"url": "https://github.com/retro-react/retro-react"
 	},
+	"license": "MIT",
 	"sideEffects": false,
 	"exports": {
 		"import": "./dist/esm/index.js",

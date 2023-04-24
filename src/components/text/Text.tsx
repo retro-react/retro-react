@@ -11,7 +11,8 @@ export type TextVariant =
 	| 'h5'
 	| 'h6'
 	| 'body1'
-	| 'body2';
+	| 'body2'
+	| 'paragraph';
 
 export interface TextProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
