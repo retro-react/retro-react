@@ -20,6 +20,7 @@ const Template: ComponentStory<typeof Tooltip> = (args) => (
 			justifyContent: 'center',
 			alignItems: 'center',
 			height: '50vh',
+			border: '1px solid ',
 		}}
 	>
 		<Tooltip {...args}>
