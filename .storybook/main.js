@@ -15,7 +15,7 @@ module.exports = {
 	},
 	stories: [
 		'../src/**/*.stories.@(js|jsx|ts|tsx|mdx)',
-		'./**/__stories__/*.stories.@(js|jsx|ts|tsx|mdx)',
+		'./**/__stories__/*.@(js|jsx|ts|tsx|mdx)',
 	],
 	addons: [
 		'@storybook/addon-links',

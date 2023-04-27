@@ -23,10 +23,17 @@ const Template: ComponentStory<typeof Modal> = (args) => {
 	}, [args.open]);
 
 	return (
-		<>
+		<div
+			style={{
+				display: 'flex',
+				justifyContent: 'center',
+				alignItems: 'center',
+				height: '50vh',
+			}}
+		>
 			<Button onClick={() => setOpen(true)}>Open Modal</Button>
 			<Modal {...args} open={open} onClose={() => setOpen(false)} />
-		</>
+		</div>
 	);
 };
 
