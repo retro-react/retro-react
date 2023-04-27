@@ -33,11 +33,6 @@ export default create({
 	inputTextColor: 'black',
 	inputBorderRadius: 4,
 
-	// Code block background color
-	code: {
-		background: '#1D2027',
-	},
-
 	brandTitle: 'Retro React',
 	brandUrl: 'https://github.com/retro-react/retro-react',
 	// brandImage: 'https://your-url.com/your-logo.png',
