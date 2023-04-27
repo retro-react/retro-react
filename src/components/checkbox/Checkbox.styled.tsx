@@ -21,6 +21,7 @@ export const Checkbox = styled.input<{
 	height: 1.5rem;
 	width: 1.5rem;
 	border-radius: 0.25rem;
+	cursor: pointer;
 
 	background-image: linear-gradient(
 			to bottom,

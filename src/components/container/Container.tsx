@@ -9,6 +9,12 @@ export interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default false
 	 */
 	fluid?: boolean;
+	/**
+	 * Sx prop
+	 *
+	 * @default undefined
+	 */
+	sx?: any;
 }
 
 /**

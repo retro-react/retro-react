@@ -11,3 +11,7 @@ export * from './components/alert';
 export * from './components/checkbox';
 export * from './components/switch';
 export * from './components/wordart';
+export * from './components/avatar';
+export * from './components/select';
+export * from './components/slider';
+export * from './components/tooltip';

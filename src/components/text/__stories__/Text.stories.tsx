@@ -19,7 +19,7 @@ const Template: ComponentStory<typeof Text> = (args) => {
 export const h1 = Template.bind({});
 h1.args = {
 	children:
-		'h1 - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+		'h1 -  It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.',
 	color: 'darkseagreen',
 	variant: 'h1',
 };
@@ -27,7 +27,7 @@ h1.args = {
 export const h2 = Template.bind({});
 h2.args = {
 	children:
-		'h2 - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+		'h2 -  It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.',
 	color: 'darkseagreen',
 	variant: 'h2',
 };
@@ -35,7 +35,7 @@ h2.args = {
 export const h3 = Template.bind({});
 h3.args = {
 	children:
-		'h3 - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+		'h3 -  It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.',
 	color: 'darkseagreen',
 	variant: 'h3',
 };
@@ -43,7 +43,7 @@ h3.args = {
 export const h4 = Template.bind({});
 h4.args = {
 	children:
-		'h4 - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+		'h4 -  It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.',
 	color: 'darkseagreen',
 	variant: 'h4',
 };
@@ -51,7 +51,7 @@ h4.args = {
 export const h5 = Template.bind({});
 h5.args = {
 	children:
-		'h5 - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+		'h5 -  It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.',
 	color: 'darkseagreen',
 	variant: 'h5',
 };
@@ -59,7 +59,7 @@ h5.args = {
 export const h6 = Template.bind({});
 h6.args = {
 	children:
-		'h6 - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+		'h6 -  It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.',
 	color: 'darkseagreen',
 	variant: 'h6',
 };
@@ -67,7 +67,7 @@ h6.args = {
 export const body1 = Template.bind({});
 body1.args = {
 	children:
-		'body1 - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+		'body1 -  It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.',
 	color: 'darkseagreen',
 	variant: 'body1',
 };
@@ -75,7 +75,14 @@ body1.args = {
 export const body2 = Template.bind({});
 body2.args = {
 	children:
-		'body2 - Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+		'body2 -  It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.',
 	color: 'darkseagreen',
 	variant: 'body2',
+};
+export const paragraph = Template.bind({});
+paragraph.args = {
+	children:
+		'paragraph -  It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.',
+	color: 'darkseagreen',
+	variant: 'paragraph',
 };
