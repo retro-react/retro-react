@@ -14,14 +14,14 @@ module.exports = {
 		options: {},
 	},
 	stories: [
+		'./**/__stories__/*.stories.@(js|jsx|ts|tsx|mdx)',
 		'../src/**/*.stories.@(js|jsx|ts|tsx|mdx)',
-		'./**/__stories__/*.@(js|jsx|ts|tsx|mdx)',
 	],
 	addons: [
 		'@storybook/addon-links',
 		'@storybook/addon-essentials',
 		'@storybook/addon-a11y',
-		'@storybook/addon-mdx-gfm',
+		'@storybook/addon-docs',
 	],
 	staticDirs: ['../src/assets'],
 	features: {
