@@ -27,6 +27,13 @@ export interface TextProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default 'darkseagreen'
 	 */
 	color?: string;
+	/**
+	 * Add bevel effect to Text.
+	 *
+	 * @default false
+	 */
+	bevel?: boolean;
+	sx?: any;
 }
 
 export const Text = forwardRef<HTMLDivElement, TextProps>(
@@ -37,16 +44,20 @@ export const Text = forwardRef<HTMLDivElement, TextProps>(
 			children,
 			color = 'darkseagreen',
 			variant = 'body1',
+			bevel = false,
+			sx,
 			...rest
 		},
 		ref,
 	) => {
 		return (
 			<Sc.Text
+				$bevel={bevel}
 				$color={color}
 				$variant={variant}
 				ref={ref}
 				id={id}
+				sx={sx}
 				className={classNames('text-root', className)}
 				{...rest}
 			>

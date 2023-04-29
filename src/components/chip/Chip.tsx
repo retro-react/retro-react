@@ -1,3 +1,4 @@
+/** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
 import * as Sc from './Chip.styled';
@@ -11,13 +12,15 @@ export interface ChipProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default 'primary'
 	 */
 	color?: ChipColor;
+	sx?: any;
 }
 
 export const Chip = forwardRef<HTMLDivElement, ChipProps>(
-	({ id, className, color = 'primary', children, ...rest }) => {
+	({ id, className, color = 'primary', children, sx, ...rest }) => {
 		return (
 			<Sc.Chip
 				id={id}
+				sx={sx}
 				$color={color}
 				className={classNames('chip-root', className)}
 				{...rest}

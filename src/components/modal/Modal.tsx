@@ -1,13 +1,14 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
+import { Portal } from '../portal/Portal';
 import * as Sc from './Modal.styled';
 
 export interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
-	 * The background of the Modal.
+	 * The hex color background of the Modal.
 	 *
-	 * @default 'darkseagreen'
+	 * @default '#8fbc8f'
 	 */
 	color?: string;
 	/**
@@ -23,6 +24,12 @@ export interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
 	 *
 	 */
 	open?: boolean;
+	/**
+	 * Enable backdrop for Modal.
+	 *
+	 * @default false
+	 */
+	backdrop?: boolean;
 	/**
 	 * Callback fired when the Modal is closed.
 	 *
@@ -42,25 +49,34 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
 			children,
 			open = false,
 			onClose,
-			color = 'darkseagreen',
+			color = '#8fbc8f',
+			backdrop = false,
 			borderSize = '1rem',
 			...rest
 		},
 		ref,
 	) => {
 		return (
-			<Sc.Modal
-				$color={color}
-				$borderSize={borderSize}
-				$open={open}
-				ref={ref}
-				id={id}
-				className={classNames('modal-root', className)}
-				{...rest}
-			>
-				<Sc.CloseButton onClick={onClose} aria-label="Close Modal" />
-				{children}
-			</Sc.Modal>
+			<Portal>
+				{backdrop && <Sc.ModalBackdrop $open={open} />}
+				<Sc.Modal
+					$color={color}
+					$borderSize={borderSize}
+					$backdrop={backdrop}
+					$open={open}
+					ref={ref}
+					id={id}
+					className={classNames('modal-root', className)}
+					{...rest}
+				>
+					<Sc.CloseButton
+						onClick={onClose}
+						aria-label="Close Modal"
+						$color={color}
+					/>
+					{children}
+				</Sc.Modal>
+			</Portal>
 		);
 	},
 );

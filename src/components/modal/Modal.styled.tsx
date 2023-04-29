@@ -1,18 +1,24 @@
 import styled from '@emotion/styled';
+import { alterColorEnhanced } from '@src/utils/alterColor';
+import { rgba } from '@src/utils/rgba';
 import { SCREEN_XM } from '@src/constants/breakpoints';
-import { PRIMARY } from '@src/constants/colors';
 import '../fonts.css';
 
 export const Modal = styled.div<{
 	$color: string;
 	$borderSize: string;
 	$open: boolean;
+	$backdrop: boolean;
 }>`
-	background-image: url(https://grainy-gradients.vercel.app/noise.svg);
 	background-color: ${(props) => props.$color};
-	border-radius: 0.5rem;
-	border: ${(props) => props.$borderSize} solid ${(props) => props.$color};
-	box-shadow: 0 0 0.5rem 0.5rem ${(props) => props.$color};
+	background-image: ${(props) => `
+		linear-gradient(
+			${rgba(props.$color, 0.4)},
+			${rgba(props.$color, 0.4)}
+		), url(${require('@src/assets/svg/diagonal_line_pattern.svg')});
+	`};
+	box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.3),
+		inset -1px -1px 2px rgba(255, 255, 255, 0.2);
 	padding: 1rem;
 	font-family: 'FrauncesLatin', sans-serif;
 	font-size: 1.5rem;
@@ -25,6 +31,7 @@ export const Modal = styled.div<{
 	width: auto;
 	box-sizing: border-box;
 	overflow: auto;
+	z-index: 1001;
 
 	// Media query for mobile devices
 	@media only screen and (max-width: ${SCREEN_XM}px) {
@@ -39,30 +46,20 @@ export const Modal = styled.div<{
 	${(props) =>
 		props.$open
 			? `
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-  `
+		opacity: 1;
+		visibility: visible;
+		transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+	`
 			: `
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-  `}
-
-	&::before {
-		content: '';
-		width: 100%;
-		height: 100%;
-		background-image: url(https://grainy-gradients.vercel.app/noise.svg);
-		background-color: ${(props) => props.$color};
-		border-radius: 0.5rem;
-		border: 0.5rem solid ${(props) => props.$color};
-		box-shadow: 0 0 0.5rem 0.5rem ${(props) => props.$color};
-		opacity: 0.5;
-	}
+		opacity: 0;
+		visibility: hidden;
+		transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+	`}
 `;
 
-export const CloseButton = styled.button`
+export const CloseButton = styled.button<{
+	$color: string;
+}>`
 	position: absolute;
 	top: 10px;
 	right: 5px;
@@ -85,11 +82,35 @@ export const CloseButton = styled.button`
 		left: 50%;
 		width: 1.5rem;
 		height: 0.2rem;
-		background-color: ${PRIMARY};
+		background-color: ${(props) => alterColorEnhanced(props.$color, 100)};
 		transform: translate(-50%, -50%) rotate(45deg);
 	}
 
 	&::after {
 		transform: translate(-50%, -50%) rotate(-45deg);
 	}
+`;
+
+export const ModalBackdrop = styled.div<{ $open: boolean }>`
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: ${rgba('#000', 0.5)};
+	z-index: 1000;
+	transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+
+	${(props) =>
+		props.$open
+			? `
+		opacity: 1;
+		visibility: visible;
+		transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+	`
+			: `
+		opacity: 0;
+		visibility: hidden;
+		transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+	`}
 `;

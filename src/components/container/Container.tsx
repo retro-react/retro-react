@@ -20,6 +20,7 @@ export interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
 /**
  * The fundamental building block that centers your content horizontally.
  * It creates a simple `div` to wrap your content and align within a given viewport.
+ * Supports `sx` prop from Theme UI.
  *
  * @example
  * <Container>

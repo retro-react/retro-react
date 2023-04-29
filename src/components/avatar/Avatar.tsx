@@ -1,3 +1,4 @@
+/** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
 import * as Sc from './Avatar.styled';
@@ -37,6 +38,7 @@ export interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default undefined
 	 */
 	children?: string;
+	sx?: any;
 }
 
 export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
@@ -47,11 +49,13 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
 		size = 'medium',
 		variant = 'circle',
 		children,
+		sx,
 		...rest
 	}) => {
 		return (
 			<Sc.Avatar
 				id={id}
+				sx={sx}
 				$color={color}
 				$size={size}
 				$variant={variant}

@@ -41,8 +41,8 @@ const Template: ComponentStory<typeof Alert> = (args) => {
 	);
 };
 
-export const Primary = Template.bind({});
-Primary.args = {
+export const Default = Template.bind({});
+Default.args = {
 	title: 'Primary Alert',
 	children: 'The quick brown fox jumps over the lazy dog.',
 };

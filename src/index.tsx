@@ -15,3 +15,4 @@ export * from './components/avatar';
 export * from './components/select';
 export * from './components/slider';
 export * from './components/tooltip';
+export * from './components/marquee';

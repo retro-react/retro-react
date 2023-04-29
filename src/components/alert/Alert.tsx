@@ -1,3 +1,4 @@
+/** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
 import * as Sc from './Alert.styled';
@@ -17,14 +18,16 @@ export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default ''
 	 */
 	title?: string;
+	sx?: any;
 }
 
 export const Alert = forwardRef<HTMLDivElement, AlertProps>(
-	({ id, className, color = 'primary', title = '', children, ...rest }) => {
+	({ id, className, color = 'primary', title = '', children, sx, ...rest }) => {
 		return (
 			<Sc.Alert
 				id={id}
 				$color={color}
+				sx={sx}
 				className={classNames('alert-root', className)}
 				{...rest}
 			>

@@ -16,6 +16,7 @@ export interface BoxProps extends React.HTMLAttributes<HTMLDivElement> {
 	 *  @default '1rem'
 	 */
 	borderSize?: string;
+	sx?: any;
 }
 
 export const Box = forwardRef<HTMLDivElement, BoxProps>(
@@ -26,6 +27,7 @@ export const Box = forwardRef<HTMLDivElement, BoxProps>(
 			children,
 			color = 'darkseagreen',
 			borderSize = '1rem',
+			sx,
 			...rest
 		},
 		ref,
@@ -36,6 +38,7 @@ export const Box = forwardRef<HTMLDivElement, BoxProps>(
 				$borderSize={borderSize}
 				ref={ref}
 				id={id}
+				sx={sx}
 				className={classNames('box-root', className)}
 				{...rest}
 			>

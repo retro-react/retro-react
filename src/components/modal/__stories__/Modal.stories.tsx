@@ -29,6 +29,7 @@ const Template: ComponentStory<typeof Modal> = (args) => {
 				justifyContent: 'center',
 				alignItems: 'center',
 				height: '50vh',
+				border: '1px solid black',
 			}}
 		>
 			<Button onClick={() => setOpen(true)}>Open Modal</Button>
@@ -39,9 +40,10 @@ const Template: ComponentStory<typeof Modal> = (args) => {
 
 export const Default = Template.bind({});
 Default.args = {
+	backdrop: false,
 	children: (
 		<>
-			<Text variant="h6" color="black">
+			<Text bevel={true} variant="h6" color="black">
 				Ahoy, matey!
 			</Text>
 			<Text variant="paragraph" color="black">
@@ -53,7 +55,7 @@ Default.args = {
 			</Text>
 		</>
 	),
-	color: 'darkseagreen',
+	color: '#8fbc8f',
 
 	// @ts-ignore
 	sx: {

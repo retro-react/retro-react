@@ -4,12 +4,21 @@ import { TextVariant } from './Text';
 
 export const Text = styled.div<{
 	$color: string;
+	$bevel: boolean;
 	$variant: TextVariant;
 }>`
 	font-family: 'FrauncesLatin', sans-serif;
 	font-size: 1rem;
 	font-weight: 400;
 	color: ${(props) => props.$color};
+
+	${(props) =>
+		props.$bevel
+			? `
+			text-shadow: 0 -4px 3px rgba(255, 255, 255, 0.3), 0 3px 4px rgba(0, 0, 0, 0.2);
+				`
+			: ''}
+
 	${(props) => {
 		switch (props.$variant) {
 			case 'h1':

@@ -5,9 +5,9 @@ import * as Sc from './Card.styled';
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
-	 * The background of the Card.
+	 * The hex color background of the Card.
 	 *
-	 * @default 'darkseagreen'
+	 * @default '#8fbc8f'
 	 */
 	color?: string;
 	/**
@@ -40,7 +40,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
 			header,
 			image,
 			footer,
-			color = 'darkseagreen',
+			color = '#8fbc8f',
 			...rest
 		},
 		ref,

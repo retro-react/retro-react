@@ -1,16 +1,23 @@
 import styled from '@emotion/styled';
+import { rgba } from '@src/utils/rgba';
 import '../fonts.css';
 
-export const Card = styled.div<{
-	$color: string;
-}>`
-	background-image: url(https://grainy-gradients.vercel.app/noise.svg);
+export const Card = styled.div<{ $color: string }>`
 	background-color: ${(props) => props.$color};
+	background-image: ${(props) => `
+linear-gradient(
+	${rgba(props.$color, 0.4)},
+	${rgba(props.$color, 0.4)}
+), url(${require('@src/assets/svg/diagonal_line_pattern.svg')});
+`};
+	box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.3),
+		inset -1px -1px 2px rgba(255, 255, 255, 0.2),
+		inset 1px 1px 10px rgba(0, 0, 0, 0.2),
+		inset -1px -1px 10px rgba(255, 255, 255, 0.2);
+	border: 3px outset ${(props) => props.$color};
 	border-radius: 0.5rem;
-	border: 0.5rem solid ${(props) => props.$color};
-	box-shadow: 0 0 0.5rem 0.5rem ${(props) => props.$color};
 	padding: 1rem;
-	font-family: 'FrauncesLatin', sans-serif;
+	font-family: 'Comic Sans MS', sans-serif;
 	font-size: 1rem;
 	overflow: auto;
 	display: flex;
@@ -24,7 +31,7 @@ export const CardContent = styled.div`
 
 export const CardTitle = styled.h2`
 	font-size: 1.5rem;
-	font-weight: 700;
+	font-weight: bold;
 `;
 
 export const CardImageWrapper = styled.div`

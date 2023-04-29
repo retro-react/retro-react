@@ -12,8 +12,17 @@ const Template: ComponentStory<typeof Container> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
+	fluid: false,
+	sx: {
+		background: 'lightgray',
+		py: '10px',
+	},
 	children: (
-		<p style={{ background: 'beige', padding: '20px' }}>
+		<p
+			style={{
+				padding: '5px',
+			}}
+		>
 			max-width default is 1024px.
 		</p>
 	),

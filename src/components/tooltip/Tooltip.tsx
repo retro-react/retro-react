@@ -43,6 +43,7 @@ export interface TooltipProps {
 	 * @default 0
 	 */
 	delay?: number;
+	sx?: any;
 }
 
 const setPosition = (
@@ -92,6 +93,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
 	position = 'top',
 	children,
 	delay = 0,
+	sx,
 	...rest
 }: TooltipProps) => {
 	const triggerRef = React.useRef<HTMLElement>(null);
@@ -138,6 +140,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
 					$visible={visible}
 					$color={color}
 					$position={position}
+					sx={sx}
 				>
 					{label}
 				</Sc.TooltipContent>
