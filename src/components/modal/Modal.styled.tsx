@@ -15,7 +15,7 @@ export const Modal = styled.div<{
 		linear-gradient(
 			${rgba(props.$color, 0.4)},
 			${rgba(props.$color, 0.4)}
-		), url(${require('@src/assets/svg/diagonal_line_pattern.svg')});
+		), url(${require('../../assets/svg/diagonal_line_pattern.svg')});
 	`};
 	box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.3),
 		inset -1px -1px 2px rgba(255, 255, 255, 0.2);

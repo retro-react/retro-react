@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import { alterColor } from '@src/utils/alterColor';
 import { rgba } from '@src/utils/rgba';
 import {
 	ERROR,
@@ -86,7 +85,7 @@ export const Select = styled.select<{
 			${rgba(PRIMARY, 0.8)},
 			${rgba(PRIMARY, 0.8)}
 		),
-		url(${require('@src/assets/svg/diagonal_line_pattern.svg')});
+		url(${require('../../assets/svg/diagonal_line_pattern.svg')});
 	padding: 0.5rem 1rem;
 	appearance: none;
 	cursor: pointer;

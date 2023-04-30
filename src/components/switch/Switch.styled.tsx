@@ -58,7 +58,7 @@ export const SwitchSlider = styled.span<{
 					to right,
 					${rgba(alterColor(PRIMARY), 0.8)} 0%,
 					${rgba(PRIMARY, 0.8)} 100%
-				), url(${require('@src/assets/svg/checkboard_pattern.svg')}
+				), url(${require('../../assets/svg/checkboard_pattern.svg')}
 				);
 					`;
 			case 'secondary':
@@ -67,7 +67,7 @@ export const SwitchSlider = styled.span<{
 					to right,
 					${rgba(alterColor(SECONDARY), 0.8)} 0%,
 					${rgba(SECONDARY, 0.8)} 100%
-				), url(${require('@src/assets/svg/checkboard_pattern.svg')}
+				), url(${require('../../assets/svg/checkboard_pattern.svg')}
 				);
 					`;
 		}

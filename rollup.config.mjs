@@ -8,7 +8,8 @@ import del from 'rollup-plugin-delete';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import typescript from 'rollup-plugin-typescript2';
 import ttypescript from 'ttypescript';
-import pkg from './package.json';
+import pkg from './package.json' assert { type: 'json' };
+
 
 export default {
 	input: 'src/index.tsx',
@@ -48,7 +49,12 @@ export default {
 			extensions: ['.ts', '.tsx'],
 		}),
 		copy({
-			targets: [{ src: 'src/assets/fonts', dest: 'dist/assets' }],
+			targets: [
+				{ src: 'src/assets/fonts', dest: 'dist/cjs/assets' },
+				{ src: 'src/assets/svg', dest: 'dist/cjs/assets' },
+				{ src: 'src/assets/fonts', dest: 'dist/esm/assets' },
+				{ src: 'src/assets/svg', dest: 'dist/esm/assets' }
+		],
 		}),
 		terser(),
 		del({ targets: 'dist/*' }),
