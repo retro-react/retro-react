@@ -38,8 +38,8 @@ const Template: ComponentStory<typeof Modal> = (args) => {
 	);
 };
 
-export const Default = Template.bind({});
-Default.args = {
+export const Basic = Template.bind({});
+Basic.args = {
 	backdrop: false,
 	children: (
 		<>

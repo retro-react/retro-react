@@ -1,4 +1,4 @@
-import { Heading, Meta, Subtitle, Title } from '@storybook/addon-docs';
+import { Heading, Meta, Source, Subtitle, Title } from '@storybook/addon-docs';
 
 <Meta title="Overview/Introduction" />
 
@@ -10,21 +10,41 @@ import { Heading, Meta, Subtitle, Title } from '@storybook/addon-docs';
 
 Get started by installing Retro React in your project:
 
-```sh
-npm install retro-react
-```
+<Source dark language="bash" code={`npm install retro-react`} />
 
 ## Quick Usage
 
 Easily incorporate our retro components into your project for a vintage look:
 
-```jsx
-import React from 'react';
+<Source
+	dark
+	language="tsx"
+	code={`import React from 'react';
 import { Button } from 'retro-react';
 
 function App() {
-	return <Button>Click me</Button>;
+return <Button>Click me</Button>;
 }
-```
+`}
+/>
+
+## sx prop
+
+All components in Retro React support the `sx` prop, which allows you to style components inline without writing CSS. This is powered by [Theme UI](https://theme-ui.com/), which is built on top of [Emotion](https://emotion.sh/docs/introduction).
+
+<Source
+	dark
+	language="tsx"
+	code={`
+import { Button } from 'retro-react';
+
+<Button
+	sx={{
+		backgroundColor: 'primary',
+		color: 'white',
+		fontSize: 4,
+	}}
+/>
+`} />
 
 Take a trip down memory lane and explore our collection of retro-styled components that evoke the charm of the 90s internet. Customize and adapt these components to create a unique experience for your users. Happy coding! 🚀

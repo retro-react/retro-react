@@ -16,3 +16,6 @@ export * from './components/select';
 export * from './components/slider';
 export * from './components/tooltip';
 export * from './components/marquee';
+export * from './components/breadcrumbs';
+export * from './components/background';
+export * from './components/spinner';

@@ -43,12 +43,14 @@ export interface SliderProps
 	 * @default false
 	 */
 	disabled?: boolean;
+	sx?: any;
 }
 
 export const Slider = forwardRef<HTMLInputElement, SliderProps>(
 	(
 		{
 			id,
+			sx,
 			className,
 			value = 0,
 			min = 0,
@@ -70,6 +72,7 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(
 					$value={value}
 					ref={ref}
 					id={id}
+					sx={sx}
 					className={classNames('slider-root', className)}
 					type="range"
 					min={min}

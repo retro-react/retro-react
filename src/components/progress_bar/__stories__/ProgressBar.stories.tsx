@@ -25,7 +25,7 @@ const Template: ComponentStory<typeof ProgressBar> = (args) => {
 	);
 };
 
-export const Default = Template.bind({});
-Default.args = {
+export const Basic = Template.bind({});
+Basic.args = {
 	value: 50,
 };

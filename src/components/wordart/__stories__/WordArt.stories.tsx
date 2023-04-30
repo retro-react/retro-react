@@ -1,19 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { WordArt } from '../index';
+import { RetroSpinner } from '../index';
 
-const meta: Meta<typeof WordArt> = {
-	title: 'Components/WordArt',
-	component: WordArt,
+const meta: Meta<typeof RetroSpinner> = {
+	title: 'Components/RetroSpinner',
+	component: RetroSpinner,
 };
 
 export default meta;
-type Story = StoryObj<typeof WordArt>;
+type Story = StoryObj<typeof RetroSpinner>;
 
 export const Basic: Story = {
 	args: {
-		children:
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-		color: 'rainbow',
-		artStyle: 'curved',
+		color: '#000',
 	},
 };

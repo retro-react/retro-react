@@ -74,8 +74,8 @@ const Template: ComponentStory<typeof Select> = (args) => {
 	);
 };
 
-export const Default = Template.bind({});
-Default.args = {
+export const Basic = Template.bind({});
+Basic.args = {
 	color: 'primary',
 	size: 'medium',
 	label: 'Favorite car',

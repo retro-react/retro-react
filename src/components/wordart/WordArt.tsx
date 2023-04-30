@@ -33,6 +33,7 @@ export interface WordArtProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default 'primary'
 	 */
 	color?: WordArtColor;
+	sx?: any;
 }
 
 const handleWavyText = (text: string, color: WordArtColor) => {
@@ -143,6 +144,7 @@ export const WordArt = forwardRef<HTMLDivElement, WordArtProps>(
 	(
 		{
 			id,
+			sx,
 			className,
 			children,
 			color = 'primary',
@@ -157,6 +159,7 @@ export const WordArt = forwardRef<HTMLDivElement, WordArtProps>(
 				$artStyle={artStyle}
 				ref={ref}
 				id={id}
+				sx={sx}
 				className={classNames('wordart-root', className)}
 				{...rest}
 			>
