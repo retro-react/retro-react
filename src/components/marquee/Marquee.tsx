@@ -33,6 +33,15 @@ export interface MarqueeProps extends React.HTMLAttributes<HTMLDivElement> {
 	sx?: any;
 }
 
+/**
+ * Marquees are used to display scrolling text.
+ * Used as a fun way to display information.
+ *
+ * @example
+ * <Marquee size="large" color="#ffffff" speed="10s">
+ * 	Hello World!
+ * </Marquee>
+ */
 export const Marquee = forwardRef<HTMLDivElement, MarqueeProps>(
 	(
 		{

@@ -2,9 +2,14 @@ import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
 import * as Sc from './Button.styled';
 
-export type Color = 'primary' | 'secondary' | 'success' | 'error' | 'warn';
+export type ButtonColor =
+	| 'primary'
+	| 'secondary'
+	| 'success'
+	| 'error'
+	| 'warn';
 
-export type Variant = 'solid' | 'outline' | 'text';
+export type ButtonVariant = 'solid' | 'outline' | 'text';
 
 export interface ButtonProps
 	extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -13,15 +18,23 @@ export interface ButtonProps
 	 *
 	 * @default 'primary'
 	 */
-	color?: Color;
+	color?: ButtonColor;
 	/**
 	 * The visual style of the Button.
 	 *
 	 * @default 'solid'
 	 */
-	variant?: Variant;
+	variant?: ButtonVariant;
 }
 
+/**
+ * Buttons are used to trigger an action or event, such as submitting a form, opening a dialog, canceling an action, or performing a delete operation.
+ *
+ * @example
+ * <Button color="success" variant="solid">
+ * 	Submit
+ * </Button>
+ */
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 	(
 		{

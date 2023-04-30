@@ -27,4 +27,5 @@ export const Default = Template.bind({});
 Default.args = {
 	placeholder: 'Placeholder',
 	onChange: action('onChange'),
+	variant: 'filled',
 };

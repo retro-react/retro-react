@@ -28,4 +28,5 @@ const Template: ComponentStory<typeof ProgressBar> = (args) => {
 export const Basic = Template.bind({});
 Basic.args = {
 	value: 50,
+	pattern: 'stripes',
 };

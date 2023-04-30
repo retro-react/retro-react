@@ -1,3 +1,4 @@
+/** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
 import * as Sc from './Checkbox.styled';
@@ -17,14 +18,24 @@ export interface CheckboxProps
 	 * @default 'primary'
 	 */
 	color?: CheckboxColor;
+	sx?: any;
 }
 
+/**
+ * Checkboxes are used to select one or more options from a list of options.
+ *
+ * @example
+ * <Checkbox color="primary" />
+ * <Checkbox color="primary" checked />
+ * <Checkbox color="primary" disabled />
+ */
 export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
-	({ id, className, onClick, color = 'primary', ...rest }, ref) => {
+	({ id, className, onClick, color = 'primary', sx, ...rest }, ref) => {
 		return (
 			<Sc.Checkbox
 				ref={ref}
 				id={id}
+				sx={sx}
 				$color={color}
 				type="checkbox"
 				className={classNames('checkbox-root', className)}

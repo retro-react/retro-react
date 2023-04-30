@@ -15,6 +15,14 @@ export interface ChipProps extends React.HTMLAttributes<HTMLDivElement> {
 	sx?: any;
 }
 
+/**
+ * Chips are used to represent small blocks of information.
+ *
+ * @example
+ * <Chip color="success">
+ * 	AB
+ * </Chip>
+ */
 export const Chip = forwardRef<HTMLDivElement, ChipProps>(
 	({ id, className, color = 'primary', children, sx, ...rest }) => {
 		return (

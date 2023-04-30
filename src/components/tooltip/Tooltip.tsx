@@ -109,6 +109,14 @@ const setPosition = (
 	tooltipRef.current.style.left = `${left}px`;
 };
 
+/**
+ * Tooltips display informative text when users hover over, focus on, or tap an element.
+ *
+ * @example
+ * <Tooltip label="Hello World">
+ * 	<Text>Hover me</Text>
+ * </Tooltip>
+ */
 export const Tooltip: React.FC<TooltipProps> = ({
 	label,
 	color = 'primary',

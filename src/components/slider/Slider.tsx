@@ -46,6 +46,12 @@ export interface SliderProps
 	sx?: any;
 }
 
+/**
+ * Sliders allow users to make selections from a range of values.
+ *
+ * @example
+ * <Slider value={50} />
+ */
 export const Slider = forwardRef<HTMLInputElement, SliderProps>(
 	(
 		{
@@ -67,13 +73,13 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(
 		};
 
 		return (
-			<Sc.SliderWrapper>
+			<Sc.SliderWrapper className={classNames('slider-root', className)}>
 				<Sc.Slider
 					$value={value}
 					ref={ref}
 					id={id}
 					sx={sx}
-					className={classNames('slider-root', className)}
+					className="slider-input"
 					type="range"
 					min={min}
 					max={max}

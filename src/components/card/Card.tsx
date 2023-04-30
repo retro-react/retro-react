@@ -31,6 +31,14 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 	footer?: string | React.ReactNode;
 }
 
+/**
+ * Cards serve as a container for rich content, such as images and text.
+ *
+ * @example
+ * <Card header="Hello World" image="getImageUrl()" footer="Goodbye World">
+ * 		Content
+ * </Card>
+ */
 export const Card = forwardRef<HTMLDivElement, CardProps>(
 	(
 		{

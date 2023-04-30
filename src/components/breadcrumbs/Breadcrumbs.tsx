@@ -55,6 +55,13 @@ export interface BreadcrumbsProps extends React.HTMLAttributes<HTMLDivElement> {
 	sx?: any;
 }
 
+/**
+ * Breadcrumbs are used to indicate the current page's location within a navigational hierarchy.
+ *
+ *
+ * @example
+ * <Breadcrumbs items={[{ text: 'Home', href: '/', active: true }, { text: 'About', href: '/about' }]} />
+ */
 export const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
 	({ id, className, children, color, items = [], sx, ...rest }, ref) => {
 		const handleClick = (item: BreadcrumbItem) => (e: React.MouseEvent) => {

@@ -140,6 +140,15 @@ const handleCurvedText = (text: string, color: WordArtColor) => {
 	return curvedText;
 };
 
+/**
+ * The WordArt component is used to create stylized text.
+ * Similar to the WordArt feature in Microsoft Word.
+ *
+ * @example
+ * <WordArt artStyle="wavy" color="rainbow">
+ * 	Hello World!
+ * </WordArt>
+ */
 export const WordArt = forwardRef<HTMLDivElement, WordArtProps>(
 	(
 		{

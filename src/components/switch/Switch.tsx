@@ -43,12 +43,20 @@ export interface SwitchProps
 	 * @default undefined
 	 */
 	onChange?: React.ChangeEventHandler<HTMLInputElement>;
+	sx?: any;
 }
 
+/**
+ * Switches are used to toggle between two states.
+ *
+ * @example
+ * <Switch toggled={toggled} onChange={handleToggle} />
+ */
 export const Switch = forwardRef<HTMLLabelElement, SwitchProps>(
 	(
 		{
 			id,
+			sx,
 			className,
 			size = 'medium',
 			variant = 'rounded',
@@ -63,11 +71,17 @@ export const Switch = forwardRef<HTMLLabelElement, SwitchProps>(
 			<Sc.Switch
 				ref={ref}
 				id={id}
+				sx={sx}
 				className={classNames('switch-root', className)}
 				$size={size}
 				{...rest}
 			>
-				<Sc.SwitchInput type="checkbox" checked={toggled} onChange={onChange} />
+				<Sc.SwitchInput
+					type="checkbox"
+					checked={toggled}
+					onChange={onChange}
+					className="switch-input"
+				/>
 				<Sc.SwitchSlider
 					className={`${variant}-slider`}
 					$variant={variant}

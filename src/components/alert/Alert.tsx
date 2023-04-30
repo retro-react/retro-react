@@ -20,7 +20,15 @@ export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
 	title?: string;
 	sx?: any;
 }
-
+/**
+ * Alerts are used to communicate a state that affects a system, feature or page.
+ * They should draw attention and provide a clear call to action.
+ *
+ * @example
+ * <Alert color="success" title="Success">
+ * 	Your account has been created.
+ * </Alert>
+ */
 export const Alert = forwardRef<HTMLDivElement, AlertProps>(
 	({ id, className, color = 'primary', title = '', children, sx, ...rest }) => {
 		return (

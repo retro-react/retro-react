@@ -31,6 +31,13 @@ export interface SpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
 	sx?: any;
 }
 
+/**
+ * Spinners are used to indicate the loading state of a component or page.
+ *
+ * @example
+ * <Spinner color="primary" shape="circle" />
+ * <Spinner color="secondary" shape="square" />
+ */
 export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
 	(
 		{
@@ -49,7 +56,7 @@ export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
 		return (
 			<Sc.Wrapper
 				ref={ref}
-				className={classNames('spinner', className)}
+				className={classNames('spinner-root', className)}
 				{...rest}
 				sx={sx}
 			>

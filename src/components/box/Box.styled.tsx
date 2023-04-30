@@ -3,7 +3,6 @@ import '../fonts.css';
 
 export const Box = styled.div<{
 	$color: string;
-	$borderSize: string;
 }>`
 	background-image: url(https://grainy-gradients.vercel.app/noise.svg);
 	background-color: ${(props) => props.$color};
@@ -16,7 +15,7 @@ export const Box = styled.div<{
 	font-size: 1.2rem;
 	font-weight: bold;
 
-	outline: ${(props) => props.$borderSize} solid transparent;
+	outline: 1rem solid transparent;
 
 	&:before {
 		background: linear-gradient(to top left, #3d3c42 50%, #d8d8d8 50%);
@@ -25,9 +24,9 @@ export const Box = styled.div<{
 		content: '';
 		height: 100%;
 		width: 100%;
-		padding: ${(props) => props.$borderSize};
-		left: -${(props) => props.$borderSize};
-		top: -${(props) => props.$borderSize};
+		padding: 1rem;
+		left: -1rem;
+		top: -1rem;
 		z-index: -1;
 	}
 `;

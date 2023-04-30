@@ -27,6 +27,7 @@ export const Primary = Template.bind({});
 Primary.args = {
 	onClick: action('clicked'),
 	children: 'Primary Button',
+	variant: 'solid',
 };
 
 export const Secondary = Template.bind({});
@@ -34,6 +35,7 @@ Secondary.args = {
 	color: 'secondary',
 	onClick: action('clicked'),
 	children: 'Secondary Button',
+	variant: 'solid',
 };
 
 export const Success = Template.bind({});
@@ -41,6 +43,7 @@ Success.args = {
 	color: 'success',
 	onClick: action('clicked'),
 	children: 'Success Button',
+	variant: 'solid',
 };
 
 export const Error = Template.bind({});
@@ -48,6 +51,7 @@ Error.args = {
 	color: 'error',
 	onClick: action('clicked'),
 	children: 'Error Button',
+	variant: 'solid',
 };
 
 export const Warn = Template.bind({});
@@ -55,4 +59,5 @@ Warn.args = {
 	color: 'warn',
 	onClick: action('clicked'),
 	children: 'Warn Button',
+	variant: 'solid',
 };

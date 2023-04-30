@@ -10,32 +10,24 @@ export interface BoxProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default 'darkseagreen'
 	 */
 	color?: string;
-	/**
-	 * The border size of the Box.
-	 *
-	 *  @default '1rem'
-	 */
-	borderSize?: string;
 	sx?: any;
 }
 
+/**
+ * Boxes are used to group content together.
+ * They can be used to create layouts, or to group content within a layout.
+ * With `sx` prop you can use all the CSS properties of the theme.
+ *
+ * @example
+ * <Box color="#fff">
+ * 	Content
+ * </Box>
+ */
 export const Box = forwardRef<HTMLDivElement, BoxProps>(
-	(
-		{
-			id,
-			className,
-			children,
-			color = 'darkseagreen',
-			borderSize = '1rem',
-			sx,
-			...rest
-		},
-		ref,
-	) => {
+	({ id, className, children, color = 'darkseagreen', sx, ...rest }, ref) => {
 		return (
 			<Sc.Box
 				$color={color}
-				$borderSize={borderSize}
 				ref={ref}
 				id={id}
 				sx={sx}

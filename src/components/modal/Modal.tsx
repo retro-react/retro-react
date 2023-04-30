@@ -41,6 +41,15 @@ export interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
 	onClose?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
+/**
+ * Modals are used to display content in a layer above the app.
+ * They are centered on the screen and can be triggered by a button.
+ *
+ * @example
+ * <Modal open={open} onClose={handleClose}>
+ * 		Content
+ * </Modal>
+ */
 export const Modal = forwardRef<HTMLDivElement, ModalProps>(
 	(
 		{

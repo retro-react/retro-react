@@ -41,6 +41,15 @@ export interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
 	sx?: any;
 }
 
+/**
+ * Avatars are used to represent a user or entity.
+ * They can be used to display a user's profile picture, initials or icon.
+ *
+ * @example
+ * <Avatar color="success" size="large" variant="circle">
+ * 	AB
+ * </Avatar>
+ */
 export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
 	({
 		id,

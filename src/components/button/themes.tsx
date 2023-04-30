@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { alterColor } from '@src/utils/alterColor';
+import { alterColor, alterColorEnhanced } from '@src/utils/alterColor';
 import { rgba } from '@src/utils/rgba';
 import {
 	ERROR,
@@ -9,9 +9,9 @@ import {
 	WARN,
 	WHITE,
 } from '@src/constants/colors';
-import type { Color, Variant } from './Button';
+import type { ButtonColor, ButtonVariant } from './Button';
 
-function getColorScheme(color: Color) {
+export function getColorScheme(color: ButtonColor) {
 	switch (color) {
 		case 'error':
 			return ERROR;
@@ -27,7 +27,7 @@ function getColorScheme(color: Color) {
 	}
 }
 
-export function getTheme(color: Color, variant: Variant) {
+export function getTheme(color: ButtonColor, variant: ButtonVariant) {
 	const colorScheme = getColorScheme(color);
 	switch (variant) {
 		case 'outline':
@@ -35,8 +35,13 @@ export function getTheme(color: Color, variant: Variant) {
 				color: ${colorScheme};
 				background-color: transparent;
 				border: 1px solid ${colorScheme};
-				&:hover {
-					background-color: ${rgba(colorScheme, 0.05)};
+				&:hover:not([disabled]) {
+					background-color: ${rgba(colorScheme, 0.15)};
+					border-color: ${alterColor(colorScheme)};
+				}
+				&:active:not([disabled]) {
+					background-color: ${rgba(colorScheme, 0.25)};
+					border-color: ${alterColor(colorScheme)};
 				}
 			`;
 		case 'text':
@@ -44,8 +49,13 @@ export function getTheme(color: Color, variant: Variant) {
 				color: ${colorScheme};
 				background-color: transparent;
 				border: 1px solid transparent;
-				&:hover {
+				&:hover:not([disabled]) {
 					background-color: ${rgba(colorScheme, 0.05)};
+					border-color: ${rgba(colorScheme, 0.05)};
+				}
+				&:active:not([disabled]) {
+					background-color: ${rgba(colorScheme, 0.1)};
+					border-color: ${rgba(colorScheme, 0.1)};
 				}
 			`;
 		case 'solid':
@@ -55,7 +65,20 @@ export function getTheme(color: Color, variant: Variant) {
 				background: url(https://grainy-gradients.vercel.app/noise.svg);
 				filter: contrast(120%) brightness(100%);
 				background-color: ${colorScheme};
-				border: 1.5px solid ${alterColor(colorScheme)};
+				border: 1.5px solid ${alterColorEnhanced(colorScheme)};
+
+				transition: all 0.1s ease-in-out;
+
+				&:hover:not([disabled]) {
+					box-shadow: inset -2px -2px 0px 0px rgba(255, 255, 255, 0.4),
+						inset 2px 2px 1px 0px rgba(0, 0, 0, 0.8);
+					filter: contrast(120%) saturate(130%);
+				}
+				&:active:not([disabled]) {
+					box-shadow: inset -2px -2px 0px 0px rgba(255, 255, 255, 0.2),
+						inset 2px 2px 0px 0px rgba(0, 0, 0, 0.5);
+					filter: contrast(100%);
+				}
 			`;
 	}
 }

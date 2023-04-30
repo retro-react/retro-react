@@ -81,11 +81,11 @@ export const Select = styled.select<{
 	font-size: ${(props) => sizeStyles[props.$size]};
 	color: #fff;
 	background-color: ${(props) => selectColorStyles[props.$color]};
-	background-image: linear-gradient(
-			${rgba(PRIMARY, 0.8)},
-			${rgba(PRIMARY, 0.8)}
+	background-image: ${(props) => `linear-gradient(
+			${rgba(selectColorStyles[props.$color], 0.8)},
+			${rgba(selectColorStyles[props.$color], 0.8)}
 		),
-		url(${require('../../assets/svg/diagonal_line_pattern.svg')});
+		url(${require('../../assets/svg/diagonal_line_pattern.svg')})`};
 	padding: 0.5rem 1rem;
 	appearance: none;
 	cursor: pointer;

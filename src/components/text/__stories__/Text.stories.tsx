@@ -16,6 +16,14 @@ const Template: ComponentStory<typeof Text> = (args) => {
 	return <Text {...args} />;
 };
 
+export const paragraph = Template.bind({});
+paragraph.args = {
+	children:
+		'paragraph -  It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.',
+	color: 'darkseagreen',
+	variant: 'paragraph',
+};
+
 export const h1 = Template.bind({});
 h1.args = {
 	children:
@@ -78,11 +86,4 @@ body2.args = {
 		'body2 -  It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.',
 	color: 'darkseagreen',
 	variant: 'body2',
-};
-export const paragraph = Template.bind({});
-paragraph.args = {
-	children:
-		'paragraph -  It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.',
-	color: 'darkseagreen',
-	variant: 'paragraph',
 };

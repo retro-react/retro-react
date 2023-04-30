@@ -36,6 +36,14 @@ export interface TextProps extends React.HTMLAttributes<HTMLDivElement> {
 	sx?: any;
 }
 
+/**
+ * Text with different variants. Used instead of HTML tags.
+ *
+ * @example
+ * <Text variant="h1">
+ * 	Heading 1
+ * </Text>
+ */
 export const Text = forwardRef<HTMLDivElement, TextProps>(
 	(
 		{

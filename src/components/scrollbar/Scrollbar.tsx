@@ -21,6 +21,14 @@ export interface ScrollbarProps extends React.HTMLAttributes<HTMLElement> {
 	sx?: any;
 }
 
+/**
+ * Custom scrollbars are used to replace the default scrollbars.
+ *
+ * @example
+ * <Scrollbar theme="pastel">
+ * 	...
+ * </Scrollbar>
+ */
 export const Scrollbar = forwardRef<HTMLElement, ScrollbarProps>(
 	({ id, className, children, theme = 'pastel', sx, ...rest }, ref) => {
 		return (

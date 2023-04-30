@@ -53,6 +53,7 @@ const Template: ComponentStory<typeof Select> = (args) => {
 			&nbsp;&nbsp;
 			<Select
 				{...args}
+				label={`Least ${args.label}`}
 				defaultValue={value2}
 				onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
 					setValue2(e.target.value)
