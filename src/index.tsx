@@ -19,3 +19,4 @@ export * from './components/marquee';
 export * from './components/breadcrumbs';
 export * from './components/background';
 export * from './components/spinner';
+export * from './components/scrollbar';

@@ -53,29 +53,51 @@ const setPosition = (
 ) => {
 	if (!triggerRef.current || !tooltipRef.current) return;
 
-	const triggerRect = triggerRef.current.getBoundingClientRect();
 	const tooltipRect = tooltipRef.current.getBoundingClientRect();
 	const { innerWidth, innerHeight } = window;
+
+	const getTriggerOffset = (element: HTMLElement | null) => {
+		let top = 0;
+		let left = 0;
+
+		while (element) {
+			top += element.offsetTop;
+			left += element.offsetLeft;
+			element = element.offsetParent as HTMLElement | null;
+		}
+
+		return { top, left };
+	};
+
+	const triggerOffset = getTriggerOffset(triggerRef.current);
 
 	let top = 0;
 	let left = 0;
 
 	switch (position) {
 		case 'top':
-			top = triggerRect.top - tooltipRect.height - 10;
-			left = triggerRect.left + (triggerRect.width - tooltipRect.width) / 2;
+			top = triggerOffset.top - tooltipRect.height - 10;
+			left =
+				triggerOffset.left +
+				(triggerRef.current.offsetWidth - tooltipRect.width) / 2;
 			break;
 		case 'right':
-			top = triggerRect.top + (triggerRect.height - tooltipRect.height) / 2;
-			left = triggerRect.left + triggerRect.width + 10;
+			top =
+				triggerOffset.top +
+				(triggerRef.current.offsetHeight - tooltipRect.height) / 2;
+			left = triggerOffset.left + triggerRef.current.offsetWidth + 10;
 			break;
 		case 'bottom':
-			top = triggerRect.top + triggerRect.height + 10;
-			left = triggerRect.left + (triggerRect.width - tooltipRect.width) / 2;
+			top = triggerOffset.top + triggerRef.current.offsetHeight + 10;
+			left =
+				triggerOffset.left +
+				(triggerRef.current.offsetWidth - tooltipRect.width) / 2;
 			break;
 		case 'left':
-			top = triggerRect.top + (triggerRect.height - tooltipRect.height) / 2;
-			left = triggerRect.left - tooltipRect.width - 10;
+			top =
+				triggerOffset.top +
+				(triggerRef.current.offsetHeight - tooltipRect.height) / 2;
+			left = triggerOffset.left - tooltipRect.width - 10;
 			break;
 	}
 
@@ -102,11 +124,24 @@ export const Tooltip: React.FC<TooltipProps> = ({
 	const [visible, setVisible] = React.useState(false);
 	const hoverTimeout = React.useRef<NodeJS.Timeout | null>(null);
 
+	const updatePosition = () => {
+		if (visible) {
+			setPosition(triggerRef, tooltipRef, position);
+		}
+	};
+
 	React.useEffect(() => {
 		if (visible) {
 			setPosition(triggerRef, tooltipRef, position);
 		}
 	}, [visible, triggerRef, tooltipRef, position]);
+
+	React.useEffect(() => {
+		window.addEventListener('scroll', updatePosition);
+		return () => {
+			window.removeEventListener('scroll', updatePosition);
+		};
+	}, [visible, triggerRef, tooltipRef, position, updatePosition]);
 
 	const handleMouseEnter = () => {
 		// Clear the existing timeout if any
