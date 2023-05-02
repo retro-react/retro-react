@@ -4,6 +4,7 @@ import { classNames } from '@src/utils/classNames';
 import { Portal } from '../portal/Portal';
 import * as Sc from './Modal.styled';
 
+export type ModalPattern = 'noise' | 'stripes' | 'dots';
 export interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
 	 * The hex color background of the Modal.
@@ -11,12 +12,6 @@ export interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default '#8fbc8f'
 	 */
 	color?: string;
-	/**
-	 * The border size of the Modal.
-	 *
-	 *  @default '1rem'
-	 */
-	borderSize?: string;
 	/**
 	 * Whether the Modal is open or not.
 	 *
@@ -30,6 +25,12 @@ export interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default false
 	 */
 	backdrop?: boolean;
+	/**
+	 * The pattern of the Modal.
+	 *
+	 * @default 'stripes'
+	 */
+	pattern?: ModalPattern;
 	/**
 	 * Callback fired when the Modal is closed.
 	 *
@@ -59,8 +60,8 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
 			open = false,
 			onClose,
 			color = '#8fbc8f',
+			pattern = 'noise',
 			backdrop = false,
-			borderSize = '1rem',
 			...rest
 		},
 		ref,
@@ -70,7 +71,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
 				{backdrop && <Sc.ModalBackdrop $open={open} />}
 				<Sc.Modal
 					$color={color}
-					$borderSize={borderSize}
+					$pattern={pattern}
 					$backdrop={backdrop}
 					$open={open}
 					ref={ref}

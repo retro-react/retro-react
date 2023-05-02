@@ -1,3 +1,4 @@
+/** @jsxImportSource theme-ui */
 import React from 'react';
 import { Portal } from '../portal/Portal';
 import * as Sc from './Tooltip.styled';

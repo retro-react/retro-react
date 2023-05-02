@@ -3,6 +3,8 @@ import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
 import * as Sc from './Box.styled';
 
+export type BoxPattern = 'noise' | 'stripes' | 'dots';
+
 export interface BoxProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
 	 * The background of the Box.
@@ -10,6 +12,12 @@ export interface BoxProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default 'darkseagreen'
 	 */
 	color?: string;
+	/**
+	 * The pattern of the Box.
+	 *
+	 * @default 'stripes'
+	 */
+	pattern?: BoxPattern;
 	sx?: any;
 }
 
@@ -24,10 +32,22 @@ export interface BoxProps extends React.HTMLAttributes<HTMLDivElement> {
  * </Box>
  */
 export const Box = forwardRef<HTMLDivElement, BoxProps>(
-	({ id, className, children, color = 'darkseagreen', sx, ...rest }, ref) => {
+	(
+		{
+			id,
+			className,
+			children,
+			color = 'darkseagreen',
+			pattern = 'noise',
+			sx,
+			...rest
+		},
+		ref,
+	) => {
 		return (
 			<Sc.Box
 				$color={color}
+				$pattern={pattern}
 				ref={ref}
 				id={id}
 				sx={sx}

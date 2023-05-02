@@ -2,22 +2,18 @@ import styled from '@emotion/styled';
 import { alterColorEnhanced } from '@src/utils/alterColor';
 import { rgba } from '@src/utils/rgba';
 import { SCREEN_XM } from '@src/constants/breakpoints';
+import { BLACK } from '@src/constants/colors';
 import '../fonts.css';
+import { ModalPattern } from './Modal';
 
 export const Modal = styled.div<{
 	$color: string;
-	$borderSize: string;
 	$open: boolean;
+	$pattern: ModalPattern;
 	$backdrop: boolean;
 }>`
 	background-color: ${(props) => props.$color};
-	background-image: ${(props) => `
-		linear-gradient(
-			${rgba(props.$color, 0.4)},
-			${rgba(props.$color, 0.4)}
-		), url(${require('../../assets/svg/diagonal_line_pattern.svg')});
-	`};
-	box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.3),
+	box-shadow: inset 1px 1px 5px ${rgba(BLACK, 0.3)},
 		inset -1px -1px 2px rgba(255, 255, 255, 0.2);
 	padding: 1rem;
 	font-family: 'FrauncesLatin', sans-serif;
@@ -32,6 +28,31 @@ export const Modal = styled.div<{
 	box-sizing: border-box;
 	overflow: auto;
 	z-index: 1001;
+
+	${(props) => {
+		const gradient = `
+			linear-gradient(
+				${rgba(props.$color, 0.4)},
+				${rgba(props.$color, 0.4)}
+			)
+		`;
+
+		switch (props.$pattern) {
+			case 'noise':
+				return `
+					background-image: ${gradient}, url(https://grainy-gradients.vercel.app/noise.svg);
+				`;
+			case 'stripes':
+				return `
+					background-image: ${gradient}, url(${require('../../assets/svg/diagonal_line_pattern.svg')});
+				`;
+			case 'dots':
+			default:
+				return `
+					background-image: ${gradient}, url(${require('../../assets/svg/checkboard_pattern.svg')});
+				`;
+		}
+	}}
 
 	// Media query for mobile devices
 	@media only screen and (max-width: ${SCREEN_XM}px) {
@@ -97,7 +118,7 @@ export const ModalBackdrop = styled.div<{ $open: boolean }>`
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-color: ${rgba('#000', 0.5)};
+	background-color: ${rgba(BLACK, 0.5)};
 	z-index: 1000;
 	transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
 

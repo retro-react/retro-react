@@ -41,6 +41,7 @@ const Template: ComponentStory<typeof Modal> = (args) => {
 export const Basic = Template.bind({});
 Basic.args = {
 	backdrop: false,
+	pattern: 'noise',
 	children: (
 		<>
 			<Text bevel={true} variant="h6" color="black">
