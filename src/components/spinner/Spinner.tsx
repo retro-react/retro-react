@@ -1,6 +1,7 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
+import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Spinner.styled';
 import { getSpinnerColorOptions } from './themes';
 
@@ -56,7 +57,7 @@ export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
 		return (
 			<Sc.Wrapper
 				ref={ref}
-				className={classNames('spinner-root', className)}
+				className={classNames('spinner-root', className, commonClassNames)}
 				{...rest}
 				sx={sx}
 			>

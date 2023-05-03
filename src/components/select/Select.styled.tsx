@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { getPatternScheme } from '@src/utils/getPatternScheme';
 import { rgba } from '@src/utils/rgba';
 import {
 	ERROR,
@@ -8,7 +9,6 @@ import {
 	WARN,
 } from '@src/constants/colors';
 import { SHADOWS } from '@src/constants/shadows';
-import '../fonts.css';
 import { SelectColor, SelectSize } from './Select';
 
 const selectColorStyles = {
@@ -39,13 +39,13 @@ export const Label = styled.label<{
 	$color: SelectColor;
 	$size: SelectSize;
 }>`
-	font-family: 'FrauncesLatin', sans-serif;
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	font-size: ${(props) => sizeStyles[props.$size]};
 	color: #fff;
 	position: absolute;
 	top: -1rem;
 	left: 0.75rem;
-	background: url(https://grainy-gradients.vercel.app/noise.svg);
+	background: url(${getPatternScheme('noise')});
 	filter: contrast(120%) brightness(100%);
 	background-color: ${(props) => selectColorStyles[props.$color]};
 	background-size: 100%;
@@ -77,7 +77,7 @@ export const Select = styled.select<{
 	$color: SelectColor;
 	$size: SelectSize;
 }>`
-	font-family: 'FrauncesLatin', sans-serif;
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	font-size: ${(props) => sizeStyles[props.$size]};
 	color: #fff;
 	background-color: ${(props) => selectColorStyles[props.$color]};
@@ -85,7 +85,7 @@ export const Select = styled.select<{
 			${rgba(selectColorStyles[props.$color], 0.8)},
 			${rgba(selectColorStyles[props.$color], 0.8)}
 		),
-		url(${require('../../assets/svg/diagonal_line_pattern.svg')})`};
+		url(${getPatternScheme('stripes')})`};
 	padding: 0.5rem 1rem;
 	appearance: none;
 	cursor: pointer;
@@ -98,7 +98,7 @@ export const Select = styled.select<{
 	}
 
 	option {
-		font-family: 'FrauncesLatin', sans-serif;
+		font-family: 'Trebuchet MS', Helvetica, sans-serif;
 		background-color: #fff;
 		color: ${(props) => selectColorStyles[props.$color]};
 		text-shadow: ${SHADOWS.text[0]};

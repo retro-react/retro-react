@@ -1,6 +1,7 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
+import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Marquee.styled';
 
 export type MarqueeSize = 'small' | 'medium' | 'large';
@@ -59,7 +60,7 @@ export const Marquee = forwardRef<HTMLDivElement, MarqueeProps>(
 	) => {
 		return (
 			<Sc.MarqueeWrapper
-				className={classNames('Marquee-root', className)}
+				className={classNames('Marquee-root', className, commonClassNames)}
 				$gap={gap}
 				ref={ref}
 				id={id}

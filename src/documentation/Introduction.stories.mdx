@@ -4,7 +4,7 @@ import { Heading, Meta, Source, Subtitle, Title } from '@storybook/addon-docs';
 
 # Welcome to Retro React UI 📟
 
-> Relive the nostalgic 90s web experience with our old-school inspired design system - Version v1.0.7
+> Relive the nostalgic 90s web experience with our old-school inspired design system - Version v1.1.0
 
 ## Installation
 
@@ -28,6 +28,8 @@ return <Button>Click me</Button>;
 `}
 />
 
+- The `pattern` prop is noticeably different in dark mode vs light mode. Explore the components in both modes to see the difference.
+
 ## sx prop
 
 All components in Retro React support the `sx` prop, which allows you to style components inline without writing CSS. This is powered by [Theme UI](https://theme-ui.com/), which is built on top of [Emotion](https://emotion.sh/docs/introduction).
@@ -40,11 +42,13 @@ import { Button } from 'retro-react';
 
 <Button
 	sx={{
-		backgroundColor: 'primary',
+		backgroundColor: '#ff0080',
 		color: 'white',
 		fontSize: 4,
 	}}
-/>
+>
+	Cool Button
+</Button>
 `} />
 
 Take a trip down memory lane and explore our collection of retro-styled components that evoke the charm of the 90s internet. Customize and adapt these components to create a unique experience for your users. Happy coding! 🚀

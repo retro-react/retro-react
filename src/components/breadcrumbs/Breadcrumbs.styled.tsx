@@ -5,7 +5,7 @@ import { SHADOWS } from '@src/constants/shadows';
 export const BreadcrumbsWrapper = styled.nav`
 	display: flex;
 	flex-wrap: wrap;
-	font-family: 'FrauncesLatin', sans-serif;
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 `;
 
 export const Breadcrumb = styled.span<{

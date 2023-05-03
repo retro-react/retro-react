@@ -1,6 +1,7 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
+import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Card.styled';
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -58,7 +59,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
 				$color={color}
 				ref={ref}
 				id={id}
-				className={classNames('box-root', className)}
+				className={classNames('box-root', className, commonClassNames)}
 				{...rest}
 			>
 				{typeof header === 'string' ? (

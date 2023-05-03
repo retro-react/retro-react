@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
+import { getPatternScheme } from '@src/utils/getPatternScheme';
 import { rgba } from '@src/utils/rgba';
 import { BLACK, WHITE } from '@src/constants/colors';
-import '../fonts.css';
 import { BoxPattern } from './Box';
 
 export const Box = styled.div<{
@@ -24,16 +24,16 @@ export const Box = styled.div<{
 		switch (props.$pattern) {
 			case 'noise':
 				return `
-					background-image: url(https://grainy-gradients.vercel.app/noise.svg);
+					background-image: url(${getPatternScheme('noise')});
 				`;
 			case 'stripes':
 				return `
-					background-image: url(${require('../../assets/svg/diagonal_line_pattern.svg')});
+					background-image: url(${getPatternScheme('stripes')});
 				`;
 			case 'dots':
 			default:
 				return `
-					background-image: url(${require('../../assets/svg/checkboard_pattern.svg')});
+					background-image: url(${getPatternScheme('dots')});
 				`;
 		}
 	}}

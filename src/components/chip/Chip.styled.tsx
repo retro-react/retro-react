@@ -9,7 +9,6 @@ import {
 	SUCCESS,
 	WARN,
 } from '@src/constants/colors';
-import '../fonts.css';
 import type { ChipColor } from './Chip';
 
 function getColorScheme(color: ChipColor) {
@@ -35,7 +34,7 @@ export const Chip = styled.div<{ $color: ChipColor }>`
 	position: relative;
 	padding: 0.2rem 3rem 0.3rem 1.2rem;
 	font-size: 0.875rem;
-	font-family: 'FrauncesLatin', sans-serif;
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	border-top: 2px solid ${SHADE_6};
 	background: linear-gradient(
 		to right,

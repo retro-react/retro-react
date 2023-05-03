@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { alterColor } from '@src/utils/alterColor';
-import '../fonts.css';
 import type { CheckboxColor } from './Checkbox';
 import { getColorScheme } from './themes';
 

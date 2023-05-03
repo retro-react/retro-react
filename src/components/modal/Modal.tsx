@@ -1,6 +1,7 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
+import commonClassNames from '@src/constants/commonClassNames';
 import { Portal } from '../portal/Portal';
 import * as Sc from './Modal.styled';
 
@@ -76,7 +77,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
 					$open={open}
 					ref={ref}
 					id={id}
-					className={classNames('modal-root', className)}
+					className={classNames('modal-root', className, commonClassNames)}
 					{...rest}
 				>
 					<Sc.CloseButton

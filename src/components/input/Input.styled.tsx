@@ -1,35 +1,40 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { getPatternScheme } from '@src/utils/getPatternScheme';
+import { rgba } from '@src/utils/rgba';
 import { BLACK, WHITE } from '@src/constants/colors';
-import '../fonts.css';
 import { InputVariants } from './Input';
 
+// TODO: Fix rgba colors to use constants
 const getInputVariantStyles = (variant: InputVariants) => {
 	switch (variant) {
 		case 'outlined':
 			return css`
-				background: transparent;
+				background: ${WHITE};
 				box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.3),
 					inset -1px -1px 1px rgba(255, 255, 255, 0.3),
 					2px 2px 2px rgba(0, 0, 0, 0.3), -2px -2px 2px rgba(255, 255, 255, 0.3);
 
 				&::placeholder {
 					color: rgba(0, 0, 0, 0.8);
-					text-shadow: 1px 1px 1px #ffffff;
+					text-shadow: 1px 1px 1px ${WHITE};
 				}
 			`;
 		case 'filled':
 		default:
 			return css`
-				background: url(https://grainy-gradients.vercel.app/noise.svg);
-				box-shadow: inset 1px 1px 2px ${BLACK}, inset -1px -1px 2px #ffffff;
-				filter: contrast(120%) brightness(100%);
+				background: linear-gradient(${rgba(BLACK, 0.6)}, ${rgba(BLACK, 0.6)}),
+					url(${getPatternScheme('noise')});
+				box-shadow: inset 1px 1px 2px ${BLACK}, inset -1px -1px 2px ${WHITE};
+				filter: contrast(130%) brightness(100%);
 
-				color: ${BLACK};
+				color: ${WHITE};
+				font-weight: normal;
+				text-shadow: 0 0 2px ${BLACK};
 
 				&::placeholder {
-					color: rgba(255, 255, 255, 0.5);
-					text-shadow: 1px 1px 1px ${BLACK};
+					color: rgba(255, 255, 255, 0.65);
+					text-shadow: 1px 1px 2px ${BLACK};
 				}
 			`;
 	}
@@ -40,7 +45,7 @@ export const Input = styled.input<{
 }>`
 	padding: 0.5rem;
 	border-radius: 0;
-	font-family: 'FrauncesLatin', sans-serif;
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	text-color: ${BLACK};
 
 	${(props) => getInputVariantStyles(props.$variant)}

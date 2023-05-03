@@ -12,7 +12,7 @@ import { BLACK, SHADE_2, WHITE } from '@src/constants/colors';
 export const TabsWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
-	font-family: 'FrauncesLatin', sans-serif;
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 `;
 
 export const TabList = styled.div<{ $color: ComponentColors }>`
@@ -98,11 +98,11 @@ export const TabWrapper = styled.div<{
 	text-shadow: 0 0 4px ${BLACK};
 
 	background-color: ${({ isActive, $color }) =>
-		isActive ? getColorScheme($color) : 'transparent'};
+		isActive ? alterColorEnhanced(getColorScheme($color), 60) : 'transparent'};
 
 	&:hover {
 		background-color: ${({ $color }) =>
-			alterColorEnhanced(getColorScheme($color), 50)};
+			alterColorEnhanced(getColorScheme($color), 30)};
 	}
 `;
 
@@ -112,4 +112,6 @@ export const TabContentWrapper = styled.div<{
 	padding: 20px;
 	border: 1px solid ${SHADE_2};
 	border-top: none;
+
+	background-color: ${WHITE};
 `;

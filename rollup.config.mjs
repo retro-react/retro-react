@@ -2,12 +2,13 @@ import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
-import copy from 'rollup-plugin-copy';
-import css from 'rollup-plugin-css-only';
 import del from 'rollup-plugin-delete';
+import copy from 'rollup-plugin-copy';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
+import css from 'rollup-plugin-css-only';
 import typescript from 'rollup-plugin-typescript2';
 import ttypescript from 'ttypescript';
+import url from '@rollup/plugin-url';
 import pkg from './package.json' assert { type: 'json' };
 
 
@@ -35,7 +36,11 @@ export default {
 		'./src',
 	],
 	plugins: [
-		css({ output: 'dist/bundle.css' }),
+		url(),
+		// url({
+		// 	include: ['**/*.woff', '**/*.woff2'],
+		// }),
+		css({ output: 'components/fonts.css' }),
 		peerDepsExternal(),
 		typescript({
 			typescript: ttypescript,
@@ -50,11 +55,8 @@ export default {
 		}),
 		copy({
 			targets: [
-				{ src: 'src/assets/fonts', dest: 'dist/cjs/assets' },
-				{ src: 'src/assets/svg', dest: 'dist/cjs/assets' },
-				{ src: 'src/assets/fonts', dest: 'dist/esm/assets' },
-				{ src: 'src/assets/svg', dest: 'dist/esm/assets' }
-		],
+				{ src: 'src/assets/fonts', dest: ['dist/cjs/assets', 'dist/esm/assets'] },
+			],
 		}),
 		terser(),
 		del({ targets: 'dist/*' }),

@@ -1,6 +1,7 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
+import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Checkbox.styled';
 
 export type CheckboxColor =
@@ -38,7 +39,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
 				sx={sx}
 				$color={color}
 				type="checkbox"
-				className={classNames('checkbox-root', className)}
+				className={classNames('checkbox-root', className, commonClassNames)}
 				onClick={onClick}
 				{...rest}
 			/>

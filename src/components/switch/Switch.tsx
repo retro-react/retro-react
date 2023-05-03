@@ -1,6 +1,7 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
+import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Switch.styled';
 
 export type SwitchVariant = 'rounded' | 'square';
@@ -72,7 +73,7 @@ export const Switch = forwardRef<HTMLLabelElement, SwitchProps>(
 				ref={ref}
 				id={id}
 				sx={sx}
-				className={classNames('switch-root', className)}
+				className={classNames('switch-root', className, commonClassNames)}
 				$size={size}
 				{...rest}
 			>

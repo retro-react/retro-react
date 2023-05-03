@@ -1,6 +1,6 @@
 {
 	"name": "retro-react",
-	"version": "1.1.0",
+	"version": "1.1.0-alpha.1",
 	"private": false,
 	"description": "A React component library for building retro-style websites",
 	"keywords": [
@@ -26,8 +26,14 @@
 	"license": "MIT",
 	"sideEffects": false,
 	"exports": {
-		"import": "./dist/esm/index.js",
-		"require": "./dist/cjs/index.js"
+		".": {
+			"import": "./dist/esm/index.js",
+			"require": "./dist/cjs/index.js"
+		},
+		"./assets/*": {
+			"import": "./dist/esm/assets/*",
+			"require": "./dist/cjs/assets/*"
+		}
 	},
 	"main": "dist/cjs/index.js",
 	"module": "dist/esm/index.js",
@@ -42,7 +48,7 @@
 		"lint": "eslint . --ext .ts,.tsx,.js,.jsx",
 		"prepare": "husky install",
 		"release": "changeset publish",
-		"storybook": "storybook dev -p 6006 --quiet",
+		"storybook": "NODE_ENV=development storybook dev -p 6006 --quiet",
 		"test": "NODE_ENV=test jest",
 		"test:coverage": "NODE_ENV=test jest --coverage",
 		"test:watch": "NODE_ENV=test jest --watch",
@@ -85,6 +91,7 @@
 		"@rollup/plugin-commonjs": "^24.1.0",
 		"@rollup/plugin-node-resolve": "^15.0.2",
 		"@rollup/plugin-terser": "^0.4.1",
+		"@rollup/plugin-url": "^8.0.1",
 		"@storybook/addon-a11y": "^7.0.7",
 		"@storybook/addon-actions": "^7.0.7",
 		"@storybook/addon-essentials": "^7.0.7",

@@ -3,6 +3,7 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
+import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Background.styled';
 
 export interface BackgroundProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -75,7 +76,7 @@ export const Background = forwardRef<HTMLDivElement, BackgroundProps>(
 				ref={ref}
 				id={id}
 				sx={sx}
-				className={classNames('background-root', className)}
+				className={classNames('background-root', className, commonClassNames)}
 				{...rest}
 			>
 				<div style={{ position: 'relative' }}>{children}</div>

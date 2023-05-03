@@ -1,6 +1,7 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
+import commonClassNames from '@src/constants/commonClassNames';
 import { getWordArtColorOptions } from './themes';
 import * as Sc from './WordArt.styled';
 
@@ -44,7 +45,9 @@ const handleWavyText = (text: string, color: WordArtColor) => {
 		const randomVerticalMovement = Math.floor(Math.random() * 4) - 2; // Randomly move up or down by up to 2 pixels
 		const isEven = index % 2 === 0;
 		const rotation = isEven ? randomRotation : -randomRotation; // Randomly rotate left or right
-
+		if (char === ' ') {
+			return <span key={index}>&nbsp;</span>;
+		}
 		return (
 			<Sc.WordArtSpan
 				key={index}
@@ -67,6 +70,9 @@ const handleShadowedText = (text: string, color: WordArtColor) => {
 	const shadowedTextColor = getWordArtColorOptions(color);
 
 	const shadowedText = text.split('').map((char, index) => {
+		if (char === ' ') {
+			return <span key={index}>&nbsp;</span>;
+		}
 		return (
 			<Sc.WordArtSpan
 				key={index}
@@ -91,6 +97,9 @@ const handleOutlineText = (text: string, color: WordArtColor) => {
 	const outlineTextColor = getWordArtColorOptions(color);
 
 	const outlineText = text.split('').map((char, index) => {
+		if (char === ' ') {
+			return <span key={index}>&nbsp;</span>;
+		}
 		return (
 			<Sc.WordArtSpan
 				key={index}
@@ -121,6 +130,9 @@ const handleCurvedText = (text: string, color: WordArtColor) => {
 	const curvedText = text.split('').map((char, index) => {
 		// curve like a rainbow
 		const curve = Math.sin((index / text.length) * Math.PI) * 20;
+		if (char === ' ') {
+			return <span key={index}>&nbsp;</span>;
+		}
 
 		return (
 			<Sc.WordArtSpan
@@ -169,7 +181,7 @@ export const WordArt = forwardRef<HTMLDivElement, WordArtProps>(
 				ref={ref}
 				id={id}
 				sx={sx}
-				className={classNames('wordart-root', className)}
+				className={classNames('wordart-root', className, commonClassNames)}
 				{...rest}
 			>
 				{artStyle === 'wavy'

@@ -1,20 +1,8 @@
 import styled from '@emotion/styled';
 import getColorScheme, { ComponentColors } from '@src/utils/getColorScheme';
+import { getPatternScheme } from '@src/utils/getPatternScheme';
 import { rgba } from '@src/utils/rgba';
-import '../fonts.css';
 import { CarouselPattern } from './Carousel';
-
-const patternToUrl = (pattern: CarouselPattern) => {
-	switch (pattern) {
-		case 'noise':
-			return 'https://grainy-gradients.vercel.app/noise.svg';
-		case 'stripes':
-			return require('../../assets/svg/diagonal_line_pattern.svg');
-		case 'dots':
-		default:
-			return require('../../assets/svg/checkboard_pattern.svg');
-	}
-};
 
 export const CarouselWrapper = styled.div<{
 	$color: ComponentColors;
@@ -22,7 +10,7 @@ export const CarouselWrapper = styled.div<{
 }>`
 	position: relative;
 	overflow: hidden;
-	background-image: ${(props) => `url(${patternToUrl(props.$pattern)})`};
+	background-image: ${(props) => `url(${getPatternScheme(props.$pattern)})`};
 	background-color: ${({ $color }) => getColorScheme($color)};
 	display: flex;
 	min-height: 0;

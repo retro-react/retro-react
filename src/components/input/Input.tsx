@@ -1,6 +1,7 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
+import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Input.styled';
 
 export type InputVariants = 'outlined' | 'filled';
@@ -30,7 +31,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 				ref={ref}
 				id={id}
 				$variant={variant}
-				className={classNames('input-root', className)}
+				className={classNames('input-root', className, commonClassNames)}
 				sx={sx}
 				{...rest}
 			>

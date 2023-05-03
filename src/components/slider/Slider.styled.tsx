@@ -1,6 +1,15 @@
 import styled from '@emotion/styled';
-import { PRIMARY } from '@src/constants/colors';
-import '../fonts.css';
+import getColorScheme, { ComponentColors } from '@src/utils/getColorScheme';
+import { PRIMARY, WHITE } from '@src/constants/colors';
+
+const commonTrackStyles = `
+  width: 100%;
+  height: 0.5rem;
+  cursor: pointer;
+  background-image: url(https://grainy-gradients.vercel.app/noise.svg);
+  background-color: ${WHITE};
+  border-radius: 0.5rem;
+`;
 
 export const SliderWrapper = styled.div`
 	position: relative;
@@ -9,21 +18,16 @@ export const SliderWrapper = styled.div`
 `;
 
 export const Slider = styled.input<{
+	$color: ComponentColors;
 	$value: number;
+	disabled: boolean;
 }>`
 	-webkit-appearance: none;
 	appearance: none;
-	background-image: url(https://grainy-gradients.vercel.app/noise.svg);
-	background-color: #fff;
-	width: 100%;
-	height: 1.5rem;
-	border-radius: 0.5rem;
-	border: 0.5rem solid #fff;
-	box-shadow: 0 0 0.5rem 0.5rem #fff;
+	${commonTrackStyles}
+	margin: 1rem 0;
 	outline: none;
-	font-family: 'FrauncesLatin', sans-serif;
 	font-size: 1.5rem;
-	cursor: pointer;
 
 	&::-webkit-slider-thumb {
 		-webkit-appearance: none;
@@ -31,10 +35,23 @@ export const Slider = styled.input<{
 		width: 1.5rem;
 		height: 1.5rem;
 		border-radius: 50%;
-		background-color: ${PRIMARY};
-		box-shadow: 0 0 0.5rem 0.5rem #fff;
+		background-color: ${(props) => getColorScheme(props.$color)};
 		cursor: pointer;
-		margin-top: -0.25rem;
+		transform: translateY(-25%);
+		transition: transform 0.2s, background-color 0.2s;
+		cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
+
+		&::before {
+			content: '';
+			position: absolute;
+			width: 2.5rem;
+			height: 2.5rem;
+			border-radius: 50%;
+			background-color: transparent;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+		}
 	}
 
 	&::-moz-range-thumb {
@@ -42,8 +59,8 @@ export const Slider = styled.input<{
 		height: 1.5rem;
 		border-radius: 50%;
 		background-color: ${PRIMARY};
-		box-shadow: 0 0 0.5rem 0.5rem #fff;
 		cursor: pointer;
+		transition: transform 0.2s, background-color 0.2s;
 	}
 
 	&::-ms-thumb {
@@ -51,42 +68,20 @@ export const Slider = styled.input<{
 		height: 1.5rem;
 		border-radius: 50%;
 		background-color: ${PRIMARY};
-		box-shadow: 0 0 0.5rem 0.5rem #fff;
 		cursor: pointer;
 		margin-top: 0;
+		transition: transform 0.2s, background-color 0.2s;
 	}
 
 	&::-webkit-slider-runnable-track {
-		width: 100%;
-		height: 1.5rem;
-		cursor: pointer;
-		background-image: url(https://grainy-gradients.vercel.app/noise.svg);
-		background-color: #fff;
-		border-radius: 0.5rem;
-		border: 0.5rem solid #fff;
-		box-shadow: 0 0 0.5rem 0.5rem #fff;
+		${commonTrackStyles}
 	}
 
 	&::-moz-range-track {
-		width: 100%;
-		height: 1.5rem;
-		cursor: pointer;
-		background-image: url(https://grainy-gradients.vercel.app/noise.svg);
-		background-color: #fff;
-		border-radius: 0.5rem;
-		border: 0.5rem solid #fff;
-		box-shadow: 0 0 0.5rem 0.5rem #fff;
+		${commonTrackStyles}
 	}
 
 	&::-ms-track {
-		width: 100%;
-		height: 1.5rem;
-		cursor: pointer;
-		background-image: url(https://grainy-gradients.vercel.app/noise.svg);
-		background-color: #fff;
-		border-radius: 0.5rem;
-		border: 0.5rem solid #fff;
-		box-shadow: 0 0 0.5rem 0.5rem #fff;
-		color: transparent;
+		${commonTrackStyles}
 	}
 `;

@@ -3,6 +3,7 @@ import { cloneElement, forwardRef, useEffect, useId, useState } from 'react';
 import { classNames } from '@src/utils/classNames';
 import { ComponentColors } from '@src/utils/getColorScheme';
 import { ComponentPatterns } from '@src/utils/getPatternScheme';
+import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Tabs.styled';
 
 export type TabsChildren =
@@ -113,7 +114,7 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
 			<Sc.TabsWrapper
 				ref={ref}
 				id={id}
-				className={classNames('tabs-root', className)}
+				className={classNames('tabs-root', className, commonClassNames)}
 				{...rest}
 			>
 				<Sc.TabsHeader $color={color} $pattern={pattern}>

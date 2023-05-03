@@ -2,6 +2,7 @@
 import { forwardRef } from 'react';
 import React from 'react';
 import { classNames } from '@src/utils/classNames';
+import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Accordion.styled';
 
 export type AccordionPattern = 'noise' | 'stripes' | 'dots';
@@ -101,7 +102,7 @@ export const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
 				ref={ref}
 				id={id}
 				sx={sx}
-				className={classNames('accordion-root', className)}
+				className={classNames('accordion-root', className, commonClassNames)}
 				{...rest}
 			>
 				<Sc.AccordionHeader

@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import { alterColorEnhanced } from '@src/utils/alterColor';
+import { getPatternScheme } from '@src/utils/getPatternScheme';
 import { rgba } from '@src/utils/rgba';
 import { SCREEN_XM } from '@src/constants/breakpoints';
 import { BLACK } from '@src/constants/colors';
-import '../fonts.css';
 import { ModalPattern } from './Modal';
 
 export const Modal = styled.div<{
@@ -16,7 +16,7 @@ export const Modal = styled.div<{
 	box-shadow: inset 1px 1px 5px ${rgba(BLACK, 0.3)},
 		inset -1px -1px 2px rgba(255, 255, 255, 0.2);
 	padding: 1rem;
-	font-family: 'FrauncesLatin', sans-serif;
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	font-size: 1.5rem;
 
 	position: fixed;
@@ -40,16 +40,16 @@ export const Modal = styled.div<{
 		switch (props.$pattern) {
 			case 'noise':
 				return `
-					background-image: ${gradient}, url(https://grainy-gradients.vercel.app/noise.svg);
+					background-image: ${gradient}, url(${getPatternScheme('noise')});
 				`;
 			case 'stripes':
 				return `
-					background-image: ${gradient}, url(${require('../../assets/svg/diagonal_line_pattern.svg')});
+					background-image: ${gradient}, url(${getPatternScheme('stripes')});
 				`;
 			case 'dots':
 			default:
 				return `
-					background-image: ${gradient}, url(${require('../../assets/svg/checkboard_pattern.svg')});
+					background-image: ${gradient}, url(${getPatternScheme('dots')});
 				`;
 		}
 	}}

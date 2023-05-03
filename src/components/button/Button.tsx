@@ -1,5 +1,6 @@
 import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
+import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Button.styled';
 
 export type ButtonColor =
@@ -54,7 +55,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 				id={id}
 				variant={variant}
 				$color={color}
-				className={classNames('button-root', className)}
+				className={classNames('button-root', className, commonClassNames)}
 				onClick={onClick}
 				{...rest}
 			>

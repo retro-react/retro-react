@@ -6,8 +6,8 @@ import {
 	SECONDARY,
 	SUCCESS,
 	WARN,
+	WHITE,
 } from '@src/constants/colors';
-import '../fonts.css';
 import { AvatarColor, AvatarSize, AvatarVariant } from './Avatar';
 
 const avatarColorStyles = {
@@ -29,7 +29,7 @@ export const Avatar = styled.div<{
 	$size: AvatarSize;
 	$variant: AvatarVariant;
 }>`
-	font-family: 'FrauncesLatin', sans-serif;
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	font-weight: bold;
 	font-size: ${(props) =>
 		props.$size === 'small'
@@ -37,15 +37,14 @@ export const Avatar = styled.div<{
 			: props.$size === 'medium'
 			? '1rem'
 			: '1.6rem'};
-	color: #fff;
+	color: ${WHITE};
 	text-align: center;
 	line-height: ${(props) => sizeStyles[props.$size]};
 	background-color: ${(props) => avatarColorStyles[props.$color]};
 	background-image: url(https://grainy-gradients.vercel.app/noise.svg);
 	width: ${(props) => sizeStyles[props.$size]};
 	height: ${(props) => sizeStyles[props.$size]};
-	border: 0.5rem solid #fff;
-	box-shadow: 0 0 0.5rem 0.5rem #fff;
+	border: 0.1rem solid ${WHITE};
 	overflow: hidden;
 
 	${(props) =>

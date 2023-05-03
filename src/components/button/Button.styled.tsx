@@ -1,6 +1,4 @@
 import styled from '@emotion/styled';
-import { SHADE_6 } from '@src/constants/colors';
-import '../fonts.css';
 import type { ButtonColor, ButtonVariant } from './Button';
 import { getColorScheme, getTheme } from './themes';
 
@@ -17,7 +15,7 @@ export const Button = styled.button<{
 	border: 2px outset ${(props) => getColorScheme(props.$color)};
 	padding: 0.5rem 1.5rem;
 	font-size: 0.875rem;
-	font-family: 'FrauncesLatin', 'Chalkboard SE', 'Marker Felt', sans-serif;
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	cursor: pointer;
 	${(props) => getTheme(props.$color, props.variant)}
 

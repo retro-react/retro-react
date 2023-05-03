@@ -1,6 +1,8 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
+import { ComponentColors } from '@src/utils/getColorScheme';
+import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Slider.styled';
 
 export interface SliderProps
@@ -43,6 +45,12 @@ export interface SliderProps
 	 * @default false
 	 */
 	disabled?: boolean;
+	/**
+	 * The color of the Slider.
+	 *
+	 * @default 'primary'
+	 */
+	color?: ComponentColors;
 	sx?: any;
 }
 
@@ -62,6 +70,7 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(
 			min = 0,
 			max = 100,
 			step = 1,
+			color = 'primary',
 			onChange,
 			disabled = false,
 			...rest
@@ -73,8 +82,11 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(
 		};
 
 		return (
-			<Sc.SliderWrapper className={classNames('slider-root', className)}>
+			<Sc.SliderWrapper
+				className={classNames('slider-root', className, commonClassNames)}
+			>
 				<Sc.Slider
+					$color={color}
 					$value={value}
 					ref={ref}
 					id={id}

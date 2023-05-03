@@ -1,6 +1,7 @@
 import { useArgs } from '@storybook/client-api';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import React from 'react';
+import { Text } from '../../text';
 import { Slider } from '../index';
 
 // https://storybook.js.org/docs/react/writing-stories/introduction#default-export
@@ -29,7 +30,7 @@ const Template: ComponentStory<typeof Slider> = (args) => {
 				width: '500px',
 			}}
 		>
-			{value}
+			<Text variant="paragraph">{value}</Text>
 			<Slider {...args} onChange={handleChange} value={value} />
 		</div>
 	);
@@ -38,4 +39,9 @@ const Template: ComponentStory<typeof Slider> = (args) => {
 export const Basic = Template.bind({});
 Basic.args = {
 	value: 50,
+	min: 0,
+	max: 100,
+	step: 1,
+	color: 'primary',
+	disabled: false,
 };

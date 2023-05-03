@@ -1,6 +1,7 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
+import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Text.styled';
 
 export type TextVariant =
@@ -66,7 +67,7 @@ export const Text = forwardRef<HTMLDivElement, TextProps>(
 				ref={ref}
 				id={id}
 				sx={sx}
-				className={classNames('text-root', className)}
+				className={classNames('text-root', className, commonClassNames)}
 				{...rest}
 			>
 				{children}

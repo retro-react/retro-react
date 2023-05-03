@@ -1,5 +1,7 @@
 /** @jsxImportSource theme-ui */
 import React from 'react';
+import { classNames } from '@src/utils/classNames';
+import commonClassNames from '@src/constants/commonClassNames';
 import { Portal } from '../portal/Portal';
 import * as Sc from './Tooltip.styled';
 
@@ -184,6 +186,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
 					$visible={visible}
 					$color={color}
 					$position={position}
+					className={classNames('tooltip-root', commonClassNames)}
 					sx={sx}
 				>
 					{label}

@@ -1,5 +1,6 @@
 /** @jsxImportSource theme-ui */
 import { classNames } from '@src/utils/classNames';
+import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Container.styled';
 
 export interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -37,6 +38,7 @@ export const Container = ({
 		'Container-root',
 		fluid ? 'Container-fluid' : '',
 		className,
+		commonClassNames,
 	);
 
 	if (fluid) {

@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { PRIMARY, SECONDARY } from '@src/constants/colors';
-import '../fonts.css';
 import { getWordArtColorOptions } from './themes';
 import { WordArtColor, WordArtStyle } from './WordArt';
 
@@ -39,7 +38,7 @@ export const WordArt = styled.h1<{
 	$color: WordArtColor;
 	$artStyle: WordArtStyle;
 }>`
-	font-family: 'FrauncesLatin', sans-serif;
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	font-weight: 400;
 
 	${({ $artStyle, $color }) =>

@@ -2,6 +2,7 @@
 import { forwardRef } from 'react';
 import React from 'react';
 import { classNames } from '@src/utils/classNames';
+import commonClassNames from '@src/constants/commonClassNames';
 import {
 	Breadcrumb,
 	BreadcrumbActive,
@@ -77,7 +78,7 @@ export const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
 			<BreadcrumbsWrapper
 				ref={ref}
 				id={id}
-				className={classNames('breadcrumbs-root', className)}
+				className={classNames('breadcrumbs-root', className, commonClassNames)}
 				{...rest}
 			>
 				{items.map((item, index) => (

@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import '../fonts.css';
 import { TextVariant } from './Text';
 
 export const Text = styled.div<{
@@ -7,7 +6,7 @@ export const Text = styled.div<{
 	$bevel: boolean;
 	$variant: TextVariant;
 }>`
-	font-family: 'FrauncesLatin', sans-serif;
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	font-size: 1rem;
 	font-weight: 400;
 	color: ${(props) => props.$color};

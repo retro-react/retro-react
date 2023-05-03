@@ -1,5 +1,4 @@
 import styled from '@emotion/styled';
-import '../fonts.css';
 import { MarqueeSize } from './Marquee';
 
 export const MarqueeWrapper = styled.div<{
@@ -16,7 +15,7 @@ export const Marquee = styled.div<{
 	$color: string;
 	$speed: string;
 }>`
-	font-family: 'FrauncesLatin', sans-serif;
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	font-size: ${(props) =>
 		props.$size === 'small'
 			? '1rem'

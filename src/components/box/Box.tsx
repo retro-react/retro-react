@@ -1,6 +1,7 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
+import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Box.styled';
 
 export type BoxPattern = 'noise' | 'stripes' | 'dots';
@@ -51,7 +52,7 @@ export const Box = forwardRef<HTMLDivElement, BoxProps>(
 				ref={ref}
 				id={id}
 				sx={sx}
-				className={classNames('box-root', className)}
+				className={classNames('box-root', className, commonClassNames)}
 				{...rest}
 			>
 				{children}

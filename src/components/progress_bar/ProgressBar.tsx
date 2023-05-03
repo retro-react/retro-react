@@ -1,6 +1,7 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
+import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './ProgressBar.styled';
 
 export type ProgressBarPattern = 'noise' | 'stripes' | 'dots';
@@ -48,7 +49,11 @@ export const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
 					ref={ref}
 					id={id}
 					sx={sx}
-					className={classNames('progress-bar-root', className)}
+					className={classNames(
+						'progress-bar-root',
+						className,
+						commonClassNames,
+					)}
 					{...rest}
 				/>
 			</Sc.ProgressBarWrapper>

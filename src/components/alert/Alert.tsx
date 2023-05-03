@@ -1,6 +1,7 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
+import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Alert.styled';
 
 export type AlertColor = 'primary' | 'secondary' | 'success' | 'error' | 'warn';
@@ -36,7 +37,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
 				id={id}
 				$color={color}
 				sx={sx}
-				className={classNames('alert-root', className)}
+				className={classNames('alert-root', className, commonClassNames)}
 				{...rest}
 			>
 				<Sc.Title>{title}</Sc.Title>

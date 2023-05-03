@@ -1,12 +1,11 @@
 import styled from '@emotion/styled';
 import { alterColor } from '@src/utils/alterColor';
+import { getPatternScheme } from '@src/utils/getPatternScheme';
 import { rgba } from '@src/utils/rgba';
 import { PRIMARY, SECONDARY, SHADE_1, SUCCESS } from '@src/constants/colors';
-import '../fonts.css';
 import { SwitchColor, SwitchSize, SwitchVariant } from './Switch';
 
 export const Switch = styled.label<{ $size: SwitchSize }>`
-	font-family: 'FrauncesLatin', sans-serif;
 	position: relative;
 	display: inline-block;
 
@@ -58,7 +57,7 @@ export const SwitchSlider = styled.span<{
 					to right,
 					${rgba(alterColor(PRIMARY), 0.8)} 0%,
 					${rgba(PRIMARY, 0.8)} 100%
-				), url(${require('../../assets/svg/checkboard_pattern.svg')}
+				), url(${getPatternScheme('dots')}
 				);
 					`;
 			case 'secondary':
@@ -67,7 +66,7 @@ export const SwitchSlider = styled.span<{
 					to right,
 					${rgba(alterColor(SECONDARY), 0.8)} 0%,
 					${rgba(SECONDARY, 0.8)} 100%
-				), url(${require('../../assets/svg/checkboard_pattern.svg')}
+				), url(${getPatternScheme('dots')}
 				);
 					`;
 		}
@@ -78,7 +77,7 @@ export const SwitchSlider = styled.span<{
 		content: '';
 		left: 4px;
 		bottom: 4px;
-		background: url(https://grainy-gradients.vercel.app/noise.svg);
+		background: url(${getPatternScheme('noise')});
 		background-size: 100%;
 		background-repeat: repeat;
 		background-color: ${SHADE_1};

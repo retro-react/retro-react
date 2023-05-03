@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
+import { getPatternScheme } from '@src/utils/getPatternScheme';
 import { rgba } from '@src/utils/rgba';
-import '../fonts.css';
 
 export const Card = styled.div<{ $color: string }>`
 	background-color: ${(props) => props.$color};
@@ -8,7 +8,7 @@ export const Card = styled.div<{ $color: string }>`
 linear-gradient(
 	${rgba(props.$color, 0.4)},
 	${rgba(props.$color, 0.4)}
-), url(${require('../../assets/svg/diagonal_line_pattern.svg')});
+), url(${getPatternScheme('stripes')})
 `};
 	box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.3),
 		inset -1px -1px 2px rgba(255, 255, 255, 0.2),

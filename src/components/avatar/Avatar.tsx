@@ -1,6 +1,7 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
+import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Avatar.styled';
 
 export type AvatarColor =
@@ -68,7 +69,7 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
 				$color={color}
 				$size={size}
 				$variant={variant}
-				className={classNames('avatar-root', className)}
+				className={classNames('avatar-root', className, commonClassNames)}
 				{...rest}
 			>
 				{children}

@@ -1,6 +1,7 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
+import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Chip.styled';
 
 export type ChipColor = 'primary' | 'secondary' | 'success' | 'error' | 'warn';
@@ -30,7 +31,7 @@ export const Chip = forwardRef<HTMLDivElement, ChipProps>(
 				id={id}
 				sx={sx}
 				$color={color}
-				className={classNames('chip-root', className)}
+				className={classNames('chip-root', className, commonClassNames)}
 				{...rest}
 			>
 				{children}

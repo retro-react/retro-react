@@ -1,6 +1,7 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
+import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Select.styled';
 
 export type SelectColor =
@@ -65,7 +66,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
 			<Sc.SelectWrapper
 				$color={color}
 				sx={sx}
-				className={classNames('select-root', className)}
+				className={classNames('select-root', className, commonClassNames)}
 			>
 				{label && (
 					<Sc.Label
