@@ -1,10 +1,9 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
+import { ComponentPatterns } from '@src/utils/getPatternScheme';
 import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Box.styled';
-
-export type BoxPattern = 'noise' | 'stripes' | 'dots';
 
 export interface BoxProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
@@ -18,7 +17,7 @@ export interface BoxProps extends React.HTMLAttributes<HTMLDivElement> {
 	 *
 	 * @default 'stripes'
 	 */
-	pattern?: BoxPattern;
+	pattern?: ComponentPatterns;
 	sx?: any;
 }
 

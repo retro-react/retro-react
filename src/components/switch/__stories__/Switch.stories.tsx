@@ -1,4 +1,4 @@
-import { useArgs } from '@storybook/client-api';
+import { useArgs } from '@storybook/preview-api';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import React from 'react';
 import { Switch } from '../index';

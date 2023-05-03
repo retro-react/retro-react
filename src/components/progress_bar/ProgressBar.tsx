@@ -1,10 +1,9 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
+import { ComponentPatterns } from '@src/utils/getPatternScheme';
 import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './ProgressBar.styled';
-
-export type ProgressBarPattern = 'noise' | 'stripes' | 'dots';
 
 export interface ProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
@@ -24,7 +23,7 @@ export interface ProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
 	 *
 	 * @default 'stripes'
 	 */
-	pattern?: ProgressBarPattern;
+	pattern?: ComponentPatterns;
 	sx?: any;
 }
 

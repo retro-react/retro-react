@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import { alterColor, alterColorEnhanced } from '@src/utils/alterColor';
+import { getPatternScheme } from '@src/utils/getPatternScheme';
 import { rgba } from '@src/utils/rgba';
 import {
 	ERROR,
@@ -62,7 +63,7 @@ export function getTheme(color: ButtonColor, variant: ButtonVariant) {
 		default:
 			return css`
 				color: ${WHITE};
-				background: url(https://grainy-gradients.vercel.app/noise.svg);
+				background: url(${getPatternScheme('noise')});
 				filter: contrast(120%) brightness(100%);
 				background-color: ${colorScheme};
 				border: 1.5px solid ${alterColorEnhanced(colorScheme)};

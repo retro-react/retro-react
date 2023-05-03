@@ -1,3 +1,4 @@
+import { useArgs } from '@storybook/preview-api';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import React from 'react';
 import { Button } from '@src/components/button';
@@ -16,11 +17,19 @@ export default {
  * @see https://storybook.js.org/docs/react/writing-stories/introduction#using-args
  */
 const Template: ComponentStory<typeof Modal> = (args) => {
+	const [, updateArgs] = useArgs();
 	const [open, setOpen] = React.useState(args.open);
 
 	React.useEffect(() => {
 		setOpen(args.open);
 	}, [args.open]);
+
+	const handleOpen = (
+		e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+		isOpen: boolean,
+	) => {
+		updateArgs({ open: isOpen });
+	};
 
 	return (
 		<div
@@ -32,8 +41,8 @@ const Template: ComponentStory<typeof Modal> = (args) => {
 				border: '1px solid black',
 			}}
 		>
-			<Button onClick={() => setOpen(true)}>Open Modal</Button>
-			<Modal {...args} open={open} onClose={() => setOpen(false)} />
+			<Button onClick={(e) => handleOpen(e, true)}>Open Modal</Button>
+			<Modal {...args} open={open} onClose={(e) => handleOpen(e, false)} />
 		</div>
 	);
 };
@@ -42,6 +51,7 @@ export const Basic = Template.bind({});
 Basic.args = {
 	backdrop: false,
 	pattern: 'noise',
+	open: false,
 	children: (
 		<>
 			<Text bevel={true} variant="h6" color="black">

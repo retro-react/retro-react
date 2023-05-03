@@ -1,14 +1,17 @@
 import styled from '@emotion/styled';
-import { getPatternScheme } from '@src/utils/getPatternScheme';
+import {
+	ComponentPatterns,
+	getPatternScheme,
+} from '@src/utils/getPatternScheme';
 import { rgba } from '@src/utils/rgba';
 
-export const Card = styled.div<{ $color: string }>`
+export const Card = styled.div<{ $pattern: ComponentPatterns; $color: string }>`
 	background-color: ${(props) => props.$color};
 	background-image: ${(props) => `
 linear-gradient(
 	${rgba(props.$color, 0.4)},
 	${rgba(props.$color, 0.4)}
-), url(${getPatternScheme('stripes')})
+), url(${getPatternScheme(props.$pattern)})
 `};
 	box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.3),
 		inset -1px -1px 2px rgba(255, 255, 255, 0.2),

@@ -1,6 +1,7 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
+import { ComponentPatterns } from '@src/utils/getPatternScheme';
 import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Card.styled';
 
@@ -11,6 +12,12 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default '#8fbc8f'
 	 */
 	color?: string;
+	/**
+	 * The pattern of the Card.
+	 *
+	 * @default 'stripes'
+	 */
+	pattern?: ComponentPatterns;
 	/**
 	 * The header of the Card.
 	 *
@@ -50,12 +57,14 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
 			image,
 			footer,
 			color = '#8fbc8f',
+			pattern = 'stripes',
 			...rest
 		},
 		ref,
 	) => {
 		return (
 			<Sc.Card
+				$pattern={pattern}
 				$color={color}
 				ref={ref}
 				id={id}

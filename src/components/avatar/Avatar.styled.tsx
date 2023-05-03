@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { getPatternScheme } from '@src/utils/getPatternScheme';
 import {
 	ERROR,
 	PRIMARY,
@@ -41,7 +42,7 @@ export const Avatar = styled.div<{
 	text-align: center;
 	line-height: ${(props) => sizeStyles[props.$size]};
 	background-color: ${(props) => avatarColorStyles[props.$color]};
-	background-image: url(https://grainy-gradients.vercel.app/noise.svg);
+	background-image: url(${getPatternScheme('noise')});
 	width: ${(props) => sizeStyles[props.$size]};
 	height: ${(props) => sizeStyles[props.$size]};
 	border: 0.1rem solid ${WHITE};

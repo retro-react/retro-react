@@ -1,11 +1,11 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
+import { ComponentPatterns } from '@src/utils/getPatternScheme';
 import commonClassNames from '@src/constants/commonClassNames';
 import { Portal } from '../portal/Portal';
 import * as Sc from './Modal.styled';
 
-export type ModalPattern = 'noise' | 'stripes' | 'dots';
 export interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
 	 * The hex color background of the Modal.
@@ -31,7 +31,7 @@ export interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
 	 *
 	 * @default 'stripes'
 	 */
-	pattern?: ModalPattern;
+	pattern?: ComponentPatterns;
 	/**
 	 * Callback fired when the Modal is closed.
 	 *

@@ -9,11 +9,10 @@ import {
 } from 'react';
 import { classNames } from '@src/utils/classNames';
 import { ComponentColors } from '@src/utils/getColorScheme';
+import { ComponentPatterns } from '@src/utils/getPatternScheme';
 import commonClassNames from '@src/constants/commonClassNames';
 import arrowIcon from '../../assets/svg/arrow_icon.svg';
 import * as Sc from './Carousel.styled';
-
-export type CarouselPattern = 'noise' | 'stripes' | 'dots';
 
 export interface CarouselProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
@@ -21,7 +20,7 @@ export interface CarouselProps extends React.HTMLAttributes<HTMLDivElement> {
 	 *
 	 * @default 'stripes'
 	 */
-	pattern?: CarouselPattern;
+	pattern?: ComponentPatterns;
 	/**
 	 * The color of the Carousel.
 	 *
@@ -137,11 +136,7 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
 								className="carousel-button-icon carousel-button-icon-prev"
 								aria-hidden="true"
 								$position="left"
-								src={
-									arrowImage || process.env['NODE_ENV'] === 'development'
-										? arrowIcon
-										: '~retro-react/assets/svg/arrow_icon.svg'
-								}
+								src={arrowImage || arrowIcon}
 							/>
 						</Sc.CarouselButton>
 						<Sc.CarouselButton
@@ -154,11 +149,7 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
 								className="carousel-button-icon carousel-button-icon-next"
 								aria-hidden="true"
 								$position="right"
-								src={
-									arrowImage || process.env['NODE_ENV'] === 'development'
-										? arrowIcon
-										: '~retro-react/assets/svg/arrow_icon.svg'
-								}
+								src={arrowImage || arrowIcon}
 							/>
 						</Sc.CarouselButton>
 					</>

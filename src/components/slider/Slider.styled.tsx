@@ -1,12 +1,13 @@
 import styled from '@emotion/styled';
 import getColorScheme, { ComponentColors } from '@src/utils/getColorScheme';
+import { getPatternScheme } from '@src/utils/getPatternScheme';
 import { PRIMARY, WHITE } from '@src/constants/colors';
 
 const commonTrackStyles = `
   width: 100%;
   height: 0.5rem;
   cursor: pointer;
-  background-image: url(https://grainy-gradients.vercel.app/noise.svg);
+  background-image: url(${getPatternScheme('noise')});
   background-color: ${WHITE};
   border-radius: 0.5rem;
 `;

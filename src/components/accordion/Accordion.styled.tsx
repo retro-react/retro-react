@@ -1,5 +1,8 @@
 import styled from '@emotion/styled';
-import { getPatternScheme } from '@src/utils/getPatternScheme';
+import {
+	ComponentPatterns,
+	getPatternScheme,
+} from '@src/utils/getPatternScheme';
 import { rgba } from '@src/utils/rgba';
 import {
 	BLACK,
@@ -11,7 +14,7 @@ import {
 	WARN,
 	WHITE,
 } from '@src/constants/colors';
-import { AccordionColor, AccordionPattern } from './Accordion';
+import { AccordionColor } from './Accordion';
 
 const accordionColorStyles = {
 	primary: PRIMARY,
@@ -27,7 +30,7 @@ export const AccordionWrapper = styled.div`
 `;
 
 export const AccordionHeader = styled.button<{
-	$pattern: AccordionPattern;
+	$pattern: ComponentPatterns;
 	$color: AccordionColor;
 }>`
 	display: flex;
@@ -48,24 +51,25 @@ export const AccordionHeader = styled.button<{
       linear-gradient(
         ${rgba(accordionColorStyles[props.$color], 0.4)},
         ${rgba(accordionColorStyles[props.$color], 0.4)}
-      )
+      ),
+			url(${getPatternScheme(props.$pattern)})
     `;
 
 		switch (props.$pattern) {
 			case 'noise':
 				return `
-          background-image: ${gradient}, url(${getPatternScheme('noise')});
+          background-image: ${gradient};
         `;
 			case 'stripes':
 				return `
-          background-image: ${gradient}, url(${getPatternScheme('stripes')});
+          background-image: ${gradient};
 					color: ${WHITE};
 					text-shadow: 1px 1px 2px ${rgba(BLACK, 0.5)};
         `;
 			case 'dots':
 			default:
 				return `
-          background-image: ${gradient}, url(${getPatternScheme('dots')});
+          background-image: ${gradient};
 					color: ${WHITE};
 					text-shadow: 1px 1px 2px ${rgba(BLACK, 0.5)};
         `;

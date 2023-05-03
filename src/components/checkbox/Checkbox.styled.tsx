@@ -1,5 +1,7 @@
 import styled from '@emotion/styled';
 import { alterColor } from '@src/utils/alterColor';
+import { getPatternScheme } from '@src/utils/getPatternScheme';
+import { BLACK } from '@src/constants/colors';
 import type { CheckboxColor } from './Checkbox';
 import { getColorScheme } from './themes';
 
@@ -27,10 +29,10 @@ export const Checkbox = styled.input<{
 			${(props) => alterColor(getColorScheme(props.$color))},
 			${(props) => getColorScheme(props.$color)}
 		),
-		url(https://grainy-gradients.vercel.app/noise.svg);
+		url(${getPatternScheme('noise')});
 
-	box-shadow: inset 1px 1px 2px #000000,
-		inset -1px -1px 2px ${(props) => getColorScheme(props.$color)};
+	box-shadow: inset 1px 1px 2px ${BLACK} inset -1px -1px 2px
+		${(props) => getColorScheme(props.$color)};
 
 	&::before {
 		content: '';
@@ -40,10 +42,10 @@ export const Checkbox = styled.input<{
 		width: 1rem;
 		height: 1rem;
 		border-radius: 50%;
-		background-image: url(https://grainy-gradients.vercel.app/noise.svg);
+		background-image: url(${getPatternScheme('noise')});
 
-		box-shadow: inset 1px 1px 12px #000000,
-			inset -1px -1px 10px ${(props) => getColorScheme(props.$color)};
+		box-shadow: inset 1px 1px 12px ${BLACK} inset -1px -1px 10px
+			${(props) => getColorScheme(props.$color)};
 		opacity: 0;
 		transition: opacity 0.2s ease-in-out;
 	}
@@ -54,7 +56,7 @@ export const Checkbox = styled.input<{
 
 	&:hover:not([disabled]) {
 		opacity: 0.8;
-		box-shadow: inset 0 8px 6px -6px #000000;
+		box-shadow: inset 0 8px 6px -6px ${BLACK};
 		filter: saturate(70%);
 	}
 

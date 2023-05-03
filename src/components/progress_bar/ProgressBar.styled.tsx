@@ -1,27 +1,30 @@
 import styled from '@emotion/styled';
-import { getPatternScheme } from '@src/utils/getPatternScheme';
-import { PRIMARY, WHITE } from '@src/constants/colors';
-import { ProgressBarPattern } from './ProgressBar';
+import {
+	ComponentPatterns,
+	getPatternScheme,
+} from '@src/utils/getPatternScheme';
+import { rgba } from '@src/utils/rgba';
+import { BLACK, PRIMARY, WHITE } from '@src/constants/colors';
 
 export const ProgressBarWrapper = styled.div`
 	position: relative;
 	width: 100%;
 	height: 100%;
+	box-sizing: border-box;
 `;
 
 export const ProgressBar = styled.div<{
 	$value: number;
 	$color?: string;
-	$pattern: ProgressBarPattern;
+	$pattern: ComponentPatterns;
 }>`
 	background-image: url(${getPatternScheme('noise')});
 
 	background-color: ${WHITE};
 	border-radius: 0.5rem;
-	border: 0.5rem solid ${WHITE};
-	box-shadow: 0 0 0.5rem 0.5rem ${WHITE};
 	padding: 1rem;
 	font-size: 1.5rem;
+	box-shadow: 1px 1px 2px ${rgba(BLACK, 0.5)}, -1px -1px 2px ${WHITE};
 
 	&::before {
 		content: '';
@@ -31,42 +34,25 @@ export const ProgressBar = styled.div<{
 		width: 100%;
 		height: 100%;
 		background-image: url(${getPatternScheme('noise')});
-		background-color: ${WHITE};
-		border-radius: 0.5rem;
-		border: 0.5rem solid ${WHITE};
-
-		box-shadow: 0 0 0.5rem 0.5rem ${WHITE};
+		padding: 0.5rem;
 		opacity: 0.5;
+		filter: blur(0.8rem) brightness(0.5);
 	}
 
 	&::after {
 		content: '';
 		position: absolute;
 		top: 0;
-		left: 0;
-		width: ${(props) => Math.min(Math.max(props.$value, 0), 100)}%;
+		left: 5px;
+		width: calc(${(props) => Math.min(Math.max(props.$value, 0), 100)}% - 10px);
 		height: 100%;
 		background-color: ${(props) => props.$color || PRIMARY};
-		border-radius: 0.5rem;
-		border: 0.5rem solid ${WHITE};
-		box-shadow: 0 0 0.5rem 0.5rem #fff;
+		border-radius: ${(props) =>
+			props.$value >= 100 ? '0.5rem' : '0.5rem 0 0 0.5rem'};
 		opacity: 0.5;
+		margin: 0.3rem 0;
 
-		${(props) => {
-			switch (props.$pattern) {
-				case 'noise':
-					return `
-						background-image: url(${getPatternScheme('noise')});
-					`;
-				case 'stripes':
-					return `
-						background-image: url(${getPatternScheme('stripes')});
-					`;
-				case 'dots':
-				default:
-					return `
-						background-image: url(${getPatternScheme('dots')});
-					`;
-			}
-		}}
+		background-image: url(${(props) => getPatternScheme(props.$pattern)});
+		box-shadow: 1px 1px 2px ${rgba(BLACK, 0.5)};
+	}
 `;

@@ -1,6 +1,6 @@
 # React Retro UI Library
 
-[![1.2.0](https://badge.fury.io/js/retro-react.svg)](https://www.npmjs.com/package/retro-react)
+[![npm version](https://badge.fury.io/js/retro-react.svg)](https://www.npmjs.com/package/retro-react)
 
 A retro-themed UI library for React that provides 20+ unique components to easily build user interfaces with a nostalgic vibe. The library includes components such as buttons, containers, inputs, boxes, cards, text, modals, progress bars, chips, and alerts. **More components are showcased in the demo.**
 

@@ -2,10 +2,10 @@
 import { forwardRef } from 'react';
 import React from 'react';
 import { classNames } from '@src/utils/classNames';
+import { ComponentPatterns } from '@src/utils/getPatternScheme';
 import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Accordion.styled';
 
-export type AccordionPattern = 'noise' | 'stripes' | 'dots';
 export type AccordionColor =
 	| 'primary'
 	| 'secondary'
@@ -25,7 +25,7 @@ export interface AccordionProps extends React.HTMLAttributes<HTMLDivElement> {
 	 *
 	 * @default 'noise'
 	 */
-	pattern?: AccordionPattern;
+	pattern?: ComponentPatterns;
 	/**
 	 * The color of the accordion.
 	 *

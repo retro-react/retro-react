@@ -1,15 +1,17 @@
 import styled from '@emotion/styled';
 import { alterColorEnhanced } from '@src/utils/alterColor';
-import { getPatternScheme } from '@src/utils/getPatternScheme';
+import {
+	ComponentPatterns,
+	getPatternScheme,
+} from '@src/utils/getPatternScheme';
 import { rgba } from '@src/utils/rgba';
 import { SCREEN_XM } from '@src/constants/breakpoints';
 import { BLACK } from '@src/constants/colors';
-import { ModalPattern } from './Modal';
 
 export const Modal = styled.div<{
 	$color: string;
 	$open: boolean;
-	$pattern: ModalPattern;
+	$pattern: ComponentPatterns;
 	$backdrop: boolean;
 }>`
 	background-color: ${(props) => props.$color};
@@ -34,24 +36,13 @@ export const Modal = styled.div<{
 			linear-gradient(
 				${rgba(props.$color, 0.4)},
 				${rgba(props.$color, 0.4)}
-			)
+			),
+			url(${getPatternScheme(props.$pattern)})
 		`;
 
-		switch (props.$pattern) {
-			case 'noise':
-				return `
-					background-image: ${gradient}, url(${getPatternScheme('noise')});
-				`;
-			case 'stripes':
-				return `
-					background-image: ${gradient}, url(${getPatternScheme('stripes')});
-				`;
-			case 'dots':
-			default:
-				return `
-					background-image: ${gradient}, url(${getPatternScheme('dots')});
-				`;
-		}
+		return `
+			background-image: ${gradient};
+		`;
 	}}
 
 	// Media query for mobile devices

@@ -1,12 +1,14 @@
 import styled from '@emotion/styled';
-import { getPatternScheme } from '@src/utils/getPatternScheme';
+import {
+	ComponentPatterns,
+	getPatternScheme,
+} from '@src/utils/getPatternScheme';
 import { rgba } from '@src/utils/rgba';
 import { BLACK, WHITE } from '@src/constants/colors';
-import { BoxPattern } from './Box';
 
 export const Box = styled.div<{
 	$color: string;
-	$pattern: BoxPattern;
+	$pattern: ComponentPatterns;
 }>`
 	background-color: ${(props) => props.$color};
 	position: relative;
@@ -20,23 +22,7 @@ export const Box = styled.div<{
 
 	outline: 1rem solid transparent;
 
-	${(props) => {
-		switch (props.$pattern) {
-			case 'noise':
-				return `
-					background-image: url(${getPatternScheme('noise')});
-				`;
-			case 'stripes':
-				return `
-					background-image: url(${getPatternScheme('stripes')});
-				`;
-			case 'dots':
-			default:
-				return `
-					background-image: url(${getPatternScheme('dots')});
-				`;
-		}
-	}}
+	background-image: url(${(props) => getPatternScheme(props.$pattern)});
 
 	&:before {
 		background: linear-gradient(to top left, #3d3c42 50%, #d8d8d8 50%);

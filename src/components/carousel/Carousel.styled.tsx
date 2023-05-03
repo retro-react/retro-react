@@ -1,12 +1,14 @@
 import styled from '@emotion/styled';
 import getColorScheme, { ComponentColors } from '@src/utils/getColorScheme';
-import { getPatternScheme } from '@src/utils/getPatternScheme';
+import {
+	ComponentPatterns,
+	getPatternScheme,
+} from '@src/utils/getPatternScheme';
 import { rgba } from '@src/utils/rgba';
-import { CarouselPattern } from './Carousel';
 
 export const CarouselWrapper = styled.div<{
 	$color: ComponentColors;
-	$pattern: CarouselPattern;
+	$pattern: ComponentPatterns;
 }>`
 	position: relative;
 	overflow: hidden;
