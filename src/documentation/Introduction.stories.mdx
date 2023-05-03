@@ -30,6 +30,18 @@ return <Button>Click me</Button>;
 
 - The `pattern` prop is noticeably different in dark mode vs light mode. Explore the components in both modes to see the difference.
 
+## global styles
+
+Every component in Retro React has a `retro-ui` class name attached to it. This allows you to easily style all components at once. For example, you can change the font family of all components by adding the following CSS to your main stylesheet:
+
+<Source
+	dark
+	language="css"
+	code={`.retro-ui {
+	font-family: 'Comic Sans MS', cursive, sans-serif !important;
+}`}
+/>
+
 ## sx prop
 
 All components in Retro React support the `sx` prop, which allows you to style components inline without writing CSS. This is powered by [Theme UI](https://theme-ui.com/), which is built on top of [Emotion](https://emotion.sh/docs/introduction).

@@ -65,6 +65,16 @@ const App = () => {
 export default App;
 ```
 
+## Global styles
+
+Every component in Retro React has a `retro-ui` class name attached to it. This allows you to easily style all components at once. For example, you can change the font family of all components by adding the following CSS to your main stylesheet:
+
+```css
+.retro-ui {
+	font-family: 'Roboto', sans-serif !important;
+}
+```
+
 ## Components
 
 ### Button
