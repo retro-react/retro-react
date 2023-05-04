@@ -13,8 +13,15 @@ export default {
  * @see https://storybook.js.org/docs/react/writing-stories/introduction#using-args
  */
 const Template: ComponentStory<typeof Avatar> = (args) => {
-	return <Avatar {...args} />;
+	return (
+		<div style={{ display: 'flex', gap: '1rem' }}>
+			<Avatar {...args} src="" />
+			<Avatar {...args} />
+		</div>
+	);
 };
+
+const image = 'https://i.pravatar.cc/300';
 
 export const Primary = Template.bind({});
 Primary.args = {
@@ -22,6 +29,7 @@ Primary.args = {
 	children: 'AB',
 	size: 'medium',
 	variant: 'circle',
+	src: image,
 };
 
 export const Secondary = Template.bind({});
@@ -30,6 +38,7 @@ Secondary.args = {
 	children: 'AB',
 	size: 'medium',
 	variant: 'circle',
+	src: image,
 };
 
 export const Success = Template.bind({});
@@ -38,6 +47,7 @@ Success.args = {
 	children: 'AB',
 	size: 'medium',
 	variant: 'circle',
+	src: image,
 };
 
 export const Error = Template.bind({});
@@ -46,6 +56,7 @@ Error.args = {
 	children: 'AB',
 	size: 'medium',
 	variant: 'circle',
+	src: image,
 };
 
 export const Warn = Template.bind({});
@@ -54,4 +65,5 @@ Warn.args = {
 	children: 'AB',
 	size: 'medium',
 	variant: 'circle',
+	src: image,
 };

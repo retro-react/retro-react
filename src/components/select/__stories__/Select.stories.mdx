@@ -1,0 +1,39 @@
+import { Heading, Markdown, Meta, Source, Title } from '@storybook/addon-docs';
+
+<Meta title="CSS/Select" />
+
+## CSS
+
+<Markdown>
+{`
+Class names are used to style elements. They are also used to select elements in JavaScript.
+Use with __sx__ prop or __makeStyles__ function.
+
+| Class name     | Description                     |
+| -------------- | ------------------------------- |
+| 'select-root'  | The root element of the select  |
+| 'select-label' | The label element of the select |
+| 'select-input' | The input element of the select |
+
+`}
+
+</Markdown>
+
+## Examples
+
+<Source
+	dark
+	language="tsx"
+	code={`
+    <Select 
+    sx={{
+      '& .select-root': {
+        backgroundColor: 'red',
+        color: 'blue',
+      },
+    }}
+    >
+    ...
+</Select>
+  `}
+/>

@@ -24,7 +24,7 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default undefined
 	 *
 	 */
-	header?: string | React.ReactNode;
+	header?: React.ReactNode;
 	/**
 	 * The image of the Card.
 	 *
@@ -36,7 +36,8 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 	 *
 	 * @default undefined
 	 */
-	footer?: string | React.ReactNode;
+	footer?: React.ReactNode;
+	sx?: any;
 }
 
 /**
@@ -46,11 +47,13 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
  * <Card header="Hello World" image="getImageUrl()" footer="Goodbye World">
  * 		Content
  * </Card>
+ *
  */
 export const Card = forwardRef<HTMLDivElement, CardProps>(
 	(
 		{
 			id,
+			sx,
 			className,
 			children,
 			header,
@@ -68,22 +71,23 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
 				$color={color}
 				ref={ref}
 				id={id}
-				className={classNames('box-root', className, commonClassNames)}
+				className={classNames('card-root', className, commonClassNames)}
+				sx={sx}
 				{...rest}
 			>
 				{typeof header === 'string' ? (
-					<Sc.CardTitle>{header}</Sc.CardTitle>
+					<Sc.CardTitle className="card-header">{header}</Sc.CardTitle>
 				) : (
 					header
 				)}
 				{image && (
-					<Sc.CardImageWrapper>
-						<Sc.CardImage src={image} />
+					<Sc.CardImageWrapper className="card-image-wrapper">
+						<Sc.CardImage className="card-image" src={image} />
 					</Sc.CardImageWrapper>
 				)}
-				<Sc.CardContent>{children}</Sc.CardContent>
+				<Sc.CardContent className="card-content">{children}</Sc.CardContent>
 				{typeof footer === 'string' ? (
-					<Sc.CardFooter>{footer}</Sc.CardFooter>
+					<Sc.CardFooter className="card-footer">{footer}</Sc.CardFooter>
 				) : (
 					footer
 				)}

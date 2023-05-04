@@ -40,12 +40,19 @@ export const CardTitle = styled.h2`
 export const CardImageWrapper = styled.div`
 	display: flex;
 	justify-content: center;
+	object-fit: cover;
+
+	& > * {
+		max-width: 100%;
+		max-height: 100%;
+	}
 `;
 
 export const CardImage = styled.img`
 	display: block;
 	border-radius: 0.5rem;
 	margin-bottom: 1rem;
+	overflow: hidden;
 `;
 
 export const CardFooter = styled.div`

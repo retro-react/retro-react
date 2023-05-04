@@ -39,6 +39,12 @@ export interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default undefined
 	 */
 	children?: string;
+	/**
+	 * The image source of the Avatar. If not provided, a pattern with text will be used.
+	 *
+	 * @default undefined
+	 */
+	src?: string;
 	sx?: any;
 }
 
@@ -55,6 +61,7 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
 	({
 		id,
 		className,
+		src,
 		color = 'primary',
 		size = 'medium',
 		variant = 'circle',
@@ -66,13 +73,15 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
 			<Sc.Avatar
 				id={id}
 				sx={sx}
+				$src={src}
 				$color={color}
 				$size={size}
 				$variant={variant}
 				className={classNames('avatar-root', className, commonClassNames)}
+				aria-label={children}
 				{...rest}
 			>
-				{children}
+				<span>{children}</span>
 			</Sc.Avatar>
 		);
 	},

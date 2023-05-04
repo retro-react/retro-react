@@ -84,7 +84,7 @@ export const Switch = forwardRef<HTMLLabelElement, SwitchProps>(
 					className="switch-input"
 				/>
 				<Sc.SwitchSlider
-					className={`${variant}-slider`}
+					className={`switch-${variant}-slider`}
 					$variant={variant}
 					$color={color}
 					$size={size}

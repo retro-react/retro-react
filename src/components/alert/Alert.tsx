@@ -40,7 +40,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
 				className={classNames('alert-root', className, commonClassNames)}
 				{...rest}
 			>
-				<Sc.Title>{title}</Sc.Title>
+				<Sc.Title className="alert-title">{title}</Sc.Title>
 				{children}
 			</Sc.Alert>
 		);

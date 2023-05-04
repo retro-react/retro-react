@@ -5,6 +5,14 @@ import { Alert } from '../index';
 export default {
 	title: 'Components/Alert',
 	component: Alert,
+	argTypes: {
+		color: {
+			control: false,
+		},
+		title: {
+			control: false,
+		},
+	},
 } as ComponentMeta<typeof Alert>;
 
 /**
@@ -23,19 +31,19 @@ const Template: ComponentStory<typeof Alert> = (args) => {
 			}}
 		>
 			<Alert {...args} color="primary" title="Primary Alert">
-				The quick brown fox jumps over the lazy dog.
+				{args.children}
 			</Alert>
 			<Alert {...args} color="secondary" title="Secondary Alert">
-				The quick brown fox jumps over the lazy dog.
+				{args.children}
 			</Alert>
 			<Alert {...args} color="success" title="Success Alert">
-				The quick brown fox jumps over the lazy dog.
+				{args.children}
 			</Alert>
 			<Alert {...args} color="warn" title="Warn Alert">
-				The quick brown fox jumps over the lazy dog.
+				{args.children}
 			</Alert>
 			<Alert {...args} color="error" title="Error Alert">
-				The quick brown fox jumps over the lazy dog.
+				{args.children}
 			</Alert>
 		</div>
 	);

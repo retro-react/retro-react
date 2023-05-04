@@ -117,7 +117,11 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
 				className={classNames('tabs-root', className, commonClassNames)}
 				{...rest}
 			>
-				<Sc.TabsHeader $color={color} $pattern={pattern}>
+				<Sc.TabsHeader
+					$color={color}
+					$pattern={pattern}
+					className="tabs-header"
+				>
 					{enhancedTabs}
 				</Sc.TabsHeader>
 				{activeTabContent}
@@ -170,7 +174,6 @@ export const Tab: React.FC<TabProps> = ({
 	children,
 	isActive = false,
 	$color = 'primary',
-	$pattern = 'noise',
 	onClick,
 	setActiveTabLabel,
 	...rest
@@ -193,6 +196,7 @@ export const Tab: React.FC<TabProps> = ({
 			aria-label={label}
 			onClick={handleClick}
 			isActive={isActive}
+			className="tab"
 			{...rest}
 		>
 			{children}
@@ -223,7 +227,13 @@ export const TabContent: React.FC<TabContentProps> = ({
 	...rest
 }) => {
 	return (
-		<Sc.TabContentWrapper label={label} sx={sx} {...rest}>
+		<Sc.TabContentWrapper
+			label={label}
+			sx={sx}
+			{...rest}
+			className="tab-content"
+			role="tabpanel"
+		>
 			{children}
 		</Sc.TabContentWrapper>
 	);

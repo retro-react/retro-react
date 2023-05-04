@@ -35,8 +35,8 @@ export const Container = ({
 	...rest
 }: ContainerProps) => {
 	const classes = classNames(
-		'Container-root',
-		fluid ? 'Container-fluid' : '',
+		'container-root',
+		fluid ? 'container-fluid' : '',
 		className,
 		commonClassNames,
 	);

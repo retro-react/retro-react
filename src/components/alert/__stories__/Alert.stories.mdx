@@ -1,0 +1,38 @@
+import { Heading, Markdown, Meta, Source, Title } from '@storybook/addon-docs';
+
+<Meta title="CSS/Alert" />
+
+## CSS
+
+<Markdown>
+{`
+Class names are used to style elements. They are also used to select elements in JavaScript.
+Use with __sx__ prop or __makeStyles__ function.
+
+| Class name    | Description                     |
+| ------------- | ------------------------------- |
+| 'alert-root'  | The root element of the alert.  |
+| 'alert-title' | The title element of the alert. |
+
+`}
+
+</Markdown>
+
+## Examples
+
+<Source
+	dark
+	language="tsx"
+	code={`
+    <Alert 
+    sx={{
+      '& .alert-title': {
+        backgroundColor: 'red',
+        color: 'blue',
+      },
+    }}
+    >
+    ...
+</Alert>
+  `}
+/>

@@ -1,0 +1,58 @@
+import { Meta, Source } from '@storybook/addon-docs/blocks';
+
+<Meta title="CSS/Carousel" />
+
+## CSS
+
+This document outlines the CSS classes applied to the Carousel component and its subcomponents. You can use these class names to apply custom styles or override the default styles through the `sx` prop.
+
+## Root element
+
+The root element of the Carousel component has the following class names:
+
+- `carousel-root`: A common class for the root element of the Carousel component.
+
+## Carousel item
+
+The Carousel item has the following class name:
+
+- `carousel-item`: Applied to each Carousel item.
+
+## Carousel buttons
+
+The Carousel buttons have the following class names:
+
+- `carousel-button`: Applied to both the previous and next buttons in the Carousel.
+- `carousel-button-prev`: Applied specifically to the previous button in the Carousel.
+- `carousel-button-next`: Applied specifically to the next button in the Carousel.
+
+## Carousel button icons
+
+The Carousel button icons have the following class names:
+
+- `carousel-button-icon`: Applied to both the previous and next button icons in the Carousel.
+- `carousel-button-icon-prev`: Applied specifically to the previous button icon in the Carousel.
+- `carousel-button-icon-next`: Applied specifically to the next button icon in the Carousel.
+
+## Examples
+
+<Source
+	dark
+	language="tsx"
+	code={`
+<Carousel
+  sx={{
+    '& .carousel-root': {
+      backgroundColor: 'red',
+    },
+    '& .carousel-item': {
+      color: 'blue',
+    },
+  }}
+>
+  <div>Item 1</div>
+  <div>Item 2</div>
+  <div>Item 3</div>
+</Carousel>
+`}
+/>

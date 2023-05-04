@@ -81,6 +81,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
 					{...rest}
 				>
 					<Sc.CloseButton
+						className="modal-close-button"
 						onClick={onClose}
 						aria-label="Close Modal"
 						$color={color}

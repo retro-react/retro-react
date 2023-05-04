@@ -29,6 +29,7 @@ export const Avatar = styled.div<{
 	$color: AvatarColor;
 	$size: AvatarSize;
 	$variant: AvatarVariant;
+	$src?: string;
 }>`
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	font-weight: bold;
@@ -42,7 +43,8 @@ export const Avatar = styled.div<{
 	text-align: center;
 	line-height: ${(props) => sizeStyles[props.$size]};
 	background-color: ${(props) => avatarColorStyles[props.$color]};
-	background-image: url(${getPatternScheme('noise')});
+	background-image: ${(props) =>
+		props.$src ? `url(${props.$src})` : `url(${getPatternScheme('noise')})`};
 	width: ${(props) => sizeStyles[props.$size]};
 	height: ${(props) => sizeStyles[props.$size]};
 	border: 0.1rem solid ${WHITE};
@@ -58,5 +60,17 @@ export const Avatar = styled.div<{
 		props.$variant === 'square' &&
 		css`
 			border-radius: 0.5rem;
+		`}
+
+
+	${(props) =>
+		props.$src &&
+		css`
+			background-size: cover;
+			background-position: center;
+			border: 0.1rem solid ${avatarColorStyles[props.$color]};
+			& > * {
+				display: none;
+			}
 		`}
 `;

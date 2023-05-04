@@ -60,17 +60,29 @@ export const Marquee = forwardRef<HTMLDivElement, MarqueeProps>(
 	) => {
 		return (
 			<Sc.MarqueeWrapper
-				className={classNames('Marquee-root', className, commonClassNames)}
+				className={classNames('marquee-root', className, commonClassNames)}
 				$gap={gap}
 				ref={ref}
 				id={id}
 				sx={sx}
 				{...rest}
 			>
-				<Sc.Marquee $gap={gap} $size={size} $color={color} $speed={speed}>
+				<Sc.Marquee
+					$gap={gap}
+					$size={size}
+					$color={color}
+					$speed={speed}
+					className="marquee-content"
+				>
 					{children}
 				</Sc.Marquee>
-				<Sc.Marquee $gap={gap} $size={size} $color={color} $speed={speed}>
+				<Sc.Marquee
+					$gap={gap}
+					$size={size}
+					$color={color}
+					$speed={speed}
+					className="marquee-content"
+				>
 					{children}
 				</Sc.Marquee>
 			</Sc.MarqueeWrapper>

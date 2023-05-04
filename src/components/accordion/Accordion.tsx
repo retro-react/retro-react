@@ -112,6 +112,7 @@ export const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
 					sx={sxHeader}
 					aria-expanded={isOpen}
 					aria-controls={`${id}-content`}
+					className="accordion-header"
 				>
 					{title}
 				</Sc.AccordionHeader>
@@ -122,6 +123,7 @@ export const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
 					maxHeight={maxHeight}
 					role="region"
 					aria-labelledby={title}
+					className="accordion-content"
 				>
 					<div>{children}</div>
 				</Sc.AccordionContent>

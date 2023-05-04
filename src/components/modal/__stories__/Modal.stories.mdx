@@ -1,0 +1,37 @@
+import { Heading, Markdown, Meta, Source, Title } from '@storybook/addon-docs';
+
+<Meta title="CSS/Modal" />
+
+## CSS
+
+<Markdown>
+{`
+Class names are used to style elements. They are also used to select elements in JavaScript.
+Use with __sx__ prop or __makeStyles__ function.
+
+| Class name           | Description                    |
+| -------------------- | ------------------------------ |
+| 'modal-root'         | The root element of the modal. |
+| 'modal-close-button' | The close button element.      |
+
+`}
+
+</Markdown>
+
+## Examples
+
+<Source
+	dark
+	language="tsx"
+	code={`
+    <Modal 
+    sx={{
+      '& .modal-close-button': {
+        backgroundColor: 'red',
+      },
+    }}
+    >
+    ...
+</Modal>
+  `}
+/>

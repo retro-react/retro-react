@@ -1,0 +1,39 @@
+import { Heading, Markdown, Meta, Source, Title } from '@storybook/addon-docs';
+
+<Meta title="CSS/Switch" />
+
+## CSS
+
+<Markdown>
+{`
+Class names are used to style elements. They are also used to select elements in JavaScript.
+Use with __sx__ prop or __makeStyles__ function.
+
+| Class name                  | Description                                        |
+| --------------------------- | -------------------------------------------------- |
+| 'switch-root'               | The root element of the Switch component.          |
+| 'switch-input'              | The checkbox input element inside the Switch.      |
+| 'switch-rounded-slider'     | The slider element with the "rounded" variant.     |
+| 'switch-rectangular-slider' | The slider element with the "rectangular" variant. |
+
+`}
+
+</Markdown>
+
+## Examples
+
+<Source
+	dark
+	language="tsx"
+	code={`
+<Switch
+  sx={{
+    '& .switch-root': { backgroundColor: 'transparent' },
+    '& .switch-input': { opacity: 0.5 },
+    '& .switch-rounded-slider': { backgroundColor: 'red' },
+  }}
+  toggled={true}
+  onChange={(e) => console.log(e.target.checked)}
+/>
+    `}
+/>

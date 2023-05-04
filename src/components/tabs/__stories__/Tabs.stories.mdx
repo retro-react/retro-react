@@ -1,0 +1,40 @@
+import { Heading, Markdown, Meta, Source, Title } from '@storybook/addon-docs';
+
+<Meta title="CSS/Tabs" />
+
+## CSS
+
+<Markdown>
+{`
+Class names are used to style elements. They are also used to select elements in JavaScript.
+Use with __sx__ prop or __makeStyles__ function.
+
+| Class name    | Description                                          |
+| ------------- | ---------------------------------------------------- |
+| 'tabs-root'   | The root element of the Tabs component.              |
+| 'tabs-header' | The header element of the Tabs component.            |
+| 'tab'         | The tab element of the Tab component.                |
+| 'tab-content' | The tab content element of the TabContent component. |
+
+`}
+
+</Markdown>
+
+## Examples
+
+<Source
+	dark
+	language="tsx"
+	code={`
+    <Tabs 
+    sx={{
+      '& .tabs-header': {
+        backgroundColor: 'red',
+        color: 'blue',
+      },
+    }}
+    >
+    ...
+</Tabs>
+  `}
+/>

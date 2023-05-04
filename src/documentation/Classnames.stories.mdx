@@ -1,0 +1,41 @@
+import { Heading, Meta, Source, Subtitle, Title } from '@storybook/addon-docs';
+
+<Meta title="CSS/General" />
+
+# Customizing Component Styles
+
+Each component in the library has its own set of class names that can be used to customize its appearance. You can use these class names in combination with the `sx` prop or a `makeStyles` function to style the components.
+
+## Using the `sx` prop
+
+The `sx` prop is a shortcut for the `style` prop. It accepts an object with CSS properties and values. The keys of the object are camelCased versions of the CSS property names. The values can be either strings or numbers. You can target specific class names within a component and apply your desired styles.
+
+Here's an example of using the `sx` prop to customize the styles of a component:
+
+<Source
+	dark
+  format="dedent"
+	language="tsx"
+
+    code={`import React from 'react';
+
+import { Button } from 'retro-react';
+
+<Button
+	variant="outline"
+	sx={{
+		'& .button-root': {
+			backgroundColor: 'red',
+			color: 'blue',
+		},
+	}}
+>
+	Click me
+</Button>
+`} />
+
+In this example, the `button-root` class name is being targeted to customize the background color and text color of the button.
+
+## Component-specific CSS documentation
+
+Each component has its own CSS documentation that lists the available class names and provides examples of how to use them. Be sure to consult the specific component's CSS documentation for more details on the class names and customization options.
