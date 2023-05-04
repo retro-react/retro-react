@@ -14,8 +14,8 @@ export const Text = styled.div<{
 	${(props) =>
 		props.$bevel
 			? `
-			text-shadow: 0 -4px 3px rgba(255, 255, 255, 0.3), 0 3px 4px rgba(0, 0, 0, 0.2);
-				`
+				text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3), -1px -1px 2px rgba(0, 0, 0, 0.2);
+			`
 			: ''}
 
 	${(props) => {

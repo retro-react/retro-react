@@ -18,6 +18,7 @@ const Template: ComponentStory<typeof Chip> = (args) => {
 
 export const Primary = Template.bind({});
 Primary.args = {
+	color: 'primary',
 	children: 'Primary Chip',
 };
 

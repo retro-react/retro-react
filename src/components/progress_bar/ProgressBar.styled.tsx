@@ -14,17 +14,19 @@ export const ProgressBarWrapper = styled.div`
 `;
 
 export const ProgressBar = styled.div<{
+	$bg?: string;
 	$value: number;
 	$color?: string;
 	$pattern: ComponentPatterns;
 }>`
 	background-image: url(${getPatternScheme('noise')});
 
-	background-color: ${WHITE};
+	background-color: ${(props) => props.$bg || WHITE};
 	border-radius: 0.5rem;
 	padding: 1rem;
 	font-size: 1.5rem;
-	box-shadow: 1px 1px 2px ${rgba(BLACK, 0.5)}, -1px -1px 2px ${WHITE};
+	box-shadow: 1px 1px 2px ${rgba(BLACK, 0.5)},
+		-1px -1px 2px ${(props) => props.$bg || WHITE};
 
 	&::before {
 		content: '';

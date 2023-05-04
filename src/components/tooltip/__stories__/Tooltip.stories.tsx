@@ -5,6 +5,11 @@ import { Tooltip } from '../Tooltip';
 export default {
 	title: 'Components/Tooltip',
 	component: Tooltip,
+	argTypes: {
+		children: {
+			control: false,
+		},
+	},
 } as ComponentMeta<typeof Tooltip>;
 
 /**

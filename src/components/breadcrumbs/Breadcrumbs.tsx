@@ -82,13 +82,22 @@ export const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
 				{...rest}
 			>
 				{items.map((item, index) => (
-					<Breadcrumb key={index} $active={item.active} $color={color}>
+					<Breadcrumb
+						key={index}
+						$active={item.active}
+						$color={color}
+						className="breadcrumb"
+					>
 						{item.active ? (
-							<BreadcrumbActive $color={color}>
+							<BreadcrumbActive $color={color} className="breadcrumb-active">
 								{item.text || ''}
 							</BreadcrumbActive>
 						) : (
-							<BreadcrumbAnchor href={item.href} onClick={handleClick(item)}>
+							<BreadcrumbAnchor
+								href={item.href}
+								onClick={handleClick(item)}
+								className="breadcrumb-anchor"
+							>
 								{item.text || ''}
 							</BreadcrumbAnchor>
 						)}

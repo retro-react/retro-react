@@ -11,8 +11,7 @@ type Story = StoryObj<typeof WordArt>;
 
 export const Basic: Story = {
 	args: {
-		children:
-			"Life moves pretty fast. If you don't stop and look around once in a while, you could miss it.",
+		children: "Life moves pretty fast. Make sure you don't miss it.",
 		color: 'rainbow',
 		artStyle: 'curved',
 	},

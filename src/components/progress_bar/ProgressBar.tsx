@@ -19,6 +19,12 @@ export interface ProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
 	 */
 	color?: string;
 	/**
+	 * The background color of the Progress Bar.
+	 *
+	 * @default 'white'
+	 */
+	colorBg?: string;
+	/**
 	 * The pattern of the Progress Bar.
 	 *
 	 * @default 'stripes'
@@ -36,12 +42,22 @@ export interface ProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
  */
 export const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
 	(
-		{ id, className, value = 0, color, pattern = 'noise', sx, ...rest },
+		{
+			id,
+			className,
+			value = 0,
+			color,
+			colorBg,
+			pattern = 'noise',
+			sx,
+			...rest
+		},
 		ref,
 	) => {
 		return (
 			<Sc.ProgressBarWrapper>
 				<Sc.ProgressBar
+					$bg={colorBg}
 					$value={value}
 					$color={color}
 					$pattern={pattern}

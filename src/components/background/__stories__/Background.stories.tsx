@@ -19,7 +19,7 @@ export const Basic: Story = {
 			'https://www.nasa.gov/sites/default/files/styles/full_width_feature/public/thumbnails/image/hubble_acos520_potw2317a.jpg',
 		backgroundRepeat: 'repeat',
 		backgroundSize: 'cover',
-		backgroundPosition: 'center',
+		backgroundPosition: 'center center',
 	},
 	render: (args) => {
 		const textSx = {

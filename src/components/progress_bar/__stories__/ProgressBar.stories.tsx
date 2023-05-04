@@ -5,6 +5,9 @@ import { ProgressBar } from '../index';
 export default {
 	title: 'Components/ProgressBar',
 	component: ProgressBar,
+	argTypes: {
+		colorBg: { control: 'color' },
+	},
 } as ComponentMeta<typeof ProgressBar>;
 
 /**

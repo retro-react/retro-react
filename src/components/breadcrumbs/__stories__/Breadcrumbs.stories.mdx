@@ -1,0 +1,43 @@
+import { Heading, Markdown, Meta, Source, Title } from '@storybook/addon-docs';
+
+<Meta title="CSS/Breadcrumbs" />
+
+## Breadcrumbs CSS
+
+<Markdown>
+{`
+Class names are used to style elements. They are also used to select elements in JavaScript.
+Use with __sx__ prop or __makeStyles__ function.
+
+| Class name          | Description                                        |
+| ------------------- | -------------------------------------------------- |
+| 'breadcrumbs-root'  | The root element of the breadcrumbs.               |
+| 'breadcrumb'        | The breadcrumb element itself.                     |
+| 'breadcrumb-active' | The active breadcrumb item.                        |
+| 'breadcrumb-anchor' | The anchor element for non-active breadcrumb item. |
+
+`}
+
+</Markdown>
+
+## Examples
+
+<Source
+	dark
+	language="tsx"
+	code={`
+    <Breadcrumbs
+      sx={{
+        '& .breadcrumbs-root': {
+          backgroundColor: 'red',
+          color: 'blue',
+        },
+      }}
+      items={[
+        { text: 'Home', href: '/' },
+        { text: 'About', href: '/about' },
+        { text: 'Contact', active: true },
+      ]}
+    />
+  `}
+/>

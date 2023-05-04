@@ -22,17 +22,42 @@ export interface BackgroundProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
 	 * The background repeat property of the Background.
 	 */
-	backgroundRepeat?: string;
+	backgroundRepeat?:
+		| 'repeat'
+		| 'no-repeat'
+		| 'repeat-x'
+		| 'repeat-y'
+		| 'inherit'
+		| 'initial'
+		| 'unset';
 
 	/**
 	 * The background size property of the Background.
 	 */
-	backgroundSize?: string;
+	backgroundSize?:
+		| 'auto'
+		| 'cover'
+		| 'contain'
+		| 'inherit'
+		| 'initial'
+		| 'unset';
 
 	/**
 	 * The background position property of the Background.
 	 */
-	backgroundPosition?: string;
+	backgroundPosition?:
+		| 'left top'
+		| 'left center'
+		| 'left bottom'
+		| 'right top'
+		| 'right center'
+		| 'right bottom'
+		| 'center top'
+		| 'center center'
+		| 'center bottom'
+		| 'inherit'
+		| 'initial'
+		| 'unset';
 
 	sx?: any;
 }

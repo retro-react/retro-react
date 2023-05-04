@@ -32,7 +32,7 @@ export const TooltipContent = styled.div<TooltipContentProps>`
 	background-color: ${({ $color }) => selectColorStyles[$color] || $color};
 	color: white;
 	text-align: center;
-	font-family: 'Fraunces', Courier, monospace;
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	padding: 0.5rem;
 	border: 1px solid black;
 	border-radius: 4px;
