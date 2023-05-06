@@ -7,6 +7,7 @@ import {
 	SECONDARY,
 	SUCCESS,
 	WARN,
+	WHITE,
 } from '@src/constants/colors';
 import { SHADOWS } from '@src/constants/shadows';
 import { SelectColor, SelectSize } from './Select';
@@ -41,7 +42,7 @@ export const Label = styled.label<{
 }>`
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	font-size: ${(props) => sizeStyles[props.$size]};
-	color: #fff;
+	color: ${WHITE};
 	position: absolute;
 	top: -1rem;
 	left: 0.75rem;
@@ -79,7 +80,7 @@ export const Select = styled.select<{
 }>`
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	font-size: ${(props) => sizeStyles[props.$size]};
-	color: #fff;
+	color: ${WHITE};
 	background-color: ${(props) => selectColorStyles[props.$color]};
 	background-image: ${(props) => `linear-gradient(
 			${rgba(selectColorStyles[props.$color], 0.8)},
@@ -99,7 +100,7 @@ export const Select = styled.select<{
 
 	option {
 		font-family: 'Trebuchet MS', Helvetica, sans-serif;
-		background-color: #fff;
+		background-color: ${WHITE};
 		color: ${(props) => selectColorStyles[props.$color]};
 		text-shadow: ${SHADOWS.text[0]};
 	}

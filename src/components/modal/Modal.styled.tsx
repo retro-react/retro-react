@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { alterColorEnhanced } from '@src/utils/alterColor';
+import getColorScheme, { ComponentColors } from '@src/utils/getColorScheme';
 import {
 	ComponentPatterns,
 	getPatternScheme,
@@ -9,12 +10,12 @@ import { SCREEN_XM } from '@src/constants/breakpoints';
 import { BLACK } from '@src/constants/colors';
 
 export const Modal = styled.div<{
-	$color: string;
+	$color: ComponentColors | string;
 	$open: boolean;
 	$pattern: ComponentPatterns;
 	$backdrop: boolean;
 }>`
-	background-color: ${(props) => props.$color};
+	background-color: ${(props) => getColorScheme(props.$color) || props.$color};
 	box-shadow: inset 1px 1px 5px ${rgba(BLACK, 0.3)},
 		inset -1px -1px 2px rgba(255, 255, 255, 0.2);
 	padding: 1rem;
@@ -34,14 +35,15 @@ export const Modal = styled.div<{
 	${(props) => {
 		const gradient = `
 			linear-gradient(
-				${rgba(props.$color, 0.4)},
-				${rgba(props.$color, 0.4)}
+				${rgba(getColorScheme(props.$color) || props.$color, 0.4)},
+				${rgba(getColorScheme(props.$color) || props.$color, 0.4)}
 			),
 			url(${getPatternScheme(props.$pattern)})
 		`;
 
 		return `
 			background-image: ${gradient};
+			background-position: center;
 		`;
 	}}
 
@@ -94,7 +96,8 @@ export const CloseButton = styled.button<{
 		left: 50%;
 		width: 1.5rem;
 		height: 0.2rem;
-		background-color: ${(props) => alterColorEnhanced(props.$color, 100)};
+		background-color: ${(props) =>
+			alterColorEnhanced(getColorScheme(props.$color) || props.$color, 100)};
 		transform: translate(-50%, -50%) rotate(45deg);
 	}
 

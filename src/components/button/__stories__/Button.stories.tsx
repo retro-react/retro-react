@@ -28,6 +28,7 @@ Primary.args = {
 	onClick: action('clicked'),
 	children: 'Primary Button',
 	variant: 'solid',
+	color: 'primary',
 };
 
 export const Secondary = Template.bind({});

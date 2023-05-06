@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import getColorScheme from '@src/utils/getColorScheme';
 import {
 	ComponentPatterns,
 	getPatternScheme,
@@ -6,18 +7,19 @@ import {
 import { rgba } from '@src/utils/rgba';
 
 export const Card = styled.div<{ $pattern: ComponentPatterns; $color: string }>`
-	background-color: ${(props) => props.$color};
+	background-color: ${(props) => getColorScheme(props.$color) || props.$color};
 	background-image: ${(props) => `
 linear-gradient(
-	${rgba(props.$color, 0.4)},
-	${rgba(props.$color, 0.4)}
+	${rgba(getColorScheme(props.$color) || props.$color, 0.7)},
+	${rgba(getColorScheme(props.$color) || props.$color, 0.7)}
 ), url(${getPatternScheme(props.$pattern)})
 `};
+	filter: brightness(1.3);
 	box-shadow: inset 1px 1px 5px rgba(0, 0, 0, 0.3),
 		inset -1px -1px 2px rgba(255, 255, 255, 0.2),
 		inset 1px 1px 10px rgba(0, 0, 0, 0.2),
 		inset -1px -1px 10px rgba(255, 255, 255, 0.2);
-	border: 3px outset ${(props) => props.$color};
+	border: 3px outset ${(props) => getColorScheme(props.$color) || props.$color};
 	border-radius: 0.5rem;
 	padding: 1rem;
 	font-family: 'Comic Sans MS', sans-serif;

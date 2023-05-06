@@ -25,11 +25,12 @@ export interface ChipProps extends React.HTMLAttributes<HTMLDivElement> {
  * </Chip>
  */
 export const Chip = forwardRef<HTMLDivElement, ChipProps>(
-	({ id, className, color = 'primary', children, sx, ...rest }) => {
+	({ id, className, color = 'primary', children, sx, ...rest }, ref) => {
 		return (
 			<Sc.Chip
 				id={id}
 				sx={sx}
+				ref={ref}
 				$color={color}
 				className={classNames('chip-root', className, commonClassNames)}
 				{...rest}

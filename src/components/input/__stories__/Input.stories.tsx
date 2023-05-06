@@ -6,6 +6,12 @@ import { Input } from '../index';
 export default {
 	title: 'Components/Input',
 	component: Input,
+	argTypes: {
+		size: {
+			options: ['small', 'medium'],
+			control: { type: 'radio' },
+		},
+	},
 } as ComponentMeta<typeof Input>;
 
 /**
@@ -27,5 +33,9 @@ export const Default = Template.bind({});
 Default.args = {
 	placeholder: 'Placeholder',
 	onChange: action('onChange'),
-	variant: 'filled',
+	variant: 'outlined',
+	color: 'primary',
+	size: 'medium',
+	rounded: false,
+	sx: { width: '250px' },
 };

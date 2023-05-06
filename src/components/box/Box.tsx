@@ -1,17 +1,18 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
+import { ComponentColors } from '@src/utils/getColorScheme';
 import { ComponentPatterns } from '@src/utils/getPatternScheme';
 import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Box.styled';
 
 export interface BoxProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
-	 * The background of the Box.
+	 * The background of the Box. Accepts library colors or hex colors.
 	 *
-	 * @default 'darkseagreen'
+	 * @default 'primary'
 	 */
-	color?: string;
+	color?: ComponentColors | string;
 	/**
 	 * The pattern of the Box.
 	 *
@@ -37,7 +38,7 @@ export const Box = forwardRef<HTMLDivElement, BoxProps>(
 			id,
 			className,
 			children,
-			color = 'darkseagreen',
+			color = 'primary',
 			pattern = 'noise',
 			sx,
 			...rest

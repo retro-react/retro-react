@@ -3,7 +3,7 @@
 [![npm version](https://badge.fury.io/js/retro-react.svg)](https://www.npmjs.com/package/retro-react)
 [![npm license](https://img.shields.io/npm/l/retro-react.svg)](https://www.npmjs.com/package/retro-react)
 
-React Retro UI Library is a retro-themed UI library for React that offers a unique set of over 20 components to help you effortlessly build nostalgic user interfaces. The library includes components such as buttons, containers, inputs, boxes, cards, text, modals, progress bars, chips, and alerts, among others. Additional components can be found in the demo.
+React Retro UI Library is a retro-themed UI library for React that offers a unique set of over 20 components to help you effortlessly build nostalgic user interfaces. The library includes components such as buttons, containers, inputs, boxes, cards, text, modals, progress bars, chips, and alerts, among others. There are also some unique components such as the `MouseTrail` component, which creates a trail of mouse cursors that follow the user's mouse movements, `PixelatedImage`, which pixelates an image, and many more. Additional components can be found in the demo.
 
 The library is continuously being updated with new components and features. Suggestions are always welcome, so feel free to open an issue [here](https://github.com/retro-react/retro-react). Stay tuned for frequent updates!
 

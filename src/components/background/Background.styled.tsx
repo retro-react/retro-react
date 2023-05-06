@@ -16,7 +16,7 @@ export const Background = styled.div<{
 	background-position: ${({ $backgroundPosition }) => $backgroundPosition};
 	background-attachment: fixed;
 	width: 100%;
-	min-height: 100%;
+	height: 100%;
 
 	position: absolute;
 	top: 0;

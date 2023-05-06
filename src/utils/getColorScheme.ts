@@ -13,7 +13,15 @@ export type ComponentColors =
 	| 'error'
 	| 'warn';
 
-function getColorScheme(color: ComponentColors) {
+export const colorOptions = [
+	'primary',
+	'secondary',
+	'success',
+	'error',
+	'warn',
+];
+
+function getColorScheme(color: ComponentColors | string) {
 	switch (color) {
 		case 'error':
 			return ERROR;

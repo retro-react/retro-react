@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { alterColor, alterColorEnhanced } from '@src/utils/alterColor';
+import { alterColorEnhanced } from '@src/utils/alterColor';
 import { getPatternScheme } from '@src/utils/getPatternScheme';
 import { rgba } from '@src/utils/rgba';
 import {
@@ -38,11 +38,11 @@ export function getTheme(color: ButtonColor, variant: ButtonVariant) {
 				border: 1px solid ${colorScheme};
 				&:hover:not([disabled]) {
 					background-color: ${rgba(colorScheme, 0.15)};
-					border-color: ${alterColor(colorScheme)};
+					border-color: ${alterColorEnhanced(colorScheme, 50)};
 				}
 				&:active:not([disabled]) {
 					background-color: ${rgba(colorScheme, 0.25)};
-					border-color: ${alterColor(colorScheme)};
+					border-color: ${alterColorEnhanced(colorScheme, 50)};
 				}
 			`;
 		case 'text':

@@ -1,6 +1,7 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
+import { ComponentColors } from '@src/utils/getColorScheme';
 import { ComponentPatterns } from '@src/utils/getPatternScheme';
 import commonClassNames from '@src/constants/commonClassNames';
 import { Portal } from '../portal/Portal';
@@ -8,11 +9,11 @@ import * as Sc from './Modal.styled';
 
 export interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
-	 * The hex color background of the Modal.
+	 * The library colors or hex color for background of the Modal.
 	 *
-	 * @default '#8fbc8f'
+	 * @default 'primary'
 	 */
-	color?: string;
+	color?: ComponentColors | string;
 	/**
 	 * Whether the Modal is open or not.
 	 *
@@ -60,7 +61,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
 			children,
 			open = false,
 			onClose,
-			color = '#8fbc8f',
+			color = 'primary',
 			pattern = 'noise',
 			backdrop = false,
 			...rest

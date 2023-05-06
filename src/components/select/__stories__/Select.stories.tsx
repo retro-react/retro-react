@@ -11,15 +11,18 @@ export default {
 	argTypes: {
 		color: {
 			control: {
-				type: 'select',
+				type: 'radio',
 				options: ['primary', 'secondary', 'success', 'error', 'warn'],
 			},
 		},
 		size: {
 			control: {
-				type: 'select',
+				type: 'radio',
 				options: ['small', 'medium', 'large'],
 			},
+		},
+		children: {
+			control: false,
 		},
 	},
 } as ComponentMeta<typeof Select>;

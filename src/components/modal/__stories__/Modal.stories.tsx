@@ -3,12 +3,19 @@ import { ComponentMeta, ComponentStory } from '@storybook/react';
 import React from 'react';
 import { Button } from '@src/components/button';
 import { Text } from '@src/components/text';
+import { colorOptions } from '@src/utils/getColorScheme';
 import { Modal } from '../index';
 
 // https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
 	title: 'Components/Modal',
 	component: Modal,
+	argTypes: {
+		color: {
+			options: colorOptions,
+			control: { type: 'radio' },
+		},
+	},
 } as ComponentMeta<typeof Modal>;
 
 /**
@@ -66,7 +73,7 @@ Basic.args = {
 			</Text>
 		</>
 	),
-	color: '#8fbc8f',
+	color: 'primary',
 
 	// @ts-ignore
 	sx: {

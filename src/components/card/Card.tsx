@@ -1,21 +1,22 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { classNames } from '@src/utils/classNames';
+import { ComponentColors } from '@src/utils/getColorScheme';
 import { ComponentPatterns } from '@src/utils/getPatternScheme';
 import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Card.styled';
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
-	 * The hex color background of the Card.
+	 * The library colors or hex color for background of the Card.
 	 *
-	 * @default '#8fbc8f'
+	 * @default 'primary'
 	 */
-	color?: string;
+	color?: ComponentColors | string;
 	/**
 	 * The pattern of the Card.
 	 *
-	 * @default 'stripes'
+	 * @default 'noise'
 	 */
 	pattern?: ComponentPatterns;
 	/**
@@ -59,8 +60,8 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
 			header,
 			image,
 			footer,
-			color = '#8fbc8f',
-			pattern = 'stripes',
+			color = 'primary',
+			pattern = 'noise',
 			...rest
 		},
 		ref,

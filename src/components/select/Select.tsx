@@ -52,16 +52,19 @@ export interface SelectProps extends React.HTMLAttributes<HTMLSelectElement> {
  * </Select>
  */
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(
-	({
-		id,
-		className,
-		color = 'primary',
-		size = 'medium',
-		sx,
-		label,
-		children,
-		...rest
-	}) => {
+	(
+		{
+			id,
+			className,
+			color = 'primary',
+			size = 'medium',
+			sx,
+			label,
+			children,
+			...rest
+		},
+		ref,
+	) => {
 		return (
 			<Sc.SelectWrapper
 				$color={color}
@@ -80,6 +83,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
 				)}
 				<Sc.Select
 					id={id}
+					ref={ref}
 					$color={color}
 					$size={size}
 					className="select-input"
