@@ -14,7 +14,7 @@ export const Basic: Story = {
 	args: {
 		particleSize: 5,
 		particleColor: 'rainbow',
-		offset: { x: 5, y: 15 },
+		offset: { x: 0, y: 0 },
 	},
 	render: (args) => (
 		<Container
@@ -22,6 +22,7 @@ export const Basic: Story = {
 				height: '500px',
 				width: '500px',
 				border: '1px solid black',
+				position: 'relative',
 			}}
 		>
 			<MouseTrail {...args} />

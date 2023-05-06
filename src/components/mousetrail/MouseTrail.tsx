@@ -22,7 +22,7 @@ interface MouseTrailProps extends React.HTMLAttributes<HTMLDivElement> {
 	particleColor?: ColorGradients;
 	/**
 	 * The offset of the particles from the mouse cursor.
-	 * For example, if you want the particles to be at the bottom of the cursor, set offsetY to 15 and offsetX to 5.
+	 * For example, if you want the particles to be at the bottom of the standard cursor, set offsetY to 15 and offsetX to 5.
 	 *
 	 * @default { x: 0, y: 0 }
 	 */
@@ -50,7 +50,8 @@ interface Star {
 /**
  * A component that renders a trail of particles that follow the mouse cursor around the screen when the mouse is moved.
  * Will render only inside of a container where the component is placed. For entire screen coverage, place inside of a root container.
- * Make sure to set the container to position: relative.
+ *
+ * `IMPORTANT:` Make sure to set the parent container to `position: relative`.
  *
  */
 export const MouseTrail = forwardRef<MouseTrailRef, MouseTrailProps>(
@@ -175,11 +176,14 @@ export const MouseTrail = forwardRef<MouseTrailRef, MouseTrailProps>(
 				className={classNames('mouse-trail-root', className)}
 				ref={containerRef}
 				style={{
-					position: 'relative',
+					position: 'absolute',
+					top: 0,
+					left: 0,
 					width: '100%',
 					height: '100%',
 					overflow: 'hidden',
 					pointerEvents: 'none',
+					zIndex: 9999,
 				}}
 			>
 				{stars.map((star, index) => (

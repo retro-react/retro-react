@@ -44,7 +44,8 @@ export const Basic: Story = {
 			<Container
 				sx={{
 					width: '100%',
-					height: '50vh',
+					height: '500px',
+					overflow: 'auto',
 				}}
 			>
 				<Background {...args}>

@@ -66,7 +66,6 @@ export interface BackgroundProps extends React.HTMLAttributes<HTMLDivElement> {
  * The Background component is used to display a background.
  * It can be used to display a background image or a background color.
  * It accepts `children` prop that will be displayed on top of the background.
- * If used together with other components, those components should be set to `position: relative`.
  * Background will take the full width and height of its parent.
  *
  * @example

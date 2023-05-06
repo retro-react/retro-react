@@ -8,6 +8,9 @@ const meta: Meta<typeof TypewriterText> = {
 		typingSpeed: {
 			control: false,
 		},
+		color: {
+			control: 'color',
+		},
 	},
 };
 

@@ -1,4 +1,5 @@
 /** @jsxImportSource theme-ui */
+import { Color } from '@src/types/color.types';
 import { forwardRef, useEffect, useRef, useState } from 'react';
 import { classNames } from '@src/utils/classNames';
 import { Text, TextProps } from '../text/index';
@@ -20,6 +21,12 @@ interface TypewriterTextProps extends Omit<TextProps, 'children'> {
 	 * @default false
 	 */
 	repeat?: boolean;
+	/**
+	 * The color of the text.
+	 *
+	 * @default '#000000'
+	 */
+	color?: Color;
 	sx?: any; // Add the sx prop
 }
 
