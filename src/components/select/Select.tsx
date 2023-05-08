@@ -1,5 +1,6 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
+import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Select.styled';
@@ -38,7 +39,7 @@ export interface SelectProps extends React.HTMLAttributes<HTMLSelectElement> {
 	 * @default undefined
 	 */
 	children?: React.ReactNode;
-	sx?: any;
+	sx?: ThemeUICSSObject;
 }
 
 /**

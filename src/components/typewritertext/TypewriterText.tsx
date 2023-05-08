@@ -1,6 +1,6 @@
 /** @jsxImportSource theme-ui */
-import { Color } from '@src/types/color.types';
-import { forwardRef, useEffect, useRef, useState } from 'react';
+import { CSSProperties, forwardRef, useEffect, useRef, useState } from 'react';
+import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import { Text, TextProps } from '../text/index';
 
@@ -26,8 +26,8 @@ interface TypewriterTextProps extends Omit<TextProps, 'children'> {
 	 *
 	 * @default '#000000'
 	 */
-	color?: Color;
-	sx?: any; // Add the sx prop
+	color?: CSSProperties['color'];
+	sx?: ThemeUICSSObject; // Add the sx prop
 }
 
 /**
@@ -38,16 +38,19 @@ interface TypewriterTextProps extends Omit<TextProps, 'children'> {
  * <TypewriterText text="Life is like a box of chocolates. You never know what you are going to get." />
  */
 export const TypewriterText = forwardRef<HTMLSpanElement, TypewriterTextProps>(
-	({
-		id,
-		className,
-		text,
-		typingSpeed = 100,
-		repeat,
-		color = '#000000',
-		sx,
-		...rest
-	}) => {
+	(
+		{
+			id,
+			className,
+			text,
+			typingSpeed = 100,
+			repeat,
+			color = '#000000',
+			sx,
+			...rest
+		},
+		ref,
+	) => {
 		const pauseDuration = 3000;
 		const [displayText, setDisplayText] = useState('');
 		const isMounted = useRef(false);

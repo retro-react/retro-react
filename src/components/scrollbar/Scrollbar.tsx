@@ -1,5 +1,6 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
+import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import { GlobalScrollbarStyles } from './GlobalScrollbarStyles';
 
@@ -18,7 +19,7 @@ export interface ScrollbarProps extends React.HTMLAttributes<HTMLElement> {
 	 */
 	theme?: ScrollbarColor;
 
-	sx?: any;
+	sx?: ThemeUICSSObject;
 }
 
 /**

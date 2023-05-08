@@ -5,7 +5,7 @@ import { rgba } from '@src/utils/rgba';
 import { PRIMARY, SECONDARY, SHADE_1, SUCCESS } from '@src/constants/colors';
 import { SwitchColor, SwitchSize, SwitchVariant } from './Switch';
 
-export const Switch = styled.label<{ $size: SwitchSize }>`
+export const Switch = styled.label<{ $size: SwitchSize; $disabled: boolean }>`
 	position: relative;
 	display: inline-block;
 
@@ -28,6 +28,12 @@ export const Switch = styled.label<{ $size: SwitchSize }>`
 					`;
 		}
 	}}
+
+	${({ $disabled }) =>
+		$disabled &&
+		`
+		cursor: not-allowed;
+	`}
 `;
 
 export const SwitchInput = styled.input`
@@ -40,6 +46,7 @@ export const SwitchSlider = styled.span<{
 	$variant: SwitchVariant;
 	$size: SwitchSize;
 	$color: SwitchColor;
+	$disabled: boolean;
 }>`
 	position: absolute;
 	cursor: pointer;
@@ -156,4 +163,13 @@ export const SwitchSlider = styled.span<{
 			}
 		}}
 	}
+
+	${({ $disabled }) =>
+		$disabled &&
+		`
+		cursor: not-allowed;
+		opacity: 0.8;
+		pointer-events: none;
+		filter: grayscale(0.5);
+	`}
 `;

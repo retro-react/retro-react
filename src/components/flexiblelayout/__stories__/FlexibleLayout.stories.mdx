@@ -1,0 +1,54 @@
+import { Heading, Markdown, Meta, Source, Title } from '@storybook/addon-docs';
+
+<Meta title="CSS/FlexibleLayout" />
+
+## FlexibleLayout CSS
+
+<Markdown>
+{`
+Class names are used to style elements. They are also used to select elements in JavaScript.
+You can directly target the elements or use these class names to style all elements of the same type.
+Use with __sx__ prop or __css__
+
+| Class name                      | Description                             |
+| ------------------------------- | --------------------------------------- |
+| 'flexible-layout-root'          | The root element of the FlexibleLayout. |
+| 'flexible-layout-header'        | The header section.                     |
+| 'flexible-layout-footer'        | The footer section.                     |
+| 'flexible-layout-sidebar-left'  | The left sidebar section.               |
+| 'flexible-layout-sidebar-right' | The right sidebar section.              |
+| 'flexible-layout-main-content'  | The main content section.               |
+| 'flexible-layout-child-cell'    | Common class for child elements.        |
+
+`}
+
+</Markdown>
+
+## Examples
+
+<Source
+	dark
+	language="tsx"
+	code={`
+    <FlexibleLayout
+      sx={{
+        '& .flexible-layout-header': {
+          backgroundColor: 'red',
+        },
+        '& .flexible-layout-footer': {
+          backgroundColor: 'blue',
+        },
+      }}
+    >
+      <LayoutHeader>
+        Header
+      </LayoutHeader>
+      <LayoutMain>
+        Main Content
+      </LayoutMain>
+      <LayoutFooter>
+        Footer
+      </LayoutFooter>
+    </FlexibleLayout>
+  `}
+/>

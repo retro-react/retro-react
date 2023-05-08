@@ -57,4 +57,16 @@ export const ProgressBar = styled.div<{
 		background-image: url(${(props) => getPatternScheme(props.$pattern)});
 		box-shadow: 1px 1px 2px ${rgba(BLACK, 0.5)};
 	}
+
+	${({ $bg }) =>
+		$bg === 'none' &&
+		`
+	box-shadow: none;
+	background: none;
+
+	&::before {
+		content: none;
+	}
+
+`}
 `;

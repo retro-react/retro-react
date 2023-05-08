@@ -1,6 +1,7 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import React from 'react';
+import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import commonClassNames from '@src/constants/commonClassNames';
 import {
@@ -53,7 +54,7 @@ export interface BreadcrumbsProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default undefined
 	 */
 	color?: string;
-	sx?: any;
+	sx?: ThemeUICSSObject;
 }
 
 /**

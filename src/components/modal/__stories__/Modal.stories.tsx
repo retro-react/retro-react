@@ -31,10 +31,7 @@ const Template: ComponentStory<typeof Modal> = (args) => {
 		setOpen(args.open);
 	}, [args.open]);
 
-	const handleOpen = (
-		e: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-		isOpen: boolean,
-	) => {
+	const handleOpen = (e: React.MouseEvent, isOpen: boolean) => {
 		updateArgs({ open: isOpen });
 	};
 

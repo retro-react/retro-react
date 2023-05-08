@@ -1,5 +1,6 @@
 /** @jsxImportSource theme-ui */
-import { forwardRef } from 'react';
+import { CSSProperties, forwardRef } from 'react';
+import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Text.styled';
@@ -25,20 +26,29 @@ export interface TextProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
 	 * The color of the Text.
 	 *
-	 * @default 'darkseagreen'
+	 * @default '#000000'
 	 */
-	color?: string;
+	color?: CSSProperties['color'];
 	/**
 	 * Add bevel effect to Text.
 	 *
 	 * @default false
 	 */
 	bevel?: boolean;
-	sx?: any;
+	/**
+	 * Add blink effect to Text.
+	 *
+	 * @default false
+	 */
+	blink?: boolean;
+	sx?: ThemeUICSSObject;
 }
 
 /**
- * Text with different variants. Used instead of HTML tags.
+ * Text with different variants. Used instead of HTML tags. Has bevel and blink effects.
+ * Responsive font sizes are used for all variants.
+ *
+ * You can target the `Text` component with the global class `.text-root` in order to change the font family.
  *
  * @example
  * <Text variant="h1">
@@ -51,17 +61,36 @@ export const Text = forwardRef<HTMLDivElement, TextProps>(
 			id,
 			className,
 			children,
-			color = 'darkseagreen',
+			color = '#000000',
 			variant = 'body1',
 			bevel = false,
+			blink = false,
 			sx,
 			...rest
 		},
 		ref,
 	) => {
+		const variantToElementMap: {
+			[key in TextVariant]: keyof JSX.IntrinsicElements;
+		} = {
+			h1: 'h1',
+			h2: 'h2',
+			h3: 'h3',
+			h4: 'h4',
+			h5: 'h5',
+			h6: 'h6',
+			body1: 'p',
+			body2: 'p',
+			paragraph: 'p',
+		};
+
+		const ElementType = variantToElementMap[variant];
+
 		return (
 			<Sc.Text
+				as={ElementType}
 				$bevel={bevel}
+				$blink={blink}
 				$color={color}
 				$variant={variant}
 				ref={ref}

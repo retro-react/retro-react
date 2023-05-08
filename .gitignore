@@ -17,3 +17,6 @@ yarn-error.log*
 
 coverage
 docs-build
+
+# tests
+*.tgz

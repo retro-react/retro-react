@@ -1,5 +1,6 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
+import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import commonClassNames from '@src/constants/commonClassNames';
 import { getWordArtColorOptions } from './themes';
@@ -34,7 +35,7 @@ export interface WordArtProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default 'primary'
 	 */
 	color?: WordArtColor;
-	sx?: any;
+	sx?: ThemeUICSSObject;
 }
 
 const handleWavyText = (text: string, color: WordArtColor) => {

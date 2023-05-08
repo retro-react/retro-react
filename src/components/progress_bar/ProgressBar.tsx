@@ -1,5 +1,6 @@
 /** @jsxImportSource theme-ui */
-import { forwardRef } from 'react';
+import { CSSProperties, forwardRef } from 'react';
+import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import { ComponentPatterns } from '@src/utils/getPatternScheme';
 import commonClassNames from '@src/constants/commonClassNames';
@@ -17,20 +18,21 @@ export interface ProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
 	 *
 	 * @default 'primary'
 	 */
-	color?: string;
+	color?: CSSProperties['color'];
 	/**
 	 * The background color of the Progress Bar.
+	 * Set to `none` to remove the background completely.
 	 *
 	 * @default 'white'
 	 */
-	colorBg?: string;
+	colorBg?: CSSProperties['color'] | 'none';
 	/**
 	 * The pattern of the Progress Bar.
 	 *
 	 * @default 'stripes'
 	 */
 	pattern?: ComponentPatterns;
-	sx?: any;
+	sx?: ThemeUICSSObject;
 }
 
 /**

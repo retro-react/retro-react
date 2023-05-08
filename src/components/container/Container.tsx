@@ -1,4 +1,5 @@
 /** @jsxImportSource theme-ui */
+import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Container.styled';
@@ -15,7 +16,7 @@ export interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
 	 *
 	 * @default undefined
 	 */
-	sx?: any;
+	sx?: ThemeUICSSObject;
 }
 
 /**

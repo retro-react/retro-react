@@ -14,7 +14,7 @@ type Story = StoryObj<typeof Background>;
 
 export const Basic: Story = {
 	args: {
-		color: '#000',
+		color: '#000000',
 		backgroundImage:
 			'https://www.nasa.gov/sites/default/files/styles/full_width_feature/public/thumbnails/image/hubble_acos520_potw2317a.jpg',
 		backgroundRepeat: 'repeat',

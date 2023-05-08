@@ -1,3 +1,4 @@
+import { action } from '@storybook/addon-actions';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { Alert } from '../index';
 
@@ -53,4 +54,9 @@ export const Default = Template.bind({});
 Default.args = {
 	title: 'Primary Alert',
 	children: 'The quick brown fox jumps over the lazy dog.',
+	showCloseButton: true,
+	onClose: action('onClose'),
+	sx: {
+		width: '300px',
+	},
 };

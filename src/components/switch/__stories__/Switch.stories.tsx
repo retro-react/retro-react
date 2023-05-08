@@ -34,4 +34,5 @@ Default.args = {
 	size: 'medium',
 	color: 'primary',
 	toggled: false,
+	disabled: false,
 };

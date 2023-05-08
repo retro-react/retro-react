@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { ThemeUICSSObject } from 'theme-ui';
 import {
 	ERROR,
 	PRIMARY,
@@ -20,7 +21,7 @@ interface TooltipContentProps {
 	$visible: boolean;
 	$color: string;
 	$position: 'top' | 'bottom' | 'left' | 'right';
-	sx?: any;
+	sx?: ThemeUICSSObject;
 }
 
 export const TooltipWrapper = styled.div`

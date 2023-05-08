@@ -1,5 +1,6 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
+import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import { ComponentColors } from '@src/utils/getColorScheme';
 import { ComponentPatterns } from '@src/utils/getPatternScheme';
@@ -19,7 +20,7 @@ export interface BoxProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default 'stripes'
 	 */
 	pattern?: ComponentPatterns;
-	sx?: any;
+	sx?: ThemeUICSSObject;
 }
 
 /**

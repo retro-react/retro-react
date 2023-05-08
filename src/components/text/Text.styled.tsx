@@ -1,7 +1,21 @@
+import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { TextVariant } from './Text';
 
+const blinkEffect = keyframes`
+	0% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+`;
+
 export const Text = styled.div<{
+	$blink: boolean;
 	$color: string;
 	$bevel: boolean;
 	$variant: TextVariant;
@@ -10,6 +24,15 @@ export const Text = styled.div<{
 	font-size: 1rem;
 	font-weight: 400;
 	color: ${(props) => props.$color};
+	margin: 0;
+	padding: 0;
+
+	${(props) =>
+		props.$blink
+			? css`
+					animation: ${blinkEffect} 1s linear infinite;
+			  `
+			: ''}
 
 	${(props) =>
 		props.$bevel

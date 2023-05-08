@@ -27,3 +27,6 @@ export * from './components/text';
 export * from './components/tooltip';
 export * from './components/typewritertext';
 export * from './components/wordart';
+export * from './components/flexiblelayout';
+export * from './components/starfield';
+export * from './components/tree';

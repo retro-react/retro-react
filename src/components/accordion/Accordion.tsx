@@ -1,6 +1,7 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import React from 'react';
+import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import { ComponentPatterns } from '@src/utils/getPatternScheme';
 import commonClassNames from '@src/constants/commonClassNames';
@@ -44,7 +45,7 @@ export interface AccordionProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default undefined
 	 */
 	sxHeader?: any;
-	sx?: any;
+	sx?: ThemeUICSSObject;
 }
 
 /**

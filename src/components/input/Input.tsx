@@ -1,5 +1,6 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
+import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import { ComponentColors } from '@src/utils/getColorScheme';
 import commonClassNames from '@src/constants/commonClassNames';
@@ -35,7 +36,7 @@ export interface InputProps extends OmitSizeInputHTMLAttributes {
 	 * @default 'small'
 	 */
 	size?: InputSizes;
-	sx?: any;
+	sx?: ThemeUICSSObject;
 }
 
 /**

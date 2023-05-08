@@ -1,5 +1,6 @@
 /** @jsxImportSource theme-ui */
 import { cloneElement, forwardRef, useEffect, useId, useState } from 'react';
+import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import { ComponentColors } from '@src/utils/getColorScheme';
 import { ComponentPatterns } from '@src/utils/getPatternScheme';
@@ -42,7 +43,7 @@ export interface TabsProps extends React.HTMLAttributes<HTMLDivElement> {
  * `Tab` is used to create the tab header, and `TabContent` is used to create the tab content.
  * Both components have to have the same label. The first tab is active by default.
  *
- * With `sx` prop you can use all the CSS properties of the theme if you want to customize the Tabs.
+ * The order of the `Tab` and `TabContent` components doesn't matter.
  *
  * @example
  * <Tabs>
@@ -165,7 +166,7 @@ export interface TabProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default 'noise'
 	 */
 	$pattern?: ComponentPatterns;
-	sx?: any;
+	sx?: ThemeUICSSObject;
 }
 
 export const Tab: React.FC<TabProps> = ({
@@ -217,7 +218,7 @@ export interface TabContentProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * The label of the tab. Has to match the label of the corresponding Tab.
 	 */
 	label: string;
-	sx?: any;
+	sx?: ThemeUICSSObject;
 }
 
 export const TabContent: React.FC<TabContentProps> = ({

@@ -7,6 +7,7 @@ import {
 	useEffect,
 	useState,
 } from 'react';
+import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import { ComponentColors } from '@src/utils/getColorScheme';
 import { ComponentPatterns } from '@src/utils/getPatternScheme';
@@ -51,7 +52,7 @@ export interface CarouselProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default undefined
 	 */
 	arrowImage?: string;
-	sx?: any;
+	sx?: ThemeUICSSObject;
 }
 
 /**

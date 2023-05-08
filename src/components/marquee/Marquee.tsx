@@ -1,5 +1,6 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
+import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Marquee.styled';
@@ -31,7 +32,7 @@ export interface MarqueeProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default '1rem'
 	 */
 	gap?: string;
-	sx?: any;
+	sx?: ThemeUICSSObject;
 }
 
 /**

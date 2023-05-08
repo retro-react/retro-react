@@ -1,5 +1,6 @@
 /** @jsxImportSource theme-ui */
 import React, { forwardRef } from 'react';
+import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import getColorScheme, { ComponentColors } from '@src/utils/getColorScheme';
 import { SevenSegmentDisplayContainer } from './SevenSegmentDisplay.styled';
@@ -30,7 +31,7 @@ interface SevenSegmentDisplayProps
 	 * @default 'medium'
 	 */
 	size?: 'small' | 'medium' | 'large';
-	sx?: any;
+	sx?: ThemeUICSSObject;
 }
 
 const segments = [

@@ -13,7 +13,14 @@ export const parameters = {
 	},
 	options: {
 		storySort: {
-			order: ['Overview', 'Components', 'CSS', ['General']],
+			order: [
+				'Overview',
+				'Layout',
+				'Components',
+				'Experimental',
+				'CSS',
+				['General'],
+			],
 		},
 	},
 };

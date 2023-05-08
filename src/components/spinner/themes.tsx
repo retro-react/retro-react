@@ -1,3 +1,4 @@
+import { alterColorEnhanced } from '@src/utils/alterColor';
 import { PRIMARY, SECONDARY } from '@src/constants/colors';
 import { SpinnerColor } from './Spinner';
 
@@ -43,9 +44,21 @@ export const getSpinnerColorOptions = (color: SpinnerColor): string[] => {
 				'#9900ff',
 			];
 		case 'primary':
-			return [PRIMARY, PRIMARY, PRIMARY];
+			return [
+				alterColorEnhanced(PRIMARY, -70),
+				alterColorEnhanced(PRIMARY, -40),
+				PRIMARY,
+				alterColorEnhanced(PRIMARY, 40),
+				alterColorEnhanced(PRIMARY, 70),
+			];
 		case 'secondary':
-			return [SECONDARY, SECONDARY, SECONDARY];
+			return [
+				alterColorEnhanced(SECONDARY, -70),
+				alterColorEnhanced(SECONDARY, -40),
+				SECONDARY,
+				alterColorEnhanced(SECONDARY, 40),
+				alterColorEnhanced(SECONDARY, 70),
+			];
 		default:
 			return [color, color, color];
 	}

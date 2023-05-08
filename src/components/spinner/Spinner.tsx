@@ -1,11 +1,13 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
+import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Spinner.styled';
 import { getSpinnerColorOptions } from './themes';
 
 export type SpinnerShape = 'circle' | 'square' | 'star' | 'diamond';
+export type SpinnerSize = 'small' | 'medium' | 'large';
 
 export type SpinnerColor =
 	| 'primary'
@@ -29,7 +31,13 @@ export interface SpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default 'circle'
 	 */
 	shape?: SpinnerShape;
-	sx?: any;
+	/**
+	 * The size of the spinner.
+	 *
+	 * @default 'medium'
+	 */
+	size?: SpinnerSize;
+	sx?: ThemeUICSSObject;
 }
 
 /**
@@ -47,6 +55,7 @@ export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
 			children,
 			color = 'primary',
 			shape = 'circle',
+			size = 'medium',
 			sx,
 			...rest
 		},
@@ -62,16 +71,21 @@ export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
 				sx={sx}
 			>
 				{shape === 'circle' && (
-					<Sc.CircleSpinner $colors={colors} {...rest} ref={ref} />
+					<Sc.CircleSpinner $colors={colors} $size={size} {...rest} ref={ref} />
 				)}
 				{shape === 'square' && (
-					<Sc.SquareSpinner $colors={colors} {...rest} ref={ref} />
+					<Sc.SquareSpinner $colors={colors} $size={size} {...rest} ref={ref} />
 				)}
 				{shape === 'star' && (
-					<Sc.StarSpinner $colors={colors} {...rest} ref={ref} />
+					<Sc.StarSpinner $colors={colors} $size={size} {...rest} ref={ref} />
 				)}
 				{shape === 'diamond' && (
-					<Sc.DiamondSpinner $colors={colors} {...rest} ref={ref} />
+					<Sc.DiamondSpinner
+						$colors={colors}
+						$size={size}
+						{...rest}
+						ref={ref}
+					/>
 				)}
 			</Sc.Wrapper>
 		);

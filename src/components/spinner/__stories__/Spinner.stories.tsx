@@ -28,6 +28,7 @@ export const CircleSpinner: Story = {
 	args: {
 		color: 'rainbow',
 		shape: 'circle',
+		size: 'medium',
 	},
 	render: renderSpinner,
 };
@@ -36,6 +37,7 @@ export const SquareSpinner: Story = {
 	args: {
 		color: 'primary',
 		shape: 'square',
+		size: 'medium',
 	},
 	render: renderSpinner,
 };
@@ -44,6 +46,7 @@ export const StarSpinner: Story = {
 	args: {
 		color: 'primary',
 		shape: 'star',
+		size: 'medium',
 	},
 	render: renderSpinner,
 };
@@ -52,6 +55,7 @@ export const DiamondSpinner: Story = {
 	args: {
 		color: 'primary',
 		shape: 'diamond',
+		size: 'medium',
 	},
 	render: renderSpinner,
 };

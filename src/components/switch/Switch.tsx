@@ -1,5 +1,6 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
+import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Switch.styled';
@@ -38,13 +39,19 @@ export interface SwitchProps
 	 */
 	toggled?: boolean;
 	/**
+	 * Is the Switch disabled?
+	 *
+	 * @default false
+	 */
+	disabled?: boolean;
+	/**
 	 *
 	 * The onChange event handler of the Switch.
 	 *
 	 * @default undefined
 	 */
 	onChange?: React.ChangeEventHandler<HTMLInputElement>;
-	sx?: any;
+	sx?: ThemeUICSSObject;
 }
 
 /**
@@ -62,6 +69,7 @@ export const Switch = forwardRef<HTMLLabelElement, SwitchProps>(
 			size = 'medium',
 			variant = 'rounded',
 			color = 'primary',
+			disabled = false,
 			toggled,
 			onChange,
 			...rest
@@ -74,6 +82,7 @@ export const Switch = forwardRef<HTMLLabelElement, SwitchProps>(
 				id={id}
 				sx={sx}
 				className={classNames('switch-root', className, commonClassNames)}
+				$disabled={disabled}
 				$size={size}
 				{...rest}
 			>
@@ -81,6 +90,7 @@ export const Switch = forwardRef<HTMLLabelElement, SwitchProps>(
 					type="checkbox"
 					checked={toggled}
 					onChange={onChange}
+					disabled={disabled}
 					className="switch-input"
 				/>
 				<Sc.SwitchSlider
@@ -88,6 +98,7 @@ export const Switch = forwardRef<HTMLLabelElement, SwitchProps>(
 					$variant={variant}
 					$color={color}
 					$size={size}
+					$disabled={disabled}
 				/>
 			</Sc.Switch>
 		);

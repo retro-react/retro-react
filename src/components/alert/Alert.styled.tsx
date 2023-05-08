@@ -59,3 +59,25 @@ export const Title = styled.div`
 	font-weight: 700;
 	margin-bottom: 0.2rem;
 `;
+
+export const CloseButton = styled.button<{ $icon: string }>`
+	position: absolute;
+	top: 0.2rem;
+	right: 0.2rem;
+	width: 1.5rem;
+	height: 1.5rem;
+	border: none;
+	border-radius: 50%;
+	cursor: pointer;
+
+	background-image: url(${({ $icon }) => $icon});
+	background-color: transparent;
+
+	&:hover {
+		transform: scale(1.1);
+	}
+
+	&:active {
+		transform: scale(0.9);
+	}
+`;

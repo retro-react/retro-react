@@ -7,6 +7,7 @@ export default {
 	component: ProgressBar,
 	argTypes: {
 		colorBg: { control: 'color' },
+		color: { control: 'color' },
 	},
 } as ComponentMeta<typeof ProgressBar>;
 

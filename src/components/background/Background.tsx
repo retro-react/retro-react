@@ -1,7 +1,8 @@
 // Background.tsx
 
 /** @jsxImportSource theme-ui */
-import { forwardRef } from 'react';
+import { CSSProperties, forwardRef } from 'react';
+import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Background.styled';
@@ -10,9 +11,9 @@ export interface BackgroundProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
 	 * The background color of the Background.
 	 *
-	 * @default 'darkseagreen'
+	 * @default '#000000'
 	 */
-	color: string;
+	color: CSSProperties['color'];
 
 	/**
 	 * The background image of the Background.
@@ -59,7 +60,7 @@ export interface BackgroundProps extends React.HTMLAttributes<HTMLDivElement> {
 		| 'initial'
 		| 'unset';
 
-	sx?: any;
+	sx?: ThemeUICSSObject;
 }
 
 /**
@@ -81,7 +82,7 @@ export const Background = forwardRef<HTMLDivElement, BackgroundProps>(
 			id,
 			className,
 			children,
-			color = 'darkseagreen',
+			color = '#000000',
 			backgroundImage,
 			backgroundRepeat,
 			backgroundSize,

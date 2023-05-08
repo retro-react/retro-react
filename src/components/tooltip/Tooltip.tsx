@@ -1,5 +1,6 @@
 /** @jsxImportSource theme-ui */
 import React from 'react';
+import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import commonClassNames from '@src/constants/commonClassNames';
 import { Portal } from '../portal/Portal';
@@ -46,7 +47,7 @@ export interface TooltipProps {
 	 * @default 0
 	 */
 	delay?: number;
-	sx?: any;
+	sx?: ThemeUICSSObject;
 }
 
 const setPosition = (

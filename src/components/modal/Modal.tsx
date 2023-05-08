@@ -1,5 +1,6 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
+import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import { ComponentColors } from '@src/utils/getColorScheme';
 import { ComponentPatterns } from '@src/utils/getPatternScheme';
@@ -41,7 +42,8 @@ export interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @param event The event source of the callback.
 	 * You can pull out the new value by accessing `event.target.value` (string).
 	 */
-	onClose?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+	onClose?: (event: React.MouseEvent) => void;
+	sx?: ThemeUICSSObject;
 }
 
 /**
@@ -64,13 +66,19 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
 			color = 'primary',
 			pattern = 'noise',
 			backdrop = false,
+			sx,
 			...rest
 		},
 		ref,
 	) => {
 		return (
 			<Portal>
-				{backdrop && <Sc.ModalBackdrop $open={open} />}
+				{backdrop && (
+					<Sc.ModalBackdrop
+						$open={open}
+						onClick={(e) => onClose && onClose(e)}
+					/>
+				)}
 				<Sc.Modal
 					$color={color}
 					$pattern={pattern}
@@ -78,6 +86,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
 					$open={open}
 					ref={ref}
 					id={id}
+					sx={sx}
 					className={classNames('modal-root', className, commonClassNames)}
 					{...rest}
 				>

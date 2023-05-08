@@ -1,5 +1,11 @@
 /** @jsxImportSource theme-ui */
-import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
+import {
+	CSSProperties,
+	forwardRef,
+	useEffect,
+	useImperativeHandle,
+	useRef,
+} from 'react';
 import { classNames } from '@src/utils/classNames';
 
 export interface PixelatedImageProps
@@ -29,6 +35,12 @@ export interface PixelatedImageProps
 	 * @default 600
 	 */
 	height?: number;
+	/**
+	 * The style of the image. Used instead of the `sx` prop.
+	 *
+	 * @default undefined
+	 */
+	style?: CSSProperties;
 }
 
 /**
@@ -47,10 +59,10 @@ export const PixelatedImage = forwardRef<
 			id,
 			className,
 			src,
-			alt,
 			blockSize = 20,
 			width = 600,
 			height = 600,
+			style,
 			...rest
 		},
 		ref,
@@ -91,6 +103,7 @@ export const PixelatedImage = forwardRef<
 				className={classNames('pixelated-image-root', className)}
 				width={width}
 				height={height}
+				style={style}
 				{...rest}
 			/>
 		);

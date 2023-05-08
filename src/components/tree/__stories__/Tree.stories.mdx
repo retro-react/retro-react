@@ -1,0 +1,42 @@
+import { Heading, Markdown, Meta, Source, Title } from '@storybook/addon-docs';
+
+<Meta title="CSS/Tree" />
+
+## Tree CSS
+
+<Markdown>
+{`
+Class names are used to style elements. They are also used to select elements in JavaScript.
+Use with __sx__ prop or __css__
+
+| Class name           | Description                            |
+| -------------------- | -------------------------------------- |
+| 'card-root'          | The root element of the card.          |
+| 'card-header'        | The header element of the card.        |
+| 'card-image-wrapper' | The image wrapper element of the card. |
+| 'card-image'         | The image element of the card.         |
+| 'card-content'       | The content element of the card.       |
+| 'card-footer'        | The footer element of the card.        |
+
+`}
+
+</Markdown>
+
+## Examples
+
+<Source
+	dark
+	language="tsx"
+	code={`
+    <Card 
+    sx={{
+      '& .card-root': {
+        backgroundColor: 'red',
+        color: 'blue',
+      },
+    }}
+    >
+    ...
+</Card>
+  `}
+/>

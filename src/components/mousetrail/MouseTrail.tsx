@@ -1,5 +1,6 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef, useEffect, useRef, useState } from 'react';
+import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import {
 	ColorGradients,
@@ -27,7 +28,7 @@ interface MouseTrailProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default { x: 0, y: 0 }
 	 */
 	offset?: { x: number; y: number };
-	sx?: any;
+	sx?: ThemeUICSSObject;
 }
 
 interface MouseTrailRef {
