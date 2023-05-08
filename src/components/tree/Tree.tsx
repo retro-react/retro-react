@@ -55,7 +55,7 @@ interface TreeProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
 	 * The main color of the tree.
 	 *
-	 * @default 'primary'
+	 * @default 'greyscale'
 	 */
 	color?: TreeColor;
 	/**
@@ -179,7 +179,7 @@ export const Tree = forwardRef<HTMLDivElement, TreeProps>(
 			sx,
 			className,
 			data,
-			color = 'primary',
+			color = 'greyscale',
 			defaultCollapsed = false,
 			...rest
 		},

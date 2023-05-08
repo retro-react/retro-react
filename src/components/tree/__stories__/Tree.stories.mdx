@@ -9,14 +9,15 @@ import { Heading, Markdown, Meta, Source, Title } from '@storybook/addon-docs';
 Class names are used to style elements. They are also used to select elements in JavaScript.
 Use with __sx__ prop or __css__
 
-| Class name           | Description                            |
-| -------------------- | -------------------------------------- |
-| 'card-root'          | The root element of the card.          |
-| 'card-header'        | The header element of the card.        |
-| 'card-image-wrapper' | The image wrapper element of the card. |
-| 'card-image'         | The image element of the card.         |
-| 'card-content'       | The content element of the card.       |
-| 'card-footer'        | The footer element of the card.        |
+| Class name            | Description                                       |
+| --------------------- | ------------------------------------------------- |
+| 'tree-root'           | The root element of the tree.                     |
+| 'tree-node'           | The tree node element.                            |
+| 'tree-node-label'     | The label element of the tree node.               |
+| 'tree-node-content'   | The content element of the tree node.             |
+| 'tree-node-container' | The container element of the tree node.           |
+| 'tree-node-children'  | The children container element of the tree node.  |
+| 'tree-expanded'       | The expanded state class for tree node container. |
 
 `}
 
@@ -27,16 +28,11 @@ Use with __sx__ prop or __css__
 <Source
 	dark
 	language="tsx"
-	code={`
-    <Card 
-    sx={{
-      '& .card-root': {
-        backgroundColor: 'red',
-        color: 'blue',
-      },
-    }}
-    >
-    ...
-</Card>
-  `}
+	code={`<Tree 
+  data={[ { label: 'Parent 1', content: <Text variant="paragraph">This is some content</Text>,  children: [...], }, ]} 
+  sx={{ 
+    '& .tree-node-label': { color: 'blue', fontSize: '1.2rem', }, 
+    '& .tree-node-content': { backgroundColor: 'red', }, 
+    }} 
+/>`}
 />

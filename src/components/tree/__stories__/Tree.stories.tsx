@@ -12,7 +12,7 @@ type Story = StoryObj<typeof Tree>;
 
 export const Basic: Story = {
 	args: {
-		color: 'primary',
+		color: 'greyscale',
 		defaultCollapsed: false,
 		data: [
 			{
