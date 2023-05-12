@@ -1,24 +1,10 @@
 import styled from '@emotion/styled';
+import getColorScheme from '@src/utils/getColorScheme';
 import { getPatternScheme } from '@src/utils/getPatternScheme';
 import { rgba } from '@src/utils/rgba';
-import {
-	ERROR,
-	PRIMARY,
-	SECONDARY,
-	SUCCESS,
-	WARN,
-	WHITE,
-} from '@src/constants/colors';
+import { WHITE } from '@src/constants/colors';
 import { SHADOWS } from '@src/constants/shadows';
 import { SelectColor, SelectSize } from './Select';
-
-const selectColorStyles = {
-	primary: PRIMARY,
-	secondary: SECONDARY,
-	success: SUCCESS,
-	error: ERROR,
-	warn: WARN,
-};
 
 const sizeStyles = {
 	small: '1.2rem',
@@ -48,7 +34,7 @@ export const Label = styled.label<{
 	left: 0.75rem;
 	background: url(${getPatternScheme('noise')});
 	filter: contrast(120%) brightness(100%);
-	background-color: ${(props) => selectColorStyles[props.$color]};
+	background-color: ${(props) => getColorScheme(props.$color, props.theme)};
 	background-size: 100%;
 	background-repeat: repeat;
 	padding: 0 0.65rem;
@@ -81,10 +67,10 @@ export const Select = styled.select<{
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	font-size: ${(props) => sizeStyles[props.$size]};
 	color: ${WHITE};
-	background-color: ${(props) => selectColorStyles[props.$color]};
+	background-color: ${(props) => getColorScheme(props.$color, props.theme)};
 	background-image: ${(props) => `linear-gradient(
-			${rgba(selectColorStyles[props.$color], 0.8)},
-			${rgba(selectColorStyles[props.$color], 0.8)}
+			${rgba(getColorScheme(props.$color, props.theme), 0.8)},
+			${rgba(getColorScheme(props.$color, props.theme), 0.8)}
 		),
 		url(${getPatternScheme('stripes')})`};
 	padding: 0.5rem 1rem;
@@ -95,13 +81,14 @@ export const Select = styled.select<{
 
 	&:focus {
 		outline: none;
-		box-shadow: 0 0 0.1rem 0.1rem ${(props) => selectColorStyles[props.$color]};
+		box-shadow: 0 0 0.1rem 0.1rem
+			${(props) => getColorScheme(props.$color, props.theme)};
 	}
 
 	option {
 		font-family: 'Trebuchet MS', Helvetica, sans-serif;
 		background-color: ${WHITE};
-		color: ${(props) => selectColorStyles[props.$color]};
+		color: ${(props) => getColorScheme(props.$color, props.theme)};
 		text-shadow: ${SHADOWS.text[0]};
 	}
 `;

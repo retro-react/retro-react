@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
 import { alterColor } from '@src/utils/alterColor';
+import getColorScheme from '@src/utils/getColorScheme';
 import { getPatternScheme } from '@src/utils/getPatternScheme';
 import { rgba } from '@src/utils/rgba';
-import { PRIMARY, SECONDARY, SHADE_1, SUCCESS } from '@src/constants/colors';
+import { BLACK, SHADE_1, WHITE } from '@src/constants/colors';
 import { SwitchColor, SwitchSize, SwitchVariant } from './Switch';
 
 export const Switch = styled.label<{ $size: SwitchSize; $disabled: boolean }>`
@@ -56,14 +57,14 @@ export const SwitchSlider = styled.span<{
 	bottom: 0;
 	border-radius: ${({ $variant }) => ($variant === 'rounded' ? '34px' : '4px')};
 
-	${({ $color }) => {
+	${({ $color, theme }) => {
 		switch ($color) {
 			case 'primary':
 				return `
 				background: linear-gradient(
 					to right,
-					${rgba(alterColor(PRIMARY), 0.8)} 0%,
-					${rgba(PRIMARY, 0.8)} 100%
+					${rgba(alterColor(getColorScheme('primary', theme)), 0.8)} 0%,
+					${rgba(getColorScheme('primary', theme), 0.8)} 100%
 				), url(${getPatternScheme('dots')}
 				);
 					`;
@@ -71,8 +72,8 @@ export const SwitchSlider = styled.span<{
 				return `
 				background: linear-gradient(
 					to right,
-					${rgba(alterColor(SECONDARY), 0.8)} 0%,
-					${rgba(SECONDARY, 0.8)} 100%
+					${rgba(alterColor(getColorScheme('secondary', theme)), 0.8)} 0%,
+					${rgba(getColorScheme('secondary', theme), 0.8)} 100%
 				), url(${getPatternScheme('dots')}
 				);
 					`;
@@ -93,7 +94,7 @@ export const SwitchSlider = styled.span<{
 		border-radius: ${({ $variant }) =>
 			$variant === 'rounded' ? '50%' : '4px'};
 
-		box-shadow: inset 1px 1px 2px #000000, inset -1px -1px 2px #ffffff;
+		box-shadow: inset 1px 1px 2px ${BLACK}, inset -1px -1px 2px ${WHITE};
 		${({ $size }) => {
 			switch ($size) {
 				case 'small':
@@ -116,22 +117,22 @@ export const SwitchSlider = styled.span<{
 	}
 
 	input:checked + & {
-		background-color: ${SUCCESS};
+		background-color: ${({ theme }) => getColorScheme('success', theme)};
 	}
 
 	input:focus + & {
-		box-shadow: 0 0 1px ${PRIMARY};
+		box-shadow: ${({ theme }) => `0 0 1px ${getColorScheme('primary', theme)}`};
 	}
 
 	input:checked + &:before {
-		${({ $color }) => {
+		${({ $color, theme }) => {
 			switch ($color) {
 				case 'primary':
 					return `
 						background: linear-gradient(
 							45deg,
-							${alterColor(PRIMARY)} 0%,
-							${PRIMARY} 100%
+							${alterColor(getColorScheme('primary', theme))} 0%,
+							${getColorScheme('primary', theme)} 100%
 						);
 							filter: saturate(2.5);
 							`;
@@ -139,8 +140,8 @@ export const SwitchSlider = styled.span<{
 					return `
 						background: linear-gradient(
 							45deg,
-							${alterColor(SECONDARY)} 0%,
-							${SECONDARY} 100%
+							${alterColor(getColorScheme('secondary', theme))} 0%,
+							${getColorScheme('secondary', theme)} 100%
 						);
 						filter: saturate(2.0);
 							`;

@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
 import { alterColorEnhanced } from '@src/utils/alterColor';
+import getColorScheme from '@src/utils/getColorScheme';
 import { getPatternScheme } from '@src/utils/getPatternScheme';
 import { BLACK } from '@src/constants/colors';
 import type { CheckboxColor } from './Checkbox';
-import { getColorScheme } from './themes';
 
 export const Checkbox = styled.input<{
 	$color: CheckboxColor;
@@ -26,13 +26,14 @@ export const Checkbox = styled.input<{
 
 	background-image: linear-gradient(
 			to bottom,
-			${(props) => alterColorEnhanced(getColorScheme(props.$color), -20)},
-			${(props) => getColorScheme(props.$color)}
+			${(props) =>
+				alterColorEnhanced(getColorScheme(props.$color, props.theme), -20)},
+			${(props) => getColorScheme(props.$color, props.theme)}
 		),
 		url(${getPatternScheme('noise')});
 
 	box-shadow: inset 1px 1px 2px ${BLACK} inset -1px -1px 2px
-		${(props) => getColorScheme(props.$color)};
+		${(props) => getColorScheme(props.$color, props.theme)};
 
 	&::before {
 		content: '';
@@ -43,10 +44,10 @@ export const Checkbox = styled.input<{
 		height: 1rem;
 		border-radius: 50%;
 		background-color: ${(props) =>
-			alterColorEnhanced(getColorScheme(props.$color), 75)};
+			alterColorEnhanced(getColorScheme(props.$color, props.theme), 75)};
 
 		box-shadow: inset 1px 1px 12px ${BLACK} inset -1px -1px 10px
-			${(props) => getColorScheme(props.$color)};
+			${(props) => getColorScheme(props.$color, props.theme)};
 		opacity: 0;
 		transition: opacity 0.2s ease-in-out;
 	}

@@ -13,7 +13,7 @@ export const CarouselWrapper = styled.div<{
 	position: relative;
 	overflow: hidden;
 	background-image: ${(props) => `url(${getPatternScheme(props.$pattern)})`};
-	background-color: ${({ $color }) => getColorScheme($color)};
+	background-color: ${({ $color, theme }) => getColorScheme($color, theme)};
 	display: flex;
 	min-height: 0;
 	padding: 1rem;
@@ -69,6 +69,7 @@ export const CarouselButtonIcon = styled.img<{
 			props.$position === 'left' ? 'rotate(180deg) scale(0.8)' : 'scale(0.8)'};
 	}
 
-	background-color: ${(props) => rgba(getColorScheme(props.$color), 0.5)};
+	background-color: ${(props) =>
+		rgba(getColorScheme(props.$color, props.theme), 0.5)};
 	border-radius: 50%;
 `;

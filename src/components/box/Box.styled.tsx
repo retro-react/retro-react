@@ -12,7 +12,8 @@ export const Box = styled.div<{
 	$pattern: ComponentPatterns;
 }>`
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
-	background-color: ${(props) => getColorScheme(props.$color) || props.$color};
+	background-color: ${(props) =>
+		getColorScheme(props.$color, props.theme) || props.$color};
 	position: relative;
 	padding: 1rem;
 	border-radius: 0;

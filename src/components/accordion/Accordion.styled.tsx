@@ -36,7 +36,9 @@ export const AccordionHeader = styled.button<{
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	background-color: ${(props) => accordionColorStyles[props.$color]};
+	background-color: ${(props) =>
+		(props.theme.colors && props.theme.colors[props.$color]) ||
+		accordionColorStyles[props.$color]};
 	text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
 	padding: 0.5rem;
 	font-size: 1rem;
@@ -49,8 +51,16 @@ export const AccordionHeader = styled.button<{
 	${(props) => {
 		const gradient = `
       linear-gradient(
-        ${rgba(accordionColorStyles[props.$color], 0.4)},
-        ${rgba(accordionColorStyles[props.$color], 0.4)}
+        ${rgba(
+					(props.theme.colors && props.theme.colors[props.$color]) ||
+						accordionColorStyles[props.$color],
+					0.4,
+				)},
+        ${rgba(
+					(props.theme.colors && props.theme.colors[props.$color]) ||
+						accordionColorStyles[props.$color],
+					0.4,
+				)}
       ),
 			url(${getPatternScheme(props.$pattern)})
     `;
@@ -87,11 +97,27 @@ export const AccordionContent = styled.div<{
 	maxHeight: string;
 }>`
 	background: linear-gradient(
-			${(props) => rgba(accordionColorStyles[props.$color], 0.1)},
-			${(props) => rgba(accordionColorStyles[props.$color], 0.1)}
+			${(props) =>
+				rgba(
+					(props.theme.colors && props.theme.colors[props.$color]) ||
+						accordionColorStyles[props.$color],
+					0.1,
+				)},
+			${(props) =>
+				rgba(
+					(props.theme.colors && props.theme.colors[props.$color]) ||
+						accordionColorStyles[props.$color],
+					0.1,
+				)}
 		),
 		${WHITE};
-	border: 1px solid ${(props) => rgba(accordionColorStyles[props.$color], 0.4)};
+	border: 1px solid
+		${(props) =>
+			rgba(
+				(props.theme.colors && props.theme.colors[props.$color]) ||
+					accordionColorStyles[props.$color],
+				0.4,
+			)};
 	overflow: hidden;
 	max-height: ${(props) => (props.isOpen ? props.maxHeight : '0')};
 	transition: max-height 0.2s linear;

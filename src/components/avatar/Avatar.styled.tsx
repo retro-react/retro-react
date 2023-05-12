@@ -1,4 +1,4 @@
-import { css } from '@emotion/react';
+import { css, Theme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { getPatternScheme } from '@src/utils/getPatternScheme';
 import {
@@ -11,13 +11,21 @@ import {
 } from '@src/constants/colors';
 import { AvatarColor, AvatarSize, AvatarVariant } from './Avatar';
 
-const avatarColorStyles = {
-	primary: PRIMARY,
-	secondary: SECONDARY,
-	success: SUCCESS,
-	error: ERROR,
-	warn: WARN,
-};
+function getColorScheme(color: AvatarColor, theme: Theme) {
+	switch (color) {
+		case 'error':
+			return (theme.colors && theme.colors[color]) || ERROR;
+		case 'success':
+			return (theme.colors && theme.colors[color]) || SUCCESS;
+		case 'warn':
+			return (theme.colors && theme.colors[color]) || WARN;
+		case 'secondary':
+			return (theme.colors && theme.colors[color]) || SECONDARY;
+		case 'primary':
+		default:
+			return (theme.colors && theme.colors[color]) || PRIMARY;
+	}
+}
 
 const sizeStyles = {
 	small: '2rem',
@@ -42,7 +50,7 @@ export const Avatar = styled.div<{
 	color: ${WHITE};
 	text-align: center;
 	line-height: ${(props) => sizeStyles[props.$size]};
-	background-color: ${(props) => avatarColorStyles[props.$color]};
+	background-color: ${(props) => getColorScheme(props.$color, props.theme)};
 	background-image: ${(props) =>
 		props.$src ? `url(${props.$src})` : `url(${getPatternScheme('noise')})`};
 	width: ${(props) => sizeStyles[props.$size]};
@@ -68,7 +76,7 @@ export const Avatar = styled.div<{
 		css`
 			background-size: cover;
 			background-position: center;
-			border: 0.1rem solid ${avatarColorStyles[props.$color]};
+			border: 0.1rem solid ${getColorScheme(props.$color, props.theme)};
 			& > * {
 				display: none;
 			}

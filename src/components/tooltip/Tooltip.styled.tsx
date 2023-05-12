@@ -1,21 +1,7 @@
 import styled from '@emotion/styled';
 import { ThemeUICSSObject } from 'theme-ui';
-import {
-	ERROR,
-	PRIMARY,
-	SECONDARY,
-	SUCCESS,
-	WARN,
-} from '@src/constants/colors';
+import getColorScheme from '@src/utils/getColorScheme';
 import { SHADOWS } from '@src/constants/shadows';
-
-const selectColorStyles = {
-	primary: PRIMARY,
-	secondary: SECONDARY,
-	success: SUCCESS,
-	error: ERROR,
-	warn: WARN,
-};
 
 interface TooltipContentProps {
 	$visible: boolean;
@@ -30,7 +16,8 @@ export const TooltipWrapper = styled.div`
 `;
 export const TooltipContent = styled.div<TooltipContentProps>`
 	visibility: ${(props) => (props.$visible ? 'visible' : 'hidden')};
-	background-color: ${({ $color }) => selectColorStyles[$color] || $color};
+	background-color: ${({ $color, theme }) =>
+		getColorScheme($color, theme) || $color};
 	color: white;
 	text-align: center;
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
@@ -57,6 +44,8 @@ export const TooltipContent = styled.div<TooltipContentProps>`
 		left: 0;
 		right: 0;
 		height: 0.5rem;
-		background: ${({ $color }) => selectColorStyles[$color] || $color} 0%;
+		background: ${({ $color, theme }) =>
+				getColorScheme($color, theme) || $color}
+			0%;
 	}
 `;

@@ -36,7 +36,7 @@ export const Slider = styled.input<{
 		width: 1.5rem;
 		height: 1.5rem;
 		border-radius: 50%;
-		background-color: ${(props) => getColorScheme(props.$color)};
+		background-color: ${(props) => getColorScheme(props.$color, props.theme)};
 		cursor: pointer;
 		transform: translateY(-25%);
 		transition: transform 0.2s, background-color 0.2s;

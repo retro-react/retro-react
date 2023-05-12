@@ -1,0 +1,57 @@
+import { Heading, Meta, Source, Subtitle, Title } from '@storybook/addon-docs';
+
+<Meta title="Overview/Global Styles" />
+
+# Global Styles in Retro React UI 🎨
+
+## Introduction
+
+Retro React UI provides you with the power to customize retro-styled components by using global styles. Using global `ThemeProvider`, you can effortlessly adjust colors, fonts, and other design elements throughout your entire application.
+
+## Setup
+
+To get started, wrap your application with the `ThemeProvider` component and pass in your custom theme object. The `ThemeProvider` is part of the `@emotion/react` package which Retro React UI utilizes for styling.
+
+<Source
+dark
+language="tsx"
+code={`import React from 'react';
+import { Button, ThemeProvider } from 'retro-react';
+import myTheme from './myTheme';
+
+function App() {
+return (
+
+    <ThemeProvider theme={myTheme}>
+      <Button>Click me</Button>
+    </ThemeProvider>
+
+    );
+
+} `} />
+
+## Customizing the Theme
+
+The theme object you pass to the `ThemeProvider` should follow the structure of Retro React UI's default theme. However, you can override any value in the theme.
+
+Here is an example of a theme object that changes the primary, secondary, success, error, and warn colors (only hex values are supported at this time):
+
+<Source
+	dark
+	language="tsx"
+	code={`
+  import { defaultTheme } from 'retro-react';
+  
+const myTheme = { 
+  ...defaultTheme, 
+  colors: { 
+    ...defaultTheme.colors, 
+    primary: '#ff0000', 
+    secondary: '#00ff00', 
+    success: '#0000ff', 
+    error: '#ffff00', 
+    warn: '#00ffff', 
+    }, 
+  }; 
+`}
+/>

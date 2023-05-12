@@ -17,7 +17,8 @@ export const TabsWrapper = styled.div`
 
 export const TabList = styled.div<{ $color: ComponentColors }>`
 	display: flex;
-	border-bottom: 1px solid ${(props) => getColorScheme[props.$color]};
+	border-bottom: 1px solid
+		${(props) => getColorScheme(props.$color, props.theme)};
 `;
 
 export const TabItem = styled.button<{
@@ -27,13 +28,16 @@ export const TabItem = styled.button<{
 	border: none;
 	padding: 0.5rem 1rem;
 	background-color: ${(props) =>
-		props.$isActive ? getColorScheme[props.$color] : 'transparent'};
-	color: ${(props) => (props.$isActive ? WHITE : getColorScheme[props.$color])};
+		props.$isActive
+			? getColorScheme(props.$color, props.theme)
+			: 'transparent'};
+	color: ${(props) =>
+		props.$isActive ? WHITE : getColorScheme(props.$color, props.theme)};
 	cursor: pointer;
 	transition: background-color 0.3s ease;
 
 	&:hover {
-		background-color: ${(props) => getColorScheme[props.$color]};
+		background-color: ${(props) => getColorScheme(props.$color, props.theme)};
 		color: ${WHITE};
 	}
 `;
@@ -47,15 +51,16 @@ export const TabsHeader = styled.div<{
 	$pattern: ComponentPatterns;
 }>`
 	display: flex;
-	background-color: ${(props) => getColorScheme(props.$color)};
+	background-color: ${(props) => getColorScheme(props.$color, props.theme)};
 	background: ${(props) => `linear-gradient(${rgba(
-		getColorScheme(props.$color),
+		getColorScheme(props.$color, props.theme),
 		0.55,
-	)}, ${rgba(getColorScheme(props.$color), 0.7)}),
+	)}, ${rgba(getColorScheme(props.$color, props.theme), 0.7)}),
 		url(${getPatternScheme(props.$pattern)})`};
 
 	border-bottom: 2px solid
-		${(props) => alterColorEnhanced(getColorScheme(props.$color), 50)};
+		${(props) =>
+			alterColorEnhanced(getColorScheme(props.$color, props.theme), 50)};
 
 	overflow: auto;
 
@@ -97,12 +102,14 @@ export const TabWrapper = styled.div<{
 	color: ${WHITE};
 	text-shadow: 0 0 4px ${BLACK};
 
-	background-color: ${({ isActive, $color }) =>
-		isActive ? alterColorEnhanced(getColorScheme($color), 60) : 'transparent'};
+	background-color: ${({ isActive, $color, theme }) =>
+		isActive
+			? alterColorEnhanced(getColorScheme($color, theme), 60)
+			: 'transparent'};
 
 	&:hover {
-		background-color: ${({ $color }) =>
-			alterColorEnhanced(getColorScheme($color), 30)};
+		background-color: ${({ $color, theme }) =>
+			alterColorEnhanced(getColorScheme($color, theme), 30)};
 	}
 `;
 

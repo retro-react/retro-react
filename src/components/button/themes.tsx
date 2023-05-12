@@ -1,35 +1,17 @@
-import { css } from '@emotion/react';
+import { css, Theme } from '@emotion/react';
 import { alterColorEnhanced } from '@src/utils/alterColor';
+import getColorScheme from '@src/utils/getColorScheme';
 import { getPatternScheme } from '@src/utils/getPatternScheme';
 import { rgba } from '@src/utils/rgba';
-import {
-	ERROR,
-	PRIMARY,
-	SECONDARY,
-	SUCCESS,
-	WARN,
-	WHITE,
-} from '@src/constants/colors';
+import { WHITE } from '@src/constants/colors';
 import type { ButtonColor, ButtonVariant } from './Button';
 
-export function getColorScheme(color: ButtonColor) {
-	switch (color) {
-		case 'error':
-			return ERROR;
-		case 'success':
-			return SUCCESS;
-		case 'warn':
-			return WARN;
-		case 'secondary':
-			return SECONDARY;
-		case 'primary':
-		default:
-			return PRIMARY;
-	}
-}
-
-export function getTheme(color: ButtonColor, variant: ButtonVariant) {
-	const colorScheme = getColorScheme(color);
+export function getTheme(
+	color: ButtonColor,
+	variant: ButtonVariant,
+	theme: Theme,
+) {
+	const colorScheme = getColorScheme(color, theme);
 	switch (variant) {
 		case 'outline':
 			return css`

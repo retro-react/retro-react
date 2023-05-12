@@ -82,10 +82,10 @@ export const Input = styled.input<{
 	border-radius: 0.5rem;
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 
-	${({ $color, $variant }) =>
+	${({ $color, $variant, theme }) =>
 		getInputVariantStyles(
 			$variant,
-			$color === 'greyscale' ? SHADE_4 : getColorScheme($color),
+			$color === 'greyscale' ? SHADE_4 : getColorScheme($color, theme),
 		)}
 
 	${({ $color, $variant }) =>
@@ -125,7 +125,9 @@ export const Input = styled.input<{
 		box-shadow: 0 0 0.05rem 0.05rem
 			${(props) =>
 				rgba(
-					props.$color === 'greyscale' ? WHITE : getColorScheme(props.$color),
+					props.$color === 'greyscale'
+						? WHITE
+						: getColorScheme(props.$color, props.theme),
 					0.6,
 				)};
 	}

@@ -1,9 +1,9 @@
 import { action } from '@storybook/addon-actions';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import React from 'react';
+import getColorScheme from '@src/utils/getColorScheme';
 import { Text } from '../../text';
 import { Checkbox } from '../index';
-import { getColorScheme } from '../themes';
 
 // https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

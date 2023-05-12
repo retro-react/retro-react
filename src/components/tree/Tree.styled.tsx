@@ -1,33 +1,16 @@
 import styled from '@emotion/styled';
 import { alterColorEnhanced } from '@src/utils/alterColor';
-import {
-	ERROR,
-	PRIMARY,
-	SECONDARY,
-	SHADE_3,
-	SUCCESS,
-	WARN,
-} from '@src/constants/colors';
+import getColorScheme from '@src/utils/getColorScheme';
 import { TreeColor } from './Tree';
-
-const selectColorStyles = {
-	primary: PRIMARY,
-	secondary: SECONDARY,
-	success: SUCCESS,
-	error: ERROR,
-	warn: WARN,
-	greyscale: SHADE_3,
-	none: 'transparent',
-};
 
 export const TreeContainer = styled.section<{
 	$color: TreeColor;
 }>`
 	font-family: 'Trebuchet MS', sans-serif;
 
-	${({ $color }) => `
-		background-color: ${alterColorEnhanced(selectColorStyles[$color], 50)};
-		border: 1px solid ${selectColorStyles[$color]};
+	${({ $color, theme }) => `
+		background-color: ${alterColorEnhanced(getColorScheme($color, theme), 50)};
+		border: 1px solid ${getColorScheme($color, theme)};
 	`};
 `;
 
@@ -37,13 +20,13 @@ export const TreeNodeContainer = styled.section<{
 }>`
 	font-size: 1rem;
 	box-sizing: border-box;
-	border: 1px solid ${({ $color }) => selectColorStyles[$color]};
+	border: 1px solid ${({ $color, theme }) => getColorScheme($color, theme)};
 	padding: 4px;
 
-	${({ $collapsed, $color }) =>
+	${({ $collapsed, $color, theme }) =>
 		$collapsed &&
 		`
-    background-color: ${alterColorEnhanced(selectColorStyles[$color], 25)};
+    background-color: ${alterColorEnhanced(getColorScheme($color, theme), 25)};
   `};
 
 	&:not(:last-child) {
@@ -100,8 +83,8 @@ export const ChevronIcon = styled.svg<{
 }>`
 	width: 1rem;
 	height: 1rem;
-	fill: ${({ $color }) =>
-		$color ? alterColorEnhanced(selectColorStyles[$color], -100) : 'black'};
+	fill: ${({ $color, theme }) =>
+		$color ? alterColorEnhanced(getColorScheme($color, theme), -100) : 'black'};
 	transform-origin: center;
 	transform: ${({ $collapsed }) =>
 		$collapsed ? 'rotate(-90deg) translateX(-0.1rem)' : 'rotate(0deg)'};

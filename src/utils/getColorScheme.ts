@@ -1,3 +1,4 @@
+import { Theme } from '@emotion/react';
 import {
 	ERROR,
 	PRIMARY,
@@ -21,7 +22,9 @@ export const colorOptions = [
 	'warn',
 ];
 
-function getColorScheme(color: ComponentColors | string) {
+function getColorScheme(color: ComponentColors | string, theme?: Theme) {
+	if (theme && theme.colors && theme.colors[color]) return theme.colors[color];
+
 	switch (color) {
 		case 'error':
 			return ERROR;

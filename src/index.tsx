@@ -1,3 +1,8 @@
+// Theme
+export { ThemeProvider } from '@emotion/react';
+export { default as defaultTheme } from './themes/defaultTheme';
+
+// Components
 export * from './components/accordion';
 export * from './components/alert';
 export * from './components/avatar';

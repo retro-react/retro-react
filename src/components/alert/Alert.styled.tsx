@@ -1,3 +1,4 @@
+import { Theme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { alterColor } from '@src/utils/alterColor';
 import {
@@ -11,19 +12,19 @@ import {
 } from '@src/constants/colors';
 import type { AlertColor } from './Alert';
 
-function getColorScheme(color: AlertColor) {
+function getColorScheme(color: AlertColor, theme: Theme) {
 	switch (color) {
 		case 'error':
-			return ERROR;
+			return (theme.colors && theme.colors[color]) || ERROR;
 		case 'success':
-			return SUCCESS;
+			return (theme.colors && theme.colors[color]) || SUCCESS;
 		case 'warn':
-			return alterColor(WARN, 150);
+			return (theme.colors && theme.colors[color]) || alterColor(WARN, 150);
 		case 'secondary':
-			return SECONDARY;
+			return (theme.colors && theme.colors[color]) || SECONDARY;
 		case 'primary':
 		default:
-			return PRIMARY;
+			return (theme.colors && theme.colors[color]) || PRIMARY;
 	}
 }
 
@@ -37,8 +38,8 @@ export const Alert = styled.div<{ $color: AlertColor }>`
 	border-top: 2px solid ${SHADE_6};
 	background: linear-gradient(
 		to right,
-		${({ $color }) => alterColor(getColorScheme($color))} 80%,
-		${({ $color }) => getColorScheme($color)} 100%
+		${({ $color, theme }) => alterColor(getColorScheme($color, theme))} 80%,
+		${({ $color, theme }) => getColorScheme($color, theme)} 100%
 	);
 	color: ${SHADE_1};
 	width: 100%;
@@ -51,7 +52,7 @@ export const Alert = styled.div<{ $color: AlertColor }>`
 		left: 0;
 		width: 0.5rem;
 		height: 100%;
-		background: ${({ $color }) => getColorScheme($color)};
+		background: ${({ $color, theme }) => getColorScheme($color, theme)};
 	}
 `;
 

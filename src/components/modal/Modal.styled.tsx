@@ -15,7 +15,8 @@ export const Modal = styled.div<{
 	$pattern: ComponentPatterns;
 	$backdrop: boolean;
 }>`
-	background-color: ${(props) => getColorScheme(props.$color) || props.$color};
+	background-color: ${(props) =>
+		getColorScheme(props.$color, props.theme) || props.$color};
 	box-shadow: inset 1px 1px 5px ${rgba(BLACK, 0.3)},
 		inset -1px -1px 2px rgba(255, 255, 255, 0.2);
 	padding: 1rem;
@@ -35,8 +36,8 @@ export const Modal = styled.div<{
 	${(props) => {
 		const gradient = `
 			linear-gradient(
-				${rgba(getColorScheme(props.$color) || props.$color, 0.4)},
-				${rgba(getColorScheme(props.$color) || props.$color, 0.4)}
+				${rgba(getColorScheme(props.$color, props.theme) || props.$color, 0.4)},
+				${rgba(getColorScheme(props.$color, props.theme) || props.$color, 0.4)}
 			),
 			url(${getPatternScheme(props.$pattern)})
 		`;
@@ -97,7 +98,10 @@ export const CloseButton = styled.button<{
 		width: 1.5rem;
 		height: 0.2rem;
 		background-color: ${(props) =>
-			alterColorEnhanced(getColorScheme(props.$color) || props.$color, 100)};
+			alterColorEnhanced(
+				getColorScheme(props.$color, props.theme) || props.$color,
+				100,
+			)};
 		transform: translate(-50%, -50%) rotate(45deg);
 	}
 
