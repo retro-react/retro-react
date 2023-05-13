@@ -3,6 +3,7 @@ import {
 	ERROR,
 	PRIMARY,
 	SECONDARY,
+	SHADE_3,
 	SUCCESS,
 	WARN,
 } from '@src/constants/colors';
@@ -36,6 +37,8 @@ function getColorScheme(color: ComponentColors | string, theme?: Theme) {
 			return SECONDARY;
 		case 'primary':
 			return PRIMARY;
+		case 'greyscale':
+			return SHADE_3;
 		default:
 			return color;
 	}
