@@ -2,7 +2,6 @@
 import { Children, cloneElement, forwardRef, useRef, useState } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
-import { Box } from '../box';
 import { Button, ButtonProps } from '../button';
 import { Portal } from '../portal/Portal';
 import * as Sc from './Popover.styled';
