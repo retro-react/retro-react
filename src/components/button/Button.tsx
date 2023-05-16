@@ -1,4 +1,6 @@
+/** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
+import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Button.styled';
@@ -26,6 +28,14 @@ export interface ButtonProps
 	 * @default 'solid'
 	 */
 	variant?: ButtonVariant;
+
+	/**
+	 * If true disables the click transform effect.
+	 *
+	 * @default false
+	 */
+	disableClickEffect?: boolean;
+	sx?: ThemeUICSSObject;
 }
 
 /**
@@ -44,7 +54,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 			onClick,
 			color = 'primary',
 			variant = 'solid',
+			disableClickEffect = false,
 			children,
+			sx,
 			...rest
 		},
 		ref,
@@ -55,8 +67,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 				id={id}
 				variant={variant}
 				$color={color}
+				$disableClickEffect={disableClickEffect}
 				className={classNames('button-root', className, commonClassNames)}
 				onClick={onClick}
+				sx={sx}
 				{...rest}
 			>
 				{children}

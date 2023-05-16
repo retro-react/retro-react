@@ -6,6 +6,7 @@ import { getTheme } from './themes';
 export const Button = styled.button<{
 	$color: ButtonColor;
 	variant: ButtonVariant;
+	$disableClickEffect?: boolean;
 }>`
 	display: inline-flex;
 	align-items: center;
@@ -19,6 +20,17 @@ export const Button = styled.button<{
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	cursor: pointer;
 	${(props) => getTheme(props.$color, props.variant, props.theme)}
+
+	${(props) =>
+		!props.$disableClickEffect &&
+		`
+		transition: transform 0.1s, box-shadow 0.1s;
+
+		&:active {
+			transform: scale(0.98);
+			box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.1);
+		}
+	`}
 
 	&:disabled {
 		cursor: not-allowed;
