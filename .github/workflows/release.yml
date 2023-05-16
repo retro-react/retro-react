@@ -37,3 +37,16 @@ jobs:
         if: steps.changesets.outputs.published == 'true'
         # You can do something when a publish happens.
         run: my-slack-bot send-notification --message "A new version of ${GITHUB_REPOSITORY} was published!"
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        if: steps.changesets.outputs.published == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.changesets.outputs.publishedPackages[0].name }}@${{ steps.changesets.outputs.publishedPackages[0].version }}
+          release_name: Release ${{ steps.changesets.outputs.publishedPackages[0].name }}@${{ steps.changesets.outputs.publishedPackages[0].version }}
+          body: |
+            Changes in this Release
+            - ${{ steps.changesets.outputs.publishedPackages[0].changes }}

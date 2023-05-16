@@ -1,6 +1,6 @@
 # retro-react
 
-## 2.0.0
+## 1.2.5
 
 ### Major Changes
 

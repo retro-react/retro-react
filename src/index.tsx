@@ -35,3 +35,4 @@ export * from './components/wordart';
 export * from './components/flexiblelayout';
 export * from './components/starfield';
 export * from './components/tree';
+export * from './components/popover';
