@@ -55,3 +55,39 @@ const myTheme = {
   }; 
 `}
 />
+
+## Custom Styles
+
+In addition to using the `ThemeProvider` for global styles, Retro React UI allows you to create or customize components with your own styles using the `@emotion/styled` package. This makes it easy to add a unique touch to individual components.
+
+### Setup
+
+To get started, import the `styled` function from the `retro-react` package. You can then use this function to create styled components.
+
+<Source
+dark
+language="tsx"
+code={`
+import styled from 'retro-react';
+
+const MyStyledButton = styled.button\`
+background-color: #ff0000;
+color: #ffffff;
+padding: 10px 20px;
+border-radius: 5px;
+border: none;
+font-size: 16px;
+&:hover {
+background-color: #cc0000;
+}
+\`;
+
+function App() {
+  return (
+
+  <MyStyledButton>Click me</MyStyledButton>
+
+  ); 
+}
+
+`} />

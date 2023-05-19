@@ -26,7 +26,7 @@ const renderSpinner = (args: Story['args']) => (
 
 export const CircleSpinner: Story = {
 	args: {
-		color: 'rainbow',
+		color: 'pastel',
 		shape: 'circle',
 		size: 'medium',
 	},

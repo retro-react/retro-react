@@ -36,4 +36,9 @@ export const Button = styled.button<{
 		cursor: not-allowed;
 		opacity: 0.6;
 	}
+
+	&.retro-active {
+		transform: scale(0.98);
+		box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.1);
+	}
 `;
