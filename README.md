@@ -11,7 +11,7 @@ The library is in it's early stages, so there are still many components to be ad
 
 ## Demo
 
-Explore the [demo](https://retro-react.github.io/retro-react/) of the library to see all the components in action.
+Explore the [demo](https://retro-react.github.io/retro-react/?path=/docs/overview-introduction--docs/) of the library to see all the components in action.
 
 ## Installation
 
@@ -70,7 +70,7 @@ export default App;
 
 ## Components
 
-Please refer to the [demo](https://retro-react.github.io/retro-react/) for a complete list of components and their props.
+Please refer to the [demo](https://retro-react.github.io/retro-react/?path=/docs/overview-introduction--docs/) for a complete list of components and their props.
 
 ## Global styles
 
