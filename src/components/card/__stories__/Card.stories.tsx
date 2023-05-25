@@ -1,6 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Text } from '@src/components/text';
 import { colorOptions } from '@src/utils/getColorScheme';
-import { Text } from '../../text';
 import { Card } from '../index';
 
 // https://storybook.js.org/docs/react/writing-stories/introduction#default-export
