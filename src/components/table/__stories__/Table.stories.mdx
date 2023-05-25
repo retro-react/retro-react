@@ -1,0 +1,50 @@
+import { Heading, Markdown, Meta, Source, Title } from '@storybook/addon-docs';
+
+<Meta title="CSS/Table" />
+
+## Table CSS
+
+<Markdown>
+{`
+Class names are used to style elements. They are also used to select elements in JavaScript.
+Use with __sx__ prop or __css__
+
+| Class name                | Description                                    |
+| ------------------------- | ---------------------------------------------- |
+| 'table-wrapper'           | The outermost wrapper of the Table component.  |
+| 'table-root'              | The root element of the Table component.       |
+| 'retro-table-header'      | The container for the table headers.           |
+| 'retro-table-header-cell' | Each individual cell of the table header.      |
+| 'retro-table-row'         | Each row of the table in table body.           |
+| 'retro-table-cell'        | Each individual cell within a table body row.  |
+| 'table-pagination'        | The container for the pagination controls.     |
+| 'retro-pagination-button' | The buttons used to navigate through pages.    |
+| 'retro-pagination-arrow'  | The arrow icons within the pagination buttons. |
+
+`}
+
+</Markdown>
+
+## Examples
+
+<Source
+	dark
+	language="tsx"
+	code={`
+<Table
+  sx={{
+    '& .table-wrapper': { maxHeight: '500px' },
+    '& .table-root': { backgroundColor: 'transparent' },
+    '& .retro-table-header': { fontWeight: 'bold' },
+    '& .retro-table-header-cell': { color: 'red' },
+    '& .retro-table-row': { borderBottom: '1px solid black' },
+    '& .retro-table-cell': { padding: '0.5rem' },
+    '& .table-pagination': { backgroundColor: 'gray' },
+    '& .retro-pagination-button': { opacity: 0.5 },
+    '& .retro-pagination-arrow': { transform: 'rotate(180deg)' },
+  }}
+  headers={['Name', 'Age', 'Location']}
+  data={[['John Doe', 30, 'NYC'], ['Jane Doe', 28, 'LA']]}
+/>
+    `}
+/>

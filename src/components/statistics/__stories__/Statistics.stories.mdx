@@ -1,0 +1,44 @@
+import { Heading, Markdown, Meta, Source, Title } from '@storybook/addon-docs';
+
+<Meta title="CSS/Statistics" />
+
+## Statistics CSS
+
+<Markdown>
+{`
+Class names are used to style elements. They are also used to select elements in JavaScript.
+Use with __sx__ prop or __css__
+
+| Class name                  | Description                                                       |
+| --------------------------- | ----------------------------------------------------------------- |
+| 'statistics-root'           | The root element of the Statistics component.                     |
+| 'statistics-icon-container' | The container for the icon in the Statistics component.           |
+| 'statistics-number'         | The element that displays the number in the Statistics component. |
+| 'statistics-prefix'         | The prefix to the number in the Statistics component.             |
+| 'statistics-suffix'         | The suffix to the number in the Statistics component.             |
+| 'statistics-label'          | The label element of the Statistics component.                    |
+
+`}
+
+</Markdown>
+
+## Examples
+
+<Source
+	dark
+	language="tsx"
+	code={`
+<Statistics
+  sx={{
+    '& .statistics-root': { backgroundColor: 'transparent' },
+    '& .statistics-icon-container': { opacity: 0.5 },
+    '& .statistics-number': { color: 'red' },
+    '& .statistics-prefix': { fontWeight: 'bold' },
+    '& .statistics-suffix': { fontWeight: 'bold' },
+    '& .statistics-label': { textTransform: 'uppercase' },
+  }}
+  number={1234}
+  label="Users"
+/>
+    `}
+/>

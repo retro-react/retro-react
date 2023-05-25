@@ -4,7 +4,7 @@ import { Input } from '../index';
 
 // https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-	title: 'Components/Input',
+	title: 'Forms/Input',
 	component: Input,
 	argTypes: {
 		size: {
@@ -31,6 +31,17 @@ const Template: ComponentStory<typeof Input> = (args) => {
 
 export const Default = Template.bind({});
 Default.args = {
+	placeholder: 'Placeholder',
+	onChange: action('onChange'),
+	variant: 'filled',
+	color: 'primary',
+	size: 'medium',
+	rounded: false,
+	sx: { width: '250px' },
+};
+
+export const Outlined = Template.bind({});
+Outlined.args = {
 	placeholder: 'Placeholder',
 	onChange: action('onChange'),
 	variant: 'outlined',

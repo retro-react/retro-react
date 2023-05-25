@@ -23,7 +23,8 @@ export interface ScrollbarProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 /**
- * Custom scrollbars are used to replace the default scrollbars.
+ * Custom scrollbars are used to replace the default scrollbars. Only works on Chrome, Edge, Safari and other browsers that support the
+ * `::webkit-scrollbar` pseudo element.
  *
  * @example
  * <Scrollbar theme="pastel">

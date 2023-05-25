@@ -4,7 +4,8 @@ import { lighten } from 'polished';
 
 const blink = keyframes`
   0% { opacity: 1; }
-  50% { opacity: 0.4; }
+  30% { opacity: 0.4; }
+  70% { opacity: 1; }
   100% { opacity: 1; }
 `;
 
@@ -28,7 +29,7 @@ export const StyledSkeleton = styled.div<{
 				: props.$rounded
 				? '5px'
 				: '0px'};
-			animation: ${blink} 1.5s infinite ease-in-out;
+			animation: ${blink} 2.5s infinite ease-in-out;
 		`};
 
 	margin-bottom: 10px;

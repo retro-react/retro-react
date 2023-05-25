@@ -32,6 +32,12 @@ export interface ProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default 'stripes'
 	 */
 	pattern?: ComponentPatterns;
+	/**
+	 * Animation effect of the Progress Bar.
+	 *
+	 * @default false
+	 */
+	animated?: boolean;
 	sx?: ThemeUICSSObject;
 }
 
@@ -51,6 +57,7 @@ export const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
 			color,
 			colorBg,
 			pattern = 'noise',
+			animated = false,
 			sx,
 			...rest
 		},
@@ -63,6 +70,7 @@ export const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
 					$value={value}
 					$color={color}
 					$pattern={pattern}
+					$animated={animated}
 					ref={ref}
 					id={id}
 					sx={sx}

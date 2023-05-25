@@ -1,6 +1,6 @@
-import { Theme } from '@emotion/react';
+import { css, keyframes, Theme } from '@emotion/react';
 import styled from '@emotion/styled';
-import { alterColor } from '@src/utils/alterColor';
+import { alterColor, alterColorEnhanced } from '@src/utils/alterColor';
 import {
 	ERROR,
 	PRIMARY,
@@ -28,7 +28,18 @@ function getColorScheme(color: AlertColor, theme: Theme) {
 	}
 }
 
-export const Alert = styled.div<{ $color: AlertColor }>`
+const opacityAnimation = keyframes`
+	from {
+		opacity: 0;
+		transform: translateY(20%);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+`;
+
+export const Alert = styled.div<{ $color: AlertColor; $isOpenProp?: boolean }>`
 	display: inline-flex;
 	flex-direction: column;
 	position: relative;
@@ -38,7 +49,9 @@ export const Alert = styled.div<{ $color: AlertColor }>`
 	border-top: 2px solid ${SHADE_6};
 	background: linear-gradient(
 		to right,
-		${({ $color, theme }) => alterColor(getColorScheme($color, theme))} 80%,
+		${({ $color, theme }) =>
+				alterColorEnhanced(getColorScheme($color, theme), -20)}
+			80%,
 		${({ $color, theme }) => getColorScheme($color, theme)} 100%
 	);
 	color: ${SHADE_1};
@@ -54,6 +67,12 @@ export const Alert = styled.div<{ $color: AlertColor }>`
 		height: 100%;
 		background: ${({ $color, theme }) => getColorScheme($color, theme)};
 	}
+
+	${({ $isOpenProp }) =>
+		$isOpenProp &&
+		css`
+			animation: ${opacityAnimation} 0.15s ease-out;
+		`}
 `;
 
 export const Title = styled.div`

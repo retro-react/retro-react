@@ -6,7 +6,7 @@ import { Select } from '../index';
 
 // https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-	title: 'Components/Select',
+	title: 'Forms/Select',
 	component: Select,
 	argTypes: {
 		color: {
@@ -56,6 +56,7 @@ const Template: ComponentStory<typeof Select> = (args) => {
 			&nbsp;&nbsp;
 			<Select
 				{...args}
+				id="least-favorite-car"
 				label={`Least ${args.label}`}
 				defaultValue={value2}
 				onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>

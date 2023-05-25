@@ -5,6 +5,9 @@ import { Text } from '../index';
 export default {
 	title: 'Components/Text',
 	component: Text,
+	argTypes: {
+		color: { control: 'color' },
+	},
 } as ComponentMeta<typeof Text>;
 
 /**
@@ -20,7 +23,7 @@ export const paragraph = Template.bind({});
 paragraph.args = {
 	children:
 		'paragraph -  It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.',
-	color: '#000000',
+	color: 'primary',
 	bevel: false,
 	blink: false,
 	variant: 'paragraph',

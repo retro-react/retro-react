@@ -120,7 +120,8 @@ export const AccordionContent = styled.div<{
 			)};
 	overflow: hidden;
 	max-height: ${(props) => (props.isOpen ? props.maxHeight : '0')};
-	transition: max-height 0.2s linear;
+
+	transition: max-height 0.2s ease-out;
 
 	& > div {
 		padding: 0.5rem;

@@ -13,6 +13,8 @@ export const Button = styled.button<{
 	justify-content: center;
 	position: relative;
 	height: auto;
+	width: fit-content;
+	min-width: 6rem;
 	outline: 0;
 	border: 2px outset ${(props) => getColorScheme(props.$color, props.theme)};
 	padding: 0.5rem 1.5rem;
@@ -26,7 +28,7 @@ export const Button = styled.button<{
 		`
 		transition: transform 0.1s, box-shadow 0.1s;
 
-		&:active {
+		&:active:not(:disabled) {
 			transform: scale(0.98);
 			box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.1);
 		}

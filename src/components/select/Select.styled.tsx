@@ -34,13 +34,22 @@ export const Label = styled.label<{
 	left: 0.75rem;
 	background: url(${getPatternScheme('noise')});
 	filter: contrast(120%) brightness(100%);
-	background-color: ${(props) => getColorScheme(props.$color, props.theme)};
+	background-color: ${(props) =>
+		getColorScheme(
+			props.$color === 'greyscale' ? 'greyscale-dark' : props.$color,
+			props.theme,
+		)};
 	background-size: 100%;
 	background-repeat: repeat;
 	padding: 0 0.65rem;
 	pointer-events: none;
 	border-radius: 0.5rem;
 	text-shadow: ${SHADOWS.text[0]};
+
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 80%;
 
 	${({ $size }) => {
 		switch ($size) {
@@ -67,10 +76,26 @@ export const Select = styled.select<{
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	font-size: ${(props) => sizeStyles[props.$size]};
 	color: ${WHITE};
-	background-color: ${(props) => getColorScheme(props.$color, props.theme)};
+	background-color: ${(props) =>
+		getColorScheme(
+			props.$color === 'greyscale' ? 'greyscale-dark' : props.$color,
+			props.theme,
+		)};
 	background-image: ${(props) => `linear-gradient(
-			${rgba(getColorScheme(props.$color, props.theme), 0.8)},
-			${rgba(getColorScheme(props.$color, props.theme), 0.8)}
+			${rgba(
+				getColorScheme(
+					props.$color === 'greyscale' ? 'greyscale-dark' : props.$color,
+					props.theme,
+				),
+				0.8,
+			)},
+			${rgba(
+				getColorScheme(
+					props.$color === 'greyscale' ? 'greyscale-dark' : props.$color,
+					props.theme,
+				),
+				0.8,
+			)}
 		),
 		url(${getPatternScheme('stripes')})`};
 	padding: 0.5rem 1rem;
@@ -82,13 +107,21 @@ export const Select = styled.select<{
 	&:focus {
 		outline: none;
 		box-shadow: 0 0 0.1rem 0.1rem
-			${(props) => getColorScheme(props.$color, props.theme)};
+			${(props) =>
+				getColorScheme(
+					props.$color === 'greyscale' ? 'greyscale-dark' : props.$color,
+					props.theme,
+				)};
 	}
 
 	option {
 		font-family: 'Trebuchet MS', Helvetica, sans-serif;
 		background-color: ${WHITE};
-		color: ${(props) => getColorScheme(props.$color, props.theme)};
+		color: ${(props) =>
+			getColorScheme(
+				props.$color === 'greyscale' ? 'greyscale-dark' : props.$color,
+				props.theme,
+			)};
 		text-shadow: ${SHADOWS.text[0]};
 	}
 `;

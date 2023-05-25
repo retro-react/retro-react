@@ -1,8 +1,9 @@
-import { action } from '@storybook/addon-actions';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { useState } from 'react';
+import { Flex } from 'theme-ui';
+import { Button } from '@src/components/button';
 import { Alert } from '../index';
 
-// https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
 	title: 'Components/Alert',
 	component: Alert,
@@ -13,50 +14,58 @@ export default {
 		title: {
 			control: false,
 		},
+		open: {
+			control: false,
+		},
+		position: {
+			control: false,
+		},
+		showCloseButton: {
+			control: false,
+		},
+		onClose: {
+			control: false,
+		},
 	},
 } as ComponentMeta<typeof Alert>;
 
-/**
- * Component Template
- *
- * @see https://storybook.js.org/docs/react/writing-stories/introduction#using-args
- */
-const Template: ComponentStory<typeof Alert> = (args) => {
+const Template: ComponentStory<typeof Alert> = () => {
+	const [open, setOpen] = useState(false);
+
 	return (
-		<div
-			style={{
-				width: '50vmin',
-				display: 'flex',
-				flexDirection: 'column',
-				gap: '20px',
-			}}
-		>
-			<Alert {...args} color="primary" title="Primary Alert">
-				{args.children}
-			</Alert>
-			<Alert {...args} color="secondary" title="Secondary Alert">
-				{args.children}
-			</Alert>
-			<Alert {...args} color="success" title="Success Alert">
-				{args.children}
-			</Alert>
-			<Alert {...args} color="warn" title="Warn Alert">
-				{args.children}
-			</Alert>
-			<Alert {...args} color="error" title="Error Alert">
-				{args.children}
+		<div>
+			<Button onClick={() => setOpen(!open)}>Toggle Alert</Button>
+			<Alert
+				color="primary"
+				title="Primary Alert"
+				open={open}
+				showCloseButton={true}
+				onClose={() => setOpen(false)}
+			>
+				The quick brown fox jumps over the lazy dog.
 			</Alert>
 		</div>
 	);
 };
 
 export const Default = Template.bind({});
-Default.args = {
-	title: 'Primary Alert',
-	children: 'The quick brown fox jumps over the lazy dog.',
-	showCloseButton: true,
-	onClose: action('onClose'),
-	sx: {
-		width: '300px',
-	},
-};
+
+export const AlertColors: ComponentStory<typeof Alert> = () => (
+	<Flex sx={{ flexDirection: 'column', gap: '1rem', width: '300px' }}>
+		<Alert color="primary" title="Primary Alert">
+			The quick brown fox jumps over the lazy dog.
+		</Alert>
+		<Alert color="secondary" title="Secondary Alert">
+			The quick brown fox jumps over the lazy dog.
+		</Alert>
+		<Alert color="success" title="Success Alert">
+			The quick brown fox jumps over the lazy dog.
+		</Alert>
+		<Alert color="warn" title="Warn Alert">
+			The quick brown fox jumps over the lazy dog.
+		</Alert>
+		<Alert color="error" title="Error Alert">
+			The quick brown fox jumps over the lazy dog.
+		</Alert>
+	</Flex>
+);

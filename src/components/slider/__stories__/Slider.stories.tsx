@@ -6,7 +6,7 @@ import { Slider } from '../index';
 
 // https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-	title: 'Components/Slider',
+	title: 'Forms/Slider',
 	component: Slider,
 } as ComponentMeta<typeof Slider>;
 

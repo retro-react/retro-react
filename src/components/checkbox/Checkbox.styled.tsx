@@ -36,15 +36,18 @@ export const Checkbox = styled.input<{
 		${(props) => getColorScheme(props.$color, props.theme)};
 
 	&::before {
-		content: '';
+		content: '✖';
 		position: absolute;
 		top: 0.25rem;
 		left: 0.25rem;
 		width: 1rem;
 		height: 1rem;
-		border-radius: 50%;
-		background-color: ${(props) =>
+		color: ${(props) =>
 			alterColorEnhanced(getColorScheme(props.$color, props.theme), 75)};
+		line-height: 1rem;
+		text-align: center;
+		font-size: 1.3rem;
+		font-weight: bold;
 
 		box-shadow: inset 1px 1px 12px ${BLACK} inset -1px -1px 10px
 			${(props) => getColorScheme(props.$color, props.theme)};

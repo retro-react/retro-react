@@ -83,7 +83,7 @@ export const CloseButton = styled.button<{
 	background-color: transparent;
 	border: none;
 	cursor: pointer;
-	transition: transform 0.3s ease-in-out;
+	transition: transform 0.1s linear;
 
 	&:hover {
 		transform: scale(1.1);

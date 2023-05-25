@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { darken } from 'polished';
 import getColorScheme from '@src/utils/getColorScheme';
 import {
 	ComponentPatterns,
@@ -31,9 +32,26 @@ linear-gradient(
 	flex-direction: column;
 `;
 
-export const CardContent = styled.div`
+export const CardContent = styled.div<{
+	$color: string;
+}>`
 	margin-bottom: 1rem;
 	flex: 1;
+	overflow: auto;
+
+	::-webkit-scrollbar {
+		width: 0.5rem;
+	}
+
+	::-webkit-scrollbar-track {
+		background-color: ${(props) =>
+			getColorScheme(props.$color, props.theme) || props.$color};
+	}
+
+	::-webkit-scrollbar-thumb {
+		background-color: ${(props) =>
+			darken(0.1, getColorScheme(props.$color, props.theme)) || props.$color};
+	}
 `;
 
 export const CardTitle = styled.h2`

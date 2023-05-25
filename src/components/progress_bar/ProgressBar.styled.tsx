@@ -1,3 +1,4 @@
+import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import {
 	ComponentPatterns,
@@ -5,6 +6,15 @@ import {
 } from '@src/utils/getPatternScheme';
 import { rgba } from '@src/utils/rgba';
 import { BLACK, PRIMARY, WHITE } from '@src/constants/colors';
+
+const move = keyframes`
+	0% {
+		background-position: 0% 0%;
+	}
+	100% {
+		background-position: 100% 0%;
+	}
+`;
 
 export const ProgressBarWrapper = styled.div`
 	position: relative;
@@ -18,6 +28,7 @@ export const ProgressBar = styled.div<{
 	$value: number;
 	$color?: string;
 	$pattern: ComponentPatterns;
+	$animated?: boolean;
 }>`
 	background-image: url(${getPatternScheme('noise')});
 
@@ -55,7 +66,15 @@ export const ProgressBar = styled.div<{
 		margin: 0.3rem 0;
 
 		background-image: url(${(props) => getPatternScheme(props.$pattern)});
+		background-repeat: repeat;
 		box-shadow: 1px 1px 2px ${rgba(BLACK, 0.5)};
+
+		${(props) =>
+			props.$animated &&
+			props.$pattern !== 'solid' &&
+			css`
+				animation: ${move} ${props.$value * 0.2}s linear infinite;
+			`}
 	}
 
 	${({ $bg }) =>

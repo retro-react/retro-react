@@ -17,6 +17,8 @@ export const parameters = {
 				'Overview',
 				['Introduction', 'Global Styles'],
 				'Layout',
+				'Data Display',
+				'Forms',
 				'Components',
 				'Experimental',
 				'CSS',

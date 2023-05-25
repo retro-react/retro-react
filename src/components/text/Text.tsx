@@ -2,6 +2,7 @@
 import { CSSProperties, forwardRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
+import { ComponentColors } from '@src/utils/getColorScheme';
 import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Text.styled';
 
@@ -16,19 +17,21 @@ export type TextVariant =
 	| 'body2'
 	| 'paragraph';
 
+export type TextColor = ComponentColors | CSSProperties['color'];
 export interface TextProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
 	 * The variant of the Text.
 	 *
-	 * @default 'body1'
+	 * @default 'paragraph'
 	 */
 	variant?: TextVariant;
 	/**
-	 * The color of the Text.
+	 * The color of the Text. Supports css color property and theme colors from library.
+	 * Colors included in theme are: `primary`, `secondary`, `success`, `error`, `warn`, `greyscale`.
 	 *
 	 * @default '#000000'
 	 */
-	color?: CSSProperties['color'];
+	color?: TextColor;
 	/**
 	 * Add bevel effect to Text.
 	 *
@@ -41,12 +44,18 @@ export interface TextProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default false
 	 */
 	blink?: boolean;
+	/**
+	 * The alignment of the Text.
+	 *
+	 * @default 'left'
+	 */
+	align?: CSSProperties['textAlign'];
 	sx?: ThemeUICSSObject;
 }
 
 /**
  * Text with different variants. Used instead of HTML tags. Has bevel and blink effects.
- * Responsive font sizes are used for all variants.
+ * Responsive font sizes are used for all variants. Use `paragraph` variant for generic text blocks.
  *
  * You can target the `Text` component with the global class `.text-root` in order to change the font family.
  *
@@ -62,7 +71,8 @@ export const Text = forwardRef<HTMLDivElement, TextProps>(
 			className,
 			children,
 			color = '#000000',
-			variant = 'body1',
+			variant = 'paragraph',
+			align = 'left',
 			bevel = false,
 			blink = false,
 			sx,
@@ -89,6 +99,7 @@ export const Text = forwardRef<HTMLDivElement, TextProps>(
 		return (
 			<Sc.Text
 				as={ElementType}
+				$align={align}
 				$bevel={bevel}
 				$blink={blink}
 				$color={color}

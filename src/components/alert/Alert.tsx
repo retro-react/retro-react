@@ -4,11 +4,48 @@ import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import commonClassNames from '@src/constants/commonClassNames';
 import closeIcon from '../../assets/svg/close_icon.svg';
+import { Portal } from '../portal/Portal';
 import * as Sc from './Alert.styled';
 
 export type AlertColor = 'primary' | 'secondary' | 'success' | 'error' | 'warn';
+export type AlertPosition =
+	| 'bottom-left'
+	| 'bottom-right'
+	| 'top-left'
+	| 'top-right';
+
+const availablePositions = {
+	'bottom-left': {
+		bottom: 10,
+		left: 10,
+	},
+	'bottom-right': {
+		bottom: 10,
+		right: 10,
+	},
+	'top-left': {
+		top: 10,
+		left: 10,
+	},
+	'top-right': {
+		top: 10,
+		right: 10,
+	},
+};
 
 export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
+	/**
+	 * If open is passed, the Alert will show on the screen until the user closes it.
+	 *
+	 * @default undefined
+	 */
+	open?: boolean;
+	/**
+	 * The position of the Alert. Only works if `open` is passed.
+	 *
+	 * @default 'bottom-left'
+	 */
+	position?: AlertPosition;
 	/**
 	 * The color of the Alert.
 	 *
@@ -35,6 +72,7 @@ export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
 	onClose?: MouseEventHandler<HTMLButtonElement>;
 	sx?: ThemeUICSSObject;
 }
+
 /**
  * Alerts are used to communicate a state that affects a system, feature or page.
  * They should draw attention and provide a clear call to action.
@@ -49,7 +87,9 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
 		{
 			id,
 			className,
+			open,
 			color = 'primary',
+			position = 'bottom-left',
 			title = '',
 			showCloseButton = false,
 			onClose,
@@ -59,10 +99,13 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
 		},
 		ref,
 	) => {
-		return (
+		const isOpenProp = open !== undefined;
+
+		const AlertComponent = (
 			<Sc.Alert
 				id={id}
 				$color={color}
+				$isOpenProp={isOpenProp}
 				sx={sx}
 				ref={ref}
 				className={classNames('alert-root', className, commonClassNames)}
@@ -80,6 +123,22 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
 				{children}
 			</Sc.Alert>
 		);
+
+		if (open !== undefined) {
+			return open ? (
+				<Portal
+					position={
+						availablePositions[position]
+							? availablePositions[position]
+							: availablePositions['bottom-left']
+					}
+				>
+					{AlertComponent}
+				</Portal>
+			) : null;
+		}
+
+		return AlertComponent;
 	},
 );
 

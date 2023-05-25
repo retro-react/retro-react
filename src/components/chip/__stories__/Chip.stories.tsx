@@ -1,4 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Flex } from 'theme-ui';
 import { Chip } from '../index';
 
 // https://storybook.js.org/docs/react/writing-stories/introduction#default-export
@@ -13,7 +14,18 @@ export default {
  * @see https://storybook.js.org/docs/react/writing-stories/introduction#using-args
  */
 const Template: ComponentStory<typeof Chip> = (args) => {
-	return <Chip {...args} />;
+	return (
+		<Flex
+			sx={{
+				gap: 2,
+			}}
+		>
+			<Chip {...args} />
+			<Chip {...args} onClick={() => {}}>
+				Clickable Chip
+			</Chip>
+		</Flex>
+	);
 };
 
 export const Primary = Template.bind({});

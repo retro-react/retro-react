@@ -10,7 +10,8 @@ export type SelectColor =
 	| 'secondary'
 	| 'success'
 	| 'error'
-	| 'warn';
+	| 'warn'
+	| 'greyscale';
 
 export type SelectSize = 'small' | 'medium' | 'large';
 
@@ -78,6 +79,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
 						$color={color}
 						$size={size}
 						className="select-label"
+						title={label}
 					>
 						{label}
 					</Sc.Label>

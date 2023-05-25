@@ -87,7 +87,9 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
 						<Sc.CardImage className="card-image" src={image} />
 					</Sc.CardImageWrapper>
 				)}
-				<Sc.CardContent className="card-content">{children}</Sc.CardContent>
+				<Sc.CardContent $color={color} className="card-content">
+					{children}
+				</Sc.CardContent>
 				{typeof footer === 'string' ? (
 					<Sc.CardFooter className="card-footer">{footer}</Sc.CardFooter>
 				) : (

@@ -27,12 +27,15 @@ export interface ChipProps extends React.HTMLAttributes<HTMLDivElement> {
  */
 export const Chip = forwardRef<HTMLDivElement, ChipProps>(
 	({ id, className, color = 'primary', children, sx, ...rest }, ref) => {
+		const isClickable = !!rest.onClick || !!rest.onKeyDown;
+
 		return (
 			<Sc.Chip
 				id={id}
 				sx={sx}
 				ref={ref}
 				$color={color}
+				$clickable={isClickable}
 				className={classNames('chip-root', className, commonClassNames)}
 				{...rest}
 			>

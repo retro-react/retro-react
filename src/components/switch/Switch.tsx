@@ -2,12 +2,12 @@
 import { forwardRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
+import { ComponentColors } from '@src/utils/getColorScheme';
 import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Switch.styled';
 
 export type SwitchVariant = 'rounded' | 'square';
 export type SwitchSize = 'small' | 'medium' | 'large';
-export type SwitchColor = 'primary' | 'secondary';
 
 export interface SwitchProps
 	extends Omit<React.HTMLAttributes<HTMLLabelElement>, 'onChange'> {
@@ -30,7 +30,7 @@ export interface SwitchProps
 	 *
 	 * @default 'primary'
 	 */
-	color?: SwitchColor;
+	color?: ComponentColors | 'greyscale';
 	/**
 	 *
 	 * The controlled state of the Switch.
@@ -84,6 +84,8 @@ export const Switch = forwardRef<HTMLLabelElement, SwitchProps>(
 				className={classNames('switch-root', className, commonClassNames)}
 				$disabled={disabled}
 				$size={size}
+				role="switch"
+				aria-checked={toggled}
 				{...rest}
 			>
 				<Sc.SwitchInput

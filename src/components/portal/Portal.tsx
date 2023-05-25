@@ -1,9 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 
+export interface Position {
+	top?: number;
+	bottom?: number;
+	left?: number;
+	right?: number;
+}
+
 export interface PortalProps {
 	children: React.ReactNode;
-	position?: { top: number; left: number };
+	position?: Position;
 }
 
 export const Portal = ({ children, position }: PortalProps) => {
@@ -16,9 +23,14 @@ export const Portal = ({ children, position }: PortalProps) => {
 		document.body.appendChild(element);
 
 		if (position) {
-			element.style.position = 'absolute';
-			element.style.top = `${position.top}px`;
-			element.style.left = `${position.left}px`;
+			element.style.position = 'fixed';
+			if (position.top !== undefined) element.style.top = `${position.top}px`;
+			if (position.bottom !== undefined)
+				element.style.bottom = `${position.bottom}px`;
+			if (position.left !== undefined)
+				element.style.left = `${position.left}px`;
+			if (position.right !== undefined)
+				element.style.right = `${position.right}px`;
 		}
 
 		return () => {

@@ -33,4 +33,20 @@ export const Basic = Template.bind({});
 Basic.args = {
 	value: 50,
 	pattern: 'stripes',
+	animated: false,
+};
+
+export const Animated = Template.bind({});
+Animated.args = {
+	value: 50,
+	pattern: 'stripes',
+	color: '#000000',
+	animated: true,
+};
+
+export const NoBackground = Template.bind({});
+NoBackground.args = {
+	value: 50,
+	pattern: 'stripes',
+	colorBg: 'none',
 };
