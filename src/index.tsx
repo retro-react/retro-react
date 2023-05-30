@@ -44,3 +44,4 @@ export * from './components/tooltip';
 export * from './components/tree';
 export * from './components/typewritertext';
 export * from './components/wordart';
+export * from './components/drawer';

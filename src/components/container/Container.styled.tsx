@@ -9,6 +9,7 @@ export const FluidContainer = styled.div`
 `;
 
 export const Container = styled.div`
+	box-sizing: border-box;
 	width: 100%;
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	max-width: ${COLUMN_WIDTH * 4 + GUTTER * 2 * 3}px;

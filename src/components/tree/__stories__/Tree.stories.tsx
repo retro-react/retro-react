@@ -47,7 +47,38 @@ export const Basic: Story = {
 								children: [
 									{
 										label: 'Great-grandchild 3.2.1',
-										content: 'This is some more content',
+										content: (
+											<>
+												<p>
+													Lorem ipsum dolor sit amet, consectetur adipiscing
+													elit, sed do eiusmod tempor incididunt ut labore et
+													dolore magna aliqua. Nisl rhoncus mattis rhoncus urna
+													neque. Est pellentesque elit ullamcorper dignissim
+													cras. Venenatis cras sed felis eget velit aliquet
+													sagittis id consectetur. Aliquet nibh praesent
+													tristique magna sit amet. Aenean euismod elementum
+													nisi quis eleifend quam adipiscing vitae. Viverra
+													ipsum nunc aliquet bibendum enim facilisis gravida. In
+													tellus integer feugiat scelerisque varius morbi enim
+													nunc faucibus.
+												</p>
+												<p>
+													Pellentesque massa placerat duis ultricies lacus sed.
+													Risus viverra adipiscing at in. At consectetur lorem
+													donec massa sapien faucibus et. Nunc sed blandit
+													libero volutpat sed cras ornare arcu. Habitasse platea
+													dictumst vestibulum rhoncus est pellentesque elit
+													ullamcorper. Et odio pellentesque diam volutpat
+													commodo. Aliquam sem fringilla ut morbi tincidunt.
+													Quis eleifend quam adipiscing vitae. Velit sed
+													ullamcorper morbi tincidunt ornare massa eget. Rhoncus
+													urna neque viverra justo nec. Lorem dolor sed viverra
+													ipsum nunc aliquet bibendum enim facilisis. Nulla
+													aliquet porttitor lacus luctus accumsan tortor posuere
+													ac ut.
+												</p>
+											</>
+										),
 									},
 								],
 							},

@@ -39,6 +39,9 @@ export const Basic: Story = {
 		prefix: '$',
 		size: 'medium',
 		direction: 'vertical',
+		onClick: () => {
+			console.log('clicked');
+		},
 	},
 	render: (args) => {
 		return (

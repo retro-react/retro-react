@@ -6,11 +6,13 @@ import commonClassNames from '@src/constants/commonClassNames';
 import {
 	ChevronIcon,
 	ChildrenContainer,
+	DottedLine,
 	NodeContainer,
 	NodeContent,
 	NodeLabel,
 	TreeContainer,
 	TreeNodeContainer,
+	TreeNodeWrapper,
 } from './Tree.styled';
 
 export type TreeColor =
@@ -106,6 +108,7 @@ const TreeNode: React.FC<TreeNodeProps> = ({
 
 	return (
 		<TreeNodeContainer $collapsed={collapsed} $color={$color}>
+			<DottedLine $show={$color === 'none'} />
 			<NodeLabel
 				className="tree-node-label"
 				onClick={handleClick}
@@ -126,28 +129,28 @@ const TreeNode: React.FC<TreeNodeProps> = ({
 				<NodeContent className="tree-node-content">{node.content}</NodeContent>
 			)}
 			{node.children && (
-				<NodeContainer
-					className={classNames(
-						'tree-node-container',
-						!collapsed ? 'tree-expanded' : '',
-					)}
+				<TreeNodeWrapper
+					$expanded={!collapsed}
+					className={collapsed ? '' : 'tree-expanded'}
 				>
-					{node.content && (
-						<NodeContent className="tree-node-content">
-							{node.content}
-						</NodeContent>
-					)}
-					<ChildrenContainer className={classNames('tree-node-children')}>
-						{node.children.map((child, index) => (
-							<TreeNode
-								key={`${node.label}-${index}`}
-								node={child}
-								$color={$color}
-								$defaultCollapsed={$defaultCollapsed}
-							/>
-						))}
-					</ChildrenContainer>
-				</NodeContainer>
+					<NodeContainer className="tree-node-container">
+						{node.content && (
+							<NodeContent className="tree-node-content">
+								{node.content}
+							</NodeContent>
+						)}
+						<ChildrenContainer className={classNames('tree-node-children')}>
+							{node.children.map((child, index) => (
+								<TreeNode
+									key={`${node.label}-${index}`}
+									node={child}
+									$color={$color}
+									$defaultCollapsed={$defaultCollapsed}
+								/>
+							))}
+						</ChildrenContainer>
+					</NodeContainer>
+				</TreeNodeWrapper>
 			)}
 		</TreeNodeContainer>
 	);
@@ -157,7 +160,6 @@ const TreeNode: React.FC<TreeNodeProps> = ({
  * Trees are used to display hierarchical data. They are composed of nodes, which can be expanded and collapsed.
  * Each node can have a label, content and children. The content can be any React node while the label is a string.
  *
- * Currently, not recommended for use with large data sets.
  *
  * @example
  * ```tsx

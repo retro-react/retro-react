@@ -65,6 +65,12 @@ export interface StatisticsProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default 'vertical'
 	 */
 	direction?: StatisticsVariant;
+	/**
+	 * Optional click handler for the entire component.
+	 *
+	 * @default undefined
+	 */
+	onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
 	sx?: ThemeUICSSObject;
 }
 
@@ -89,6 +95,7 @@ export const Statistics = forwardRef<HTMLDivElement, StatisticsProps>(
 			direction = 'vertical',
 			prefix = '',
 			suffix = '',
+			onClick,
 			sx,
 			...rest
 		},
@@ -99,6 +106,7 @@ export const Statistics = forwardRef<HTMLDivElement, StatisticsProps>(
 				$size={size}
 				$color={color}
 				$direction={direction}
+				$isClickable={!!onClick}
 				className={classNames('statistics-root', className, commonClassNames)}
 				ref={ref}
 				id={id}

@@ -37,6 +37,7 @@ Default.args = {
 	color: 'primary',
 	size: 'medium',
 	rounded: false,
+	multiline: false,
 	sx: { width: '250px' },
 };
 
@@ -48,5 +49,6 @@ Outlined.args = {
 	color: 'primary',
 	size: 'medium',
 	rounded: false,
+	multiline: false,
 	sx: { width: '250px' },
 };

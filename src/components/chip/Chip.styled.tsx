@@ -9,7 +9,7 @@ export const Chip = styled.div<{ $color: ChipColor; $clickable?: boolean }>`
 	align-items: center;
 	justify-content: center;
 	position: relative;
-	padding: 0.2rem 3rem 0.3rem 1.2rem;
+	padding: 0.2rem 1.2rem 0.3rem 1.2rem;
 	font-size: 0.875rem;
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	border-top: 2px solid ${SHADE_6};

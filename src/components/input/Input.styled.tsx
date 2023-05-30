@@ -77,6 +77,7 @@ export const Input = styled.input<{
 	$color: ComponentColors | 'greyscale';
 	$size: InputSizes;
 	$rounded: boolean;
+	$multiline: boolean;
 }>`
 	padding: 0.5rem 1rem;
 	border-radius: 0.5rem;
@@ -112,6 +113,13 @@ export const Input = styled.input<{
 		`
 		border-radius: 1rem;
 	`}
+
+	${({ $multiline }) =>
+		$multiline &&
+		css`
+			resize: none;
+			overflow: auto;
+		`}
 	
 		
 

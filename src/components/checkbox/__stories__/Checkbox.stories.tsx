@@ -7,7 +7,7 @@ import { Checkbox } from '../index';
 
 // https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-	title: 'Components/Checkbox',
+	title: 'Forms/Checkbox',
 	component: Checkbox,
 } as ComponentMeta<typeof Checkbox>;
 

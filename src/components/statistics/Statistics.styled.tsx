@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { darken } from 'polished';
 import getColorScheme, { ComponentColors } from '@src/utils/getColorScheme';
+import { rgba } from '@src/utils/rgba';
 import { BLACK, SHADE_2, WHITE } from '@src/constants/colors';
 import { StatisticsSize, StatisticsVariant } from './Statistics';
 
@@ -20,6 +21,7 @@ export const StatisticsWrapper = styled.div<{
 	$color: ComponentColors | string;
 	$direction: StatisticsVariant;
 	$size: StatisticsSize;
+	$isClickable: boolean;
 }>`
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	position: relative;
@@ -53,6 +55,29 @@ export const StatisticsWrapper = styled.div<{
 	`}
 
 	color: ${({ $color }) => getTextColors($color)};
+
+	${({ $isClickable, $color }) =>
+		$isClickable &&
+		`
+		cursor: pointer;
+		transition: all 0.2s ease-in-out;
+		
+		&:hover {
+			::after {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				height: 100%;
+				width: 100%;
+				background-color: ${rgba(
+					$color === 'none' ? SHADE_2 : darken(0.3, getColorScheme($color)),
+					0.3,
+				)};
+				border-radius: 5px;
+			}
+		}
+	`}
 `;
 
 export const StatNumberWrapper = styled.div<{

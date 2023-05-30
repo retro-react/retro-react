@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { alterColorEnhanced } from '@src/utils/alterColor';
 import getColorScheme from '@src/utils/getColorScheme';
+import { BLACK } from '@src/constants/colors';
 import { TreeColor } from './Tree';
 
 export const TreeContainer = styled.section<{
@@ -18,6 +19,7 @@ export const TreeNodeContainer = styled.section<{
 	$collapsed: boolean;
 	$color: TreeColor;
 }>`
+	position: relative;
 	font-size: 1rem;
 	box-sizing: border-box;
 	border: 1px solid ${({ $color, theme }) => getColorScheme($color, theme)};
@@ -32,6 +34,14 @@ export const TreeNodeContainer = styled.section<{
 	&:not(:last-child) {
 		border-bottom: none;
 	}
+`;
+
+export const DottedLine = styled.div<{ $show: boolean }>`
+	display: ${({ $show }) => ($show ? 'block' : 'none')};
+	border-left: 1px dashed ${BLACK};
+	height: 100%;
+	position: absolute;
+	left: 0;
 `;
 
 export const NodeLabel = styled.h3<{ $collapsible: boolean }>`
@@ -50,11 +60,17 @@ export const NodeContent = styled.div`
 	padding: 4px;
 `;
 
+export const TreeNodeWrapper = styled.div<{
+	$expanded: boolean;
+}>`
+	display: grid;
+	grid-template-rows: ${({ $expanded }) => ($expanded ? '1fr' : '0fr')};
+	overflow: hidden;
+	transition: grid-template-rows 0.2s;
+`;
+
 export const NodeContainer = styled.div`
-	opacity: 0;
-	max-height: 0;
-	overflow: auto;
-	transition: opacity 0.1s ease-in-out, max-height 0.2s ease-in-out;
+	min-height: 0;
 
 	&::-webkit-scrollbar {
 		width: 0;
@@ -66,11 +82,6 @@ export const NodeContainer = styled.div`
 
 	/* Internet Explorer */
 	-ms-overflow-style: none;
-
-	&.tree-expanded {
-		opacity: 1;
-		max-height: 1000px;
-	}
 `;
 
 export const ChildrenContainer = styled.div`

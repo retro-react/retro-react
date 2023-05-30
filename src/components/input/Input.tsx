@@ -11,7 +11,7 @@ export type InputSizes = 'small' | 'medium' | string;
 
 export interface OmitSizeInputHTMLAttributes
 	extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {}
-export interface InputProps extends OmitSizeInputHTMLAttributes {
+export interface BaseInputProps extends OmitSizeInputHTMLAttributes {
 	/**
 	 * The variant of the Input.
 	 *
@@ -36,8 +36,25 @@ export interface InputProps extends OmitSizeInputHTMLAttributes {
 	 * @default 'small'
 	 */
 	size?: InputSizes;
+	/**
+	 * Add a multiline Input for longer text. Replaces the `input` element with a `textarea` element.
+	 * With `multiline` enabled, you can also pass `rows` and `cols` props to the Input.
+	 *
+	 * @default false
+	 */
+	multiline?: boolean;
 	sx?: ThemeUICSSObject;
 }
+
+type MultilineProps = BaseInputProps & {
+	multiline: true;
+} & React.TextareaHTMLAttributes<HTMLTextAreaElement>;
+
+type SingleLineProps = BaseInputProps & {
+	multiline?: false;
+};
+
+export type InputProps = MultilineProps | SingleLineProps;
 
 /**
  * Inputs are used to collect user provided information.
@@ -57,17 +74,22 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 			color = 'primary',
 			size = 'small',
 			rounded = true,
+			multiline = false,
 			sx,
 			...rest
 		},
 		ref,
 	) => {
+		const Component = multiline ? 'textarea' : 'input';
+
 		return (
 			<Sc.Input
+				as={Component}
 				ref={ref}
 				id={id}
 				$variant={variant}
 				$rounded={rounded}
+				$multiline={multiline}
 				$color={color}
 				$size={size}
 				className={classNames('input-root', className, commonClassNames)}
