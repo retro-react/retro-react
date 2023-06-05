@@ -14,6 +14,8 @@ export type ButtonColor =
 
 export type ButtonVariant = 'solid' | 'outline' | 'text';
 
+export type ButtonSize = 'small' | 'medium' | 'large';
+
 export interface ButtonProps
 	extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	/**
@@ -28,7 +30,12 @@ export interface ButtonProps
 	 * @default 'solid'
 	 */
 	variant?: ButtonVariant;
-
+	/**
+	 * The size of the Button.
+	 *
+	 * @default 'medium'
+	 */
+	size?: ButtonSize;
 	/**
 	 * If true disables the click transform effect.
 	 *
@@ -36,6 +43,13 @@ export interface ButtonProps
 	 */
 	disableClickEffect?: boolean;
 	sx?: ThemeUICSSObject;
+
+	/**
+	 * @internal
+	 *
+	 * Modify styles for ButtonGroup component.
+	 */
+	isButtonGroup?: boolean;
 }
 
 /**
@@ -54,6 +68,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 			onClick,
 			color = 'primary',
 			variant = 'solid',
+			size = 'medium',
+			isButtonGroup = false,
 			disableClickEffect = false,
 			children,
 			sx,
@@ -66,7 +82,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 				ref={ref}
 				id={id}
 				variant={variant}
+				$size={size}
 				$color={color}
+				$isButtonGroup={isButtonGroup}
 				$disableClickEffect={disableClickEffect}
 				className={classNames('button-root', className, commonClassNames)}
 				onClick={onClick}

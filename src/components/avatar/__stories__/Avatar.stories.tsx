@@ -1,4 +1,6 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { ComponentMeta, StoryFn } from '@storybook/react';
+import { Badge } from '@src/components/badge';
+import { Group } from '@src/components/group';
 import { Avatar } from '../index';
 
 // https://storybook.js.org/docs/react/writing-stories/introduction#default-export
@@ -12,7 +14,7 @@ export default {
  *
  * @see https://storybook.js.org/docs/react/writing-stories/introduction#using-args
  */
-const Template: ComponentStory<typeof Avatar> = (args) => {
+const Template: StoryFn<typeof Avatar> = (args) => {
 	return (
 		<div style={{ display: 'flex', gap: '1rem' }}>
 			<Avatar {...args} src="" />
@@ -32,38 +34,32 @@ Primary.args = {
 	src: image,
 };
 
-export const Secondary = Template.bind({});
-Secondary.args = {
-	color: 'secondary',
-	children: 'AB',
-	size: 'medium',
-	variant: 'circle',
-	src: image,
+const GroupTemplate: StoryFn<typeof Avatar> = () => {
+	const randomImage = () => `https://i.pravatar.cc/300?random=${Math.random()}`;
+	return (
+		<Group>
+			<Avatar color="primary" src={randomImage()} />
+			<Avatar color="secondary" src={randomImage()} />
+			<Avatar color="success" src={randomImage()} />
+			<Avatar color="error" src={randomImage()} />
+			<Avatar color="warn" src={randomImage()} />
+		</Group>
+	);
 };
 
-export const Success = Template.bind({});
-Success.args = {
-	color: 'success',
-	children: 'AB',
-	size: 'medium',
-	variant: 'circle',
-	src: image,
-};
+/**
+ * Using the `Group` component, you can group multiple avatars together.
+ */
+export const Grouped = GroupTemplate.bind({});
 
-export const Error = Template.bind({});
-Error.args = {
-	color: 'error',
-	children: 'AB',
-	size: 'medium',
-	variant: 'circle',
-	src: image,
+const WithBadgeTemplate: StoryFn<typeof Avatar> = () => {
+	return (
+		<Badge count={5} color="secondary">
+			<Avatar color="primary">AB</Avatar>
+		</Badge>
+	);
 };
-
-export const Warn = Template.bind({});
-Warn.args = {
-	color: 'warn',
-	children: 'AB',
-	size: 'medium',
-	variant: 'circle',
-	src: image,
-};
+/**
+ * You can add a badge to the avatar by wrapping it in a `Badge` component.
+ */
+export const WithBadge = WithBadgeTemplate.bind({});

@@ -19,7 +19,7 @@ export interface BoxProps extends React.HTMLAttributes<HTMLDivElement> {
 	 *
 	 * @default 'stripes'
 	 */
-	pattern?: ComponentPatterns;
+	pattern?: ComponentPatterns | 'none';
 	sx?: ThemeUICSSObject;
 }
 

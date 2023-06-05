@@ -22,14 +22,12 @@ export const Basic: Story = {
 	},
 	render: ({ interval, children, ...rest }: CarouselProps) => {
 		const divStyle = {
-			backgroundColor: '#fff',
-			height: '500px',
-			width: '700px',
+			maxHeight: '500px',
+			width: '100%',
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'center',
 			margin: '0 auto',
-			border: '1px solid #fff',
 		};
 
 		return (

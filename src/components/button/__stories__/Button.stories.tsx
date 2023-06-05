@@ -26,6 +26,7 @@ const Template: ComponentStory<typeof Button> = (args) => {
 export const Primary = Template.bind({});
 Primary.args = {
 	onClick: action('clicked'),
+	size: 'medium',
 	disableClickEffect: false,
 	children: 'Primary Button',
 	variant: 'solid',
@@ -36,6 +37,7 @@ export const Secondary = Template.bind({});
 Secondary.args = {
 	color: 'secondary',
 	onClick: action('clicked'),
+	size: 'medium',
 	disableClickEffect: false,
 	children: 'Secondary Button',
 	variant: 'solid',
@@ -45,6 +47,7 @@ export const Success = Template.bind({});
 Success.args = {
 	color: 'success',
 	onClick: action('clicked'),
+	size: 'medium',
 	disableClickEffect: false,
 	children: 'Success Button',
 	variant: 'solid',
@@ -54,6 +57,7 @@ export const Error = Template.bind({});
 Error.args = {
 	color: 'error',
 	onClick: action('clicked'),
+	size: 'medium',
 	disableClickEffect: false,
 	children: 'Error Button',
 	variant: 'solid',
@@ -63,6 +67,7 @@ export const Warn = Template.bind({});
 Warn.args = {
 	color: 'warn',
 	onClick: action('clicked'),
+	size: 'medium',
 	disableClickEffect: false,
 	children: 'Warn Button',
 	variant: 'solid',

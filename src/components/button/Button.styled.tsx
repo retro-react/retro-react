@@ -1,11 +1,13 @@
 import styled from '@emotion/styled';
 import getColorScheme from '@src/utils/getColorScheme';
-import type { ButtonColor, ButtonVariant } from './Button';
+import type { ButtonColor, ButtonSize, ButtonVariant } from './Button';
 import { getTheme } from './themes';
 
 export const Button = styled.button<{
+	$size: ButtonSize;
 	$color: ButtonColor;
 	variant: ButtonVariant;
+	$isButtonGroup?: boolean;
 	$disableClickEffect?: boolean;
 }>`
 	display: inline-flex;
@@ -43,4 +45,31 @@ export const Button = styled.button<{
 		transform: scale(0.98);
 		box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.1);
 	}
+
+	${(props) =>
+		props.$isButtonGroup &&
+		`
+			border-radius: 0;
+
+			&:first-child {
+				border-top-left-radius: 4px;
+				border-bottom-left-radius: 4px;
+			}
+
+			&:last-child {
+				border-top-right-radius: 4px;
+				border-bottom-right-radius: 4px;
+			}
+		`}
+
+	padding: ${(props) => {
+		switch (props.$size) {
+			case 'small':
+				return '0.25rem 0.5rem';
+			case 'large':
+				return '1rem 2rem';
+			default:
+				return '0.5rem 1rem'; // medium size
+		}
+	}};
 `;

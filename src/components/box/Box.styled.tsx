@@ -9,7 +9,7 @@ import { BLACK } from '@src/constants/colors';
 
 export const Box = styled.div<{
 	$color: ComponentColors | string;
-	$pattern: ComponentPatterns;
+	$pattern: ComponentPatterns | 'none';
 }>`
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	background-color: ${(props) =>
@@ -23,5 +23,13 @@ export const Box = styled.div<{
 
 	outline: 1rem solid transparent;
 
-	background-image: url(${(props) => getPatternScheme(props.$pattern)});
+	${(props) =>
+		props.$pattern === 'none'
+			? `
+		background-color: transparent;
+		border: 1px solid ${getColorScheme(props.$color, props.theme) || props.$color};
+			`
+			: `
+		background-image: url(${getPatternScheme(props.$pattern)});
+		`}
 `;

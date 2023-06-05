@@ -1,5 +1,6 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { ComponentMeta, StoryFn } from '@storybook/react';
 import { Flex } from 'theme-ui';
+import { Group } from '@src/components/group';
 import { Chip } from '../index';
 
 // https://storybook.js.org/docs/react/writing-stories/introduction#default-export
@@ -13,7 +14,7 @@ export default {
  *
  * @see https://storybook.js.org/docs/react/writing-stories/introduction#using-args
  */
-const Template: ComponentStory<typeof Chip> = (args) => {
+const Template: StoryFn<typeof Chip> = (args) => {
 	return (
 		<Flex
 			sx={{
@@ -28,32 +29,24 @@ const Template: ComponentStory<typeof Chip> = (args) => {
 	);
 };
 
-export const Primary = Template.bind({});
-Primary.args = {
+const GroupTemplate: StoryFn<typeof Chip> = () => {
+	return (
+		<Group>
+			<Chip color="primary">Pizza</Chip>
+			<Chip color="secondary">Sushi</Chip>
+			<Chip color="success">Burgers</Chip>
+			<Chip color="error">Tacos</Chip>
+			<Chip color="warn">Chicken</Chip>
+		</Group>
+	);
+};
+
+export const Basic = Template.bind({});
+Basic.args = {
 	color: 'primary',
 	children: 'Primary Chip',
 };
-
-export const Secondary = Template.bind({});
-Secondary.args = {
-	color: 'secondary',
-	children: 'Secondary Chip',
-};
-
-export const Success = Template.bind({});
-Success.args = {
-	color: 'success',
-	children: 'Success Chip',
-};
-
-export const Error = Template.bind({});
-Error.args = {
-	color: 'error',
-	children: 'Error Chip',
-};
-
-export const Warn = Template.bind({});
-Warn.args = {
-	color: 'warn',
-	children: 'Warn Chip',
-};
+/**
+ * Grouped chips are used to display multiple chips in a group. Used with `Group` component.
+ */
+export const Grouped = GroupTemplate.bind({});

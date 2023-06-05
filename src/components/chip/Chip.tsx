@@ -18,7 +18,7 @@ export interface ChipProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Chips are used to represent small blocks of information.
+ * Chips are used to represent small blocks of information. Pass the `onClick` or `onKeyDown` prop to make the Chip clickable.
  *
  * @example
  * <Chip color="success">
