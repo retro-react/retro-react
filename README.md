@@ -7,7 +7,9 @@ React Retro UI Library is a retro-themed UI library for React that offers a uniq
 
 There are also some unique components such as the `MouseTrail` component, which creates a trail of mouse cursors that follow the user's mouse movements, `PixelatedImage`, which pixelates an image, and many more. Additional components can be found in the demo.
 
-The library is in it's early stages, so there are still many components to be added. Suggestions are always welcome, so feel free to open an issue [here](https://github.com/retro-react/retro-react). Stay tuned for frequent updates!
+The library is in it's early stages, so there are still many components to be added. Suggestions are always welcome, so feel free to open an issue [here](https://github.com/retro-react/retro-react).
+
+For detailed changes between versions, please refer to the github [releases](https://github.com/retro-react/retro-react/releases) page. Stay tuned for frequent updates!
 
 ## Demo
 
