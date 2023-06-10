@@ -5,6 +5,7 @@ import {
 	getPatternScheme,
 } from '@src/utils/getPatternScheme';
 import { rgba } from '@src/utils/rgba';
+import { SHADE_4, WHITE } from '@src/constants/colors';
 
 export const CarouselWrapper = styled.div<{
 	$color: ComponentColors;
@@ -14,18 +15,53 @@ export const CarouselWrapper = styled.div<{
 	overflow: hidden;
 	background-image: ${(props) => `url(${getPatternScheme(props.$pattern)})`};
 	background-color: ${({ $color, theme }) => getColorScheme($color, theme)};
-	display: flex;
-	min-height: 0;
-	padding: 1rem;
+	width: 100%;
 `;
 
-export const CarouselItem = styled.div<{ isActive: boolean }>`
-	display: ${(props) => (props.isActive ? 'block' : 'none')};
-	width: 100%;
-	transition: opacity 0.5s ease-in-out;
+export const CarouselNav = styled.div`
+	position: absolute;
+	bottom: 5%;
+	left: 50%;
+	transform: translateX(-50%);
+`;
 
+export const CarouselDot = styled.button<{ isActive: boolean }>`
+	position: relative;
+	width: 0.3em;
+	aspect-ratio: 1;
+	margin: 0 0.5rem;
+	background: ${({ isActive }) =>
+		isActive ? rgba(WHITE, 0.7) : rgba(SHADE_4, 0.5)};
+	border: none;
+	border-radius: 50%;
+	cursor: pointer;
+
+	&:focus {
+		outline: none;
+	}
+`;
+
+export const CarouselTrack = styled.div`
+	display: flex;
+	width: 100%;
+	height: 100%;
+	transition: transform 0.5s ease-in-out;
+`;
+
+export const CarouselItem = styled.div`
+	width: 100%;
 	flex-shrink: 0;
-	min-height: 0;
+
+	& > * {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	& img {
+		max-width: 100%;
+		height: auto;
+	}
 `;
 
 export const CarouselButton = styled.button<{

@@ -49,3 +49,4 @@ export * from './components/typewritertext';
 export * from './components/wordart';
 export * from './components/group';
 export * from './components/badge';
+export * from './components/navbar';

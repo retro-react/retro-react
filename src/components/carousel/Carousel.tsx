@@ -17,7 +17,7 @@ import * as Sc from './Carousel.styled';
 
 export interface CarouselProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
-	 * The pattern of the Carousel.
+	 * The background pattern of the Carousel. If image fits the entire Carousel, pattern will not be visible.
 	 *
 	 * @default 'stripes'
 	 */
@@ -58,7 +58,9 @@ export interface CarouselProps extends React.HTMLAttributes<HTMLDivElement> {
 /**
  * Carousel component for displaying a slideshow of content. The component will automatically
  * change the size depending on the content. To minimize layout shifts, it is recommended to
- * set a fixed size to the Carousel or children.
+ * set a fixed size for images that will work for all screen sizes.
+ *
+ * For example, image sizes of 1000x500 will work well for most screen sizes.
  *
  *
  * @example
@@ -115,15 +117,25 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
 				className={classNames('carousel-root', className, commonClassNames)}
 				{...rest}
 			>
-				{Children.map(children, (child, index) => (
-					<Sc.CarouselItem
-						key={index}
-						isActive={index === activeIndex}
-						className="carousel-item"
-					>
-						{child}
-					</Sc.CarouselItem>
-				))}
+				<Sc.CarouselTrack
+					style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+				>
+					{Children.map(children, (child, index) => (
+						<Sc.CarouselItem key={index} className="carousel-item">
+							{child}
+						</Sc.CarouselItem>
+					))}
+				</Sc.CarouselTrack>
+
+				<Sc.CarouselNav>
+					{Children.map(children, (_, index) => (
+						<Sc.CarouselDot
+							key={index}
+							isActive={index === activeIndex}
+							onClick={() => setActiveIndex(index)}
+						/>
+					))}
+				</Sc.CarouselNav>
 
 				{!rest.hideArrows && (
 					<>

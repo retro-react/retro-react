@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
+import { alterColorEnhanced } from '@src/utils/alterColor';
 import getColorScheme, { ComponentColors } from '@src/utils/getColorScheme';
-import { SHADE_1, SHADE_6 } from '@src/constants/colors';
+import { SHADE_1 } from '@src/constants/colors';
 import { BadgeSize } from './Badge';
 
 interface BadgeProps {
@@ -19,7 +20,9 @@ export const Badge = styled.span<BadgeProps>`
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	background-color: ${({ $color, theme }) => getColorScheme($color, theme)};
 	color: ${SHADE_1};
-	border: 2px solid ${SHADE_6};
+	border: 1px solid
+		${({ $color, theme }) =>
+			alterColorEnhanced(getColorScheme($color, theme), 75)};
 	border-radius: 50%;
 	animation: ${({ $pulsate }) => ($pulsate ? 'pulsate 1.5s infinite' : 'none')};
 
