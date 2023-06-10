@@ -5,7 +5,7 @@ import { Navbar, NavItem } from '../Navbar';
 
 // https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-	title: 'Components/Navbar',
+	title: 'Layout/Navbar',
 	component: Navbar,
 	argTypes: {
 		children: {
