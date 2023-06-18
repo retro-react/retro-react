@@ -23,6 +23,70 @@ export default meta;
 
 type Story = StoryObj<typeof FlexibleLayout>;
 
+const ListContent = () => (
+	<ul>
+		<li>
+			<a href="#" onClick={(e) => e.preventDefault()}>
+				Home
+			</a>
+		</li>
+		<li>
+			<a href="#" onClick={(e) => e.preventDefault()}>
+				TV Shows
+			</a>
+		</li>
+		<li>
+			<a href="#" onClick={(e) => e.preventDefault()}>
+				Music
+			</a>
+		</li>
+		<li>
+			<a href="#" onClick={(e) => e.preventDefault()}>
+				Fashion
+			</a>
+		</li>
+		<li>
+			<a href="#" onClick={(e) => e.preventDefault()}>
+				Toys & Games
+			</a>
+		</li>
+	</ul>
+);
+
+const QuizContent = () => (
+	<>
+		<Text variant="paragraph">What's your favorite 90s sitcom?</Text>
+		<ul>
+			<li>
+				<input type="radio" name="sitcom" /> Friends
+			</li>
+			<li>
+				<input type="radio" name="sitcom" /> Seinfeld
+			</li>
+			<li>
+				<input type="radio" name="sitcom" /> The Fresh Prince of Bel-Air
+			</li>
+			<li>
+				<input type="radio" name="sitcom" /> Frasier
+			</li>
+		</ul>
+		<button>Vote</button>
+	</>
+);
+
+const ParagraphContent = () => (
+	<>
+		<Text variant="paragraph">Welcome to the 90s Nostalgia Zone!</Text>
+		<p>
+			Take a trip down memory lane and relive the best decade ever! Our website
+			is dedicated to everything that made the 90s unique - from our favorite TV
+			shows and music, to the toys and games we loved to play. So, grab a Surge
+			soda, put on your LA Lights sneakers, and let's dive into the world of 90s
+			nostalgia!
+		</p>
+	</>
+);
+
 export const Basic: Story = {
 	args: {
 		sx: {
@@ -41,61 +105,13 @@ export const Basic: Story = {
 				<Text variant="paragraph">© 1999 - 90s Nostalgia Zone</Text>
 			</LayoutFooter>
 			<LayoutSidebarLeft>
-				<ul>
-					<li>
-						<a href="#" onClick={(e) => e.preventDefault()}>
-							Home
-						</a>
-					</li>
-					<li>
-						<a href="#" onClick={(e) => e.preventDefault()}>
-							TV Shows
-						</a>
-					</li>
-					<li>
-						<a href="#" onClick={(e) => e.preventDefault()}>
-							Music
-						</a>
-					</li>
-					<li>
-						<a href="#" onClick={(e) => e.preventDefault()}>
-							Fashion
-						</a>
-					</li>
-					<li>
-						<a href="#" onClick={(e) => e.preventDefault()}>
-							Toys & Games
-						</a>
-					</li>
-				</ul>
+				<ListContent />
 			</LayoutSidebarLeft>
 			<LayoutSidebarRight>
-				<Text variant="paragraph">What's your favorite 90s sitcom?</Text>
-				<ul>
-					<li>
-						<input type="radio" name="sitcom" /> Friends
-					</li>
-					<li>
-						<input type="radio" name="sitcom" /> Seinfeld
-					</li>
-					<li>
-						<input type="radio" name="sitcom" /> The Fresh Prince of Bel-Air
-					</li>
-					<li>
-						<input type="radio" name="sitcom" /> Frasier
-					</li>
-				</ul>
-				<button>Vote</button>
+				<QuizContent />
 			</LayoutSidebarRight>
 			<LayoutMain>
-				<Text variant="paragraph">Welcome to the 90s Nostalgia Zone!</Text>
-				<p>
-					Take a trip down memory lane and relive the best decade ever! Our
-					website is dedicated to everything that made the 90s unique - from our
-					favorite TV shows and music, to the toys and games we loved to play.
-					So, grab a Surge soda, put on your LA Lights sneakers, and let's dive
-					into the world of 90s nostalgia!
-				</p>
+				<ParagraphContent />
 			</LayoutMain>
 		</FlexibleLayout>
 	),

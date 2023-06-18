@@ -50,7 +50,6 @@ Default.args = {
 	pattern: 'noise',
 	color: 'primary',
 	sx: {
-		height: '500px',
-		width: '500px',
+		width: '100%',
 	},
 };

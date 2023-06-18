@@ -1,8 +1,10 @@
-import React, { Children, cloneElement, forwardRef } from 'react';
+import React, { Children, cloneElement, forwardRef, useState } from 'react';
 import { classNames } from '@src/utils/classNames';
 import { ComponentColors } from '@src/utils/getColorScheme';
 import { ComponentPatterns } from '@src/utils/getPatternScheme';
 import commonClassNames from '@src/constants/commonClassNames';
+import closeIcon from '../../assets/svg/close_icon.svg';
+import hamburgerIcon from '../../assets/svg/hamburger_icon.svg';
 import * as Sc from './Navbar.styled';
 
 export interface NavbarProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -38,6 +40,18 @@ export interface NavItemProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default 'primary'
 	 */
 	_internalBgColor?: ComponentColors;
+	/**
+	 * @internal On click handler for the NavItem.
+	 *
+	 * @default undefined
+	 */
+	_internalOnClick?: () => void;
+	/**
+	 * On click handler for the NavItem.
+	 *
+	 * @default undefined
+	 */
+	onClick?: () => void;
 }
 
 /**
@@ -56,6 +70,11 @@ export const Navbar = forwardRef<HTMLDivElement, NavbarProps>(
 		{ color = 'primary', pattern = 'solid', children, className, id, ...rest },
 		ref,
 	) => {
+		const [open, setOpen] = useState(false);
+		const toggleMenu = () => {
+			setOpen(!open);
+		};
+
 		return (
 			<Sc.NavbarContainer
 				$color={color}
@@ -65,15 +84,35 @@ export const Navbar = forwardRef<HTMLDivElement, NavbarProps>(
 				className={classNames('navbar-root', className, commonClassNames)}
 				{...rest}
 			>
-				{Children.map(children, (child, index) => {
-					return (
-						<Sc.NavbarItemWrapper key={`navbar-item-${index}`}>
-							{cloneElement(child as React.ReactElement, {
-								_internalBgColor: color,
-							})}
-						</Sc.NavbarItemWrapper>
-					);
-				})}
+				<Sc.HamburgerMenu
+					onClick={toggleMenu}
+					className="navbar-hamburger"
+					$hamburgerIcon={hamburgerIcon}
+					$closeIcon={closeIcon}
+					$open={open}
+					$color={color}
+					aria-controls="navbar-menu"
+					aria-expanded={open}
+				/>
+				<Sc.NavbarItemsContainer
+					$color={color}
+					$pattern={pattern}
+					$open={open}
+					className="navbar-items"
+					id="navbar-menu"
+					role="menu"
+				>
+					{Children.map(children, (child, index) => {
+						return (
+							<Sc.NavbarItemWrapper key={`navbar-item-${index}`}>
+								{cloneElement(child as React.ReactElement, {
+									_internalBgColor: color,
+									_internalOnClick: toggleMenu,
+								})}
+							</Sc.NavbarItemWrapper>
+						);
+					})}
+				</Sc.NavbarItemsContainer>
 			</Sc.NavbarContainer>
 		);
 	},
@@ -92,10 +131,13 @@ Navbar.displayName = 'Navbar';
  * 	<NavItem><a href="#">Contact</a></NavItem>
  * </Navbar>
  */
+
 export const NavItem: React.FC<NavItemProps> = ({
 	children,
 	className,
 	_internalBgColor = 'primary',
+	_internalOnClick,
+	onClick,
 	id,
 	...rest
 }) => {
@@ -104,6 +146,15 @@ export const NavItem: React.FC<NavItemProps> = ({
 			id={id}
 			className={classNames('navbar-item', className)}
 			$color={_internalBgColor}
+			onClick={() => {
+				if (_internalOnClick) {
+					_internalOnClick();
+				}
+				if (onClick) {
+					onClick();
+				}
+			}}
+			role="menuitem"
 			{...rest}
 		>
 			{children}

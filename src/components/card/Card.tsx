@@ -34,11 +34,18 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 	 */
 	image?: string;
 	/**
+	 * The alt text of the Card image.
+	 *
+	 * @default ''
+	 */
+	alt?: string;
+	/**
 	 * The footer of the Card.
 	 *
 	 * @default undefined
 	 */
 	footer?: React.ReactNode;
+
 	sx?: ThemeUICSSObject;
 }
 
@@ -63,6 +70,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
 			footer,
 			color = 'primary',
 			pattern = 'noise',
+			alt = '',
 			...rest
 		},
 		ref,
@@ -73,27 +81,37 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
 				$color={color}
 				ref={ref}
 				id={id}
+				role="group"
+				aria-labelledby={id ? `${id}-title` : undefined}
+				aria-describedby={id ? `${id}-content` : undefined}
 				className={classNames('card-root', className, commonClassNames)}
 				sx={sx}
 				{...rest}
 			>
-				{typeof header === 'string' ? (
-					<Sc.CardTitle className="card-header">{header}</Sc.CardTitle>
-				) : (
-					header
+				{header && (
+					<Sc.CardTitle
+						id={id ? `${id}-title` : undefined}
+						className="card-header"
+					>
+						{typeof header === 'string' ? header : header}
+					</Sc.CardTitle>
 				)}
 				{image && (
 					<Sc.CardImageWrapper className="card-image-wrapper">
-						<Sc.CardImage className="card-image" src={image} />
+						<Sc.CardImage className="card-image" src={image} alt={alt} />
 					</Sc.CardImageWrapper>
 				)}
-				<Sc.CardContent $color={color} className="card-content">
+				<Sc.CardContent
+					$color={color}
+					id={id ? `${id}-content` : undefined}
+					className="card-content"
+				>
 					{children}
 				</Sc.CardContent>
-				{typeof footer === 'string' ? (
-					<Sc.CardFooter className="card-footer">{footer}</Sc.CardFooter>
-				) : (
-					footer
+				{footer && (
+					<Sc.CardFooter className="card-footer">
+						{typeof footer === 'string' ? footer : footer}
+					</Sc.CardFooter>
 				)}
 			</Sc.Card>
 		);

@@ -8,6 +8,7 @@ import {
 import { rgba } from '@src/utils/rgba';
 
 export const Card = styled.div<{ $pattern: ComponentPatterns; $color: string }>`
+	box-sizing: border-box;
 	background-color: ${(props) =>
 		getColorScheme(props.$color, props.theme) || props.$color};
 	background-image: ${(props) => `

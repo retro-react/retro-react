@@ -116,10 +116,12 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
 						className="alert-close-button"
 						onClick={onClose}
 						$icon={closeIcon}
-						aria-label="Close"
+						aria-label="Close alert"
 					/>
 				)}
-				<Sc.Title className="alert-title">{title}</Sc.Title>
+				<Sc.Title className="alert-title" aria-label="Alert title">
+					{title}
+				</Sc.Title>
 				{children}
 			</Sc.Alert>
 		);

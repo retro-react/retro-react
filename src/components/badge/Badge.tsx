@@ -102,6 +102,7 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
 						$pulsate={pulse}
 						$size={size}
 						className={classNames('badge-root', className, commonClassNames)}
+						aria-hidden="true"
 						{...rest}
 					>
 						{count}

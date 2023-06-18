@@ -25,6 +25,7 @@ export const SelectWrapper = styled.div<{
 export const Label = styled.label<{
 	$color: SelectColor;
 	$size: SelectSize;
+	$disabled: boolean;
 }>`
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	font-size: ${(props) => sizeStyles[props.$size]};
@@ -67,6 +68,14 @@ export const Label = styled.label<{
 				`;
 		}
 	}};
+
+	${({ $disabled }) =>
+		$disabled
+			? `
+		opacity: 1;
+		z-index: 1;
+		`
+			: ''}
 `;
 
 export const Select = styled.select<{
@@ -123,5 +132,9 @@ export const Select = styled.select<{
 				props.theme,
 			)};
 		text-shadow: ${SHADOWS.text[0]};
+	}
+
+	&:disabled {
+		cursor: not-allowed;
 	}
 `;

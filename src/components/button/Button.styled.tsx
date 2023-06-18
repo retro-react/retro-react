@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import getColorScheme from '@src/utils/getColorScheme';
+import { rgba } from '@src/utils/rgba';
 import type { ButtonColor, ButtonSize, ButtonVariant } from './Button';
 import { getTheme } from './themes';
 
@@ -72,4 +73,14 @@ export const Button = styled.button<{
 				return '0.5rem 1rem'; // medium size
 		}
 	}};
+
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px
+			${(props) => rgba(getColorScheme(props.$color, props.theme), 0.5)};
+	}
+
+	&[aria-busy='true'] {
+		cursor: progress;
+	}
 `;

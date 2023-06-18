@@ -3,6 +3,7 @@ import { forwardRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import { ComponentColors } from '@src/utils/getColorScheme';
+import { toKebabCase } from '@src/utils/ToKebabCase';
 import commonClassNames from '@src/constants/commonClassNames';
 import {
 	StatIcon,
@@ -123,6 +124,9 @@ export const Statistics = forwardRef<HTMLDivElement, StatisticsProps>(
 						$size={size}
 						title={typeof number === 'string' ? number : ''}
 						className="statistics-number"
+						id={`${id || label}-number`}
+						aria-labelledby={`${id || toKebabCase(label)}-label`}
+						aria-live="polite"
 					>
 						{prefix && (
 							<StatPrefix $size={size} className="statistics-prefix">
@@ -136,7 +140,12 @@ export const Statistics = forwardRef<HTMLDivElement, StatisticsProps>(
 							</StatSuffix>
 						)}
 					</StatNumber>
-					<StatLabel $size={size} title={label} className="statistics-label">
+					<StatLabel
+						$size={size}
+						title={label}
+						className="statistics-label"
+						id={`${id || toKebabCase(label)}-label`}
+					>
 						{label}
 					</StatLabel>
 				</StatNumberWrapper>

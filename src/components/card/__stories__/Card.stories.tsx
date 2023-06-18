@@ -1,4 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Box } from 'theme-ui';
 import { Text } from '@src/components/text';
 import { colorOptions } from '@src/utils/getColorScheme';
 import { Card } from '../index';
@@ -22,7 +23,17 @@ export default {
  */
 
 const Template: ComponentStory<typeof Card> = (args) => {
-	return <Card {...args} />;
+	return (
+		<Box
+			sx={{
+				display: 'flex',
+				justifyContent: 'center',
+				alignItems: 'center',
+			}}
+		>
+			<Card {...args} />
+		</Box>
+	);
 };
 
 export const Default = Template.bind({});
@@ -39,6 +50,7 @@ Default.args = {
 	),
 	pattern: 'noise',
 	color: 'primary',
+	alt: 'Image from Picsum',
 	header: (
 		<Text variant="h3" align="center">
 			Header
@@ -48,7 +60,7 @@ Default.args = {
 	image: 'https://picsum.photos/500/200',
 	// @ts-ignore
 	sx: {
-		height: '500px',
-		width: '500px',
+		maxWidth: '500px',
+		maxHeight: '500px',
 	},
 };

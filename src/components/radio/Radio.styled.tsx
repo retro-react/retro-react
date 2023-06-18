@@ -90,6 +90,11 @@ export const Radio = styled.input<{ $color: ComponentColors | 'greyscale' }>`
 		cursor: not-allowed;
 		opacity: 0.6;
 	}
+
+	&:focus {
+		outline: 2px solid ${(props) => getColorScheme(props.$color, props.theme)};
+		box-shadow: 0 0 5px ${(props) => getColorScheme(props.$color, props.theme)};
+	}
 `;
 
 export const RadioWrapper = styled.div`

@@ -32,6 +32,7 @@ export const Modal = styled.div<{
 	box-sizing: border-box;
 	overflow: auto;
 	z-index: 1001;
+	padding-right: 3rem;
 
 	${(props) => {
 		const gradient = `
@@ -48,7 +49,6 @@ export const Modal = styled.div<{
 		`;
 	}}
 
-	// Media query for mobile devices
 	@media only screen and (max-width: ${SCREEN_XM}px) {
 		top: 0;
 		left: 0;

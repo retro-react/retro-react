@@ -23,4 +23,5 @@ Default.args = {
 	speed: '20s',
 	size: 'medium',
 	gap: '1rem',
+	pauseOnHover: false,
 };

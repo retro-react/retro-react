@@ -1,5 +1,11 @@
 /** @jsxImportSource theme-ui */
-import React, { Dispatch, forwardRef } from 'react';
+import React, {
+	Dispatch,
+	forwardRef,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
 import { ComponentColors } from '@src/utils/getColorScheme';
 import { Backdrop, DrawerContainer } from './Drawer.styled';
@@ -39,6 +45,8 @@ interface DrawerProps extends React.HTMLAttributes<HTMLDivElement> {
  * Drawers provide a flexible and effective way to display side content.
  * They can slide from the left or right side of the screen, providing additional space to place content.
  * With the `isOpen` prop, you can control the visibility of the Drawer and with the `setIsOpen` prop you can set its state.
+ *
+ * Pressing the `Escape` key will close the Drawer.
  * The `direction` prop allows you to set the direction from which the drawer will appear.
  *
  * @example
@@ -62,15 +70,54 @@ export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(
 		},
 		ref,
 	) => {
+		const [drawerElement, setDrawerElement] = useState<HTMLDivElement | null>(
+			null,
+		);
+		const previouslyFocusedElement = useRef<Element | null>(null);
+
+		useEffect(() => {
+			if (isOpen && drawerElement) {
+				previouslyFocusedElement.current = document.activeElement;
+				drawerElement.focus();
+			} else {
+				(previouslyFocusedElement.current as HTMLElement)?.focus();
+			}
+		}, [isOpen, drawerElement]);
+
+		useEffect(() => {
+			const handleKeyDown = (event: KeyboardEvent) => {
+				if (event.key === 'Escape') {
+					setIsOpen(false);
+				}
+			};
+
+			window.addEventListener('keydown', handleKeyDown);
+			return () => window.removeEventListener('keydown', handleKeyDown);
+		}, [setIsOpen]);
+
+		const setRefs = (element: HTMLDivElement) => {
+			if (ref) {
+				if (typeof ref === 'function') {
+					ref(element);
+				} else {
+					ref.current = element;
+				}
+			}
+			setDrawerElement(element);
+		};
+
 		return (
 			<>
 				{isOpen && <Backdrop onClick={() => setIsOpen((prev) => !prev)} />}
 				<DrawerContainer
-					ref={ref}
+					ref={setRefs}
 					$isOpen={isOpen}
 					$direction={direction}
 					$color={color}
 					sx={sx}
+					role="dialog"
+					aria-modal="true"
+					tabIndex={-1}
 					{...rest}
 				>
 					{children}

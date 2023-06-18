@@ -6,6 +6,7 @@ import {
 	forwardRef,
 	isValidElement,
 	ReactElement,
+	useRef,
 } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
@@ -41,28 +42,58 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
 	(
 		{ id, className, children, size = 'medium', sx, ...rest },
 		ref: ForwardedRef<HTMLDivElement>,
-	) => (
-		<Sc.GroupContainer
-			ref={ref}
-			id={id}
-			className={classNames('button-group-root', className, commonClassNames)}
-			sx={sx}
-			{...rest}
-		>
-			{Children.map(children, (child) => {
-				// If not React Element or not our Button component, return as is
-				if (!isValidElement(child) || child.type !== Button) {
-					return child;
-				}
+	) => {
+		const buttonsRef = useRef<(HTMLButtonElement | null)[]>([]);
 
-				// Clone Button component
-				return cloneElement(child as ReactElement, {
-					isButtonGroup: true,
-					size,
-				});
-			})}
-		</Sc.GroupContainer>
-	),
+		const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+			const currentIndex = buttonsRef.current.findIndex(
+				(button) => button === e.target,
+			);
+
+			if (e.key === 'ArrowRight') {
+				const nextIndex = (currentIndex + 1) % buttonsRef.current.length;
+				const nextButton = buttonsRef.current[nextIndex];
+				if (nextButton) {
+					nextButton.focus();
+				}
+			} else if (e.key === 'ArrowLeft') {
+				const prevIndex =
+					(currentIndex - 1 + buttonsRef.current.length) %
+					buttonsRef.current.length;
+				const prevButton = buttonsRef.current[prevIndex];
+				if (prevButton) {
+					prevButton.focus();
+				}
+			}
+		};
+
+		return (
+			<Sc.GroupContainer
+				ref={ref}
+				id={id}
+				onKeyDown={handleKeyDown}
+				className={classNames('button-group-root', className, commonClassNames)}
+				sx={sx}
+				{...rest}
+			>
+				{Children.map(children, (child, index) => {
+					// If not React Element or not our Button component, return as is
+					if (!isValidElement(child) || child.type !== Button) {
+						return child;
+					}
+
+					// Clone Button component
+					return cloneElement(child as ReactElement, {
+						isButtonGroup: true,
+						size,
+						ref: (el: HTMLButtonElement | null) => {
+							buttonsRef.current[index] = el;
+						},
+					});
+				})}
+			</Sc.GroupContainer>
+		);
+	},
 );
 
 ButtonGroup.displayName = 'ButtonGroup';

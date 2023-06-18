@@ -35,6 +35,18 @@ export interface SelectProps extends React.HTMLAttributes<HTMLSelectElement> {
 	 */
 	color?: SelectColor;
 	/**
+	 * If disabled is passed, the Select will be disabled.
+	 *
+	 * @default false
+	 */
+	disabled?: boolean;
+	/**
+	 * The error message of the Select. Used for accessibility.
+	 *
+	 * @default undefined
+	 */
+	errorMessage?: string;
+	/**
 	 * The options of the Select.
 	 *
 	 * @default undefined
@@ -44,7 +56,7 @@ export interface SelectProps extends React.HTMLAttributes<HTMLSelectElement> {
 }
 
 /**
- * Selects are used to select an option from a set of options.
+ * Select components are used to pick an option from a set of options.
  *
  * @example
  * <Select label="Select an option">
@@ -63,10 +75,23 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
 			sx,
 			label,
 			children,
+			disabled = false,
+			errorMessage,
 			...rest
 		},
 		ref,
 	) => {
+		const ariaProps = {};
+		if (!label) {
+			ariaProps['aria-label'] = rest.placeholder || 'Select an option';
+		}
+		if (disabled) {
+			ariaProps['aria-disabled'] = true;
+		}
+		if (errorMessage) {
+			ariaProps['aria-errormessage'] = errorMessage;
+		}
+
 		return (
 			<Sc.SelectWrapper
 				$color={color}
@@ -80,6 +105,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
 						$size={size}
 						className="select-label"
 						title={label}
+						$disabled={disabled}
 					>
 						{label}
 					</Sc.Label>
@@ -90,6 +116,8 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
 					$color={color}
 					$size={size}
 					className="select-input"
+					disabled={disabled}
+					{...ariaProps}
 					{...rest}
 				>
 					{children}

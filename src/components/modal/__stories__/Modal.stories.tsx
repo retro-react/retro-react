@@ -18,6 +18,22 @@ export default {
 	},
 } as ComponentMeta<typeof Modal>;
 
+const TemplateContainer = ({ children }: { children: React.ReactNode }) => {
+	return (
+		<div
+			style={{
+				display: 'flex',
+				justifyContent: 'center',
+				alignItems: 'center',
+				height: '50vh',
+				border: '1px solid black',
+			}}
+		>
+			{children}
+		</div>
+	);
+};
+
 /**
  * Component Template
  *
@@ -36,18 +52,10 @@ const Template: ComponentStory<typeof Modal> = (args) => {
 	};
 
 	return (
-		<div
-			style={{
-				display: 'flex',
-				justifyContent: 'center',
-				alignItems: 'center',
-				height: '50vh',
-				border: '1px solid black',
-			}}
-		>
+		<TemplateContainer>
 			<Button onClick={(e) => handleOpen(e, true)}>Open Modal</Button>
 			<Modal {...args} open={open} onClose={(e) => handleOpen(e, false)} />
-		</div>
+		</TemplateContainer>
 	);
 };
 
@@ -57,7 +65,14 @@ Basic.args = {
 	pattern: 'noise',
 	open: false,
 	children: (
-		<>
+		<div
+			style={{
+				height: '100%',
+				display: 'flex',
+				flexDirection: 'column',
+				alignItems: 'center',
+			}}
+		>
 			<Text bevel={true} variant="h6" color="black">
 				Ahoy, matey!
 			</Text>
@@ -68,7 +83,7 @@ Basic.args = {
 				vast ocean of nostalgia and experience the simpler times when animated
 				GIFs ruled the world wide web!
 			</Text>
-		</>
+		</div>
 	),
 	color: 'primary',
 

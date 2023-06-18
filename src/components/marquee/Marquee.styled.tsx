@@ -14,6 +14,7 @@ export const Marquee = styled.div<{
 	$gap: string;
 	$color: string;
 	$speed: string;
+	$isHovered: boolean;
 }>`
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	font-size: ${(props) =>
@@ -32,6 +33,7 @@ export const Marquee = styled.div<{
 	gap: ${(props) => props.$gap};
 
 	animation: marquee ${(props) => props.$speed} linear infinite;
+	animation-play-state: ${(props) => (props.$isHovered ? 'paused' : 'running')};
 
 	@keyframes marquee {
 		0% {

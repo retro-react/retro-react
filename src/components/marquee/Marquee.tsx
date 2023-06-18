@@ -1,5 +1,5 @@
 /** @jsxImportSource theme-ui */
-import { forwardRef } from 'react';
+import { forwardRef, useState } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import commonClassNames from '@src/constants/commonClassNames';
@@ -32,6 +32,12 @@ export interface MarqueeProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default '1rem'
 	 */
 	gap?: string;
+	/**
+	 * If true, the Marquee will pause on hover.
+	 *
+	 * @default false
+	 */
+	pauseOnHover?: boolean;
 	sx?: ThemeUICSSObject;
 }
 
@@ -52,6 +58,7 @@ export const Marquee = forwardRef<HTMLDivElement, MarqueeProps>(
 			children,
 			size = 'medium',
 			color = '#000000',
+			pauseOnHover = false,
 			speed = '10s',
 			gap = '1rem',
 			sx,
@@ -59,6 +66,18 @@ export const Marquee = forwardRef<HTMLDivElement, MarqueeProps>(
 		},
 		ref,
 	) => {
+		const [isHovered, setIsHovered] = useState(false);
+
+		const handleMouseEnter = () => {
+			if (!pauseOnHover) return;
+			setIsHovered(true);
+		};
+
+		const handleMouseLeave = () => {
+			if (!pauseOnHover) return;
+			setIsHovered(false);
+		};
+
 		return (
 			<Sc.MarqueeWrapper
 				className={classNames('marquee-root', className, commonClassNames)}
@@ -66,6 +85,8 @@ export const Marquee = forwardRef<HTMLDivElement, MarqueeProps>(
 				ref={ref}
 				id={id}
 				sx={sx}
+				onMouseEnter={handleMouseEnter}
+				onMouseLeave={handleMouseLeave}
 				{...rest}
 			>
 				<Sc.Marquee
@@ -73,6 +94,7 @@ export const Marquee = forwardRef<HTMLDivElement, MarqueeProps>(
 					$size={size}
 					$color={color}
 					$speed={speed}
+					$isHovered={isHovered}
 					className="marquee-content"
 				>
 					{children}
@@ -82,6 +104,7 @@ export const Marquee = forwardRef<HTMLDivElement, MarqueeProps>(
 					$size={size}
 					$color={color}
 					$speed={speed}
+					$isHovered={isHovered}
 					className="marquee-content"
 				>
 					{children}

@@ -84,8 +84,6 @@ export const Switch = forwardRef<HTMLLabelElement, SwitchProps>(
 				className={classNames('switch-root', className, commonClassNames)}
 				$disabled={disabled}
 				$size={size}
-				role="switch"
-				aria-checked={toggled}
 				{...rest}
 			>
 				<Sc.SwitchInput
@@ -94,6 +92,9 @@ export const Switch = forwardRef<HTMLLabelElement, SwitchProps>(
 					onChange={onChange}
 					disabled={disabled}
 					className="switch-input"
+					role="switch"
+					aria-checked={toggled}
+					aria-label="Toggle switch"
 				/>
 				<Sc.SwitchSlider
 					className={`switch-${variant}-slider`}

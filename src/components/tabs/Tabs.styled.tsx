@@ -96,7 +96,10 @@ export const TabWrapper = styled.div<{
 	label: string;
 }>`
 	display: inline-block;
+	box-sizing: border-box;
 	padding: 10px 20px;
+	margin-top: 1px;
+	margin-bottom: 1px;
 	cursor: pointer;
 
 	color: ${WHITE};
@@ -110,6 +113,20 @@ export const TabWrapper = styled.div<{
 	&:hover {
 		background-color: ${({ $color, theme }) =>
 			alterColorEnhanced(getColorScheme($color, theme), 30)};
+	}
+
+	&:focus {
+		outline: 1px solid
+			${({ $color, theme }) =>
+				alterColorEnhanced(getColorScheme($color, theme), -30)};
+	}
+
+	&:first-child {
+		margin-left: 3px;
+	}
+
+	&:last-child {
+		margin-right: 3px;
 	}
 `;
 

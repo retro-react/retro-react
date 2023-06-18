@@ -140,6 +140,9 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(
 					checked={checked}
 					$color={color}
 					ref={ref}
+					role="radio"
+					aria-checked={checked}
+					aria-disabled={rest.disabled}
 					{...rest}
 				/>
 				{label && (
