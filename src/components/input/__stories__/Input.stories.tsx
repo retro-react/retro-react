@@ -41,6 +41,19 @@ Default.args = {
 	sx: { width: '250px' },
 };
 
+export const Multiline = Template.bind({});
+Multiline.args = {
+	placeholder: 'Placeholder',
+	onChange: action('onChange'),
+	variant: 'filled',
+	color: 'primary',
+	size: 'medium',
+	rounded: false,
+	multiline: true,
+	rows: 5,
+	sx: { width: '250px' },
+};
+
 export const Outlined = Template.bind({});
 Outlined.args = {
 	placeholder: 'Placeholder',

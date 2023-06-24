@@ -50,3 +50,4 @@ export * from './components/wordart';
 export * from './components/group';
 export * from './components/badge';
 export * from './components/navbar';
+export * from './components/passwordinput';

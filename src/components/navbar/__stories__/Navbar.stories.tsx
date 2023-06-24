@@ -1,7 +1,7 @@
 import { ComponentMeta, StoryFn } from '@storybook/react';
 import { Container } from '@src/components/container';
 import { Text } from '@src/components/text';
-import { Navbar, NavItem } from '../Navbar';
+import { Navbar, NavItem, NavLogo } from '../Navbar';
 
 // https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -65,7 +65,9 @@ const Template: StoryFn<typeof Navbar> = ({ ...args }) => {
 			}}
 		>
 			<Navbar {...args}>
-				<Text color="#fff">Logo</Text>
+				<NavLogo>
+					<Text color="#fff">Logo</Text>
+				</NavLogo>
 				<NavItem>
 					<a href="#" onClick={(e) => e.preventDefault()}>
 						Home

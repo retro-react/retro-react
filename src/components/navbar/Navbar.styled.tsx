@@ -30,10 +30,7 @@ export const NavbarContainer = styled.nav<{
 	width: 100%;
 	z-index: 1000;
 	position: relative;
-
-	@media (max-width: ${SCREEN_XM}px) {
-		justify-content: flex-end;
-	}
+	justify-content: space-between;
 `;
 
 export const NavbarItemsContainer = styled.ul<{
@@ -51,6 +48,7 @@ export const NavbarItemsContainer = styled.ul<{
 	padding: 0;
 
 	@media (max-width: ${SCREEN_XM}px) {
+		padding-top: 1em;
 		flex-direction: column;
 		max-height: ${({ $open }) => ($open ? '100vh' : '0')};
 		border-top: 2px solid
@@ -63,12 +61,11 @@ export const NavbarItemsContainer = styled.ul<{
 		background-color: ${({ $color, theme }) => getColorScheme($color, theme)};
 		background-image: ${({ $pattern }) =>
 			`url(${getPatternScheme($pattern)});`};
-		transition: max-height 0.3s ease-in-out, visibility 0.3s ease-in-out,
-			opacity 0.3s ease-in-out;
+		transition: max-height 0.5s, visibility 0.5s;
 		visibility: ${({ $open }) => ($open ? 'visible' : 'hidden')};
 		opacity: ${({ $open }) => ($open ? '1' : '0')};
 		z-index: 999;
-		overflow-y: auto;
+		overflow-y: hidden;
 		overflow-x: hidden;
 		padding-bottom: 1em;
 	}
@@ -142,4 +139,11 @@ export const HamburgerMenu = styled.button<{
 	mask-image: url(${({ $open, $hamburgerIcon, $closeIcon }) =>
 		$open ? $closeIcon : $hamburgerIcon});
 	background-color: ${({ $color }) => ($color === 'warn' ? BLACK : WHITE)};
+`;
+
+export const NavbarLogoContainer = styled.div`
+	display: flex;
+	align-items: center;
+	gap: 0.5em;
+	margin-right: 1em;
 `;

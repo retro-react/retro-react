@@ -1,5 +1,5 @@
 /** @jsxImportSource theme-ui */
-import { forwardRef } from 'react';
+import { ForwardedRef, forwardRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import { ComponentColors } from '@src/utils/getColorScheme';
@@ -64,12 +64,14 @@ export type InputProps = MultilineProps | SingleLineProps;
  * <Input name="Username" disabled />
  * <Input name="Username" placeholder="Username" />
  */
-export const Input = forwardRef<HTMLInputElement, InputProps>(
+export const Input = forwardRef<
+	HTMLInputElement | HTMLTextAreaElement,
+	InputProps
+>(
 	(
 		{
 			id,
 			className,
-			children,
 			variant = 'filled',
 			color = 'primary',
 			size = 'small',
@@ -78,13 +80,14 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 			sx,
 			...rest
 		},
-		ref,
+		ref: ForwardedRef<HTMLInputElement | HTMLTextAreaElement>,
 	) => {
 		const Component = multiline ? 'textarea' : 'input';
 
 		return (
 			<Sc.Input
 				as={Component}
+				// @ts-ignore-next-line
 				ref={ref}
 				id={id}
 				$variant={variant}
@@ -95,9 +98,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 				className={classNames('input-root', className, commonClassNames)}
 				sx={sx}
 				{...rest}
-			>
-				{children}
-			</Sc.Input>
+			/>
 		);
 	},
 );

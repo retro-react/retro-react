@@ -75,6 +75,13 @@ export const Navbar = forwardRef<HTMLDivElement, NavbarProps>(
 			setOpen(!open);
 		};
 
+		const NavLogoElement = Children.toArray(children).find(
+			(child) => (child as React.ReactElement).type === NavLogo,
+		);
+		const NavItemsElements = Children.toArray(children).filter(
+			(child) => (child as React.ReactElement).type !== NavLogo,
+		);
+
 		return (
 			<Sc.NavbarContainer
 				$color={color}
@@ -84,6 +91,7 @@ export const Navbar = forwardRef<HTMLDivElement, NavbarProps>(
 				className={classNames('navbar-root', className, commonClassNames)}
 				{...rest}
 			>
+				{NavLogoElement}
 				<Sc.HamburgerMenu
 					onClick={toggleMenu}
 					className="navbar-hamburger"
@@ -102,7 +110,7 @@ export const Navbar = forwardRef<HTMLDivElement, NavbarProps>(
 					id="navbar-menu"
 					role="menu"
 				>
-					{Children.map(children, (child, index) => {
+					{Children.map(NavItemsElements, (child, index) => {
 						return (
 							<Sc.NavbarItemWrapper key={`navbar-item-${index}`}>
 								{cloneElement(child as React.ReactElement, {
@@ -163,3 +171,23 @@ export const NavItem: React.FC<NavItemProps> = ({
 };
 
 NavItem.displayName = 'NavItem';
+
+interface NavLogoProps {
+	/**
+	 * The content of the NavLogo.
+	 * Typically an image or text.
+	 *
+	 * @default undefined
+	 */
+	children: React.ReactNode;
+}
+
+export const NavLogo: React.FC<NavLogoProps> = ({ children }) => {
+	return (
+		<Sc.NavbarLogoContainer id="retro-navbar-logo">
+			{children}
+		</Sc.NavbarLogoContainer>
+	);
+};
+
+NavLogo.displayName = 'NavLogo';

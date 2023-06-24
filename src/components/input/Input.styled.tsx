@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { alterColorEnhanced } from '@src/utils/alterColor';
 import getColorScheme, { ComponentColors } from '@src/utils/getColorScheme';
 import { getPatternScheme } from '@src/utils/getPatternScheme';
 import { rgba } from '@src/utils/rgba';
@@ -114,11 +115,34 @@ export const Input = styled.input<{
 		border-radius: 1rem;
 	`}
 
-	${({ $multiline }) =>
+	${({ $multiline, theme, $variant, $color }) =>
 		$multiline &&
 		css`
 			resize: none;
 			overflow: auto;
+
+			&::-webkit-scrollbar {
+				width: 0.5rem;
+			}
+
+			&::-webkit-scrollbar-track {
+				background: ${alterColorEnhanced(
+					$color === 'greyscale' ? SHADE_4 : getColorScheme($color, theme),
+					50,
+				)};
+			}
+
+			&::-webkit-scrollbar-thumb {
+				background: ${alterColorEnhanced(
+					$color === 'greyscale' ? SHADE_4 : getColorScheme($color, theme),
+					-50,
+				)};
+				border-radius: 0.5rem;
+			}
+
+			&::-webkit-scrollbar-thumb:hover {
+				background: ${SHADE_2};
+			}
 		`}
 	
 		
