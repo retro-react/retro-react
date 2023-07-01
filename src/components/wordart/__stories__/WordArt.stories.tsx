@@ -14,5 +14,6 @@ export const Basic: Story = {
 		children: "Life moves pretty fast. Make sure you don't miss it.",
 		color: 'rainbow',
 		artStyle: 'curved',
+		size: 'medium',
 	},
 };

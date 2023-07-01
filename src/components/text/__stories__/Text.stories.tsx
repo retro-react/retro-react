@@ -29,6 +29,15 @@ paragraph.args = {
 	variant: 'paragraph',
 };
 
+export const rainbow = Template.bind({});
+rainbow.args = {
+	children: 'Somewhere over the rainbow',
+	color: 'rainbow',
+	bevel: false,
+	blink: false,
+	variant: 'h2',
+};
+
 export const h1 = Template.bind({});
 h1.args = {
 	children:

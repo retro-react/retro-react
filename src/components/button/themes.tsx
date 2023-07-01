@@ -12,6 +12,9 @@ export function getTheme(
 	theme: Theme,
 ) {
 	const colorScheme = getColorScheme(color, theme);
+	const textScheme = getColorScheme('greyscale-dark', theme);
+
+	const textColor = color === 'greyscale' ? textScheme : WHITE;
 	switch (variant) {
 		case 'outline':
 			return css`
@@ -44,7 +47,7 @@ export function getTheme(
 		case 'solid':
 		default:
 			return css`
-				color: ${WHITE};
+				color: ${textColor};
 				background: url(${getPatternScheme('noise')});
 				filter: contrast(120%) brightness(100%);
 				background-color: ${colorScheme};

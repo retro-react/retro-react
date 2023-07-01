@@ -17,7 +17,7 @@ export interface TabsProps extends React.HTMLAttributes<HTMLDivElement> {
 	 *
 	 * @default 'primary'
 	 */
-	color?: ComponentColors;
+	color?: ComponentColors | 'greyscale';
 	/**
 	 * The pattern of the Tabs.
 	 *
@@ -76,6 +76,9 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
 		},
 		ref,
 	) => {
+		if (color === 'greyscale')
+			// @ts-ignore-next-line
+			color = 'greyscale-dark';
 		const [activeTabLabel, setActiveTabLabel] = useState<string | undefined>(
 			defaultActiveTabLabel,
 		);
@@ -145,7 +148,7 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
 				{...rest}
 			>
 				<Sc.TabsHeader
-					$color={color}
+					$color={color === 'greyscale' ? 'greyscale-dark' : color}
 					$pattern={pattern}
 					className="tabs-header"
 				>
@@ -232,7 +235,7 @@ export const Tab = forwardRef<HTMLDivElement, TabProps>(
 				aria-label={label}
 				onClick={handleClick}
 				isActive={isActive}
-				className="tabs-tab"
+				className={classNames('tab-root', isActive ? 'tab-active' : '')}
 				role="tab"
 				{...rest}
 			>

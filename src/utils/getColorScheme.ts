@@ -1,6 +1,7 @@
 import { Theme } from '@emotion/react';
 import {
 	ERROR,
+	HIGHLIGHT,
 	PRIMARY,
 	SECONDARY,
 	SHADE_3,
@@ -42,6 +43,8 @@ function getColorScheme(color: ComponentColors | string, theme?: Theme) {
 			return SHADE_3;
 		case 'greyscale-dark':
 			return SHADE_6;
+		case 'highlight':
+			return HIGHLIGHT;
 		default:
 			return color;
 	}

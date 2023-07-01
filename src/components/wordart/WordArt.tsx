@@ -2,6 +2,7 @@
 import { forwardRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
+import { BLACK } from '@src/constants/colors';
 import commonClassNames from '@src/constants/commonClassNames';
 import { getWordArtColorOptions } from './themes';
 import * as Sc from './WordArt.styled';
@@ -22,6 +23,8 @@ export type WordArtColor =
 	| 'grayscale'
 	| 'retro';
 
+export type WordArtSize = 'small' | 'medium' | 'large';
+
 export interface WordArtProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
 	 * The art style of the WordArt.
@@ -35,6 +38,12 @@ export interface WordArtProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default 'primary'
 	 */
 	color?: WordArtColor;
+	/**
+	 * The size of the WordArt.
+	 *
+	 * @default 'medium'
+	 */
+	size?: WordArtSize;
 	sx?: ThemeUICSSObject;
 }
 
@@ -108,13 +117,7 @@ const handleOutlineText = (text: string, color: WordArtColor) => {
 					display: 'inline-block',
 					paddingLeft: '2px',
 					color: outlineTextColor[index % outlineTextColor.length],
-					textShadow: `1px 1px 1px ${
-						outlineTextColor[index % outlineTextColor.length]
-					}, -1px -1px 1px ${
-						outlineTextColor[index % outlineTextColor.length]
-					}, 1px -1px 1px ${
-						outlineTextColor[index % outlineTextColor.length]
-					}, -1px 1px 1px ${outlineTextColor[index % outlineTextColor.length]}`,
+					textShadow: `1px 1px 1px ${BLACK}, -1px -1px 1px ${BLACK}, 1px -1px 1px ${BLACK}, -1px 1px 1px ${BLACK}`,
 				}}
 			>
 				{char}
@@ -171,6 +174,7 @@ export const WordArt = forwardRef<HTMLDivElement, WordArtProps>(
 			children,
 			color = 'primary',
 			artStyle = 'classic',
+			size = 'medium',
 			...rest
 		},
 		ref,
@@ -178,6 +182,7 @@ export const WordArt = forwardRef<HTMLDivElement, WordArtProps>(
 		return (
 			<Sc.WordArt
 				$color={color}
+				$size={size}
 				$artStyle={artStyle}
 				ref={ref}
 				id={id}

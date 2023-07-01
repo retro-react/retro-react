@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { darken } from 'polished';
 import getColorScheme, { ComponentColors } from '@src/utils/getColorScheme';
 import { rgba } from '@src/utils/rgba';
-import { BLACK, SHADE_2, WHITE } from '@src/constants/colors';
+import { BLACK, SHADE_2, SHADE_3, WHITE } from '@src/constants/colors';
 import { StatisticsSize, StatisticsVariant } from './Statistics';
 
 const getTextColors = (color: ComponentColors | string) => {
@@ -71,7 +71,7 @@ export const StatisticsWrapper = styled.div<{
 				height: 100%;
 				width: 100%;
 				background-color: ${rgba(
-					$color === 'none' ? SHADE_2 : darken(0.3, getColorScheme($color)),
+					$color === 'none' ? SHADE_3 : darken(0.3, getColorScheme($color)),
 					0.3,
 				)};
 				border-radius: 5px;

@@ -7,13 +7,15 @@ import closeIcon from '../../assets/svg/close_icon.svg';
 import hamburgerIcon from '../../assets/svg/hamburger_icon.svg';
 import * as Sc from './Navbar.styled';
 
+export type NavbarColors = ComponentColors | 'greyscale';
+
 export interface NavbarProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
 	 * The color of the Navbar.
 	 *
 	 * @default 'primary'
 	 */
-	color?: ComponentColors;
+	color?: NavbarColors;
 	/**
 	 * The background pattern of the Navbar.
 	 *

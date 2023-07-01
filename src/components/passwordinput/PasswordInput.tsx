@@ -1,5 +1,5 @@
 /** @jsxImportSource theme-ui */
-import { createRef, forwardRef, useRef, useState } from 'react';
+import { createRef, useRef, useState } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import { ComponentColors } from '@src/utils/getColorScheme';

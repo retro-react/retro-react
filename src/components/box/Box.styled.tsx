@@ -21,6 +21,7 @@ export const Box = styled.div<{
 	text-shadow: 1px 1px 2px ${rgba(BLACK, 0.5)};
 	font-size: 1.2rem;
 	font-weight: bold;
+	border: 1px solid transparent;
 
 	outline: 1rem solid transparent;
 

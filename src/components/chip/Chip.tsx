@@ -5,7 +5,14 @@ import { classNames } from '@src/utils/classNames';
 import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Chip.styled';
 
-export type ChipColor = 'primary' | 'secondary' | 'success' | 'error' | 'warn';
+export type ChipColor =
+	| 'primary'
+	| 'secondary'
+	| 'success'
+	| 'error'
+	| 'warn'
+	| 'greyscale'
+	| 'highlight';
 
 export interface ChipProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**

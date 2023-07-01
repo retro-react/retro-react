@@ -15,14 +15,16 @@ export const TabsWrapper = styled.div`
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 `;
 
-export const TabList = styled.div<{ $color: ComponentColors }>`
+export const TabList = styled.div<{
+	$color: ComponentColors | 'greyscale-dark';
+}>`
 	display: flex;
 	border-bottom: 1px solid
 		${(props) => getColorScheme(props.$color, props.theme)};
 `;
 
 export const TabItem = styled.button<{
-	$color: ComponentColors;
+	$color: ComponentColors | 'greyscale-dark';
 	$isActive: boolean;
 }>`
 	border: none;
@@ -47,7 +49,7 @@ export const TabContent = styled.div`
 `;
 
 export const TabsHeader = styled.div<{
-	$color: ComponentColors;
+	$color: ComponentColors | 'greyscale-dark';
 	$pattern: ComponentPatterns;
 }>`
 	display: flex;
@@ -91,7 +93,7 @@ export const TabsHeader = styled.div<{
 `;
 
 export const TabWrapper = styled.div<{
-	$color: ComponentColors;
+	$color: ComponentColors | 'greyscale-dark';
 	isActive?: boolean;
 	label: string;
 }>`
@@ -111,9 +113,23 @@ export const TabWrapper = styled.div<{
 			: 'transparent'};
 
 	&:hover {
-		background-color: ${({ $color, theme }) =>
-			alterColorEnhanced(getColorScheme($color, theme), 30)};
+		box-shadow: inset 3px 3px
+			${({ $color, theme }) =>
+				alterColorEnhanced(getColorScheme($color, theme), -40)};
+		border-color: ${BLACK};
+		transform: translateY(1px);
 	}
+
+	${({ isActive, $color, theme }) =>
+		isActive &&
+		`
+		box-shadow: inset 3px 3px ${alterColorEnhanced(
+			getColorScheme($color, theme),
+			-40,
+		)};
+		border-color: ${BLACK};
+		transform: translateY(1px);
+	`}
 
 	&:focus {
 		outline: 1px solid

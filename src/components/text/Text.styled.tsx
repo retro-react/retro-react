@@ -2,6 +2,7 @@ import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { CSSProperties } from 'react';
 import getColorScheme from '@src/utils/getColorScheme';
+import { RAINBOW_GRADIENT } from '@src/constants/colors';
 import {
 	fontSizeForBreakpoint,
 	fontSizeForVariant,
@@ -30,7 +31,7 @@ export const Text = styled.div<{
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	font-size: 1rem;
 	font-weight: 400;
-	color: ${(props) => getColorScheme(props.$color, props.theme)};
+
 	text-align: ${(props) => props.$align};
 	margin: 0;
 	padding: 0;
@@ -49,12 +50,21 @@ export const Text = styled.div<{
 			`
 			: ''}
 
-			${(props) => {
-				return `
-					font-size: ${fontSizeForVariant(props.$variant)};
-					font-weight: ${props.$variant.startsWith('h') ? '700' : '400'};
-					${fontSizeForBreakpoint(props.$variant)}
-				`;
-			}}
+	${(props) => {
+		return css`
+			font-size: ${fontSizeForVariant(props.$variant)};
+			font-weight: ${props.$variant.startsWith('h') ? '700' : '400'};
+			${fontSizeForBreakpoint(props.$variant)}
+		`;
 	}}
+	
+	color: ${(props) => getColorScheme(props.$color, props.theme)};
+	${(props) =>
+		props.$color === 'rainbow'
+			? css`
+					background: linear-gradient(to right, ${RAINBOW_GRADIENT.join(',')});
+					-webkit-background-clip: text;
+					-webkit-text-fill-color: transparent;
+			  `
+			: ''}
 `;

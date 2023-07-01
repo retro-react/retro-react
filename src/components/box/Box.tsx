@@ -13,7 +13,7 @@ export interface BoxProps extends React.HTMLAttributes<HTMLDivElement> {
 	 *
 	 * @default 'primary'
 	 */
-	color?: ComponentColors | string;
+	color?: ComponentColors | 'greyscale' | string;
 	/**
 	 * The pattern of the Box.
 	 *

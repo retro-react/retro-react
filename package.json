@@ -16,7 +16,8 @@
 		"retro-ui",
 		"retro-ui-library",
 		"ui",
-		"ui-library"
+		"ui-library",
+		"webcore"
 	],
 	"author": "Retro React",
 	"repository": {

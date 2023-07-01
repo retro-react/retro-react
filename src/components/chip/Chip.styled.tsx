@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { alterColorEnhanced } from '@src/utils/alterColor';
 import getColorScheme from '@src/utils/getColorScheme';
-import { SHADE_1, SHADE_6 } from '@src/constants/colors';
+import { BLACK, HIGHLIGHT, SHADE_1, SHADE_6 } from '@src/constants/colors';
 import type { ChipColor } from './Chip';
 
 export const Chip = styled.div<{ $color: ChipColor; $clickable?: boolean }>`
@@ -13,13 +13,6 @@ export const Chip = styled.div<{ $color: ChipColor; $clickable?: boolean }>`
 	font-size: 0.875rem;
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	border-top: 2px solid ${SHADE_6};
-	background: linear-gradient(
-		to right,
-		${({ $color, theme }) =>
-				alterColorEnhanced(getColorScheme($color, theme), -40)}
-			0%,
-		${({ $color, theme }) => getColorScheme($color, theme)} 100%
-	);
 	filter: contrast(120%) brightness(100%);
 	color: ${SHADE_1};
 
@@ -46,5 +39,23 @@ export const Chip = styled.div<{ $color: ChipColor; $clickable?: boolean }>`
 
 		pointer-events: auto;
 		user-select: none;
+	`}
+
+	${({ $color, theme }) =>
+		$color !== 'highlight'
+			? `
+	background: linear-gradient(
+		to right,
+		${alterColorEnhanced(getColorScheme($color, theme), -40)}
+			0%,
+		${getColorScheme($color, theme)} 100%
+	);
+	`
+			: `
+	background-color: ${HIGHLIGHT};
+	color: ${BLACK};
+	font-weight: bold;
+	border: 2px solid ${alterColorEnhanced(HIGHLIGHT, 20)};
+	border-radius: 100px / 50px 100px;
 	`}
 `;

@@ -7,6 +7,7 @@ export const SECONDARY = '#815E85';
 export const SUCCESS = '#698160';
 export const ERROR = '#A16B56';
 export const WARN = '#E0A370';
+export const HIGHLIGHT = '#ffeb3b';
 // shades
 export const SHADE_1 = '#F5F5F5';
 export const SHADE_2 = '#E0E0E0';

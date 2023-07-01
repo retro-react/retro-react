@@ -14,7 +14,7 @@ export interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
 	 *
 	 * @default 'primary'
 	 */
-	color?: ComponentColors | string;
+	color?: ComponentColors | 'greyscale' | string;
 	/**
 	 * Whether the Modal is open or not.
 	 *

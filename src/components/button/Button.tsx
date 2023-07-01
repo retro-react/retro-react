@@ -10,7 +10,8 @@ export type ButtonColor =
 	| 'secondary'
 	| 'success'
 	| 'error'
-	| 'warn';
+	| 'warn'
+	| 'greyscale';
 
 export type ButtonVariant = 'solid' | 'outline' | 'text';
 

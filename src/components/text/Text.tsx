@@ -27,7 +27,7 @@ export interface TextProps extends React.HTMLAttributes<HTMLDivElement> {
 	variant?: TextVariant;
 	/**
 	 * The color of the Text. Supports css color property and theme colors from library.
-	 * Colors included in theme are: `primary`, `secondary`, `success`, `error`, `warn`, `greyscale`.
+	 * Colors included in theme are: `primary`, `secondary`, `success`, `error`, `warn`, `greyscale` and `rainbow`.
 	 *
 	 * @default '#000000'
 	 */

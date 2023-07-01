@@ -33,7 +33,7 @@ export interface ProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
 	 */
 	pattern?: ComponentPatterns;
 	/**
-	 * Animation effect of the Progress Bar.
+	 * Animation effect of the Progress Bar. Will not work if `pattern` is set to `solid` or `stars`.
 	 *
 	 * @default false
 	 */

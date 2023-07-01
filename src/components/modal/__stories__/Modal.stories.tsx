@@ -12,7 +12,7 @@ export default {
 	component: Modal,
 	argTypes: {
 		color: {
-			options: colorOptions,
+			options: [...colorOptions, 'greyscale'],
 			control: { type: 'radio' },
 		},
 	},

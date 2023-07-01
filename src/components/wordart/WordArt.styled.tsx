@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { PRIMARY, SECONDARY } from '@src/constants/colors';
 import { getWordArtColorOptions } from './themes';
-import { WordArtColor, WordArtStyle } from './WordArt';
+import { WordArtColor, WordArtSize, WordArtStyle } from './WordArt';
 
 export const getWordArtColor = (color: WordArtColor) => {
 	switch (color) {
@@ -36,6 +36,7 @@ export const getWordArtColor = (color: WordArtColor) => {
 
 export const WordArt = styled.h1<{
 	$color: WordArtColor;
+	$size: WordArtSize;
 	$artStyle: WordArtStyle;
 }>`
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
@@ -47,6 +48,24 @@ export const WordArt = styled.h1<{
 		background: ${getWordArtColor($color)};
 		-webkit-background-clip: text;
 		-webkit-text-fill-color: transparent;
+	`}
+
+	${({ $size }) =>
+		$size === 'small' &&
+		`
+		font-size: 1rem;
+	`}
+
+	${({ $size }) =>
+		$size === 'medium' &&
+		`
+		font-size: 2rem;
+	`}
+
+	${({ $size }) =>
+		$size === 'large' &&
+		`
+		font-size: 3rem;
 	`}
 `;
 

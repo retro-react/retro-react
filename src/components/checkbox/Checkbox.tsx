@@ -10,7 +10,9 @@ export type CheckboxColor =
 	| 'secondary'
 	| 'success'
 	| 'error'
-	| 'warn';
+	| 'warn'
+	| 'greyscale'
+	| 'greyscale-dark';
 
 export interface CheckboxProps
 	extends React.InputHTMLAttributes<HTMLInputElement> {

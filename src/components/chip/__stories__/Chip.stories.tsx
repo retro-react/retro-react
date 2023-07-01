@@ -37,6 +37,7 @@ const GroupTemplate: StoryFn<typeof Chip> = () => {
 			<Chip color="success">Burgers</Chip>
 			<Chip color="error">Tacos</Chip>
 			<Chip color="warn">Chicken</Chip>
+			<Chip color="greyscale">Lobster</Chip>
 		</Group>
 	);
 };
@@ -45,6 +46,12 @@ export const Basic = Template.bind({});
 Basic.args = {
 	color: 'primary',
 	children: 'Primary Chip',
+};
+
+export const Highlight = Template.bind({});
+Highlight.args = {
+	color: 'highlight',
+	children: 'NEW',
 };
 /**
  * Grouped chips are used to display multiple chips in a group. Used with `Group` component.
