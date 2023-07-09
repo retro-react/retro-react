@@ -6,7 +6,7 @@ import { PasswordInput } from '../PasswordInput';
 
 // https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-	title: 'Experimental/PasswordInput',
+	title: 'Forms/PasswordInput',
 	component: PasswordInput,
 	argTypes: {
 		color: {

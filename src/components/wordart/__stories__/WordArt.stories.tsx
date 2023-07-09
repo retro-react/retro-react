@@ -15,5 +15,6 @@ export const Basic: Story = {
 		color: 'rainbow',
 		artStyle: 'curved',
 		size: 'medium',
+		rotation: 0,
 	},
 };

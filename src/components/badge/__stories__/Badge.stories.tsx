@@ -1,4 +1,3 @@
-import { Avatar, Chip } from '@src/index';
 import { Meta, Story } from '@storybook/react';
 import { Badge, BadgeProps } from '../index';
 

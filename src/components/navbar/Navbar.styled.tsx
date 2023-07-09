@@ -7,7 +7,7 @@ import {
 } from '@src/utils/getPatternScheme';
 import { rgba } from '@src/utils/rgba';
 import { SCREEN_XM } from '@src/constants/breakpoints';
-import { BLACK, WHITE } from '@src/constants/colors';
+import { BLACK, SHADE_6, WHITE } from '@src/constants/colors';
 import { NavbarColors } from './Navbar';
 
 export const NavbarContainer = styled.nav<{
@@ -108,7 +108,7 @@ export const NavItem = styled.span<{
 		box-shadow: inset 3px 3px
 			${({ $color, theme }) =>
 				alterColorEnhanced(getColorScheme($color, theme), -40)};
-		border-color: ${BLACK};
+		border-color: ${SHADE_6};
 		transform: translateY(1px);
 	}
 

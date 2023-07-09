@@ -44,6 +44,12 @@ export interface WordArtProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default 'medium'
 	 */
 	size?: WordArtSize;
+	/**
+	 * The rotation of the WordArt.
+	 *
+	 * @default 0
+	 */
+	rotation?: number;
 	sx?: ThemeUICSSObject;
 }
 
@@ -175,6 +181,7 @@ export const WordArt = forwardRef<HTMLDivElement, WordArtProps>(
 			color = 'primary',
 			artStyle = 'classic',
 			size = 'medium',
+			rotation = 0,
 			...rest
 		},
 		ref,
@@ -184,6 +191,7 @@ export const WordArt = forwardRef<HTMLDivElement, WordArtProps>(
 				$color={color}
 				$size={size}
 				$artStyle={artStyle}
+				$rotation={rotation}
 				ref={ref}
 				id={id}
 				sx={sx}

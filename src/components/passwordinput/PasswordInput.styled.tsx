@@ -9,7 +9,7 @@ import { BLACK, WHITE } from '@src/constants/colors';
 import { PasswordInputSizes } from './PasswordInput';
 
 export const PasswordInputContainer = styled.div`
-	gap: 10px;
+	gap: 5px;
 	width: fit-content;
 	display: flex;
 	align-items: center;

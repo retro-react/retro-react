@@ -38,8 +38,10 @@ export const WordArt = styled.h1<{
 	$color: WordArtColor;
 	$size: WordArtSize;
 	$artStyle: WordArtStyle;
+	$rotation: number;
 }>`
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
+	transform: ${({ $rotation }) => `rotate(${$rotation}deg)`};
 	font-weight: 400;
 
 	${({ $artStyle, $color }) =>

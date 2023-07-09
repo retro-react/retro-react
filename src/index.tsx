@@ -51,3 +51,5 @@ export * from './components/group';
 export * from './components/badge';
 export * from './components/navbar';
 export * from './components/passwordinput';
+export * from './components/documentupload';
+export * from './components/menu';
