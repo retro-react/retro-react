@@ -32,6 +32,12 @@ export interface DocumentUploadProps
 	 * @default 'noise'
 	 */
 	pattern?: ComponentPatterns;
+	/**
+	 * The file types that the DocumentUpload accepts.
+	 *
+	 * @example '.jpg,.png,.doc,.pdf'
+	 */
+	accept?: string;
 	sx?: ThemeUICSSObject;
 	onChange?: (file: File | null) => void;
 }
@@ -70,7 +76,14 @@ export const DocumentUpload = forwardRef<HTMLInputElement, DocumentUploadProps>(
 		};
 
 		return (
-			<Sc.DocumentUploadWrapper sx={sx} $color={color} $pattern={pattern}>
+			<Sc.DocumentUploadWrapper
+				sx={sx}
+				$color={color}
+				$pattern={pattern}
+				role="button"
+				tabIndex={0}
+				aria-label={file ? `Selected file, ${file.name}` : 'No file selected'}
+			>
 				<Sc.DocumentUpload
 					type="file"
 					ref={ref}
@@ -82,6 +95,7 @@ export const DocumentUpload = forwardRef<HTMLInputElement, DocumentUploadProps>(
 						commonClassNames,
 					)}
 					{...rest}
+					tabIndex={-1}
 				/>
 
 				<Sc.DisplayWrapper>
@@ -92,6 +106,7 @@ export const DocumentUpload = forwardRef<HTMLInputElement, DocumentUploadProps>(
 							width="30"
 							height="30"
 							viewBox="0 0 24 24"
+							aria-hidden="true"
 						>
 							<path
 								fill={alterColorEnhanced(getColorScheme(color), 70)}
@@ -105,8 +120,15 @@ export const DocumentUpload = forwardRef<HTMLInputElement, DocumentUploadProps>(
 								maxWidth: '100%',
 							}}
 						>
-							<Sc.FileName $color={color}>{file.name}</Sc.FileName>
-							<Sc.StyledSVG color={color} onClick={removeFile}>
+							<Sc.FileName $color={color}>
+								<span>{file.name}</span>
+								<span>({file.size} bytes)</span>
+							</Sc.FileName>
+							<Sc.StyledSVG
+								color={color}
+								onClick={removeFile}
+								aria-hidden="true"
+							>
 								<line
 									x1="6"
 									y1="6"

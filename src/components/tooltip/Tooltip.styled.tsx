@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import { ThemeUICSSObject } from 'theme-ui';
+import { alterColorEnhanced } from '@src/utils/alterColor';
 import getColorScheme from '@src/utils/getColorScheme';
 import { SHADOWS } from '@src/constants/shadows';
 
@@ -22,30 +23,21 @@ export const TooltipContent = styled.div<TooltipContentProps>`
 	text-align: center;
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	padding: 0.5rem;
-	border: 1px solid black;
+	border: 1px solid
+		${({ $color, theme }) =>
+			alterColorEnhanced(getColorScheme($color, theme), 50)};
 	border-radius: 4px;
 	position: absolute;
 	z-index: 1;
 	opacity: ${(props) => (props.$visible ? 1 : 0)};
-	transition: opacity 0.3s;
+	transition: opacity 0.5s;
 	text-shadow: ${SHADOWS.text[0]};
-
-	display: -webkit-box;
+	width: max-content;
 	max-width: 200px;
-	-webkit-line-clamp: 4;
-	-webkit-box-orient: vertical;
-	overflow: hidden;
 	box-sizing: border-box;
 
-	&::after {
-		content: '';
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		height: 0.5rem;
-		background: ${({ $color, theme }) =>
-				getColorScheme($color, theme) || $color}
-			0%;
-	}
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	overflow: hidden;
 `;

@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 import { alterColorEnhanced } from '@src/utils/alterColor';
 import getColorScheme, { ComponentColors } from '@src/utils/getColorScheme';
-import { SHADE_1 } from '@src/constants/colors';
+import { BLACK, HIGHLIGHT, SHADE_1 } from '@src/constants/colors';
 import { BadgeSize } from './Badge';
 
 interface BadgeProps {
-	$color: ComponentColors;
+	$color: ComponentColors | 'highlight';
 	$pulsate?: boolean;
 	$size: BadgeSize;
 }
@@ -18,11 +18,7 @@ export const Badge = styled.span<BadgeProps>`
 	align-items: center;
 	justify-content: center;
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
-	background-color: ${({ $color, theme }) => getColorScheme($color, theme)};
 	color: ${SHADE_1};
-	border: 1px solid
-		${({ $color, theme }) =>
-			alterColorEnhanced(getColorScheme($color, theme), 75)};
 	border-radius: 50%;
 	animation: ${({ $pulsate }) => ($pulsate ? 'pulsate 1.5s infinite' : 'none')};
 
@@ -38,6 +34,20 @@ export const Badge = styled.span<BadgeProps>`
 		}
 	}
 	padding: 0.05rem;
+
+	${({ $color, theme }) =>
+		$color !== 'highlight'
+			? `
+	background-color: ${getColorScheme($color, theme)};
+	border: 1px solid ${alterColorEnhanced(getColorScheme($color, theme), 75)};
+	`
+			: `
+	background-color: ${HIGHLIGHT};
+	color: ${BLACK};
+	font-weight: bold;
+	border: 2px solid ${alterColorEnhanced(HIGHLIGHT, 20)};
+	border-radius: 100px / 50px 100px;
+	`}
 
 	${({ $size }) => {
 		switch ($size) {

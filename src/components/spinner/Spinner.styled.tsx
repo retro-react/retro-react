@@ -87,7 +87,7 @@ export const SquareSpinner = styled.div<{
 		$size === 'small' &&
 		css`
 			background: ${createLinearGradient($colors)};
-			animation: ${spin} 1s linear infinite;
+			animation: ${spin} 4s linear infinite;
 		`}
 
 	${({ $size, $colors }) =>
@@ -101,7 +101,7 @@ export const SquareSpinner = styled.div<{
 				width: ${spinnerSize[$size]};
 				height: ${spinnerSize[$size]};
 				background: ${createLinearGradient($colors)};
-				animation: ${spin} 1s linear infinite;
+				animation: ${spin} 4s linear infinite;
 			}
 
 			&::after {
@@ -113,11 +113,11 @@ export const SquareSpinner = styled.div<{
 				height: ${$size === 'large'
 					? spinnerSize['medium']
 					: spinnerSize['small']};
-				top: 50%;
-				left: 50%;
-				transform: translate(-50%, -50%);
+				top: 25%;
+				left: 25%;
 				background: ${createLinearGradient($colors)};
 				box-shadow: inset 0 0 0 2px ${rgba($colors[0], 0.2)};
+				animation: ${spin} 4s linear infinite reverse;
 			}
 		`}
 `;

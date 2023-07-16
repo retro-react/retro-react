@@ -26,7 +26,25 @@ const Template: Story<BadgeProps> = (args) => (
 export const Default = Template.bind({});
 Default.args = {
 	color: 'primary',
-	count: 15,
+	badgeContent: 15,
+	size: 'medium',
+	pulse: false,
+	showZero: false,
+};
+
+export const WithWords = Template.bind({});
+WithWords.args = {
+	color: 'primary',
+	badgeContent: 'NEW',
+	size: 'medium',
+	pulse: false,
+	showZero: false,
+};
+
+export const Highlight = Template.bind({});
+Highlight.args = {
+	color: 'highlight',
+	badgeContent: 'NEW',
 	size: 'medium',
 	pulse: false,
 	showZero: false,
@@ -35,7 +53,7 @@ Default.args = {
 export const Pulsating = Template.bind({});
 Pulsating.args = {
 	color: 'primary',
-	count: 5,
+	badgeContent: 5,
 	pulse: true,
 	size: 'medium',
 	showZero: false,

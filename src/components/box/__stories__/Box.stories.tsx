@@ -25,7 +25,7 @@ export default {
 const Template: ComponentStory<typeof Box> = ({ children, ...args }) => {
 	return (
 		<Box {...args}>
-			<div style={{ background: 'black', color: 'white' }}>
+			<div style={{ background: 'black', color: 'white', opacity: 0.6 }}>
 				In the age of neon lights and floppy disks, life seemed to move at
 				breakneck speed. It was a time when you could slip into a virtual world
 				through your computer screen or lose hours browsing your favorite
@@ -33,7 +33,14 @@ const Template: ComponentStory<typeof Box> = ({ children, ...args }) => {
 				step back, take a deep breath, and appreciate the simple moments that
 				made life truly special
 			</div>
-			<div style={{ background: 'black', color: 'white', marginTop: '1rem' }}>
+			<div
+				style={{
+					background: 'black',
+					color: 'white',
+					opacity: 0.6,
+					marginTop: '1rem',
+				}}
+			>
 				In the era of dial-up connections and cassette tapes, the world spun
 				with an electrifying pulse. It was a time when mixtapes ruled the
 				airwaves, and Saturday morning cartoons were the highlight of our week.

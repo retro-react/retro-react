@@ -107,6 +107,7 @@ export const Statistics = forwardRef<HTMLDivElement, StatisticsProps>(
 				$size={size}
 				$color={color}
 				$direction={direction}
+				title={label}
 				$isClickable={!!onClick}
 				className={classNames('statistics-root', className, commonClassNames)}
 				ref={ref}

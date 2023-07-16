@@ -32,6 +32,9 @@ interface TypewriterTextProps extends Omit<TextProps, 'children'> {
 
 /**
  * TypewriterText is used to display text as if it is being typed. It can be used to create a typewriter effect.
+ *
+ * `IMPORTANT:` Make sure to refresh the page if the text is not displayed correctly.
+ *
  * The props should not be changed after the component is mounted. It can cause unexpected behavior.
  *
  * @example

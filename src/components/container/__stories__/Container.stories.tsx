@@ -2,7 +2,7 @@ import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { Container } from '../index';
 
 export default {
-	title: 'Components/Container',
+	title: 'Layout/Container',
 	component: Container,
 } as ComponentMeta<typeof Container>;
 

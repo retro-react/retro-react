@@ -20,7 +20,7 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 	 *
 	 * @default 'primary'
 	 */
-	color?: ComponentColors;
+	color?: ComponentColors | 'highlight';
 	/**
 	 * Whether the badge should pulsate to draw attention.
 	 *
@@ -28,9 +28,9 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 	 */
 	pulse?: boolean;
 	/**
-	 * Badge contents, typically a number. If `null`, `0`, or `undefined`, the badge will be hidden.
+	 * Badge contents, typically a number or string. If `null`, `0`, or `undefined`, the badge will be hidden.
 	 */
-	count?: number;
+	badgeContent?: number | string;
 	children?: React.ReactNode;
 	/**
 	 *	The size of the Badge.
@@ -47,20 +47,6 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 	sx?: ThemeUICSSObject;
 }
 
-/**
- * Badges are used to display a numerical count or status descriptor for UI elements.
- * Badges can be used to display unread notifications, show the status of an object, or simply as counters.
- * Typically they are used with `Avatar` component but can also be used with `Box` or `div` element.
- *
- * If used with `div` element, the `div` element should have height and width set.
- *
- * @example
- * ```tsx
- * <Badge count={5}>
- * 	<Avatar src="https://i.pravatar.cc/300" />
- * </Badge>
- * ```
- */
 export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
 	(
 		{
@@ -68,7 +54,7 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
 			className,
 			color = 'primary',
 			size = 'medium',
-			count,
+			badgeContent,
 			pulse = false,
 			showZero = false,
 			children,
@@ -77,7 +63,10 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
 		},
 		ref,
 	) => {
-		const shouldShowBadge = showZero || (count && Number(count) > 0);
+		const shouldShowBadge =
+			typeof badgeContent === 'number'
+				? showZero || badgeContent > 0
+				: Boolean(badgeContent);
 
 		if (children) {
 			children = Children.map(children, (child) => {
@@ -105,12 +94,10 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
 						aria-hidden="true"
 						{...rest}
 					>
-						{count}
+						{badgeContent}
 					</Sc.Badge>
 				)}
 			</div>
 		);
 	},
 );
-
-Badge.displayName = 'Badge';

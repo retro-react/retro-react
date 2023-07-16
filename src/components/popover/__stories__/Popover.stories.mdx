@@ -1,0 +1,52 @@
+import { Heading, Markdown, Meta, Source, Title } from '@storybook/addon-docs';
+
+<Meta title="CSS/Popover" />
+
+## Popover CSS
+
+<Markdown>
+{`
+Class names are used to style elements. They are also used to select elements in JavaScript.
+
+You an target the components directly with the **sx** prop or use the class names to target the elements in your CSS.
+Use with **sx** prop or **css**
+
+| Class name             | Description                              |
+| ---------------------- | ---------------------------------------- |
+| 'popover-button-root'  | The root element of the popover button.  |
+| 'popover-content-root' | The root element of the popover content. |
+
+`}
+
+</Markdown>
+
+## Examples
+
+<Source
+	dark
+	language="tsx"
+	code={`
+    <Popover 
+    sx={{
+      '& .popover-button-root': {
+        backgroundColor: 'red',
+        color: 'blue',
+      },
+    }}
+    >
+  <PopoverButton>
+      Open Popover
+    </PopoverButton>
+    <PopoverContent>
+      <Text
+        sx={{
+          textAlign: 'center'
+        }}
+        variant="paragraph"
+      >
+        This is the content of the popover. You can click outside of the popover to close it.
+      </Text>
+    </PopoverContent>
+</Popover>
+  `}
+/>

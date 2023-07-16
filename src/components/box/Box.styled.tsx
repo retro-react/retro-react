@@ -24,6 +24,7 @@ export const Box = styled.div<{
 	border: 1px solid transparent;
 
 	outline: 1rem solid transparent;
+	box-shadow: 3px 3px ${rgba(BLACK, 0.3)};
 
 	${(props) =>
 		props.$pattern === 'none'

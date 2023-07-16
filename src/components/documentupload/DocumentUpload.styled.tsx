@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { alterColorEnhanced } from '@src/utils/alterColor';
 import getColorScheme from '@src/utils/getColorScheme';
 import {
 	ComponentPatterns,
@@ -25,6 +26,10 @@ export const DocumentUploadWrapper = styled.label<{
 	position: 'relative',
 	':hover': {
 		borderColor: getColorScheme($color || 'primary'),
+		backgroundColor: alterColorEnhanced(
+			getColorScheme($color || 'primary'),
+			30,
+		),
 	},
 }));
 
@@ -35,7 +40,7 @@ export const DocumentUpload = styled.input`
 export const FileName = styled.span<{
 	$color: UploadColor;
 }>`
-	font-size: 1.2em;
+	font-size: 0.9em;
 	color: ${WHITE};
 	background-color: ${({ $color }) => getColorScheme($color || 'primary')};
 	padding: 5px;
@@ -43,6 +48,8 @@ export const FileName = styled.span<{
 	min-height: 30px;
 	display: flex;
 	align-items: center;
+	flex-direction: column;
+	opacity: 0.8;
 `;
 
 export const UploadIcon = styled.svg<{
@@ -73,7 +80,7 @@ export const StyledSVG = styled.svg<{ color: string }>`
 	position: absolute;
 	top: 0;
 	right: 0;
-	transform: translate(50%, -50%);
+	transform: translate(60%, -60%);
 	cursor: pointer;
 	background-color: ${(props) => getColorScheme(props.color)};
 	border-radius: 50%;
