@@ -1,5 +1,5 @@
 /** @jsxImportSource theme-ui */
-import { forwardRef } from 'react';
+import { forwardRef, useEffect } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import { ComponentColors } from '@src/utils/getColorScheme';
@@ -42,13 +42,15 @@ export interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @param event The event source of the callback.
 	 * You can pull out the new value by accessing `event.target.value` (string).
 	 */
-	onClose?: (event: React.MouseEvent) => void;
+	onClose?: (event: Event) => void;
 	sx?: ThemeUICSSObject;
 }
 
 /**
  * Modals are used to display content in a layer above the app.
  * They are centered on the screen and can be triggered by a button.
+ *
+ * Pressing the `Escape` key will close the Modal.
  *
  * @example
  * <Modal open={open} onClose={handleClose}>
@@ -71,13 +73,21 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
 		},
 		ref,
 	) => {
+		useEffect(() => {
+			const handleKeyDown = (event: KeyboardEvent) => {
+				if (event.key === 'Escape' && open) {
+					onClose?.(event);
+				}
+			};
+
+			window.addEventListener('keydown', handleKeyDown);
+			return () => window.removeEventListener('keydown', handleKeyDown);
+		}, [open, onClose]);
+
 		return (
 			<Portal>
 				{backdrop && (
-					<Sc.ModalBackdrop
-						$open={open}
-						onClick={(e) => onClose && onClose(e)}
-					/>
+					<Sc.ModalBackdrop $open={open} onClick={(e) => onClose?.(e as any)} />
 				)}
 				<Sc.Modal
 					$color={color}
@@ -92,7 +102,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
 				>
 					<Sc.CloseButton
 						className="modal-close-button"
-						onClick={onClose}
+						onClick={(e) => onClose?.(e as any)}
 						aria-label="Close Modal"
 						$color={color}
 					/>

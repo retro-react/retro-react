@@ -72,3 +72,23 @@ Warn.args = {
 	children: 'Warn Button',
 	variant: 'solid',
 };
+
+export const Greyscale = Template.bind({});
+Greyscale.args = {
+	color: 'greyscale',
+	onClick: action('clicked'),
+	size: 'medium',
+	disableClickEffect: false,
+	children: 'Greyscale Button',
+	variant: 'solid',
+};
+
+export const GreyscaleDark = Template.bind({});
+GreyscaleDark.args = {
+	color: 'greyscale-dark',
+	onClick: action('clicked'),
+	size: 'medium',
+	disableClickEffect: false,
+	children: 'Dark Greyscale Button',
+	variant: 'solid',
+};

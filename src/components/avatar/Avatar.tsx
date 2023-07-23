@@ -10,7 +10,9 @@ export type AvatarColor =
 	| 'secondary'
 	| 'success'
 	| 'error'
-	| 'warn';
+	| 'warn'
+	| 'greyscale'
+	| 'greyscale-dark';
 
 export type AvatarSize = 'small' | 'medium' | 'large';
 export type AvatarVariant = 'circle' | 'square';

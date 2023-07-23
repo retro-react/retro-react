@@ -1,17 +1,12 @@
 /** @jsxImportSource theme-ui */
-import React, {
-	Dispatch,
-	forwardRef,
-	useEffect,
-	useRef,
-	useState,
-} from 'react';
+import React, { Dispatch, forwardRef, useEffect, useRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
 import { ComponentColors } from '@src/utils/getColorScheme';
+import { Portal } from '../portal/Portal';
 import { Backdrop, DrawerContainer } from './Drawer.styled';
 
 export type DrawerDirection = 'left' | 'right';
-export type DrawerColors = ComponentColors | 'greyscale';
+export type DrawerColors = ComponentColors | 'greyscale' | 'greyscale-dark';
 
 interface DrawerProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
@@ -70,19 +65,33 @@ export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(
 		},
 		ref,
 	) => {
-		const [drawerElement, setDrawerElement] = useState<HTMLDivElement | null>(
-			null,
-		);
+		const drawerElement = useRef<HTMLDivElement | null>(null);
 		const previouslyFocusedElement = useRef<Element | null>(null);
 
 		useEffect(() => {
-			if (isOpen && drawerElement) {
+			const handleClickOutside = (event) => {
+				if (
+					drawerElement.current &&
+					!drawerElement.current.contains(event.target)
+				) {
+					setIsOpen(false);
+				}
+			};
+
+			document.addEventListener('mousedown', handleClickOutside);
+			return () => {
+				document.removeEventListener('mousedown', handleClickOutside);
+			};
+		}, [setIsOpen]);
+
+		useEffect(() => {
+			if (isOpen && drawerElement.current) {
 				previouslyFocusedElement.current = document.activeElement;
-				drawerElement.focus();
+				drawerElement.current.focus();
 			} else {
 				(previouslyFocusedElement.current as HTMLElement)?.focus();
 			}
-		}, [isOpen, drawerElement]);
+		}, [isOpen]);
 
 		useEffect(() => {
 			const handleKeyDown = (event: KeyboardEvent) => {
@@ -103,10 +112,10 @@ export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(
 					ref.current = element;
 				}
 			}
-			setDrawerElement(element);
+			drawerElement.current = element;
 		};
 
-		return (
+		const drawer = (
 			<>
 				{isOpen && <Backdrop onClick={() => setIsOpen((prev) => !prev)} />}
 				<DrawerContainer
@@ -124,6 +133,8 @@ export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(
 				</DrawerContainer>
 			</>
 		);
+
+		return <Portal>{drawer}</Portal>;
 	},
 );
 

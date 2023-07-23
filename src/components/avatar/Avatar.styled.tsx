@@ -1,31 +1,9 @@
-import { css, Theme } from '@emotion/react';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import getColorScheme from '@src/utils/getColorScheme';
 import { getPatternScheme } from '@src/utils/getPatternScheme';
-import {
-	ERROR,
-	PRIMARY,
-	SECONDARY,
-	SUCCESS,
-	WARN,
-	WHITE,
-} from '@src/constants/colors';
+import { WHITE } from '@src/constants/colors';
 import { AvatarColor, AvatarSize, AvatarVariant } from './Avatar';
-
-function getColorScheme(color: AvatarColor, theme: Theme) {
-	switch (color) {
-		case 'error':
-			return (theme.colors && theme.colors[color]) || ERROR;
-		case 'success':
-			return (theme.colors && theme.colors[color]) || SUCCESS;
-		case 'warn':
-			return (theme.colors && theme.colors[color]) || WARN;
-		case 'secondary':
-			return (theme.colors && theme.colors[color]) || SECONDARY;
-		case 'primary':
-		default:
-			return (theme.colors && theme.colors[color]) || PRIMARY;
-	}
-}
 
 const sizeStyles = {
 	small: '2rem',

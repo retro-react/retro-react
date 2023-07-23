@@ -89,6 +89,10 @@ export const CloseButton = styled.button<{
 		transform: scale(1.1);
 	}
 
+	&:active {
+		transform: scale(0.9);
+	}
+
 	&::before,
 	&::after {
 		content: '';

@@ -2,53 +2,65 @@ import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { useState } from 'react';
 import { Flex } from 'theme-ui';
 import { Button } from '@src/components/button';
-import { Alert } from '../index';
+import { Alert, AlertProps } from '../index';
 
 export default {
 	title: 'Components/Alert',
 	component: Alert,
 	argTypes: {
 		color: {
-			control: false,
+			control: 'color',
 		},
 		title: {
-			control: false,
+			control: 'text',
 		},
 		open: {
-			control: false,
-		},
-		position: {
-			control: false,
+			control: 'boolean',
 		},
 		showCloseButton: {
-			control: false,
+			control: 'boolean',
 		},
 		onClose: {
 			control: false,
 		},
+		children: {
+			control: 'text',
+		},
 	},
 } as ComponentMeta<typeof Alert>;
 
-const Template: ComponentStory<typeof Alert> = () => {
+const Template: ComponentStory<typeof Alert> = ({
+	color,
+	title,
+	showCloseButton,
+	children,
+}: AlertProps) => {
 	const [open, setOpen] = useState(false);
 
 	return (
-		<div>
+		<>
 			<Button onClick={() => setOpen(!open)}>Toggle Alert</Button>
 			<Alert
-				color="primary"
-				title="Primary Alert"
+				color={color}
+				title={title}
 				open={open}
-				showCloseButton={true}
+				showCloseButton={showCloseButton}
 				onClose={() => setOpen(false)}
 			>
-				The quick brown fox jumps over the lazy dog.
+				{children}
 			</Alert>
-		</div>
+		</>
 	);
 };
 
 export const Default = Template.bind({});
+Default.args = {
+	color: 'primary',
+	title: 'Primary Alert',
+	open: true,
+	showCloseButton: true,
+	children: 'The quick brown fox jumps over the lazy dog.',
+};
 
 export const AlertColors: ComponentStory<typeof Alert> = () => (
 	<Flex sx={{ flexDirection: 'column', gap: '1rem', width: '300px' }}>

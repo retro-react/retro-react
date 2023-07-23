@@ -98,7 +98,7 @@ export interface PopoverProps {
 }
 
 /**
- * A popover. The content is rendered in a Portal.
+ * A popover. The content is rendered in a Portal. Use `sx` to style the popover container.
  *
  * @example
  * <Popover>

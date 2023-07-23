@@ -1,28 +1,12 @@
 import styled from '@emotion/styled';
+import getColorScheme from '@src/utils/getColorScheme';
 import {
 	ComponentPatterns,
 	getPatternScheme,
 } from '@src/utils/getPatternScheme';
 import { rgba } from '@src/utils/rgba';
-import {
-	BLACK,
-	ERROR,
-	PRIMARY,
-	SECONDARY,
-	SHADE_3,
-	SUCCESS,
-	WARN,
-	WHITE,
-} from '@src/constants/colors';
+import { BLACK, SHADE_3, WHITE } from '@src/constants/colors';
 import { AccordionColor } from './Accordion';
-
-const accordionColorStyles = {
-	primary: PRIMARY,
-	secondary: SECONDARY,
-	success: SUCCESS,
-	error: ERROR,
-	warn: WARN,
-};
 
 export const AccordionWrapper = styled.div`
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
@@ -38,8 +22,8 @@ export const AccordionHeader = styled.button<{
 	align-items: center;
 	background-color: ${(props) =>
 		(props.theme.colors && props.theme.colors[props.$color]) ||
-		accordionColorStyles[props.$color]};
-	text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+		getColorScheme(props.$color)};
+	text-shadow: 1px 1px 2px ${rgba(WHITE, 0.5)};
 	padding: 0.5rem;
 	font-size: 1rem;
 	font-weight: bold;
@@ -53,12 +37,12 @@ export const AccordionHeader = styled.button<{
       linear-gradient(
         ${rgba(
 					(props.theme.colors && props.theme.colors[props.$color]) ||
-						accordionColorStyles[props.$color],
+						getColorScheme(props.$color),
 					0.4,
 				)},
         ${rgba(
 					(props.theme.colors && props.theme.colors[props.$color]) ||
-						accordionColorStyles[props.$color],
+						getColorScheme(props.$color),
 					0.4,
 				)}
       ),
@@ -86,6 +70,12 @@ export const AccordionHeader = styled.button<{
 		}
 	}}
 
+	${({ $color }) =>
+		$color === 'greyscale-dark' &&
+		`
+			color: ${WHITE};
+			`}
+
 	&:hover {
 		background-color: ${SHADE_3};
 	}
@@ -100,13 +90,13 @@ export const AccordionContent = styled.div<{
 			${(props) =>
 				rgba(
 					(props.theme.colors && props.theme.colors[props.$color]) ||
-						accordionColorStyles[props.$color],
+						getColorScheme(props.$color),
 					0.1,
 				)},
 			${(props) =>
 				rgba(
 					(props.theme.colors && props.theme.colors[props.$color]) ||
-						accordionColorStyles[props.$color],
+						getColorScheme(props.$color),
 					0.1,
 				)}
 		),
@@ -115,7 +105,7 @@ export const AccordionContent = styled.div<{
 		${(props) =>
 			rgba(
 				(props.theme.colors && props.theme.colors[props.$color]) ||
-					accordionColorStyles[props.$color],
+					getColorScheme(props.$color),
 				0.4,
 			)};
 	overflow: hidden;

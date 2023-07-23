@@ -75,7 +75,7 @@ export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
 
 /**
  * Alerts are used to communicate a state that affects a system, feature or page.
- * They should draw attention and provide a clear call to action.
+ * They should draw attention and provide a clear call to action. You can directly implement the Alert component or show it using the `open` prop through a state manager.
  *
  * @example
  * <Alert color="success" title="Success">
@@ -117,6 +117,7 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
 						onClick={onClose}
 						$icon={closeIcon}
 						aria-label="Close alert"
+						$color={color}
 					/>
 				)}
 				<Sc.Title className="alert-title" aria-label="Alert title">

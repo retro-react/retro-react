@@ -84,5 +84,7 @@ Basic.args = {
 	color: 'primary',
 	size: 'medium',
 	label: 'Favorite car',
+	required: false,
+	disabled: false,
 	onChange: action('onChange'),
 };

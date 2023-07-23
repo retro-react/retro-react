@@ -80,7 +80,7 @@ export const Title = styled.div`
 	margin-bottom: 0.2rem;
 `;
 
-export const CloseButton = styled.button<{ $icon: string }>`
+export const CloseButton = styled.button<{ $icon: string; $color: AlertColor }>`
 	position: absolute;
 	top: 0.2rem;
 	right: 0.2rem;
@@ -90,8 +90,9 @@ export const CloseButton = styled.button<{ $icon: string }>`
 	border-radius: 50%;
 	cursor: pointer;
 
-	background-image: url(${({ $icon }) => $icon});
-	background-color: transparent;
+	mask: url(${({ $icon }) => $icon});
+	background-color: ${({ $color, theme }) =>
+		alterColorEnhanced(getColorScheme($color, theme), 60)};
 
 	&:hover {
 		transform: scale(1.1);

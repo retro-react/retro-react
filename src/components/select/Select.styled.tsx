@@ -12,6 +12,41 @@ const sizeStyles = {
 	large: '1.8rem',
 };
 
+export const Error = styled.span`
+	color: ${getColorScheme('error')};
+	margin-top: 0.5rem;
+`;
+
+export const SelectContainer = styled.div`
+	position: relative;
+	display: inline-block;
+	width: 100%;
+`;
+
+export const ClearButton = styled.button<{
+	$icon: string;
+}>`
+	position: absolute;
+	right: 0.2rem;
+	top: 0.6rem;
+	width: 1.5rem;
+	height: 1.5rem;
+	border: none;
+	cursor: pointer;
+	opacity: 0.65;
+
+	mask: url(${({ $icon }) => $icon});
+	background-color: ${rgba(WHITE, 0.8)};
+
+	&:hover {
+		transform: scale(1.1);
+	}
+
+	&:active {
+		transform: scale(0.9);
+	}
+`;
+
 export const SelectWrapper = styled.div<{
 	$color: SelectColor;
 }>`
@@ -19,7 +54,7 @@ export const SelectWrapper = styled.div<{
 	flex-direction: column;
 	position: relative;
 	padding: 0.25rem;
-	margin-top: 0.5rem;
+	margin-top: 1rem;
 `;
 
 export const Label = styled.label<{
@@ -27,6 +62,7 @@ export const Label = styled.label<{
 	$size: SelectSize;
 	$disabled: boolean;
 }>`
+	z-index: 2;
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	font-size: ${(props) => sizeStyles[props.$size]};
 	color: ${WHITE};
@@ -81,6 +117,7 @@ export const Label = styled.label<{
 export const Select = styled.select<{
 	$color: SelectColor;
 	$size: SelectSize;
+	$required: boolean;
 }>`
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	font-size: ${(props) => sizeStyles[props.$size]};
@@ -112,6 +149,8 @@ export const Select = styled.select<{
 	cursor: pointer;
 	border: none;
 	border-radius: 0.5rem;
+
+	padding-right: ${(props) => (!props.$required ? '2rem' : '1rem')};
 
 	&:focus {
 		outline: none;

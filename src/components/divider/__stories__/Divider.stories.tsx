@@ -29,6 +29,9 @@ export const Basic: Story = {
 	),
 };
 
+/**
+ * Used with Flexbox to create a vertical divider.
+ */
 export const Vertical: Story = {
 	name: 'Vertical Divider',
 	args: {

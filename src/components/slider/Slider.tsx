@@ -1,5 +1,5 @@
 /** @jsxImportSource theme-ui */
-import { forwardRef } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import { ComponentColors } from '@src/utils/getColorScheme';
@@ -52,6 +52,12 @@ export interface SliderProps
 	 * @default 'primary'
 	 */
 	color?: ComponentColors;
+	/**
+	 * If `true`, the Slider will show a tooltip with the current value.
+	 *
+	 * @default true
+	 */
+	showTooltip?: boolean;
 	sx?: ThemeUICSSObject;
 }
 
@@ -72,20 +78,53 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(
 			max = 100,
 			step = 1,
 			color = 'primary',
+			showTooltip = true,
 			onChange,
 			disabled = false,
 			...rest
 		},
 		ref,
 	) => {
+		const [sliderValue, setSliderValue] = useState(value);
+		const [isSliderMoving, setIsSliderMoving] = useState(false);
+		const [tooltipPosition, setTooltipPosition] = useState(0);
+
+		useEffect(() => {
+			const newValue = ((sliderValue - min) * 100) / (max - min);
+			const newPosition = Math.max(0, Math.min(100, newValue));
+			setTooltipPosition(newPosition);
+		}, [sliderValue, min, max]);
+
 		const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+			setSliderValue(Number(event.target.value));
 			onChange && onChange(parseFloat(event.target.value));
+		};
+
+		useEffect(() => {
+			const handleMouseUp = () => {
+				setIsSliderMoving(false);
+			};
+
+			window.addEventListener('mouseup', handleMouseUp);
+
+			return () => {
+				window.removeEventListener('mouseup', handleMouseUp);
+			};
+		}, []);
+
+		const handleMouseDown = () => {
+			setIsSliderMoving(true);
 		};
 
 		return (
 			<Sc.SliderWrapper
 				className={classNames('slider-root', className, commonClassNames)}
 			>
+				{showTooltip && isSliderMoving && (
+					<Sc.Tooltip $leftPosition={tooltipPosition} $color={color}>
+						{sliderValue}
+					</Sc.Tooltip>
+				)}
 				<Sc.Slider
 					$color={color}
 					$value={value}
@@ -99,6 +138,7 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(
 					step={step}
 					value={value}
 					onChange={handleChange}
+					onMouseDown={handleMouseDown}
 					disabled={disabled}
 					{...rest}
 				/>

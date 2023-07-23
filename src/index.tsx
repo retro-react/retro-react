@@ -53,3 +53,4 @@ export * from './components/navbar';
 export * from './components/passwordinput';
 export * from './components/documentupload';
 export * from './components/menu';
+export * from './components/togglebutton';

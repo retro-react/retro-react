@@ -12,7 +12,9 @@ export type AccordionColor =
 	| 'secondary'
 	| 'success'
 	| 'error'
-	| 'warn';
+	| 'warn'
+	| 'greyscale'
+	| 'greyscale-dark';
 
 export interface AccordionProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
