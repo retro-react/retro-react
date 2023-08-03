@@ -62,7 +62,9 @@ const App = () => {
 			<Modal open={true}>{/* Modal content */}</Modal>
 			<ProgressBar value={50} />
 			<Chip color="primary">Chip</Chip>
-			<Alert color="success" message="Success!" />
+			<Alert open={true} color="success">
+				{/* Alert content */}
+			</Alert>
 		</div>
 	);
 };
@@ -92,6 +94,20 @@ All components in React Retro UI support the `sx` prop, which allows you to add 
 <Button sx={{ backgroundColor: 'red' }}>Click me</Button>
 <Text sx={{ color: 'blue' }}>Hello, world!</Text>
 <Container sx={{ border: '1px solid black', width: '100vh' }}>{/* Your content here */}</Container>
+```
+
+## Styling
+
+Emotion is used for styling the components. You can create your own components by using the `styled` function from Emotion or use the theme values using the `useTheme` hook. For more information on styling, please refer to this [documentation](https://emotion.sh/docs/styled).
+
+```jsx
+import React from 'react';
+import { styled, useTheme } from 'retro-react';
+
+const StyledButton = styled('button')`
+	background-color: ${(props) => props.theme.colors.primary};
+	color: ${(props) => props.theme.colors.white};
+`;
 ```
 
 ## License

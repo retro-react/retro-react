@@ -4,6 +4,8 @@ export { default as defaultTheme } from './themes/defaultTheme';
 
 // Styled
 export { default as styled } from '@emotion/styled';
+export { css } from '@emotion/react';
+export { useTheme } from '@emotion/react';
 
 // Components
 export * from './components/accordion';
