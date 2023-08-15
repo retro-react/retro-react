@@ -8,6 +8,7 @@ export { css } from '@emotion/react';
 export { useTheme } from '@emotion/react';
 
 // Components
+export * from './components/autocomplete';
 export * from './components/accordion';
 export * from './components/alert';
 export * from './components/avatar';
