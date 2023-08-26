@@ -55,6 +55,7 @@ export const StatisticsWrapper = styled.div<{
 	`}
 
 	color: ${({ $color }) => getTextColors($color)};
+	box-shadow: 2px 2px 5px ${rgba(BLACK, 0.3)};
 
 	${({ $isClickable, $color }) =>
 		$isClickable &&
@@ -77,7 +78,7 @@ export const StatisticsWrapper = styled.div<{
 				border-radius: 5px;
 			}
 		}
-	`}
+	`};
 `;
 
 export const StatNumberWrapper = styled.div<{
@@ -136,8 +137,8 @@ export const StatSuffix = styled.span<{
 }>`
 	font-size: ${({ $size }) =>
 		$size === 'small' ? '1.3rem' : $size === 'medium' ? '1.8rem' : '2.3rem'};
-	font-weight: 400;
 	margin-left: 0.2rem;
+	font-weight: bold;
 `;
 
 export const StatPrefix = styled.span<{
@@ -145,8 +146,8 @@ export const StatPrefix = styled.span<{
 }>`
 	font-size: ${({ $size }) =>
 		$size === 'small' ? '1.3rem' : $size === 'medium' ? '1.8rem' : '2.3rem'};
-	font-weight: 400;
 	margin-right: 0.2rem;
+	font-weight: bold;
 `;
 
 export const StatLabel = styled.span<{

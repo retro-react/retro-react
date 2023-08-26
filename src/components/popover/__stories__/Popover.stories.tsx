@@ -43,6 +43,7 @@ export const Basic: Story = {
 					variant="paragraph"
 					sx={{
 						textAlign: 'center',
+						backgroundColor: 'lightgrey',
 					}}
 				>
 					This is the content of the popover. You can click outside of the

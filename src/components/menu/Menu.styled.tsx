@@ -17,39 +17,32 @@ export const MenuContainer = styled.div<{
 	display: inline-block;
 	background-color: ${(props) =>
 		getColorScheme(props.$color, props.theme) || props.$color};
+
 	background-image: ${(props) => `
-        linear-gradient(
-            ${rgba(
-							getColorScheme(props.$color, props.theme) || props.$color,
-							0.7,
-						)},
-            ${rgba(
-							getColorScheme(props.$color, props.theme) || props.$color,
-							0.7,
-						)}
-        ), url(${getPatternScheme(props.$pattern)})
-    `};
-	filter: brightness(1.3);
-	box-shadow: inset 1px 1px 5px ${rgba(BLACK, 0.2)},
-		inset -1px -1px 2px ${rgba(WHITE, 0.2)} inset 1px 1px 10px
-			${rgba(BLACK, 0.2)},
-		inset -1px -1px 10px ${rgba(WHITE, 0.2)};
-	border: 3px outset
+		linear-gradient(
+				${rgba(getColorScheme(props.$color, props.theme) || props.$color, 0.7)},
+				${rgba(getColorScheme(props.$color, props.theme) || props.$color, 0.7)}
+		), url(${getPatternScheme(props.$pattern)})
+`};
+
+	box-shadow: inset 1px 1px 2px ${rgba(BLACK, 0.2)},
+		inset -1px -1px 2px ${rgba(WHITE, 0.2)};
+	border: 2px solid
 		${(props) => getColorScheme(props.$color, props.theme) || props.$color};
 	border-radius: ${(props) => (props.$rounded ? '0.5rem' : '0')};
+
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	font-size: 1rem;
 	overflow: auto;
 
 	& .menu-item {
-		border-radius: ${(props) => (props.$rounded ? '0.5rem' : '0')};
 		color: ${({ $color }) => ($color === 'warn' ? BLACK : WHITE)};
 	}
 `;
 
 export const MenuStyled = styled.ul`
-	min-width: 160px;
-	padding: 12px 16px;
+	min-width: 140px;
+	padding: 8px 12px;
 	background-color: ${rgba(BLACK, 0.1)};
 	list-style: none;
 	margin: 0;
@@ -58,7 +51,6 @@ export const MenuStyled = styled.ul`
 		display: block;
 	}
 `;
-
 export const MenuItemDivider = styled.hr<{
 	$color: ComponentColors | 'greyscale';
 }>`
@@ -70,8 +62,9 @@ export const MenuItemDivider = styled.hr<{
 
 export const MenuItem = styled.li`
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
-	padding: 0.5rem;
-	transition: background-color 0.3s;
+	padding: 0.3rem 0.5rem;
+	background-color: transparent;
+
 	&:hover {
 		background-color: ${rgba(BLACK, 0.2)};
 	}
@@ -81,6 +74,6 @@ export const MenuItem = styled.li`
 	}
 
 	&:not(:last-child) {
-		margin-bottom: 0.5rem;
+		margin-bottom: 0.3rem;
 	}
 `;

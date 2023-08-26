@@ -11,6 +11,7 @@ type Story = StoryObj<typeof Breadcrumbs>;
 
 export const Basic: Story = {
 	args: {
+		backgroundColor: 'transparent',
 		items: [
 			{ text: 'Home', href: '', active: true },
 			{ text: 'About', href: '' },

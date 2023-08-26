@@ -103,6 +103,7 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
 			[],
 		);
 		const [wasSuggestionSelected, setWasSuggestionSelected] = useState(false);
+		const [isInteractingWithList, setIsInteractingWithList] = useState(false);
 		const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0);
 		const [showSuggestions, setShowSuggestions] = useState(false);
 
@@ -183,6 +184,20 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
 			}
 		};
 
+		const handleBlur = () => {
+			if (!wasSuggestionSelected && !isInteractingWithList) {
+				setInputValue('');
+			}
+		};
+
+		const handleListMouseDown = () => {
+			setIsInteractingWithList(true);
+		};
+
+		const handleListMouseUp = () => {
+			setIsInteractingWithList(false);
+		};
+
 		return (
 			<AutocompleteWrapper
 				className={classNames('autocomplete-root', className, commonClassNames)}
@@ -194,6 +209,7 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
 					$size={size}
 					$rounded={rounded}
 					$color={color}
+					onBlur={handleBlur}
 					onChange={handleChange}
 					onKeyDown={handleKeyDown}
 					ref={ref}
@@ -204,15 +220,20 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
 					<SuggestionsList
 						ref={suggestionsListRef}
 						$color={color}
+						onMouseDown={handleListMouseDown}
+						onMouseUp={handleListMouseUp}
 						className="autocomplete-suggestions"
 					>
 						{filteredSuggestions.length > 0 ? (
 							filteredSuggestions.map((suggestion, index) => (
 								<SuggestionItem
 									key={suggestion}
+									$color={color}
 									onClick={() => handleClick(suggestion)}
 									className={
-										index === activeSuggestionIndex ? 'active-suggestion' : ''
+										index === activeSuggestionIndex
+											? 'active-suggestion'
+											: undefined
 									}
 								>
 									{suggestion}

@@ -5,7 +5,7 @@ import {
 	getPatternScheme,
 } from '@src/utils/getPatternScheme';
 import { rgba } from '@src/utils/rgba';
-import { BLACK, SHADE_3, WHITE } from '@src/constants/colors';
+import { BLACK, SHADE_3, SHADE_5, WHITE } from '@src/constants/colors';
 import { AccordionColor } from './Accordion';
 
 export const AccordionWrapper = styled.div`
@@ -28,9 +28,9 @@ export const AccordionHeader = styled.button<{
 	font-size: 1rem;
 	font-weight: bold;
 	width: 100%;
-	border: none;
 	outline: none;
 	cursor: pointer;
+	border: 2px dotted ${SHADE_5};
 
 	${(props) => {
 		const gradient = `
@@ -78,6 +78,7 @@ export const AccordionHeader = styled.button<{
 
 	&:hover {
 		background-color: ${SHADE_3};
+		background-position: -50px 0;
 	}
 `;
 

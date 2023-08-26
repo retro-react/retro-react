@@ -165,9 +165,7 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(
 
 			setPopoverPosition(pos);
 		}, [isOpen, position]);
-
 		useEffect(() => {
-			if (!closeOnClickOutside || !isOpen) return;
 			const handleClickOutside = (event: MouseEvent) => {
 				if (
 					popoverRef.current &&
@@ -178,11 +176,15 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(
 					setIsOpen(false);
 				}
 			};
-			document.addEventListener('mousedown', handleClickOutside);
+
+			if (closeOnClickOutside) {
+				document.addEventListener('mousedown', handleClickOutside);
+			}
+
 			return () => {
 				document.removeEventListener('mousedown', handleClickOutside);
 			};
-		}, [isOpen, closeOnClickOutside]);
+		}, [isOpen, closeOnClickOutside, popoverRef, buttonRef]);
 
 		const onButtonClick = () => {
 			setIsOpen(!isOpen);
@@ -203,6 +205,7 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(
 						<PopoverContent
 							ref={popoverRef}
 							position={isOpen ? popoverPosition : undefined}
+							data-visible={isOpen}
 							style={{
 								position: 'fixed',
 								visibility: isOpen ? 'visible' : 'hidden',

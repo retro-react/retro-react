@@ -76,7 +76,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
 		useEffect(() => {
 			const handleKeyDown = (event: KeyboardEvent) => {
 				if (event.key === 'Escape' && open) {
-					onClose?.(event);
+					onClose?.(event as unknown as Event);
 				}
 			};
 
@@ -97,6 +97,8 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
 					ref={ref}
 					id={id}
 					sx={sx}
+					role="dialog"
+					aria-modal="true"
 					className={classNames('modal-root', className, commonClassNames)}
 					{...rest}
 				>

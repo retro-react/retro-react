@@ -50,6 +50,7 @@ Default.args = {
 	),
 	pattern: 'noise',
 	color: 'primary',
+	rounded: false,
 	alt: 'Image from Picsum',
 	header: (
 		<Text variant="h3" align="center">

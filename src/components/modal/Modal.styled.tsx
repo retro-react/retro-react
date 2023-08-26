@@ -86,7 +86,7 @@ export const CloseButton = styled.button<{
 	transition: transform 0.1s linear;
 
 	&:hover {
-		transform: scale(1.1);
+		transform: rotate(15deg);
 	}
 
 	&:active {

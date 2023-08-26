@@ -31,7 +31,7 @@ export interface MenuProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
 	 * Defines if the corners of the menu container should be rounded.
 	 *
-	 * @default true
+	 * @default false
 	 */
 	rounded?: boolean;
 	/**

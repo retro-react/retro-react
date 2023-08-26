@@ -14,6 +14,7 @@ const sizeStyles = {
 export const Avatar = styled.div<{
 	$color: AvatarColor;
 	$size: AvatarSize;
+	$rounded: boolean;
 	$variant: AvatarVariant;
 	$src?: string;
 }>`
@@ -45,7 +46,7 @@ export const Avatar = styled.div<{
 	${(props) =>
 		props.$variant === 'square' &&
 		css`
-			border-radius: 0.5rem;
+			border-radius: ${props.$rounded ? '0.5rem' : '0'};
 		`}
 
 

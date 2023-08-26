@@ -49,7 +49,7 @@ const Template: ComponentStory<typeof Autocomplete> = (args) => {
 
 export const Default = Template.bind({});
 Default.args = {
-	variant: 'outlined',
+	variant: 'filled',
 	color: 'primary',
 	size: 'medium',
 	rounded: true,

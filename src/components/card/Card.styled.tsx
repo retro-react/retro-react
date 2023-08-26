@@ -7,7 +7,11 @@ import {
 } from '@src/utils/getPatternScheme';
 import { rgba } from '@src/utils/rgba';
 
-export const Card = styled.div<{ $pattern: ComponentPatterns; $color: string }>`
+export const Card = styled.div<{
+	$pattern: ComponentPatterns;
+	$color: string;
+	$rounded: boolean;
+}>`
 	box-sizing: border-box;
 	background-color: ${(props) =>
 		getColorScheme(props.$color, props.theme) || props.$color};
@@ -24,7 +28,7 @@ linear-gradient(
 		inset -1px -1px 10px rgba(255, 255, 255, 0.2);
 	border: 3px outset
 		${(props) => getColorScheme(props.$color, props.theme) || props.$color};
-	border-radius: 0.5rem;
+	border-radius: ${(props) => (props.$rounded ? '0.5rem' : '0')};
 	padding: 1rem;
 	font-family: 'Comic Sans MS', sans-serif;
 	font-size: 1rem;

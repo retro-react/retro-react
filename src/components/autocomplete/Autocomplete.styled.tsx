@@ -153,6 +153,7 @@ export const SuggestionsList = styled.ul<{
 	list-style-type: none;
 	max-height: 150px;
 	overflow-y: auto;
+	color: ${WHITE};
 
 	position: absolute;
 	top: 100%;
@@ -179,10 +180,17 @@ export const SuggestionsList = styled.ul<{
 				? SHADE_2
 				: alterColorEnhanced(getColorScheme($color, theme), 70)};
 		color: ${({ $color }) =>
-			$color === 'greyscale' || $color === 'warn' ? BLACK : WHITE};
+			$color === 'greyscale' || $color === 'warn' ? BLACK : BLACK};
 	}
 `;
 
-export const SuggestionItem = styled.li`
+export const SuggestionItem = styled.li<{
+	$color: ComponentColors | 'greyscale';
+}>`
 	cursor: pointer;
+
+	&:hover {
+		color: ${({ $color }) =>
+			$color === 'greyscale' || $color === 'warn' ? BLACK : BLACK};
+	}
 `;

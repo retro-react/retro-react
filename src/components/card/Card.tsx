@@ -15,6 +15,12 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
 	 */
 	color?: ComponentColors | string;
 	/**
+	 * Determines if the Card should have rounded edges.
+	 *
+	 * @default false
+	 */
+	rounded?: boolean;
+	/**
 	 * The pattern of the Card.
 	 *
 	 * @default 'noise'
@@ -65,6 +71,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
 			sx,
 			className,
 			children,
+			rounded = false,
 			header,
 			image,
 			footer,
@@ -77,6 +84,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
 	) => {
 		return (
 			<Sc.Card
+				$rounded={rounded}
 				$pattern={pattern}
 				$color={color}
 				ref={ref}

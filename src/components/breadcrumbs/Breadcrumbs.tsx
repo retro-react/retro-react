@@ -54,6 +54,12 @@ export interface BreadcrumbsProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default undefined
 	 */
 	color?: string;
+	/**
+	 * The color of the breadcrumb.
+	 *
+	 * @default transparent
+	 */
+	backgroundColor?: string;
 	sx?: ThemeUICSSObject;
 }
 
@@ -65,7 +71,19 @@ export interface BreadcrumbsProps extends React.HTMLAttributes<HTMLDivElement> {
  * <Breadcrumbs items={[{ text: 'Home', href: '/', active: true }, { text: 'About', href: '/about' }]} />
  */
 export const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
-	({ id, className, children, color, items = [], sx, ...rest }, ref) => {
+	(
+		{
+			id,
+			className,
+			children,
+			color,
+			backgroundColor,
+			items = [],
+			sx,
+			...rest
+		},
+		ref,
+	) => {
 		const handleClick = (item: BreadcrumbItem) => (e: React.MouseEvent) => {
 			if (!item.href || item.href === '') {
 				e.preventDefault();
@@ -79,6 +97,7 @@ export const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
 			<BreadcrumbsWrapper
 				ref={ref}
 				id={id}
+				$backgroundColor={backgroundColor}
 				className={classNames('breadcrumbs-root', className, commonClassNames)}
 				{...rest}
 			>

@@ -33,7 +33,6 @@ export const ProgressBar = styled.div<{
 	background-image: url(${getPatternScheme('noise')});
 
 	background-color: ${(props) => props.$bg || WHITE};
-	border-radius: 0.5rem;
 	padding: 1rem;
 	font-size: 1.5rem;
 	box-shadow: 1px 1px 2px ${rgba(BLACK, 0.5)},

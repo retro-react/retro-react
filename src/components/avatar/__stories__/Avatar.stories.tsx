@@ -31,6 +31,7 @@ Primary.args = {
 	children: 'AB',
 	size: 'medium',
 	variant: 'circle',
+	rounded: false,
 	src: image,
 };
 
@@ -54,7 +55,7 @@ export const Grouped = GroupTemplate.bind({});
 
 const WithBadgeTemplate: StoryFn<typeof Avatar> = () => {
 	return (
-		<Badge count={5} color="secondary">
+		<Badge badgeContent={5} color="secondary">
 			<Avatar color="primary">AB</Avatar>
 		</Badge>
 	);

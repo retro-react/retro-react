@@ -123,7 +123,7 @@ export const Statistics = forwardRef<HTMLDivElement, StatisticsProps>(
 				<StatNumberWrapper $size={size} $direction={direction}>
 					<StatNumber
 						$size={size}
-						title={typeof number === 'string' ? number : ''}
+						title={`${prefix} ${number} ${suffix}`}
 						className="statistics-number"
 						id={`${id || label}-number`}
 						aria-labelledby={`${id || toKebabCase(label)}-label`}

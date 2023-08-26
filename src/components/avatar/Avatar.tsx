@@ -37,6 +37,12 @@ export interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
 	 */
 	color?: AvatarColor;
 	/**
+	 * Determines if the Avatar should have rounded edges.
+	 *
+	 * @default false
+	 */
+	rounded?: boolean;
+	/**
 	 * The content of the Avatar.
 	 *
 	 * @default undefined
@@ -69,6 +75,7 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
 			color = 'primary',
 			size = 'medium',
 			variant = 'circle',
+			rounded = false,
 			children,
 			sx,
 			...rest
@@ -83,6 +90,7 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
 				$src={src}
 				$color={color}
 				$size={size}
+				$rounded={rounded}
 				$variant={variant}
 				className={classNames('avatar-root', className, commonClassNames)}
 				aria-label={children}
