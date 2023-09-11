@@ -181,6 +181,7 @@ export const SuggestionsList = styled.ul<{
 				: alterColorEnhanced(getColorScheme($color, theme), 70)};
 		color: ${({ $color }) =>
 			$color === 'greyscale' || $color === 'warn' ? BLACK : BLACK};
+		font-weight: bold;
 	}
 `;
 
@@ -193,4 +194,22 @@ export const SuggestionItem = styled.li<{
 		color: ${({ $color }) =>
 			$color === 'greyscale' || $color === 'warn' ? BLACK : BLACK};
 	}
+`;
+
+export const ClearButton = styled.button<{
+	$icon: string;
+	$color: ComponentColors | 'greyscale';
+}>`
+	position: absolute;
+	top: 0.5rem;
+	right: 0.5rem;
+	width: 1.5rem;
+	height: 1.5rem;
+	border: none;
+	border-radius: 50%;
+	cursor: pointer;
+
+	mask: url(${({ $icon }) => $icon});
+	background-color: ${({ $color, theme }) =>
+		alterColorEnhanced(getColorScheme($color, theme), -80)};
 `;

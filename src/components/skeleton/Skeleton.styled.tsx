@@ -4,13 +4,6 @@ import { lighten } from 'polished';
 import { rgba } from '@src/utils/rgba';
 import { BLACK } from '@src/constants/colors';
 
-const blink = keyframes`
-  0% { opacity: 1; }
-  30% { opacity: 0.4; }
-  70% { opacity: 1; }
-  100% { opacity: 1; }
-`;
-
 const pixelate = keyframes`
   0% { background-size: 80px 80px; }
   50% { background-size: 40px 40px; }

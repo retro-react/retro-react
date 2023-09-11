@@ -42,6 +42,14 @@ const Template: ComponentStory<typeof Autocomplete> = (args) => {
 					onSuggestionSelect={(selected) => console.log('Selected:', selected)}
 					{...args}
 				/>
+				<br />
+				<Autocomplete
+					suggestions={suggestions}
+					onSuggestionSelect={(selected) => console.log('Selected:', selected)}
+					disabled
+					placeholder="Disabled"
+					{...args}
+				/>
 			</div>
 		</div>
 	);
@@ -53,4 +61,5 @@ Default.args = {
 	color: 'primary',
 	size: 'medium',
 	rounded: true,
+	clearable: true,
 };

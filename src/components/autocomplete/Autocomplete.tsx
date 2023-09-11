@@ -11,9 +11,11 @@ import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import { ComponentColors } from '@src/utils/getColorScheme';
 import commonClassNames from '@src/constants/commonClassNames';
+import closeIcon from '../../assets/svg/close_icon.svg';
 import {
 	AutocompleteInput,
 	AutocompleteWrapper,
+	ClearButton,
 	SuggestionItem,
 	SuggestionsList,
 } from './Autocomplete.styled';
@@ -61,6 +63,12 @@ export interface AutocompleteInputProps
 	 */
 	noResultsMessage?: string;
 	/**
+	 * Determines if the Autocomplete input should be clearable.
+	 *
+	 * @default true
+	 */
+	clearable?: boolean;
+	/**
 	 * Allows for custom styles using ThemeUI's sx prop.
 	 */
 	sx?: ThemeUICSSObject;
@@ -91,6 +99,7 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
 			rounded = false,
 			color = 'primary',
 			noResultsMessage = 'No suggestions',
+			clearable = true,
 			className,
 			sx,
 			...rest
@@ -240,9 +249,26 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
 								</SuggestionItem>
 							))
 						) : (
-							<li>{noResultsMessage}</li>
+							<li
+								style={{
+									padding: '0.5rem 1rem',
+									color: 'inherit',
+									cursor: 'default',
+								}}
+							>
+								{noResultsMessage}
+							</li>
 						)}
 					</SuggestionsList>
+				)}
+				{clearable && inputValue && !rest.disabled && (
+					<ClearButton
+						$icon={closeIcon}
+						$color={color}
+						className="autocomplete-clear-button"
+						onClick={() => setInputValue('')}
+						aria-label="Clear input"
+					/>
 				)}
 			</AutocompleteWrapper>
 		);
