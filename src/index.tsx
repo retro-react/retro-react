@@ -57,3 +57,5 @@ export * from './components/passwordinput';
 export * from './components/documentupload';
 export * from './components/menu';
 export * from './components/togglebutton';
+export * from './components/terminal';
+export * from './components/pager';
