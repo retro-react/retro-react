@@ -1,11 +1,23 @@
+import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { alterColorEnhanced } from '@src/utils/alterColor';
-import getColorScheme from '@src/utils/getColorScheme';
+import getColorScheme, { ComponentColors } from '@src/utils/getColorScheme';
 import { getPatternScheme } from '@src/utils/getPatternScheme';
 import { rgba } from '@src/utils/rgba';
-import { SHADE_6, WHITE } from '@src/constants/colors';
+import { WHITE } from '@src/constants/colors';
 
-export const PagerBody = styled.div`
+const textFlickerEffect = keyframes`
+	from {
+		text-shadow: 1px 0 0 #ea36af, -2px 0 0 #75fa69;
+	}
+	to {
+		text-shadow: 2px 0.5px 2px #ea36af, -1px -0.5px 2px #75fa69;
+	}
+`;
+
+export const PagerBody = styled.div<{
+	$color: ComponentColors | 'greyscale' | 'greyscale-dark';
+}>`
 	display: flex;
 	flex-direction: column;
 	width: 200px;
@@ -14,7 +26,8 @@ export const PagerBody = styled.div`
 	padding: 0.5rem;
 	background: url(${getPatternScheme('noise')});
 	filter: contrast(120%) brightness(100%);
-	background-color: ${(props) => getColorScheme('greyscale', props.theme)};
+	background-color: ${(props) =>
+		alterColorEnhanced(getColorScheme(props.$color, props.theme), -30)};
 	box-shadow: inset 2px 2px 5px
 			${(props) => rgba(getColorScheme('greyscale-dark', props.theme), 0.5)},
 		inset -2px -2px 5px
@@ -33,16 +46,22 @@ export const PagerScreen = styled.div`
 	padding: 5px;
 	border-radius: 5px;
 	box-shadow: inset 1px 1px 2px
-			${(props) => getColorScheme('greyscale-dark', props.theme)},
-		inset -1px -1px 2px ${(props) => getColorScheme('greyscale', props.theme)};
+			${(props) => getColorScheme('greyscale', props.theme)},
+		inset -1px -1px 2px
+			${(props) => getColorScheme('greyscale-dark', props.theme)};
 	position: relative;
+	color: white;
+	font-family: 'Trebuchet MS', Helvetica, sans-serif;
+	font-size: 18px;
+	text-align: center;
 `;
 
 export const PagerButton = styled.button<{ color: string }>`
 	padding: 5px 10px;
 	margin: 5px;
 	border-radius: 5px;
-	background: url(${getPatternScheme('noise')});
+	background: url(${getPatternScheme('solid')});
+	color: ${WHITE};
 	filter: contrast(120%) brightness(100%);
 	background-color: ${(props) => getColorScheme(props.color, props.theme)};
 	border: 1.5px solid
@@ -50,6 +69,7 @@ export const PagerButton = styled.button<{ color: string }>`
 	font-family: 'Trebuchet MS', Helvetica, sans-serif;
 	font-size: 1rem;
 	cursor: pointer;
+	border: 2px solid ${(props) => getColorScheme('greyscale-dark', props.theme)};
 
 	&:hover {
 		box-shadow: inset -2px -2px 0px 0px rgba(255, 255, 255, 0.4),
@@ -84,7 +104,13 @@ export const MessageSlide = styled.div<{ visible: boolean }>`
 	transition: transform 0.3s;
 	font-family: 'Courier New', Courier, monospace;
 	color: ${WHITE};
-	text-shadow: 1px 1px 2px ${SHADE_6};
+
+	text-shadow: 0.06rem 0 0.06rem #ea36af, -0.125rem 0 0.06rem #75fa69;
+	letter-spacing: 0.125em;
+	animation-duration: 0.01s;
+	animation-name: ${textFlickerEffect};
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
 `;
 
 export const ButtonGroup = styled.div`

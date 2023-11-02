@@ -94,3 +94,63 @@ Default.args = {
 	color: 'primary',
 	pattern: 'noise',
 };
+
+export const NavNoLogo: StoryFn<typeof Navbar> = ({ ...args }) => {
+	return (
+		<Container
+			fluid
+			sx={{
+				height: '400px',
+				marginBottom: '5rem',
+			}}
+		>
+			<Navbar {...args}>
+				<NavItem>
+					<a href="#" onClick={(e) => e.preventDefault()}>
+						Home
+					</a>
+				</NavItem>
+				<NavItem>
+					<a href="#" onClick={(e) => e.preventDefault()}>
+						About
+					</a>
+				</NavItem>
+				<NavItem>
+					<a href="#" onClick={(e) => e.preventDefault()}>
+						Contact
+					</a>
+				</NavItem>
+			</Navbar>
+			<PageContent />
+		</Container>
+	);
+};
+
+NavNoLogo.args = {
+	color: 'primary',
+	pattern: 'noise',
+};
+
+export const NavOnlyLogo: StoryFn<typeof Navbar> = ({ ...args }) => {
+	return (
+		<Container
+			fluid
+			sx={{
+				height: '400px',
+				marginBottom: '5rem',
+			}}
+		>
+			<Navbar {...args}>
+				<NavLogo>
+					<Text color="#fff">Logo</Text>
+				</NavLogo>
+			</Navbar>
+			<PageContent />
+		</Container>
+	);
+};
+
+NavOnlyLogo.args = {
+	color: 'primary',
+	pattern: 'noise',
+};

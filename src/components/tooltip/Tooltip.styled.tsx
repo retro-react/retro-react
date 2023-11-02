@@ -8,6 +8,7 @@ interface TooltipContentProps {
 	$visible: boolean;
 	$color: string;
 	$position: 'top' | 'bottom' | 'left' | 'right';
+	$rounded: boolean;
 	sx?: ThemeUICSSObject;
 }
 
@@ -26,7 +27,7 @@ export const TooltipContent = styled.div<TooltipContentProps>`
 	border: 1px solid
 		${({ $color, theme }) =>
 			alterColorEnhanced(getColorScheme($color, theme), 50)};
-	border-radius: 4px;
+	border-radius: ${({ $rounded }) => ($rounded ? '6px' : '0')};
 	position: absolute;
 	z-index: 1;
 	opacity: ${(props) => (props.$visible ? 1 : 0)};

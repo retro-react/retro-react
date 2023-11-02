@@ -5,9 +5,31 @@ import { rgba } from '@src/utils/rgba';
 import { BLACK } from '@src/constants/colors';
 
 const pixelate = keyframes`
-  0% { background-size: 80px 80px; }
-  50% { background-size: 40px 40px; }
-  100% { background-size: 80px 80px; }
+  0% {
+    background-size: 80px 80px;
+    opacity: 0.6;
+    transform: translateX(0);
+  }
+  25% {
+    background-size: 60px 60px;
+    opacity: 0.7;
+    transform: translateX(8px);
+  }
+  50% {
+    background-size: 80px 80px;
+    opacity: 0.6;
+    transform: translateX(0);
+  }
+  75% {
+    background-size: 60px 60px;
+    opacity: 0.7;
+    transform: translateX(-8px);
+  }
+  100% {
+    background-size: 80px 80px;
+    opacity: 0.6;
+    transform: translateX(0);
+  }
 `;
 
 export const StyledSkeleton = styled.div<{
@@ -25,16 +47,14 @@ export const StyledSkeleton = styled.div<{
 	${(props) =>
 		props.$effect === 'blink' &&
 		css`
-			background-image: repeating-linear-gradient(
-				45deg,
-				${lighten(0.1, props.$color)} 25%,
-				${props.$color} 25%,
-				${props.$color} 50%,
-				${lighten(0.1, props.$color)} 50%,
-				${lighten(0.1, props.$color)} 75%
+			background-image: linear-gradient(
+				90deg,
+				${rgba(props.$color, 0.1)} 0px,
+				${rgba(props.$color, 0.2)} 40px,
+				${rgba(props.$color, 0.1)} 80px
 			);
-			background-size: 80px 80px;
-			animation: ${pixelate} 3s infinite;
+			background-size: 200% 100%;
+			animation: ${pixelate} 2s infinite;
 		`};
 
 	margin-bottom: 10px;

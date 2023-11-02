@@ -22,6 +22,7 @@ export type TreeColor =
 	| 'error'
 	| 'warn'
 	| 'greyscale'
+	| 'greyscale-dark'
 	| 'none';
 
 interface TreeProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -159,6 +160,7 @@ const TreeNode: React.FC<TreeNodeProps> = ({
 /**
  * Trees are used to display hierarchical data. They are composed of nodes, which can be expanded and collapsed.
  * Each node can have a label, content and children. The content can be any React node while the label is a string.
+ * You can customize the label (such as color) with `tree-node-label` class.
  *
  *
  * @example

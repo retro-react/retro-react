@@ -181,7 +181,6 @@ export const SuggestionsList = styled.ul<{
 				: alterColorEnhanced(getColorScheme($color, theme), 70)};
 		color: ${({ $color }) =>
 			$color === 'greyscale' || $color === 'warn' ? BLACK : BLACK};
-		font-weight: bold;
 	}
 `;
 
@@ -212,4 +211,9 @@ export const ClearButton = styled.button<{
 	mask: url(${({ $icon }) => $icon});
 	background-color: ${({ $color, theme }) =>
 		alterColorEnhanced(getColorScheme($color, theme), -80)};
+
+	&:hover {
+		background-color: ${({ $color, theme }) =>
+			alterColorEnhanced(getColorScheme($color, theme), -60)};
+	}
 `;

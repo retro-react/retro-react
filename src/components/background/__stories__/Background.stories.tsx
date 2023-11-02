@@ -31,18 +31,22 @@ const ContainerContent = () => {
 		p: 5,
 	};
 
-	return content.map((text, index) => (
-		<Text key={index} sx={textSx}>
-			{text}
-		</Text>
-	));
+	return (
+		<div>
+			{content.map((text, index) => (
+				<Text key={index} sx={textSx}>
+					{text}
+				</Text>
+			))}
+		</div>
+	);
 };
 
 export const Basic: Story = {
 	args: {
 		color: '#000000',
 		backgroundImage:
-			'https://www.nasa.gov/sites/default/files/styles/full_width_feature/public/thumbnails/image/hubble_acos520_potw2317a.jpg',
+			'https://eol.jsc.nasa.gov/Collections/EarthArt/img/CloudsSaudiArabia/ISS047-E-57170-57184_preview.jpg',
 		backgroundRepeat: 'repeat',
 		backgroundSize: 'cover',
 		backgroundPosition: 'center center',

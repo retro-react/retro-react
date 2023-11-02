@@ -94,16 +94,18 @@ export const Navbar = forwardRef<HTMLDivElement, NavbarProps>(
 				{...rest}
 			>
 				{NavLogoElement}
-				<Sc.HamburgerMenu
-					onClick={toggleMenu}
-					className="navbar-hamburger"
-					$hamburgerIcon={hamburgerIcon}
-					$closeIcon={closeIcon}
-					$open={open}
-					$color={color}
-					aria-controls="navbar-menu"
-					aria-expanded={open}
-				/>
+				{NavItemsElements.length > 0 && (
+					<Sc.HamburgerMenu
+						onClick={toggleMenu}
+						className="navbar-hamburger"
+						$hamburgerIcon={hamburgerIcon}
+						$closeIcon={closeIcon}
+						$open={open}
+						$color={color}
+						aria-controls="navbar-menu"
+						aria-expanded={open}
+					/>
+				)}
 				<Sc.NavbarItemsContainer
 					$color={color}
 					$pattern={pattern}

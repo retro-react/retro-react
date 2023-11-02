@@ -86,6 +86,11 @@ export const Slider = styled.input<{
 	&::-ms-track {
 		${commonTrackStyles}
 	}
+
+	&:hover::-webkit-slider-thumb {
+		background-color: ${(props) =>
+			alterColorEnhanced(getColorScheme(props.$color, props.theme), 30)};
+	}
 `;
 
 export const Tooltip = styled.div<{

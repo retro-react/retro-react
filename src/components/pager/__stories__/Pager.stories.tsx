@@ -19,4 +19,5 @@ const Template: ComponentStory<typeof Pager> = (args) => {
 export const Default = Template.bind({});
 Default.args = {
 	messages: ['Hello', 'World', 'This', 'Is', 'A', 'Test'],
+	color: 'greyscale-dark',
 };

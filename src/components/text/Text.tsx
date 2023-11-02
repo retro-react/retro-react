@@ -15,9 +15,11 @@ export type TextVariant =
 	| 'h6'
 	| 'body1'
 	| 'body2'
-	| 'paragraph';
+	| 'paragraph'
+	| 'small';
 
 export type TextColor = ComponentColors | CSSProperties['color'];
+
 export interface TextProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
 	 * The variant of the Text.
@@ -92,6 +94,7 @@ export const Text = forwardRef<HTMLDivElement, TextProps>(
 			body1: 'p',
 			body2: 'p',
 			paragraph: 'p',
+			small: 'p',
 		};
 
 		const ElementType = variantToElementMap[variant];

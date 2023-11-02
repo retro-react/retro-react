@@ -39,9 +39,13 @@ export const Breadcrumb = styled.span<{
 	&:not(:last-child)::after {
 		content: '\\00a0\\00a0\\00bb\\00a0\\00a0';
 	}
+
+	font-weight: ${(props) => (props.$active ? 'bold' : 'normal')};
 `;
 
-export const BreadcrumbAnchor = styled.a`
+export const BreadcrumbAnchor = styled.a<{
+	$color?: string;
+}>`
 	color: #0000ee;
 	text-decoration: underline;
 	padding: 2px;
@@ -49,11 +53,11 @@ export const BreadcrumbAnchor = styled.a`
 
 	&:hover {
 		background-color: #e5e5e5;
-		color: #551a8b;
+		color: ${(props) => (props.$color ? props.$color : '#551a8b')};
 	}
 
 	&:visited {
-		color: #551a8b;
+		color: ${(props) => (props.$color ? props.$color : '#551a8b')};
 	}
 
 	&:active,

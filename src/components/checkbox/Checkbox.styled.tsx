@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { Flex } from 'theme-ui';
 import { alterColorEnhanced } from '@src/utils/alterColor';
 import getColorScheme from '@src/utils/getColorScheme';
 import { getPatternScheme } from '@src/utils/getPatternScheme';
@@ -80,5 +81,35 @@ export const Checkbox = styled.input<{
 	&:disabled {
 		cursor: not-allowed;
 		opacity: 0.6;
+	}
+`;
+
+export const CheckboxWrapper = styled(Flex)`
+	${Checkbox} {
+		margin-right: 0.5rem;
+	}
+`;
+
+export const CheckboxLabel = styled.label<{
+	$color: CheckboxColor;
+}>`
+	display: inline-flex;
+	align-items: center;
+	cursor: pointer;
+
+	color: ${(props) => getColorScheme(props.$color, props.theme)};
+
+	&:hover ${Checkbox} {
+		opacity: 0.8;
+		box-shadow: inset 0 8px 6px -6px ${BLACK};
+		filter: saturate(70%);
+	}
+
+	&:hover ${Checkbox}::before {
+		opacity: 1;
+	}
+
+	&:active ${Checkbox} {
+		filter: contrast(60%);
 	}
 `;

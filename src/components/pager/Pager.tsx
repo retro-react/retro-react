@@ -1,6 +1,7 @@
 /** @jsxImportSource theme-ui */
 import React, { useState } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
+import { ComponentColors } from '@src/utils/getColorScheme';
 import * as Sc from './Pager.styled';
 
 export interface PagerProps {
@@ -14,6 +15,13 @@ export interface PagerProps {
 	 */
 	onButtonPress?: (currentIndex: number) => void;
 
+	/**
+	 * The color of the Pager.
+	 *
+	 * @default 'greyscale-dark'
+	 */
+	color?: ComponentColors | 'greyscale' | 'greyscale-dark';
+
 	sx?: ThemeUICSSObject;
 }
 
@@ -23,6 +31,7 @@ export interface PagerProps {
 export const Pager: React.FC<PagerProps> = ({
 	messages,
 	onButtonPress,
+	color = 'greyscale-dark',
 	sx,
 }) => {
 	const [currentIndex, setCurrentIndex] = useState(0);
@@ -38,7 +47,7 @@ export const Pager: React.FC<PagerProps> = ({
 	};
 
 	return (
-		<Sc.PagerBody sx={sx}>
+		<Sc.PagerBody sx={sx} $color={color}>
 			<Sc.PagerScreen>
 				<Sc.MessageContainer>
 					{messages.map((msg, index) => (
@@ -49,10 +58,10 @@ export const Pager: React.FC<PagerProps> = ({
 				</Sc.MessageContainer>
 			</Sc.PagerScreen>
 			<Sc.ButtonGroup>
-				<Sc.PagerButton color="primary" onClick={handlePrevious}>
+				<Sc.PagerButton color={color} onClick={handlePrevious}>
 					Prev
 				</Sc.PagerButton>
-				<Sc.PagerButton color="primary" onClick={handleNext}>
+				<Sc.PagerButton color={color} onClick={handleNext}>
 					Next
 				</Sc.PagerButton>
 			</Sc.ButtonGroup>

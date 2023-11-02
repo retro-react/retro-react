@@ -115,6 +115,7 @@ export const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
 						) : (
 							<BreadcrumbAnchor
 								href={item.href}
+								$color={color}
 								onClick={handleClick(item)}
 								className="breadcrumb-anchor"
 							>

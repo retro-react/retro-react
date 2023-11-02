@@ -42,6 +42,12 @@ export interface TooltipProps {
 	 */
 	position?: TooltipPositions;
 	/**
+	 * If true, the Tooltip will have rounded corners.
+	 *
+	 * @default true
+	 */
+	rounded?: boolean;
+	/**
 	 * The delay in milliseconds before the Tooltip appears.
 	 *
 	 * @default 0
@@ -127,6 +133,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
 	position = 'top',
 	children,
 	delay = 0,
+	rounded = true,
 	sx,
 	...rest
 }: TooltipProps) => {
@@ -187,6 +194,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
 					$visible={visible}
 					$color={color}
 					$position={position}
+					$rounded={rounded}
 					className={classNames('tooltip-root', commonClassNames)}
 					sx={sx}
 				>

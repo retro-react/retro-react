@@ -1,6 +1,7 @@
 import { action } from '@storybook/addon-actions';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import React from 'react';
+import { Flex } from 'theme-ui';
 import getColorScheme from '@src/utils/getColorScheme';
 import { Text } from '../../text';
 import { Checkbox } from '../index';
@@ -36,13 +37,17 @@ const Template: ComponentStory<typeof Checkbox> = (args) => {
 				</Text>
 			)}
 			<br />
-			<Checkbox
-				{...args}
-				checked={checked}
-				onChange={() => setChecked(!checked)}
-			/>
-			&nbsp;&nbsp;
-			<Checkbox {...args} disabled />
+			<Flex>
+				<Checkbox
+					{...args}
+					name="retro-checkbox"
+					label="Click me"
+					checked={checked}
+					onChange={() => setChecked(!checked)}
+				/>
+				&nbsp;&nbsp;
+				<Checkbox {...args} disabled label="Disabled" />
+			</Flex>
 		</>
 	);
 };

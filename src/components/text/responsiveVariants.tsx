@@ -9,6 +9,7 @@ export const fontSizeForVariant = (variant) => {
 		body1: '1rem',
 		body2: '0.875rem',
 		paragraph: '0.75rem',
+		small: '0.625rem',
 	};
 	return sizes[variant] || '1rem';
 };
@@ -72,6 +73,15 @@ export const fontSizeForBreakpoint = (variant) => {
 			'1.25rem',
 			'1.375rem',
 			'1.5rem',
+		],
+		small: [
+			'0.625rem',
+			'0.7rem',
+			'0.8rem',
+			'0.9rem',
+			'1rem',
+			'1.125rem',
+			'1.25rem',
 		],
 	};
 

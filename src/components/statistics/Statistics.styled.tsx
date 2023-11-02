@@ -85,6 +85,8 @@ export const StatNumberWrapper = styled.div<{
 	$direction: StatisticsVariant;
 	$size: StatisticsSize;
 }>`
+	position: relative;
+	width: 100%;
 	display: flex;
 	flex-direction: ${(props) =>
 		props.$direction === 'vertical' ? 'column' : 'row'};
@@ -128,7 +130,9 @@ export const StatNumber = styled.span<{
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	width: 100%;
+	max-width: 100%;
+	display: inline-block;
+	vertical-align: middle;
 	text-align: center;
 `;
 
@@ -158,6 +162,8 @@ export const StatLabel = styled.span<{
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	width: 100%;
+	max-width: 100%;
+	display: inline-block;
+	vertical-align: middle;
 	text-align: center;
 `;

@@ -25,7 +25,10 @@ export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(
 				sx={{
 					...buttonProps.sx,
 					minWidth: 'fit-content',
-					filter: selected ? 'brightness(0.8)' : 'brightness(1)',
+					filter: selected ? 'brightness(0.65) contrast(1.2)' : 'none',
+					'&:hover': {
+						transform: selected ? 'scale(1.05)' : 'scale(1.02)',
+					},
 				}}
 				ref={ref}
 			/>

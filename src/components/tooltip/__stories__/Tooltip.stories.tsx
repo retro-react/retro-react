@@ -39,5 +39,6 @@ Default.args = {
 	label: 'Hasta La Vista Baby',
 	color: 'primary',
 	position: 'top',
+	rounded: true,
 	delay: 100,
 };

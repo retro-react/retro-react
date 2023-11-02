@@ -1,5 +1,5 @@
 /** @jsxImportSource theme-ui */
-import { forwardRef, useEffect, useState } from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import { ComponentColors } from '@src/utils/getColorScheme';
@@ -88,12 +88,22 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(
 		const [sliderValue, setSliderValue] = useState(value);
 		const [isSliderMoving, setIsSliderMoving] = useState(false);
 		const [tooltipPosition, setTooltipPosition] = useState(0);
+		const sliderRef = useRef<HTMLInputElement>(null);
 
 		useEffect(() => {
 			const newValue = ((sliderValue - min) * 100) / (max - min);
 			const newPosition = Math.max(0, Math.min(100, newValue));
 			setTooltipPosition(newPosition);
 		}, [sliderValue, min, max]);
+
+		const updateTooltipPosition = (clientX) => {
+			if (sliderRef.current) {
+				const sliderRect = sliderRef.current.getBoundingClientRect();
+				const newPosition =
+					((clientX - sliderRect.left) / sliderRect.width) * 100;
+				setTooltipPosition(newPosition);
+			}
+		};
 
 		const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 			setSliderValue(Number(event.target.value));
@@ -105,10 +115,18 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(
 				setIsSliderMoving(false);
 			};
 
+			const handleMouseMove = (event) => {
+				if (isSliderMoving) {
+					updateTooltipPosition(event.clientX);
+				}
+			};
+
 			window.addEventListener('mouseup', handleMouseUp);
+			window.addEventListener('mousemove', handleMouseMove);
 
 			return () => {
 				window.removeEventListener('mouseup', handleMouseUp);
+				window.removeEventListener('mousemove', handleMouseMove);
 			};
 		}, []);
 
