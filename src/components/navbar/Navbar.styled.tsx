@@ -146,6 +146,7 @@ export const HamburgerMenu = styled.button<{
 
 	mask-image: url(${({ $open, $hamburgerIcon, $closeIcon }) =>
 		$open ? $closeIcon : $hamburgerIcon});
+	mask-repeat: no-repeat;
 	background-color: ${({ $color }) => ($color === 'warn' ? BLACK : WHITE)};
 `;
 
