@@ -1,5 +1,28 @@
 # retro-react
 
+## 1.4.0
+
+### Minor Changes
+
+- 0b1b32d: changes to ARIA accessibility, updates to responsive design
+
+### Patch Changes
+
+- df47a9b: new component: PasswordInput, changes to Navbar and Input
+- ae3eb7e: new pattern, added greyscale for many components, changes to navbar, text and tab for visual retro clarity
+- 4a633af: Further fixes and optimizations for Autocomplete component
+- 011e769: Add Autocomplete component
+- 3985025: New component: Navbar, revamped Carousel and Badge
+- 2faf3f4: updated ARIA for upload, new changes to badge, tooltip, box, breadcrumps, spinner
+- 7184f6e: new components Menu and Upload. Changes to navbar, wordart, and others
+- 9284929: Update index.tsx and README
+- 4a633af: New changes to various components, AC, Menu, Popover, Skeleton, Avatar, Card
+- bd9841f: New components: Pager and Terminal
+- 072172b: New components: Skeleton, Divider. Fixed popover positions, update styles documentation
+- bd9841f: visual distinction to the autocomplete component, updated background documentation, adjusted color for breadcrumbs, checkbox added optional label, navbar added ability to pass no links only logo, pager high customizations to color and look of font, skeleton new design for blink animation, slider better responsivness of tooltip and new thumb look, statistics adjusted for smaller screens to show entire content, text new variant "small", togglebutton better visuals for selected/active button, tooltip new option rounded, tree new color greyscale-dark
+- ef936d9: New components: Table, Statistics, Radio. Fixes to Alert, Accordtion, Button, Card, Checkbox, Input, Slider, Skeleton, etc.
+- 223a2dc: new components: Stepper, Badge, Group, ButtonGroup. Changes to existing components: Button, Chip, Carousel, Box
+
 ## 1.2.5
 
 ### Major Changes
