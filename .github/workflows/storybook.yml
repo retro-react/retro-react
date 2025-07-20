@@ -1,5 +1,6 @@
 name: Build and Deploy
 on:
+  workflow_dispatch: # This allows manual triggering
   push:
     paths: ['.storybook/**', 'src/components/**', 'src/documentation/**'] # Trigger the action only when files change in the folders defined here
 permissions: write-all
@@ -9,15 +10,21 @@ jobs:
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
+
       - name: Set Node.js 20.x
         uses: actions/setup-node@v4
         with:
           node-version: 20.x
-          cache: 'yarn'
-      - name: Install dependencies 🔧
-        run: yarn install --frozen-lockfile
+          # Removed cache since no yarn.lock exists
+
+      - name: Clean install with Yarn 🔧
+        run: |
+          rm -f package-lock.json
+          yarn install
+
       - name: Build production bundle
         run: yarn build:storybook
+
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
