@@ -1,13 +1,42 @@
 import styled from '@emotion/styled';
-import { alterColorEnhanced } from '@src/utils/alterColor';
-import getColorScheme, { ComponentColors } from '@src/utils/getColorScheme';
-import { BLACK, HIGHLIGHT, SHADE_1 } from '@src/constants/colors';
+import { ComponentColors } from '@src/utils/getColorScheme';
+import {
+	ERROR,
+	HIGHLIGHT,
+	PRIMARY,
+	SECONDARY,
+	SUCCESS,
+	VGA_BLACK,
+	VGA_WHITE,
+	WARN,
+	WIN31_BUTTON_HIGHLIGHT,
+	WIN31_BUTTON_SHADOW,
+} from '@src/constants/colors';
+import { FONT_SIZES, SYSTEM_FONT } from '@src/constants/fonts';
 import { BadgeSize } from './Badge';
 
 interface BadgeProps {
 	$color: ComponentColors | 'highlight';
 	$pulsate?: boolean;
 	$size: BadgeSize;
+}
+
+function getBadgeColorScheme(color: ComponentColors | 'highlight') {
+	switch (color) {
+		case 'error':
+			return ERROR;
+		case 'success':
+			return SUCCESS;
+		case 'warn':
+			return WARN;
+		case 'secondary':
+			return SECONDARY;
+		case 'highlight':
+			return HIGHLIGHT;
+		case 'primary':
+		default:
+			return PRIMARY;
+	}
 }
 
 export const Badge = styled.span<BadgeProps>`
@@ -17,61 +46,69 @@ export const Badge = styled.span<BadgeProps>`
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	font-family: 'Trebuchet MS', Helvetica, sans-serif;
-	color: ${SHADE_1};
-	border-radius: 50%;
-	animation: ${({ $pulsate }) => ($pulsate ? 'pulsate 1.5s infinite' : 'none')};
-
-	@keyframes pulsate {
-		0% {
-			transform: scale(1);
-		}
-		50% {
-			transform: scale(1.1);
-		}
-		100% {
-			transform: scale(1);
-		}
-	}
-	padding: 0.05rem;
-
-	${({ $color, theme }) =>
-		$color !== 'highlight'
-			? `
-	background-color: ${getColorScheme($color, theme)};
-	border: 1px solid ${alterColorEnhanced(getColorScheme($color, theme), 75)};
-	`
-			: `
-	background-color: ${HIGHLIGHT};
-	color: ${BLACK};
+	font-family: ${SYSTEM_FONT};
 	font-weight: bold;
-	border: 2px solid ${alterColorEnhanced(HIGHLIGHT, 20)};
-	border-radius: 100px / 50px 100px;
+	background: ${({ $color }) => getBadgeColorScheme($color)};
+	color: ${({ $color }) =>
+		$color === 'warn' || $color === 'highlight' ? VGA_BLACK : VGA_WHITE};
+	text-shadow: ${({ $color }) =>
+		$color === 'warn' || $color === 'highlight'
+			? '1px 1px 0px rgba(255, 255, 255, 0.8)'
+			: '1px 1px 0px rgba(0, 0, 0, 0.5)'};
+	border: 2px solid;
+	border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
+		${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
+	padding: 0.05rem;
+	transition: none;
+
+	/* Remove modern styling */
+	border-radius: 0;
+
+	/* Retro pulsate animation */
+	${({ $pulsate }) =>
+		$pulsate &&
+		`
+		animation: retrofunk 1.5s infinite;
+		
+		@keyframes retrofunk {
+			0% { 
+				transform: scale(1);
+				filter: brightness(1);
+			}
+			50% { 
+				transform: scale(1.1);
+				filter: brightness(1.2);
+			}
+			100% { 
+				transform: scale(1);
+				filter: brightness(1);
+			}
+		}
 	`}
 
 	${({ $size }) => {
 		switch ($size) {
 			case 'small':
 				return `
-					min-width: 1.2rem;
-					min-height: 1.2rem;
-					font-size: 0.6rem;
+					min-width: 16px;
+					min-height: 16px;
+					font-size: ${FONT_SIZES.TINY};
 					top: -10%;
 					right: -10%;
 				`;
 			case 'medium':
 				return `
-					min-width: 1.5rem;
-					min-height: 1.5rem;
-					font-size: 0.75rem;
+					min-width: 20px;
+					min-height: 20px;
+					font-size: ${FONT_SIZES.SMALL};
 					top: -15%;
 					right: -15%;
 				`;
 			case 'large':
 				return `
-					min-width: 2rem;
-					min-height: 2rem;
-					font-size: 1rem;
+					min-width: 24px;
+					min-height: 24px;
+					font-size: ${FONT_SIZES.NORMAL};
 					top: -20%;
 					right: -20%;
 				`;

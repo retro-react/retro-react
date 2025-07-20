@@ -2,54 +2,56 @@
 import { forwardRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
-import { ComponentColors } from '@src/utils/getColorScheme';
-import { ComponentPatterns } from '@src/utils/getPatternScheme';
 import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Box.styled';
 
+export type BoxVariants = 'raised' | 'sunken' | 'flat' | 'panel';
+
 export interface BoxProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
-	 * The background of the Box. Accepts library colors or hex colors.
+	 * The visual variant of the Box.
+	 * - raised: 3D button-like appearance with raised borders
+	 * - sunken: Inset appearance like dialog content areas
+	 * - flat: Simple flat box with border
+	 * - panel: Classic Windows 95 panel styling with face color background
 	 *
-	 * @default 'primary'
+	 * @default 'panel'
 	 */
-	color?: ComponentColors | 'greyscale' | string;
+	variant?: BoxVariants;
+
 	/**
-	 * The pattern of the Box.
-	 *
-	 * @default 'stripes'
+	 * Theme-UI sx prop for additional styling
 	 */
-	pattern?: ComponentPatterns | 'none';
 	sx?: ThemeUICSSObject;
 }
 
 /**
- * Boxes are used to group content together.
- * They can be used to create layouts, or to group content within a layout.
- * With `sx` prop you can use all the CSS properties of the theme.
+ * Retro-themed boxes inspired by classic Windows 95/98 interface elements.
+ *
+ * Features four authentic variants:
+ * - Raised: 3D button-like appearance with raised borders for interactive elements
+ * - Sunken: Inset appearance like dialog content areas and text fields
+ * - Flat: Simple flat box with border for minimal layouts
+ * - Panel: Classic Windows face color background with subtle border for containers
  *
  * @example
- * <Box color="#fff">
- * 	Content
- * </Box>
+ * // Classic Windows panel container
+ * <Box variant="panel">Content area</Box>
+ *
+ * // Raised button-like box
+ * <Box variant="raised">Interactive content</Box>
+ *
+ * // Sunken content area
+ * <Box variant="sunken">Text area content</Box>
+ *
+ * // Simple flat box
+ * <Box variant="flat">Minimal content</Box>
  */
 export const Box = forwardRef<HTMLDivElement, BoxProps>(
-	(
-		{
-			id,
-			className,
-			children,
-			color = 'primary',
-			pattern = 'noise',
-			sx,
-			...rest
-		},
-		ref,
-	) => {
+	({ id, className, children, variant = 'panel', sx, ...rest }, ref) => {
 		return (
 			<Sc.Box
-				$color={color}
-				$pattern={pattern}
+				$variant={variant}
 				ref={ref}
 				id={id}
 				sx={sx}

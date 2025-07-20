@@ -1,40 +1,81 @@
-// base
+// Base colors
 export const BLACK = '#000000';
 export const WHITE = '#ffffff';
-// schemes
-export const PRIMARY = '#567D89';
-export const SECONDARY = '#815E85';
-export const SUCCESS = '#698160';
-export const ERROR = '#A16B56';
-export const WARN = '#E0A370';
-export const HIGHLIGHT = '#ffeb3b';
-// shades
-export const SHADE_1 = '#F5F5F5';
-export const SHADE_2 = '#E0E0E0';
-export const SHADE_3 = '#BDBDBD';
-export const SHADE_4 = '#9E9E9E';
-export const SHADE_5 = '#757575';
-export const SHADE_6 = '#616161';
 
-// gradients
+// VGA 16-Color Palette (Authentic 1980s-90s) - Used colors only
+export const VGA_BLACK = '#000000';
+export const VGA_BLUE = '#0000AA';
+export const VGA_GREEN = '#00AA00';
+export const VGA_CYAN = '#00AAAA';
+export const VGA_RED = '#AA0000';
+export const VGA_MAGENTA = '#AA00AA';
+export const VGA_LIGHT_GRAY = '#AAAAAA';
+export const VGA_DARK_GRAY = '#555555';
+export const VGA_YELLOW = '#FFFF55';
+export const VGA_WHITE = '#FFFFFF';
+
+// CRT Monitor Colors (Used colors only)
+export const CRT_GREEN = '#00FF41'; // Classic terminal green
+export const CRT_SCAN_LINE = '#002200'; // Dark green for scanlines
+
+// 80s Neon/Miami Vice Palette (Used colors only)
+export const NEON_PINK = '#FF1493';
+export const NEON_CYAN = '#00FFFF';
+export const NEON_PURPLE = '#8A2BE2';
+export const NEON_LIME = '#32CD32';
+export const ELECTRIC_BLUE = '#0080FF';
+export const HOT_MAGENTA = '#FF00FF';
+
+// Early GUI Colors (Windows 3.1, Mac System 7 era)
+export const WIN31_BUTTON_FACE = '#C0C0C0';
+export const WIN31_BUTTON_SHADOW = '#808080';
+export const WIN31_BUTTON_HIGHLIGHT = '#FFFFFF';
+export const WIN31_BLUE = '#000080';
+
+// Retro schemes (using authentic retro colors)
+export const PRIMARY = WIN31_BLUE; // Classic Windows blue
+export const SECONDARY = VGA_MAGENTA; // Classic magenta
+export const SUCCESS = CRT_GREEN; // Terminal green
+export const ERROR = VGA_RED; // Classic red
+export const WARN = VGA_YELLOW; // Classic yellow
+export const HIGHLIGHT = NEON_PINK; // 80s highlight
+
+// Retro shades (based on VGA palette) - Only used shades
+export const SHADE_1 = VGA_WHITE;
+export const SHADE_2 = VGA_LIGHT_GRAY;
+export const SHADE_3 = VGA_DARK_GRAY;
+export const SHADE_4 = '#444444';
+export const SHADE_5 = '#333333';
+export const SHADE_6 = VGA_BLACK;
+
+// Gradients using authentic retro colors
 export const RAINBOW_GRADIENT = [
-	'red',
-	'orange',
-	'yellow',
-	'green',
-	'blue',
-	'indigo',
-	'violet',
+	VGA_RED,
+	VGA_YELLOW,
+	VGA_GREEN,
+	VGA_CYAN,
+	VGA_BLUE,
+	VGA_MAGENTA,
 ];
+
 export const NEON_GRADIENT = [
-	'#ff00ff',
-	'#ff0000',
-	'#ffff00',
-	'#00ff00',
-	'#00ffff',
-	'#0000ff',
-	'#ff00ff',
+	NEON_PINK,
+	HOT_MAGENTA,
+	NEON_PURPLE,
+	ELECTRIC_BLUE,
+	NEON_CYAN,
+	NEON_LIME,
 ];
+
+export const RETRO_GRADIENT = [
+	VGA_RED,
+	VGA_YELLOW,
+	VGA_GREEN,
+	VGA_CYAN,
+	VGA_BLUE,
+	VGA_MAGENTA,
+];
+
 export const PASTEL_GRADIENT = [
 	'#ff6666',
 	'#ffcc66',
@@ -49,6 +90,7 @@ export const PASTEL_GRADIENT = [
 	'#ff66ff',
 	'#ff66cc',
 ];
+
 export const GRAYSCALE_GRADIENT = [
 	'#000000',
 	'#333333',
@@ -56,14 +98,4 @@ export const GRAYSCALE_GRADIENT = [
 	'#999999',
 	'#cccccc',
 	'#eeeeee',
-];
-
-export const RETRO_GRADIENT = [
-	'#ff0000',
-	'#ff9900',
-	'#ffff00',
-	'#00ff00',
-	'#00ffff',
-	'#0000ff',
-	'#9900ff',
 ];

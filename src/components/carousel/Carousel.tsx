@@ -9,25 +9,10 @@ import {
 } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
-import { ComponentColors } from '@src/utils/getColorScheme';
-import { ComponentPatterns } from '@src/utils/getPatternScheme';
 import commonClassNames from '@src/constants/commonClassNames';
-import arrowIcon from '../../assets/svg/arrow_icon.svg';
 import * as Sc from './Carousel.styled';
 
 export interface CarouselProps extends React.HTMLAttributes<HTMLDivElement> {
-	/**
-	 * The background pattern of the Carousel. If image fits the entire Carousel, pattern will not be visible.
-	 *
-	 * @default 'stripes'
-	 */
-	pattern?: ComponentPatterns;
-	/**
-	 * The color of the Carousel.
-	 *
-	 * @default 'primary'
-	 */
-	color?: ComponentColors;
 	/**
 	 * The interval between slides, in milliseconds.
 	 *
@@ -46,43 +31,25 @@ export interface CarouselProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default false
 	 */
 	hideArrows?: boolean;
-	/**
-	 * The image src to display on custom arrow buttons.
-	 *
-	 * @default undefined
-	 */
-	arrowImage?: string;
 	sx?: ThemeUICSSObject;
 }
 
 /**
- * Carousel component for displaying a slideshow of content. The component will automatically
- * change the size depending on the content. To minimize layout shifts, it is recommended to
- * set a fixed size for images that will work for all screen sizes.
+ * Carousel component with authentic WIN31 styling for displaying a slideshow of content.
+ * Features retro-styled navigation buttons and dot indicators reminiscent of early multimedia software.
  *
- * For example, image sizes of 1000x500 will work well for most screen sizes.
- *
+ * The component will automatically change the size depending on the content. To minimize layout shifts,
+ * it is recommended to set a fixed size for images that will work for all screen sizes.
  *
  * @example
- * <Carousel color="#fff">
- *   Content
+ * <Carousel interval={5000}>
+ *   <img src="image1.jpg" alt="Slide 1" />
+ *   <img src="image2.jpg" alt="Slide 2" />
+ *   <img src="image3.jpg" alt="Slide 3" />
  * </Carousel>
  */
 export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
-	(
-		{
-			id,
-			className,
-			children,
-			color = 'primary',
-			pattern = 'noise',
-			interval = 3000,
-			arrowImage,
-			sx,
-			...rest
-		},
-		ref,
-	) => {
+	({ id, className, children, interval = 3000, sx, ...rest }, ref) => {
 		const [activeIndex, setActiveIndex] = useState(0);
 
 		useEffect(() => {
@@ -109,8 +76,6 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
 
 		return (
 			<Sc.CarouselWrapper
-				$color={color}
-				$pattern={pattern}
 				ref={ref}
 				id={id}
 				sx={sx}
@@ -133,6 +98,7 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
 							key={index}
 							isActive={index === activeIndex}
 							onClick={() => setActiveIndex(index)}
+							aria-label={`Go to slide ${index + 1}`}
 						/>
 					))}
 				</Sc.CarouselNav>
@@ -143,28 +109,14 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
 							$position="left"
 							className="carousel-button carousel-button-prev"
 							onClick={handlePrev}
-						>
-							<Sc.CarouselButtonIcon
-								$color={color}
-								className="carousel-button-icon carousel-button-icon-prev"
-								aria-hidden="true"
-								$position="left"
-								src={arrowImage || arrowIcon}
-							/>
-						</Sc.CarouselButton>
+							aria-label="Previous slide"
+						/>
 						<Sc.CarouselButton
 							$position="right"
 							className="carousel-button carousel-button-next"
 							onClick={handleNext}
-						>
-							<Sc.CarouselButtonIcon
-								$color={color}
-								className="carousel-button-icon carousel-button-icon-next"
-								aria-hidden="true"
-								$position="right"
-								src={arrowImage || arrowIcon}
-							/>
-						</Sc.CarouselButton>
+							aria-label="Next slide"
+						/>
 					</>
 				)}
 			</Sc.CarouselWrapper>

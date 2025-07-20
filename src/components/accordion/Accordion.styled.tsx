@@ -1,120 +1,171 @@
 import styled from '@emotion/styled';
-import getColorScheme from '@src/utils/getColorScheme';
-import {
-	ComponentPatterns,
-	getPatternScheme,
-} from '@src/utils/getPatternScheme';
-import { rgba } from '@src/utils/rgba';
-import { BLACK, SHADE_3, SHADE_5, WHITE } from '@src/constants/colors';
-import { AccordionColor } from './Accordion';
 
 export const AccordionWrapper = styled.div`
-	font-family: 'Trebuchet MS', Helvetica, sans-serif;
-	margin-bottom: 1rem;
+	font-family: 'MS Sans Serif', sans-serif;
+	margin-bottom: 2px;
+	border: 1px solid #808080;
+	background-color: #c0c0c0;
+
+	/* Subtle dithering pattern for authentic texture */
+	background-image: radial-gradient(
+		circle at 1px 1px,
+		rgba(0, 0, 0, 0.05) 1px,
+		transparent 0
+	);
+	background-size: 2px 2px;
 `;
 
 export const AccordionHeader = styled.button<{
-	$pattern: ComponentPatterns;
-	$color: AccordionColor;
+	$disabled?: boolean;
+	$loading?: boolean;
 }>`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	background-color: ${(props) =>
-		(props.theme.colors && props.theme.colors[props.$color]) ||
-		getColorScheme(props.$color)};
-	text-shadow: 1px 1px 2px ${rgba(WHITE, 0.5)};
-	padding: 0.5rem;
-	font-size: 1rem;
-	font-weight: bold;
+	background-color: #c0c0c0;
+	border: 2px outset #c0c0c0;
+	border-color: #ffffff #808080 #808080 #ffffff;
+	padding: 4px 8px;
+	font-size: 11px;
+	font-weight: normal;
+	font-family: 'MS Sans Serif', sans-serif;
+	color: ${(props) => (props.$disabled ? '#808080' : '#000000')};
 	width: 100%;
 	outline: none;
-	cursor: pointer;
-	border: 2px dotted ${SHADE_5};
+	cursor: ${(props) => (props.$disabled ? 'not-allowed' : 'pointer')};
+	text-align: left;
+	opacity: ${(props) => (props.$loading ? 0.7 : 1)};
 
-	${(props) => {
-		const gradient = `
-      linear-gradient(
-        ${rgba(
-					(props.theme.colors && props.theme.colors[props.$color]) ||
-						getColorScheme(props.$color),
-					0.4,
-				)},
-        ${rgba(
-					(props.theme.colors && props.theme.colors[props.$color]) ||
-						getColorScheme(props.$color),
-					0.4,
-				)}
-      ),
-			url(${getPatternScheme(props.$pattern)})
-    `;
+	&:hover:not(:disabled) {
+		background-color: #e0e0e0;
+		border-color: #ffffff #a0a0a0 #a0a0a0 #ffffff;
+	}
 
-		switch (props.$pattern) {
-			case 'noise':
-				return `
-          background-image: ${gradient};
-        `;
-			case 'stripes':
-				return `
-          background-image: ${gradient};
-					color: ${WHITE};
-					text-shadow: 1px 1px 2px ${rgba(BLACK, 0.5)};
-        `;
-			case 'dots':
-			default:
-				return `
-          background-image: ${gradient};
-					color: ${WHITE};
-					text-shadow: 1px 1px 2px ${rgba(BLACK, 0.5)};
-        `;
-		}
-	}}
+	&:active:not(:disabled) {
+		border: 2px inset #c0c0c0;
+		border-color: #808080 #ffffff #ffffff #808080;
+		background-color: #a0a0a0;
+	}
 
-	${({ $color }) =>
-		$color === 'greyscale-dark' &&
-		`
-			color: ${WHITE};
-			`}
+	&:focus:not(:disabled) {
+		outline: 1px dotted #000000;
+		outline-offset: -3px;
+	}
 
-	&:hover {
-		background-color: ${SHADE_3};
-		background-position: -50px 0;
+	&:disabled {
+		background-color: #c0c0c0;
+		border-color: #c0c0c0;
+		cursor: not-allowed;
+	}
+
+	@media (max-width: 768px) {
+		padding: 3px 6px;
+		font-size: 10px;
 	}
 `;
 
-export const AccordionContent = styled.div<{
-	isOpen: boolean;
-	$color: AccordionColor;
-	maxHeight: string;
-}>`
-	background: linear-gradient(
-			${(props) =>
-				rgba(
-					(props.theme.colors && props.theme.colors[props.$color]) ||
-						getColorScheme(props.$color),
-					0.1,
-				)},
-			${(props) =>
-				rgba(
-					(props.theme.colors && props.theme.colors[props.$color]) ||
-						getColorScheme(props.$color),
-					0.1,
-				)}
-		),
-		${WHITE};
-	border: 1px solid
-		${(props) =>
-			rgba(
-				(props.theme.colors && props.theme.colors[props.$color]) ||
-					getColorScheme(props.$color),
-				0.4,
-			)};
+export const AccordionHeaderContent = styled.div`
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	flex: 1;
+	min-width: 0;
+`;
+
+export const AccordionIcon = styled.span`
+	display: inline-flex;
+	align-items: center;
+	font-size: 12px;
+	line-height: 1;
+	flex-shrink: 0;
+`;
+
+export const AccordionTitle = styled.span`
+	font-size: inherit;
+	font-weight: inherit;
+	color: inherit;
+	flex: 1;
+	min-width: 0;
 	overflow: hidden;
-	max-height: ${(props) => (props.isOpen ? props.maxHeight : '0')};
+	text-overflow: ellipsis;
+	white-space: nowrap;
+`;
 
-	transition: max-height 0.2s ease-out;
+export const AccordionToggleIcon = styled.span<{
+	$isOpen: boolean;
+	$loading?: boolean;
+}>`
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 8px;
+	line-height: 1;
+	color: #000000;
+	margin-left: 8px;
+	min-width: 12px;
+	height: 12px;
+	flex-shrink: 0;
 
-	& > div {
-		padding: 0.5rem;
+	${(props) =>
+		props.$loading &&
+		`
+		animation: spin 1s linear infinite;
+		
+		@keyframes spin {
+			0% { transform: rotate(0deg); }
+			100% { transform: rotate(360deg); }
+		}
+	`}
+`;
+
+export const AccordionContent = styled.div<{
+	$isOpen: boolean;
+	$maxHeight: string;
+	$animated?: boolean;
+}>`
+	background-color: #ffffff;
+	border-top: 1px solid #808080;
+	overflow: hidden;
+	max-height: ${(props) => (props.$isOpen ? props.$maxHeight : '0')};
+
+	${(props) =>
+		props.$animated &&
+		`
+		transition: max-height 0.15s ease-out;
+	`}
+`;
+
+export const AccordionContentInner = styled.div`
+	padding: 8px 12px;
+	font-size: 11px;
+	line-height: 1.4;
+	color: #000000;
+
+	@media (max-width: 768px) {
+		padding: 6px 10px;
+		font-size: 10px;
+	}
+`;
+
+export const LoadingContent = styled.div`
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	color: #808080;
+	font-style: italic;
+	padding: 8px 0;
+`;
+
+export const LoadingSpinner = styled.span`
+	display: inline-block;
+	animation: spin 1s linear infinite;
+
+	@keyframes spin {
+		0% {
+			transform: rotate(0deg);
+		}
+		100% {
+			transform: rotate(360deg);
+		}
 	}
 `;

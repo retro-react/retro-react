@@ -41,7 +41,6 @@ const Template: ComponentStory<typeof Checkbox> = (args) => {
 				<Checkbox
 					{...args}
 					name="retro-checkbox"
-					label="Click me"
 					checked={checked}
 					onChange={() => setChecked(!checked)}
 				/>
@@ -55,29 +54,39 @@ const Template: ComponentStory<typeof Checkbox> = (args) => {
 export const Primary = Template.bind({});
 Primary.args = {
 	color: 'primary',
+	label: 'Click me',
+	indeterminate: false,
 	onClick: action('clicked'),
 };
 
 export const Secondary = Template.bind({});
 Secondary.args = {
 	color: 'secondary',
+	label: 'Click me',
+	indeterminate: false,
 	onClick: action('clicked'),
 };
 
 export const Success = Template.bind({});
 Success.args = {
 	color: 'success',
+	label: 'Click me',
+	indeterminate: false,
 	onClick: action('clicked'),
 };
 
 export const Error = Template.bind({});
 Error.args = {
 	color: 'error',
+	label: 'Click me',
+	indeterminate: false,
 	onClick: action('clicked'),
 };
 
 export const Warn = Template.bind({});
 Warn.args = {
 	color: 'warn',
+	label: 'Click me',
+	indeterminate: false,
 	onClick: action('clicked'),
 };

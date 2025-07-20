@@ -1,47 +1,47 @@
 import styled from '@emotion/styled';
-import { darken, lighten } from 'polished';
-import { alterColorEnhanced } from '@src/utils/alterColor';
 import getColorScheme, { ComponentColors } from '@src/utils/getColorScheme';
-import { getPatternScheme } from '@src/utils/getPatternScheme';
-import { rgba } from '@src/utils/rgba';
-import { BLACK } from '@src/constants/colors';
+import {
+	VGA_BLACK,
+	VGA_WHITE,
+	WIN31_BUTTON_FACE,
+	WIN31_BUTTON_HIGHLIGHT,
+	WIN31_BUTTON_SHADOW,
+} from '@src/constants/colors';
+import { FONT_SIZES, SYSTEM_FONT } from '@src/constants/fonts';
 import { SwitchSize, SwitchVariant } from './Switch';
 
 export const Switch = styled.label<{ $size: SwitchSize; $disabled: boolean }>`
 	position: relative;
 	display: inline-block;
+	font-family: ${SYSTEM_FONT};
+	cursor: ${(props) => (props.$disabled ? 'not-allowed' : 'pointer')};
 
 	${({ $size }) => {
 		switch ($size) {
 			case 'small':
 				return `
-					width: 60px;
-					height: 34px;
-					`;
+					width: 48px;
+					height: 20px;
+				`;
 			case 'medium':
 				return `
-					width: 80px;
-					height: 44px;
-					`;
+					width: 60px;
+					height: 24px;
+				`;
 			case 'large':
 				return `
-					width: 100px;
-					height: 54px;
-					`;
+					width: 72px;
+					height: 28px;
+				`;
 		}
 	}}
-
-	${({ $disabled }) =>
-		$disabled &&
-		`
-		cursor: not-allowed;
-	`}
 `;
 
 export const SwitchInput = styled.input`
 	opacity: 0;
 	width: 0;
 	height: 0;
+	position: absolute;
 `;
 
 export const SwitchSlider = styled.span<{
@@ -50,141 +50,122 @@ export const SwitchSlider = styled.span<{
 	$color: ComponentColors | 'greyscale';
 	$disabled: boolean;
 }>`
-	transition: background-color 0.1s ease-in-out;
-
 	position: absolute;
-	cursor: pointer;
+	cursor: ${(props) => (props.$disabled ? 'not-allowed' : 'pointer')};
 	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0;
-	border-radius: ${({ $variant }) => ($variant === 'rounded' ? '34px' : '4px')};
-
-	${({ $color, theme }) =>
-		`
-		background: linear-gradient(
-			to right,
-			${rgba(
-				alterColorEnhanced(
-					getColorScheme(
-						$color === 'greyscale' ? 'greyscale-dark' : $color,
-						theme,
-					),
-				),
-				0.9,
-			)} 0%,
-			${rgba(
-				getColorScheme(
-					$color === 'greyscale' ? 'greyscale-dark' : $color,
-					theme,
-				),
-				0.95,
-			)} 100%
-		), url(${getPatternScheme('dots')}
-		);`}
+	background: ${WIN31_BUTTON_FACE};
+	border: 2px solid;
+	border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
+		${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
+	border-radius: ${({ $variant }) => ($variant === 'rounded' ? '20px' : '0')};
+	box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
+	transition: none;
 
 	&:before {
 		position: absolute;
 		content: '';
-		left: 4px;
-		bottom: 4px;
-		background: url(${getPatternScheme('noise')});
-		background-size: 100%;
-		background-repeat: repeat;
-		background-color: ${({ theme, $color }) =>
-			lighten(0.3, getColorScheme($color, theme))};
-		-webkit-transition: 0.1s;
-		transition: transform 0.1s ease-in-out, background 0.2s ease-in-out;
-		border-radius: ${({ $variant }) =>
-			$variant === 'rounded' ? '50%' : '4px'};
-
-		box-shadow: ${({ theme, $color }) =>
-			`1px 1px 2px ${rgba(BLACK, 0.3)}, 
-			-1px -1px 2px ${lighten(0.1, getColorScheme($color, theme))}`};
+		left: 2px;
+		top: 2px;
+		background: ${VGA_WHITE};
+		border: 1px solid;
+		border-color: ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}
+			${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT};
+		border-radius: ${({ $variant }) => ($variant === 'rounded' ? '50%' : '0')};
+		transition: none;
 
 		${({ $size }) => {
 			switch ($size) {
 				case 'small':
 					return `
-						width: 26px;
-						height: 26px;
-						`;
+						width: 12px;
+						height: 12px;
+					`;
 				case 'medium':
 					return `
-						width: 36px;
-						height: 36px;
-						`;
+						width: 16px;
+						height: 16px;
+					`;
 				case 'large':
 					return `
-						width: 46px;
-						height: 46px;
-						`;
+						width: 20px;
+						height: 20px;
+					`;
 			}
 		}}
 	}
 
-	input:checked + & {
-		background-color: ${({ theme }) => getColorScheme('success', theme)};
-	}
-
-	input:focus + & {
-		box-shadow: ${({ theme }) => `0 0 1px ${getColorScheme('primary', theme)}`};
-	}
-
+	/* Checked state */
 	input:checked + &:before {
-		${({ $color, theme }) =>
-			`
-		background: linear-gradient(
-			45deg,
-			${lighten(
-				0.1,
-				getColorScheme(
-					$color === 'greyscale' ? 'greyscale-dark' : $color,
-					theme,
-				),
-			)} 0%,
-			${getColorScheme(
-				$color === 'greyscale' ? 'greyscale-dark' : $color,
-				theme,
-			)} 100%
-		);
-			filter: saturate(2.5);
-		`}
 		${({ $size }) => {
 			switch ($size) {
 				case 'small':
-					return `
-						transform: translateX(26px);
-						`;
+					return `transform: translateX(24px);`;
 				case 'medium':
-					return `
-						transform: translateX(36px);
-						`;
+					return `transform: translateX(32px);`;
 				case 'large':
-					return `
-						transform: translateX(46px);
-						`;
+					return `transform: translateX(40px);`;
 			}
 		}}
-
-		box-shadow: ${({ theme, $color }) =>
-			`inset 1px 1px 2px ${BLACK}, inset -1px -1px 2px ${darken(
-				0.1,
-				getColorScheme($color, theme),
-			)}`};
+		background: ${(props) =>
+			props.$color === 'greyscale'
+				? WIN31_BUTTON_SHADOW
+				: getColorScheme(props.$color, props.theme)};
+		border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
+			${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
 	}
 
-	${({ $disabled }) =>
-		$disabled &&
+	/* Checked track background */
+	input:checked + & {
+		background: ${(props) =>
+			props.$color === 'greyscale'
+				? WIN31_BUTTON_FACE
+				: getColorScheme(props.$color, props.theme)};
+		border-color: ${(props) =>
+			props.$color === 'greyscale'
+				? WIN31_BUTTON_SHADOW
+				: getColorScheme(props.$color, props.theme)}
+		${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_HIGHLIGHT}
+		${(props) =>
+			props.$color === 'greyscale'
+				? WIN31_BUTTON_SHADOW
+				: getColorScheme(props.$color, props.theme)};
+	}
+
+	/* Disabled state */
+	${(props) =>
+		props.$disabled &&
 		`
-		cursor: not-allowed;
-		opacity: 0.8;
-		pointer-events: none;
-		filter: grayscale(0.5);
+		background: ${WIN31_BUTTON_FACE};
+		border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_SHADOW};
+		
+		&:before {
+			background: ${WIN31_BUTTON_SHADOW};
+			border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_SHADOW};
+		}
 	`}
-
-	input:focus + & {
-		outline: ${({ theme, $color }) =>
-			`1px solid ${darken(0.2, getColorScheme($color, theme))}`};
-	}
 `;
+
+export const SwitchLabel = styled.span<{
+	$size: SwitchSize;
+}>`
+	font-family: ${SYSTEM_FONT};
+	font-size: ${(props) => {
+		switch (props.$size) {
+			case 'small':
+				return FONT_SIZES.TINY;
+			case 'medium':
+				return FONT_SIZES.NORMAL;
+			case 'large':
+				return FONT_SIZES.MEDIUM;
+		}
+	}};
+	color: ${VGA_BLACK};
+	margin-left: 8px;
+	vertical-align: middle;
+`;
+
+// Keep legacy export for compatibility
+export const SwitchText = SwitchLabel;

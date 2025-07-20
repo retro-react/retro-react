@@ -1,157 +1,107 @@
 // Tabs.styled.ts
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { alterColorEnhanced } from '@src/utils/alterColor';
-import getColorScheme, { ComponentColors } from '@src/utils/getColorScheme';
 import {
-	ComponentPatterns,
-	getPatternScheme,
-} from '@src/utils/getPatternScheme';
-import { rgba } from '@src/utils/rgba';
-import { BLACK, SHADE_2, WHITE } from '@src/constants/colors';
+	VGA_BLACK,
+	WIN31_BUTTON_FACE,
+	WIN31_BUTTON_HIGHLIGHT,
+	WIN31_BUTTON_SHADOW,
+} from '@src/constants/colors';
+import { SYSTEM_FONT } from '@src/constants/fonts';
 
 export const TabsWrapper = styled.div`
 	display: flex;
 	flex-direction: column;
-	font-family: 'Trebuchet MS', Helvetica, sans-serif;
+	font-family: ${SYSTEM_FONT};
+	background: ${WIN31_BUTTON_FACE};
+	border: 2px solid;
+	border-color: ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}
+		${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT};
 `;
 
-export const TabList = styled.div<{
-	$color: ComponentColors | 'greyscale-dark';
-}>`
+export const TabList = styled.div`
 	display: flex;
-	border-bottom: 1px solid
-		${(props) => getColorScheme(props.$color, props.theme)};
+	background: ${WIN31_BUTTON_FACE};
+	/* No bottom border - tabs connect to content area */
 `;
 
 export const TabItem = styled.button<{
-	$color: ComponentColors | 'greyscale-dark';
 	$isActive: boolean;
 }>`
-	border: none;
-	padding: 0.5rem 1rem;
-	background-color: ${(props) =>
+	/* Authentic WIN31 tab styling */
+	border: 2px solid;
+	border-color: ${(props) =>
 		props.$isActive
-			? getColorScheme(props.$color, props.theme)
-			: 'transparent'};
-	color: ${(props) =>
-		props.$isActive ? WHITE : getColorScheme(props.$color, props.theme)};
-	cursor: pointer;
-	transition: background-color 0.3s ease;
+			? `${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW} transparent ${WIN31_BUTTON_HIGHLIGHT}`
+			: `${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}`};
+	border-bottom: ${(props) =>
+		props.$isActive ? 'none' : `2px solid ${WIN31_BUTTON_SHADOW}`};
 
-	&:hover {
-		background-color: ${(props) => getColorScheme(props.$color, props.theme)};
-		color: ${WHITE};
+	padding: 4px 12px;
+	margin: 0 1px 0 0;
+
+	background: ${(props) =>
+		props.$isActive ? WIN31_BUTTON_FACE : WIN31_BUTTON_FACE};
+
+	color: ${(props) => (props.$isActive ? VGA_BLACK : VGA_BLACK)};
+
+	font-family: ${SYSTEM_FONT};
+	font-size: 11px;
+	font-weight: normal;
+	cursor: pointer;
+
+	/* Remove modern effects */
+	border-radius: 0;
+	transition: none;
+	outline: none;
+
+	/* Active tab appears "raised" and connected to content */
+	${(props) =>
+		props.$isActive &&
+		css`
+			position: relative;
+			z-index: 1;
+			margin-bottom: -2px;
+			padding-bottom: 6px;
+		`}
+
+	/* Inactive tabs are slightly "pressed" */
+	${(props) =>
+		!props.$isActive &&
+		css`
+			border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
+				${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
+			transform: translate(1px, 1px);
+		`}
+
+	&:hover:not(:disabled) {
+		/* Minimal hover effect - just slight highlight */
+		filter: brightness(1.02);
+	}
+
+	&:focus {
+		outline: 1px dotted ${VGA_BLACK};
+		outline-offset: -3px;
+	}
+
+	&:disabled {
+		color: ${WIN31_BUTTON_SHADOW};
+		cursor: not-allowed;
+	}
+
+	/* First tab has no left margin */
+	&:first-of-type {
+		margin-left: 0;
 	}
 `;
 
 export const TabContent = styled.div`
-	padding: 1rem;
-`;
-
-export const TabsHeader = styled.div<{
-	$color: ComponentColors | 'greyscale-dark';
-	$pattern: ComponentPatterns;
-}>`
-	display: flex;
-	background-color: ${(props) => getColorScheme(props.$color, props.theme)};
-	background: ${(props) => `linear-gradient(${rgba(
-		getColorScheme(props.$color, props.theme),
-		0.55,
-	)}, ${rgba(getColorScheme(props.$color, props.theme), 0.7)}),
-		url(${getPatternScheme(props.$pattern)})`};
-
-	border-bottom: 2px solid
-		${(props) =>
-			alterColorEnhanced(getColorScheme(props.$color, props.theme), 50)};
-
-	overflow: auto;
-
-	&::-webkit-scrollbar {
-		width: 5px;
-		height: 5px;
-	}
-
-	&::-webkit-scrollbar-track {
-		background-color: rgba(255, 255, 255, 0.2);
-		border-radius: 5px;
-	}
-
-	&::-webkit-scrollbar-thumb {
-		background-color: rgba(255, 255, 255, 0.5);
-		border-radius: 5px;
-	}
-
-	&::-webkit-scrollbar-thumb:hover {
-		background-color: rgba(255, 255, 255, 0.8);
-	}
-
-	/* Firefox scrollbar */
-	& {
-		scrollbar-width: thin;
-		scrollbar-color: rgba(255, 255, 255, 0.5) rgba(255, 255, 255, 0.2);
-	}
-`;
-
-export const TabWrapper = styled.div<{
-	$color: ComponentColors | 'greyscale-dark';
-	isActive?: boolean;
-	label: string;
-}>`
-	display: inline-block;
-	box-sizing: border-box;
-	padding: 10px 20px;
-	margin-top: 1px;
-	margin-bottom: 1px;
-	cursor: pointer;
-
-	color: ${WHITE};
-	text-shadow: 0 0 4px ${BLACK};
-
-	background-color: ${({ isActive, $color, theme }) =>
-		isActive
-			? alterColorEnhanced(getColorScheme($color, theme), 60)
-			: 'transparent'};
-
-	&:hover {
-		box-shadow: inset 3px 3px
-			${({ $color, theme }) =>
-				alterColorEnhanced(getColorScheme($color, theme), -40)};
-		border-color: ${BLACK};
-		transform: translateY(1px);
-	}
-
-	${({ isActive, $color, theme }) =>
-		isActive &&
-		`
-		box-shadow: inset 3px 3px ${alterColorEnhanced(
-			getColorScheme($color, theme),
-			-40,
-		)};
-		border-color: ${BLACK};
-		transform: translateY(1px);
-	`}
-
-	&:focus {
-		outline: 1px solid
-			${({ $color, theme }) =>
-				alterColorEnhanced(getColorScheme($color, theme), -30)};
-	}
-
-	&:first-child {
-		margin-left: 3px;
-	}
-
-	&:last-child {
-		margin-right: 3px;
-	}
-`;
-
-export const TabContentWrapper = styled.div<{
-	label: string;
-}>`
-	padding: 20px;
-	border: 1px solid ${SHADE_2};
-	border-top: none;
-
-	background-color: ${WHITE};
+	padding: 12px;
+	background: ${WIN31_BUTTON_FACE};
+	border-top: none; /* Connected to active tab */
+	color: ${VGA_BLACK};
+	font-family: ${SYSTEM_FONT};
+	font-size: 11px;
+	line-height: 1.4;
+	min-height: 100px;
 `;

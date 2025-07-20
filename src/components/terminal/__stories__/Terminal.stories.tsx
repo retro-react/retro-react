@@ -15,7 +15,9 @@ export default {
 const Template: ComponentStory<typeof Terminal> = ({ children, ...args }) => {
 	return (
 		<Terminal
-			onCommandSubmit={(cmd) => console.log('Command submitted:', cmd)}
+			onCommandSubmit={(cmd) => {
+				/* Command submitted: ${cmd} */
+			}}
 			{...args}
 		/>
 	);

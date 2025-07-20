@@ -39,13 +39,17 @@ const Template: ComponentStory<typeof Autocomplete> = (args) => {
 			<div style={{ width: '300px', marginTop: '1rem' }}>
 				<Autocomplete
 					suggestions={suggestions}
-					onSuggestionSelect={(selected) => console.log('Selected:', selected)}
+					onSuggestionSelect={(selected) => {
+						/* Selected: ${selected} */
+					}}
 					{...args}
 				/>
 				<br />
 				<Autocomplete
 					suggestions={suggestions}
-					onSuggestionSelect={(selected) => console.log('Selected:', selected)}
+					onSuggestionSelect={(selected) => {
+						/* Selected: ${selected} */
+					}}
 					disabled
 					placeholder="Disabled"
 					{...args}

@@ -7,6 +7,10 @@ export default {
 	title: 'Forms/Input',
 	component: Input,
 	argTypes: {
+		variant: {
+			options: ['classic', 'filled', 'outlined', 'terminal'],
+			control: { type: 'radio' },
+		},
 		size: {
 			options: ['small', 'medium'],
 			control: { type: 'radio' },
@@ -21,47 +25,116 @@ export default {
  */
 const Template: ComponentStory<typeof Input> = (args) => {
 	return (
-		<>
+		<div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
 			<Input {...args} />
-			&nbsp;&nbsp;
 			<Input {...args} disabled />
-		</>
+		</div>
+	);
+};
+
+const VariantsTemplate: ComponentStory<typeof Input> = (args) => {
+	return (
+		<div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+			<div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+				<div
+					style={{
+						width: '80px',
+						fontFamily: 'MS Sans Serif',
+						fontSize: '11px',
+					}}
+				>
+					Classic:
+				</div>
+				<Input
+					{...args}
+					variant="classic"
+					placeholder="Deep sunken Windows 95 style"
+				/>
+			</div>
+			<div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+				<div
+					style={{
+						width: '80px',
+						fontFamily: 'MS Sans Serif',
+						fontSize: '11px',
+					}}
+				>
+					Filled:
+				</div>
+				<Input
+					{...args}
+					variant="filled"
+					placeholder="Prominent 3D raised style"
+				/>
+			</div>
+			<div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+				<div
+					style={{
+						width: '80px',
+						fontFamily: 'MS Sans Serif',
+						fontSize: '11px',
+					}}
+				>
+					Outlined:
+				</div>
+				<Input
+					{...args}
+					variant="outlined"
+					placeholder="Clean flat border style"
+				/>
+			</div>
+			<div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
+				<div
+					style={{
+						width: '80px',
+						fontFamily: 'MS Sans Serif',
+						fontSize: '11px',
+					}}
+				>
+					Terminal:
+				</div>
+				<Input
+					{...args}
+					variant="terminal"
+					placeholder="Subtle console style"
+				/>
+			</div>
+		</div>
 	);
 };
 
 export const Default = Template.bind({});
 Default.args = {
-	placeholder: 'Placeholder',
+	placeholder: 'Enter text...',
 	onChange: action('onChange'),
 	variant: 'filled',
-	color: 'primary',
 	size: 'medium',
-	rounded: false,
-	multiline: false,
 	sx: { width: '250px' },
+};
+
+export const AllVariants = VariantsTemplate.bind({});
+AllVariants.args = {
+	onChange: action('onChange'),
+	size: 'medium',
+	sx: { width: '300px' },
 };
 
 export const Multiline = Template.bind({});
 Multiline.args = {
-	placeholder: 'Placeholder',
+	placeholder: 'Enter a longer message...',
 	onChange: action('onChange'),
-	variant: 'filled',
-	color: 'primary',
+	variant: 'classic',
 	size: 'medium',
-	rounded: false,
 	multiline: true,
-	rows: 5,
-	sx: { width: '250px' },
+	rows: 4,
+	sx: { width: '300px' },
 };
 
-export const Outlined = Template.bind({});
-Outlined.args = {
-	placeholder: 'Placeholder',
+export const TerminalStyle = Template.bind({});
+TerminalStyle.args = {
+	placeholder: 'C:\\Users\\> _',
 	onChange: action('onChange'),
-	variant: 'outlined',
-	color: 'primary',
+	variant: 'terminal',
 	size: 'medium',
-	rounded: false,
-	multiline: false,
-	sx: { width: '250px' },
+	sx: { width: '400px' },
 };

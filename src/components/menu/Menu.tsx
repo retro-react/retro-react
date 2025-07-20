@@ -3,8 +3,6 @@ import { forwardRef } from 'react';
 import React from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
-import { ComponentColors } from '@src/utils/getColorScheme';
-import { ComponentPatterns } from '@src/utils/getPatternScheme';
 import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Menu.styled';
 
@@ -22,24 +20,6 @@ export interface MenuProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @example { backgroundColor: 'primary', ':hover': { backgroundColor: 'secondary' } }
 	 */
 	sx?: ThemeUICSSObject;
-	/**
-	 * Defines the pattern of the menu container. Can be a pattern from ComponentPatterns or 'none'.
-	 *
-	 * @default 'noise'
-	 */
-	pattern?: ComponentPatterns;
-	/**
-	 * Defines if the corners of the menu container should be rounded.
-	 *
-	 * @default false
-	 */
-	rounded?: boolean;
-	/**
-	 * Defines the color of the menu container. Can be a color from ComponentColors or 'greyscale'.
-	 *
-	 * @default 'primary'
-	 */
-	color?: ComponentColors | 'greyscale';
 }
 
 /**
@@ -65,28 +45,13 @@ export interface MenuItemProps extends React.LiHTMLAttributes<HTMLLIElement> {
  * </Menu>
  */
 export const Menu = forwardRef<HTMLDivElement, MenuProps>(
-	(
-		{
-			id,
-			sx,
-			className,
-			children,
-			pattern = 'noise',
-			rounded = false,
-			color = 'primary',
-			...rest
-		},
-		ref,
-	) => {
+	({ id, sx, className, children, ...rest }, ref) => {
 		return (
 			<Sc.MenuContainer
 				id={id}
 				sx={sx}
 				ref={ref}
 				className={classNames('menu-container', className, commonClassNames)}
-				$pattern={pattern}
-				$rounded={rounded}
-				$color={color}
 				{...rest}
 			>
 				<Sc.MenuStyled>
@@ -94,10 +59,7 @@ export const Menu = forwardRef<HTMLDivElement, MenuProps>(
 						<>
 							{child}
 							{index !== React.Children.count(children) - 1 && (
-								<Sc.MenuItemDivider
-									className="menu-item-divider"
-									$color={color}
-								/>
+								<Sc.MenuItemDivider className="menu-item-divider" />
 							)}
 						</>
 					))}

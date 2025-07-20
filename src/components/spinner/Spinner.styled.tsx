@@ -1,190 +1,161 @@
-import { css, keyframes } from '@emotion/react';
+import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
-import { rgba } from '@src/utils/rgba';
+import {
+	VGA_BLACK,
+	WIN31_BUTTON_FACE,
+	WIN31_BUTTON_HIGHLIGHT,
+	WIN31_BUTTON_SHADOW,
+} from '@src/constants/colors';
+import { SYSTEM_FONT } from '@src/constants/fonts';
 import { SpinnerSize } from './Spinner';
 
-const createLinearGradient = (colors: string[]) =>
-	`linear-gradient(45deg, ${colors.join(', ')})`;
-
-const createRadialGradient = (
-	colors: string[],
-	position: string = 'circle',
-): string => {
-	return `radial-gradient(${position}, ${colors.join(', ')})`;
-};
-
-const colorChange = (colors: string[]) => keyframes`
-  ${colors
-		.map(
-			(color, index) => `
-    ${(index / colors.length) * 100}% {
-      border-color: ${color} transparent transparent transparent;
-    }
-  `,
-		)
-		.join('')}
+// Authentic WIN31 spinning animation - simple rotation
+const spin = keyframes`
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
 `;
 
-const spin = keyframes`
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
+// Dot pulsing animation for classic loading dots - enhanced for better visibility
+const dotPulse = keyframes`
+	0%, 80%, 100% {
+		transform: scale(1);
+		opacity: 0.3;
+	}
+	40% {
+		transform: scale(1.5);
+		opacity: 1;
+	}
+`;
+
+// Bar height animation for classic bar loading
+const barHeight = keyframes`
+	0%, 100% {
+		height: 4px;
+	}
+	50% {
+		height: 12px;
+	}
 `;
 
 export const Wrapper = styled.div`
-	display: inline-block;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-family: ${SYSTEM_FONT};
 `;
 
 const spinnerSize = {
-	small: '32px',
-	medium: '64px',
-	large: '128px',
+	small: '16px',
+	medium: '24px',
+	large: '32px',
 };
 
-export const CircleSpinner = styled.div<{
-	$colors: string[];
-	$size: SpinnerSize;
-}>`
+// Classic hourglass spinner like Windows 3.1 wait cursor
+export const HourglassSpinner = styled.div<{ $size: SpinnerSize }>`
 	width: ${({ $size }) => spinnerSize[$size]};
 	height: ${({ $size }) => spinnerSize[$size]};
-	border: 8px solid;
-	border-radius: 50%;
-	animation: ${spin} 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite,
-		${({ $colors }) =>
-			css`
-				${colorChange($colors)} 3s linear infinite
-			`};
-	border-color: ${({ $colors }) => $colors[0]} transparent transparent
-		transparent;
-
-	&:nth-child(1) {
-		animation-delay: -0.45s;
-	}
-
-	&:nth-child(2) {
-		animation-delay: -0.3s;
-	}
-
-	&:nth-child(3) {
-		animation-delay: -0.15s;
-	}
-`;
-
-export const SquareSpinner = styled.div<{
-	$colors: string[];
-	$size: SpinnerSize;
-}>`
 	position: relative;
-	width: ${({ $size }) => spinnerSize[$size]};
-	height: ${({ $size }) => spinnerSize[$size]};
-	overflow: hidden;
-	clip-path: polygon(20% 20%, 80% 20%, 80% 80%, 20% 80%);
-
-	${({ $size, $colors }) =>
-		$size === 'small' &&
-		css`
-			background: ${createLinearGradient($colors)};
-			animation: ${spin} 4s linear infinite;
-		`}
-
-	${({ $size, $colors }) =>
-		($size === 'large' || $size === 'medium') &&
-		css`
-			&::before {
-				content: '';
-				position: absolute;
-				top: -2px;
-				left: -2px;
-				width: ${spinnerSize[$size]};
-				height: ${spinnerSize[$size]};
-				background: ${createLinearGradient($colors)};
-				animation: ${spin} 4s linear infinite;
-			}
-
-			&::after {
-				content: '';
-				position: absolute;
-				width: ${$size === 'large'
-					? spinnerSize['medium']
-					: spinnerSize['small']};
-				height: ${$size === 'large'
-					? spinnerSize['medium']
-					: spinnerSize['small']};
-				top: 25%;
-				left: 25%;
-				background: ${createLinearGradient($colors)};
-				box-shadow: inset 0 0 0 2px ${rgba($colors[0], 0.2)};
-				animation: ${spin} 4s linear infinite reverse;
-			}
-		`}
-`;
-
-export const StarSpinner = styled.div<{
-	$colors: string[];
-	$size: SpinnerSize;
-}>`
-	display: inline-block;
-	width: ${({ $size }) => spinnerSize[$size]};
-	height: ${({ $size }) => spinnerSize[$size]};
-	background-image: ${({ $colors }) => createRadialGradient($colors)};
-	clip-path: polygon(
-		50% 0%,
-		61% 35%,
-		98% 35%,
-		68% 57%,
-		79% 91%,
-		50% 70%,
-		21% 91%,
-		32% 57%,
-		2% 35%,
-		39% 35%
-	);
-	background-size: 100% 100%;
-
-	animation: ${spin} 1.5s linear infinite;
-`;
-
-const spinnerHeight = {
-	small: '48px',
-	medium: '96px',
-	large: '192px',
-};
-
-const spinnerBeforeWidth = {
-	small: '50px',
-	medium: '100px',
-	large: '200px',
-};
-
-const spinnerBeforeLeft = {
-	small: '-8px',
-	medium: '-16px',
-	large: '-32px',
-};
-
-export const DiamondSpinner = styled.div<{
-	$colors: string[];
-	$size: keyof typeof spinnerSize;
-}>`
-	position: relative;
-	width: ${({ $size }) => spinnerSize[$size]};
-	height: ${({ $size }) => spinnerHeight[$size]};
-	margin-left: 16px;
-	margin-right: 16px;
-	overflow: hidden;
-	clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 
 	&::before {
+		content: '⧗';
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 100%;
+		font-size: ${({ $size }) => spinnerSize[$size]};
+		color: ${VGA_BLACK};
+		line-height: 1;
+		animation: ${spin} 1.5s linear infinite;
+	}
+`;
+
+// Classic three-dot loading animation
+export const DotsSpinner = styled.div<{ $size: SpinnerSize }>`
+	display: flex;
+	align-items: center;
+	gap: ${({ $size }) =>
+		$size === 'small' ? '2px' : $size === 'medium' ? '4px' : '6px'};
+`;
+
+export const Dot = styled.div`
+	width: 4px;
+	height: 4px;
+	background: ${VGA_BLACK};
+	border-radius: 0; /* Square dots for authentic feel */
+	animation: ${dotPulse} 1s ease-in-out infinite;
+
+	&:nth-of-type(1) {
+		animation-delay: 0s;
+	}
+	&:nth-of-type(2) {
+		animation-delay: 0.15s;
+	}
+	&:nth-of-type(3) {
+		animation-delay: 0.3s;
+	}
+`;
+
+// Classic bar loading animation like progress indicators
+export const BarsSpinner = styled.div<{ $size: SpinnerSize }>`
+	display: flex;
+	align-items: flex-end;
+	gap: 2px;
+	height: ${({ $size }) =>
+		$size === 'small' ? '12px' : $size === 'medium' ? '16px' : '20px'};
+`;
+
+export const Bar = styled.div`
+	width: 3px;
+	height: 4px;
+	background: ${VGA_BLACK};
+	animation: ${barHeight} 1.2s ease-in-out infinite;
+
+	&:nth-of-type(1) {
+		animation-delay: 0s;
+	}
+	&:nth-of-type(2) {
+		animation-delay: 0.1s;
+	}
+	&:nth-of-type(3) {
+		animation-delay: 0.2s;
+	}
+	&:nth-of-type(4) {
+		animation-delay: 0.3s;
+	}
+`;
+
+// Simple rotating square like classic loading indicators
+export const RotatingSpinner = styled.div<{ $size: SpinnerSize }>`
+	width: ${({ $size }) => spinnerSize[$size]};
+	height: ${({ $size }) => spinnerSize[$size]};
+	background: ${WIN31_BUTTON_FACE};
+
+	/* Authentic WIN31 raised border */
+	border: 2px solid;
+	border-color: ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}
+		${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT};
+
+	animation: ${spin} 1s linear infinite;
+
+	/* Add a small dot in center for visual reference */
+	&::after {
 		content: '';
 		position: absolute;
-		width: ${({ $size }) => spinnerBeforeWidth[$size]};
-		height: ${({ $size }) => spinnerBeforeWidth[$size]};
-		top: 0;
-		left: ${({ $size }) => spinnerBeforeLeft[$size]};
-		background-image: ${({ $colors }) => createLinearGradient($colors)};
-		animation: ${spin} 1s linear infinite;
+		top: 50%;
+		left: 50%;
+		width: 2px;
+		height: 2px;
+		background: ${VGA_BLACK};
+		transform: translate(-50%, -50%);
 	}
+
+	position: relative;
 `;

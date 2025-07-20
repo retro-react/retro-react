@@ -1,75 +1,154 @@
 import styled from '@emotion/styled';
-import { rgba } from '@src/utils/rgba';
-import { BLACK, SHADE_4, SHADE_5 } from '@src/constants/colors';
 
-export const BreadcrumbsWrapper = styled.nav<{
-	$backgroundColor?: string;
-}>`
+export const BreadcrumbsWrapper = styled.nav`
 	display: flex;
 	flex-wrap: wrap;
-
-	font-family: 'Trebuchet MS', Helvetica, sans-serif;
-
 	align-items: center;
-	padding: 8px;
+	padding: 4px 8px;
+	background-color: #c0c0c0;
+	border: 2px inset #c0c0c0;
+	border-color: #ffffff #808080 #808080 #ffffff;
+	font-family: 'MS Sans Serif', sans-serif;
+	font-size: 11px;
+	position: relative;
 
-	background-color: ${(props) =>
-		props.$backgroundColor ? props.$backgroundColor : SHADE_5};
-	border: 2px outset #ddd;
+	/* Subtle dithering pattern for authentic texture */
+	background-image: radial-gradient(
+		circle at 1px 1px,
+		rgba(0, 0, 0, 0.1) 1px,
+		transparent 0
+	);
+	background-size: 2px 2px;
 
-	${(props) =>
-		props.$backgroundColor === 'transparent' &&
-		`
-			background-color: transparent;
-			border: none;
-		`}
+	@media (max-width: 768px) {
+		padding: 3px 6px;
+		font-size: 10px;
+		flex-wrap: nowrap;
+		overflow-x: auto;
+		scrollbar-width: thin;
+		scrollbar-color: #808080 #c0c0c0;
+
+		&::-webkit-scrollbar {
+			height: 12px;
+		}
+		&::-webkit-scrollbar-track {
+			background: #c0c0c0;
+			border: 1px inset #c0c0c0;
+		}
+		&::-webkit-scrollbar-thumb {
+			background: #808080;
+			border: 1px outset #808080;
+		}
+	}
 `;
 
 export const Breadcrumb = styled.span<{
 	$active?: boolean;
-	$color?: string;
+	$disabled?: boolean;
 }>`
-	font-size: 1rem;
-	color: ${(props) => (props.$color ? props.$color : SHADE_5)};
-	text-shadow: 1px 1px 1px ${rgba(BLACK, 0.5)};
-	letter-spacing: 0.1rem;
-	text-transform: uppercase;
-	padding: 0 8px;
-
-	&:not(:last-child)::after {
-		content: '\\00a0\\00a0\\00bb\\00a0\\00a0';
-	}
-
+	display: inline-flex;
+	align-items: center;
+	font-size: inherit;
+	color: ${(props) => (props.$disabled ? '#808080' : '#000000')};
 	font-weight: ${(props) => (props.$active ? 'bold' : 'normal')};
+	opacity: ${(props) => (props.$disabled ? 0.6 : 1)};
+	white-space: nowrap;
+`;
+
+export const BreadcrumbSeparator = styled.span<{
+	$type: 'arrow' | 'backslash' | 'dot' | 'pipe';
+}>`
+	color: #808080;
+	font-weight: normal;
+	margin: 0 4px;
+	user-select: none;
+	font-size: inherit;
 `;
 
 export const BreadcrumbAnchor = styled.a<{
-	$color?: string;
+	$disabled?: boolean;
 }>`
-	color: #0000ee;
-	text-decoration: underline;
-	padding: 2px;
-	transition: background-color 0.3s;
+	color: ${(props) => (props.$disabled ? '#808080' : '#000000')};
+	text-decoration: none;
+	padding: 1px 3px;
+	border: 1px solid transparent;
+	background: transparent;
+	cursor: ${(props) => (props.$disabled ? 'not-allowed' : 'pointer')};
+	pointer-events: ${(props) => (props.$disabled ? 'none' : 'auto')};
+	display: inline-flex;
+	align-items: center;
+	gap: 2px;
 
-	&:hover {
-		background-color: #e5e5e5;
-		color: ${(props) => (props.$color ? props.$color : '#551a8b')};
+	&:hover:not([disabled]) {
+		background-color: #0000ff;
+		color: #ffffff;
+		border: 1px outset #c0c0c0;
 	}
 
-	&:visited {
-		color: ${(props) => (props.$color ? props.$color : '#551a8b')};
+	&:focus:not([disabled]) {
+		outline: 1px dotted #000000;
+		outline-offset: 1px;
 	}
 
-	&:active,
-	&:focus {
-		background-color: #c5c5c5;
+	&:active:not([disabled]) {
+		border: 1px inset #c0c0c0;
+		background-color: #c0c0c0;
+		color: #000000;
 	}
 `;
 
-export const BreadcrumbActive = styled.span<{
-	$color?: string;
-}>`
-	color: ${(props) => (props.$color ? props.$color : SHADE_4)};
-	text-shadow: 1px 1px 1px ${rgba(BLACK, 0.5)};
-	text-decoration: underline;
+export const BreadcrumbActive = styled.span`
+	color: #000000;
+	font-weight: bold;
+	padding: 1px 3px;
+	background: transparent;
+	display: inline-flex;
+	align-items: center;
+	gap: 2px;
+`;
+
+export const BreadcrumbIcon = styled.span`
+	display: inline-flex;
+	align-items: center;
+	font-size: 10px;
+	margin-right: 2px;
+`;
+
+export const CopyButton = styled.button`
+	background: #c0c0c0;
+	border: 1px outset #c0c0c0;
+	border-color: #ffffff #808080 #808080 #ffffff;
+	color: #000000;
+	font-family: 'MS Sans Serif', sans-serif;
+	font-size: 10px;
+	padding: 2px 4px;
+	margin-left: 8px;
+	cursor: pointer;
+
+	&:hover {
+		background: #e0e0e0;
+	}
+
+	&:active {
+		border: 1px inset #c0c0c0;
+		border-color: #808080 #ffffff #ffffff #808080;
+	}
+
+	&:focus {
+		outline: 1px dotted #000000;
+		outline-offset: 1px;
+	}
+`;
+
+export const TruncationIndicator = styled.span`
+	color: #808080;
+	font-weight: normal;
+	margin: 0 4px;
+	cursor: help;
+	user-select: none;
+	position: relative;
+
+	&:hover {
+		color: #000000;
+	}
 `;

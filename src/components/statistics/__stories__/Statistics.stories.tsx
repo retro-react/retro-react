@@ -6,20 +6,6 @@ const meta: Meta<typeof Statistics> = {
 	title: 'Data Display/Statistics',
 	component: Statistics,
 	argTypes: {
-		color: {
-			control: {
-				type: 'select',
-			},
-			options: [
-				'primary',
-				'secondary',
-				'warn',
-				'error',
-				'success',
-				'greyscale',
-				'none',
-			],
-		},
 		icon: {
 			control: {
 				disable: true,
@@ -40,7 +26,7 @@ export const Basic: Story = {
 		size: 'medium',
 		direction: 'vertical',
 		onClick: () => {
-			console.log('clicked');
+			// clicked
 		},
 	},
 	render: (args) => {

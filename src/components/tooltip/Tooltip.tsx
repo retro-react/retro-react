@@ -6,14 +6,8 @@ import commonClassNames from '@src/constants/commonClassNames';
 import { Portal } from '../portal/Portal';
 import * as Sc from './Tooltip.styled';
 
-export type TooltipColors =
-	| 'primary'
-	| 'secondary'
-	| 'success'
-	| 'error'
-	| 'warn';
-
 export type TooltipPositions = 'top' | 'bottom' | 'left' | 'right';
+export type TooltipVariants = 'default' | 'help' | 'warning' | 'info';
 
 export interface TooltipProps {
 	/**
@@ -29,12 +23,15 @@ export interface TooltipProps {
 	 */
 	children: React.ReactElement;
 	/**
-	 * The color of the Tooltip.
+	 * The visual variant of the Tooltip.
+	 * - default: Standard yellow info tooltip (Windows 95/98 style)
+	 * - help: Help tooltip with question mark styling
+	 * - warning: Warning tooltip with alert styling
+	 * - info: Info tooltip with blue styling
 	 *
-	 *
-	 * @default 'primary'
+	 * @default 'default'
 	 */
-	color?: TooltipColors;
+	variant?: TooltipVariants;
 	/**
 	 * The position of the Tooltip.
 	 *
@@ -42,15 +39,9 @@ export interface TooltipProps {
 	 */
 	position?: TooltipPositions;
 	/**
-	 * If true, the Tooltip will have rounded corners.
-	 *
-	 * @default true
-	 */
-	rounded?: boolean;
-	/**
 	 * The delay in milliseconds before the Tooltip appears.
 	 *
-	 * @default 0
+	 * @default 500
 	 */
 	delay?: number;
 	sx?: ThemeUICSSObject;
@@ -63,51 +54,29 @@ const setPosition = (
 ) => {
 	if (!triggerRef.current || !tooltipRef.current) return;
 
+	const triggerRect = triggerRef.current.getBoundingClientRect();
 	const tooltipRect = tooltipRef.current.getBoundingClientRect();
 	const { innerWidth, innerHeight } = window;
-
-	const getTriggerOffset = (element: HTMLElement | null) => {
-		let top = 0;
-		let left = 0;
-
-		while (element) {
-			top += element.offsetTop;
-			left += element.offsetLeft;
-			element = element.offsetParent as HTMLElement | null;
-		}
-
-		return { top, left };
-	};
-
-	const triggerOffset = getTriggerOffset(triggerRef.current);
 
 	let top = 0;
 	let left = 0;
 
 	switch (position) {
 		case 'top':
-			top = triggerOffset.top - tooltipRect.height - 10;
-			left =
-				triggerOffset.left +
-				(triggerRef.current.offsetWidth - tooltipRect.width) / 2;
+			top = triggerRect.top - tooltipRect.height - 10;
+			left = triggerRect.left + (triggerRect.width - tooltipRect.width) / 2;
 			break;
 		case 'right':
-			top =
-				triggerOffset.top +
-				(triggerRef.current.offsetHeight - tooltipRect.height) / 2;
-			left = triggerOffset.left + triggerRef.current.offsetWidth + 10;
+			top = triggerRect.top + (triggerRect.height - tooltipRect.height) / 2;
+			left = triggerRect.right + 10;
 			break;
 		case 'bottom':
-			top = triggerOffset.top + triggerRef.current.offsetHeight + 10;
-			left =
-				triggerOffset.left +
-				(triggerRef.current.offsetWidth - tooltipRect.width) / 2;
+			top = triggerRect.bottom + 10;
+			left = triggerRect.left + (triggerRect.width - tooltipRect.width) / 2;
 			break;
 		case 'left':
-			top =
-				triggerOffset.top +
-				(triggerRef.current.offsetHeight - tooltipRect.height) / 2;
-			left = triggerOffset.left - tooltipRect.width - 10;
+			top = triggerRect.top + (triggerRect.height - tooltipRect.height) / 2;
+			left = triggerRect.left - tooltipRect.width - 10;
 			break;
 	}
 
@@ -120,20 +89,31 @@ const setPosition = (
 };
 
 /**
- * Tooltips display informative text when users hover over, focus on, or tap an element.
+ * Retro-themed tooltips inspired by classic Windows 95/98 help bubbles.
+ *
+ * Features authentic Windows tooltip styling:
+ * - Default: Classic yellow info bubble (like Windows help tooltips)
+ * - Help: Question mark style help tooltip
+ * - Warning: Alert style warning tooltip
+ * - Info: Blue informational tooltip
  *
  * @example
- * <Tooltip label="Hello World">
- * 	<Text>Hover me</Text>
+ * // Classic yellow Windows tooltip
+ * <Tooltip label="This is a help tooltip">
+ * 	<Button>Hover me</Button>
+ * </Tooltip>
+ *
+ * // Warning tooltip
+ * <Tooltip label="This action cannot be undone" variant="warning">
+ * 	<Button>Delete</Button>
  * </Tooltip>
  */
 export const Tooltip: React.FC<TooltipProps> = ({
 	label,
-	color = 'primary',
+	variant = 'default',
 	position = 'top',
 	children,
-	delay = 0,
-	rounded = true,
+	delay = 500,
 	sx,
 	...rest
 }: TooltipProps) => {
@@ -143,24 +123,39 @@ export const Tooltip: React.FC<TooltipProps> = ({
 	const [visible, setVisible] = React.useState(false);
 	const hoverTimeout = React.useRef<NodeJS.Timeout | null>(null);
 
-	const updatePosition = () => {
-		if (visible) {
-			setPosition(triggerRef, tooltipRef, position);
-		}
-	};
-
 	React.useEffect(() => {
 		if (visible) {
-			setPosition(triggerRef, tooltipRef, position);
+			// Small delay to ensure DOM has been updated
+			requestAnimationFrame(() => {
+				setPosition(triggerRef, tooltipRef, position);
+			});
 		}
-	}, [visible, triggerRef, tooltipRef, position]);
+	}, [visible, position]);
 
 	React.useEffect(() => {
-		window.addEventListener('scroll', updatePosition);
-		return () => {
-			window.removeEventListener('scroll', updatePosition);
+		const handleScroll = () => {
+			if (visible) {
+				setPosition(triggerRef, tooltipRef, position);
+			}
 		};
-	}, [visible, triggerRef, tooltipRef, position, updatePosition]);
+
+		const handleResize = () => {
+			if (visible) {
+				setPosition(triggerRef, tooltipRef, position);
+			}
+		};
+
+		window.addEventListener('scroll', handleScroll, true);
+		window.addEventListener('resize', handleResize);
+
+		return () => {
+			window.removeEventListener('scroll', handleScroll, true);
+			window.removeEventListener('resize', handleResize);
+			if (hoverTimeout.current) {
+				clearTimeout(hoverTimeout.current);
+			}
+		};
+	}, [visible, position]);
 
 	const handleMouseEnter = () => {
 		// Clear the existing timeout if any
@@ -192,9 +187,8 @@ export const Tooltip: React.FC<TooltipProps> = ({
 				<Sc.TooltipContent
 					ref={tooltipRef}
 					$visible={visible}
-					$color={color}
+					$variant={variant}
 					$position={position}
-					$rounded={rounded}
 					className={classNames('tooltip-root', commonClassNames)}
 					sx={sx}
 				>

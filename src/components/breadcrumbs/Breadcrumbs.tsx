@@ -8,7 +8,11 @@ import {
 	Breadcrumb,
 	BreadcrumbActive,
 	BreadcrumbAnchor,
+	BreadcrumbIcon,
+	BreadcrumbSeparator,
 	BreadcrumbsWrapper,
+	CopyButton,
+	TruncationIndicator,
 } from './Breadcrumbs.styled';
 
 export interface BreadcrumbItem {
@@ -36,39 +40,81 @@ export interface BreadcrumbItem {
 	 * @default false
 	 */
 	active?: boolean;
+	/**
+	 * Icon to display before the text (optional).
+	 *
+	 * @default undefined
+	 */
+	icon?: React.ReactNode;
+	/**
+	 * Whether this item should be disabled.
+	 *
+	 * @default false
+	 */
+	disabled?: boolean;
 }
 
-export interface BreadcrumbsProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface BreadcrumbsProps
+	extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onCopy'> {
 	/**
 	 * The items of the breadcrumb.
 	 *
 	 * @default []
 	 *
 	 * @example
-	 * <Breadcrumbs items={[{ text: 'Home', href: '/', active: true }, { text: 'About', href: '/about' }]} />
+	 * <Breadcrumbs items={[{ text: 'Home', href: '/', icon: '🏠' }, { text: 'About', href: '/about', active: true }]} />
 	 */
 	items?: BreadcrumbItem[];
 	/**
-	 * The color of the breadcrumb.
+	 * Maximum number of visible items before truncation.
 	 *
 	 * @default undefined
 	 */
-	color?: string;
+	maxItems?: number;
 	/**
-	 * The color of the breadcrumb.
+	 * Style of separator between breadcrumbs.
 	 *
-	 * @default transparent
+	 * @default 'arrow'
 	 */
-	backgroundColor?: string;
+	separator?: 'arrow' | 'backslash' | 'dot' | 'pipe';
+	/**
+	 * Whether to show a copy path button.
+	 *
+	 * @default false
+	 */
+	showCopyButton?: boolean;
+	/**
+	 * Callback when path is copied.
+	 *
+	 * @default undefined
+	 */
+	onCopy?: (path: string) => void;
 	sx?: ThemeUICSSObject;
 }
 
 /**
  * Breadcrumbs are used to indicate the current page's location within a navigational hierarchy.
+ * Features authentic retro styling with WIN31-inspired borders and typography.
  *
+ * Enhanced with:
+ * - Icons support for visual hierarchy
+ * - Truncation for long paths
+ * - Copy path functionality
+ * - Multiple separator styles
+ * - Keyboard navigation
+ * - Better accessibility
  *
  * @example
- * <Breadcrumbs items={[{ text: 'Home', href: '/', active: true }, { text: 'About', href: '/about' }]} />
+ * <Breadcrumbs
+ *   items={[
+ *     { text: 'Home', href: '/', icon: '🏠' },
+ *     { text: 'Documents', href: '/docs', icon: '📁' },
+ *     { text: 'Projects', active: true, icon: '📂' }
+ *   ]}
+ *   separator="arrow"
+ *   showCopyButton
+ *   maxItems={4}
+ * />
  */
 export const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
 	(
@@ -76,20 +122,79 @@ export const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
 			id,
 			className,
 			children,
-			color,
-			backgroundColor,
 			items = [],
+			maxItems,
+			separator = 'arrow',
+			showCopyButton = false,
+			onCopy,
 			sx,
 			...rest
 		},
 		ref,
 	) => {
 		const handleClick = (item: BreadcrumbItem) => (e: React.MouseEvent) => {
+			if (item.disabled) {
+				e.preventDefault();
+				return;
+			}
+
 			if (!item.href || item.href === '') {
 				e.preventDefault();
 			}
+
 			if (item.onClick) {
 				item.onClick(e);
+			}
+		};
+
+		const handleKeyDown =
+			(item: BreadcrumbItem) => (e: React.KeyboardEvent) => {
+				if (item.disabled) return;
+
+				if (e.key === 'Enter' || e.key === ' ') {
+					e.preventDefault();
+					if (item.onClick) {
+						item.onClick(e as any);
+					} else if (item.href) {
+						window.location.href = item.href;
+					}
+				}
+			};
+
+		const handleCopyPath = () => {
+			const path = items.map((item) => item.text).join(' > ');
+			navigator.clipboard?.writeText(path).then(() => {
+				if (onCopy) {
+					onCopy(path);
+				}
+			});
+		};
+
+		// Truncation logic
+		const getDisplayItems = () => {
+			if (!maxItems || items.length <= maxItems) {
+				return items;
+			}
+
+			const firstItem = items[0];
+			const lastItems = items.slice(-(maxItems - 2));
+
+			return [firstItem, { text: '...', disabled: true }, ...lastItems];
+		};
+
+		const displayItems = getDisplayItems();
+		const getSeparatorContent = (type: string) => {
+			switch (type) {
+				case 'arrow':
+					return '>';
+				case 'backslash':
+					return '\\';
+				case 'dot':
+					return '•';
+				case 'pipe':
+					return '|';
+				default:
+					return '>';
 			}
 		};
 
@@ -97,33 +202,68 @@ export const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
 			<BreadcrumbsWrapper
 				ref={ref}
 				id={id}
-				$backgroundColor={backgroundColor}
 				className={classNames('breadcrumbs-root', className, commonClassNames)}
+				role="navigation"
+				aria-label="Breadcrumb navigation"
 				{...rest}
 			>
-				{items.map((item, index) => (
-					<Breadcrumb
-						key={index}
-						$active={item.active}
-						$color={color}
-						className="breadcrumb"
-					>
-						{item.active ? (
-							<BreadcrumbActive $color={color} className="breadcrumb-active">
-								{item.text || ''}
-							</BreadcrumbActive>
-						) : (
-							<BreadcrumbAnchor
-								href={item.href}
-								$color={color}
-								onClick={handleClick(item)}
-								className="breadcrumb-anchor"
-							>
-								{item.text || ''}
-							</BreadcrumbAnchor>
+				{displayItems.map((item, index) => (
+					<React.Fragment key={index}>
+						<Breadcrumb
+							$active={item.active}
+							$disabled={item.disabled}
+							className="breadcrumb"
+							role="listitem"
+						>
+							{item.text === '...' ? (
+								<TruncationIndicator
+									title={`${items.length - maxItems! + 1} items hidden`}
+									aria-label={`${items.length - maxItems! + 1} items hidden`}
+								>
+									...
+								</TruncationIndicator>
+							) : item.active ? (
+								<BreadcrumbActive
+									className="breadcrumb-active"
+									aria-current="page"
+								>
+									{item.icon && <BreadcrumbIcon>{item.icon}</BreadcrumbIcon>}
+									{item.text || ''}
+								</BreadcrumbActive>
+							) : (
+								<BreadcrumbAnchor
+									href={item.href}
+									$disabled={item.disabled}
+									onClick={handleClick(item)}
+									onKeyDown={handleKeyDown(item)}
+									className="breadcrumb-anchor"
+									tabIndex={item.disabled ? -1 : 0}
+									aria-label={`Navigate to ${item.text}`}
+								>
+									{item.icon && <BreadcrumbIcon>{item.icon}</BreadcrumbIcon>}
+									{item.text || ''}
+								</BreadcrumbAnchor>
+							)}
+						</Breadcrumb>
+
+						{index < displayItems.length - 1 && (
+							<BreadcrumbSeparator $type={separator} aria-hidden="true">
+								{getSeparatorContent(separator)}
+							</BreadcrumbSeparator>
 						)}
-					</Breadcrumb>
+					</React.Fragment>
 				))}
+
+				{showCopyButton && (
+					<CopyButton
+						onClick={handleCopyPath}
+						title="Copy path to clipboard"
+						aria-label="Copy breadcrumb path to clipboard"
+						type="button"
+					>
+						📋
+					</CopyButton>
+				)}
 			</BreadcrumbsWrapper>
 		);
 	},

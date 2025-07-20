@@ -3,7 +3,6 @@ import { forwardRef, useEffect } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import { ComponentColors } from '@src/utils/getColorScheme';
-import { ComponentPatterns } from '@src/utils/getPatternScheme';
 import commonClassNames from '@src/constants/commonClassNames';
 import { Portal } from '../portal/Portal';
 import * as Sc from './Modal.styled';
@@ -29,11 +28,11 @@ export interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
 	 */
 	backdrop?: boolean;
 	/**
-	 * The pattern of the Modal.
+	 * The title of the modal (displayed in title bar).
 	 *
-	 * @default 'stripes'
+	 * @default undefined
 	 */
-	pattern?: ComponentPatterns;
+	title?: string;
 	/**
 	 * Callback fired when the Modal is closed.
 	 *
@@ -53,7 +52,7 @@ export interface ModalProps extends React.HTMLAttributes<HTMLDivElement> {
  * Pressing the `Escape` key will close the Modal.
  *
  * @example
- * <Modal open={open} onClose={handleClose}>
+ * <Modal open={open} onClose={handleClose} title="Dialog">
  * 		Content
  * </Modal>
  */
@@ -66,8 +65,8 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
 			open = false,
 			onClose,
 			color = 'primary',
-			pattern = 'noise',
-			backdrop = false,
+			backdrop = true,
+			title = 'Dialog',
 			sx,
 			...rest
 		},
@@ -91,7 +90,6 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
 				)}
 				<Sc.Modal
 					$color={color}
-					$pattern={pattern}
 					$backdrop={backdrop}
 					$open={open}
 					ref={ref}
@@ -102,13 +100,17 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
 					className={classNames('modal-root', className, commonClassNames)}
 					{...rest}
 				>
-					<Sc.CloseButton
-						className="modal-close-button"
-						onClick={(e) => onClose?.(e as any)}
-						aria-label="Close Modal"
-						$color={color}
-					/>
-					{children}
+					<Sc.ModalTitleBar>
+						<Sc.ModalTitle>{title}</Sc.ModalTitle>
+						<Sc.CloseButton
+							className="modal-close-button"
+							onClick={(e) => onClose?.(e as any)}
+							aria-label="Close Modal"
+						/>
+					</Sc.ModalTitleBar>
+					<Sc.ModalContent className="modal-content">
+						{children}
+					</Sc.ModalContent>
 				</Sc.Modal>
 			</Portal>
 		);

@@ -6,89 +6,190 @@ import { Button } from '../index';
 export default {
 	title: 'Components/Button',
 	component: Button,
+	argTypes: {
+		variant: {
+			control: { type: 'select' },
+			options: [
+				'primary',
+				'secondary',
+				'success',
+				'warning',
+				'outline',
+				'flat',
+			],
+		},
+		size: {
+			control: { type: 'select' },
+			options: ['small', 'medium', 'large'],
+		},
+	},
 } as ComponentMeta<typeof Button>;
 
 /**
  * Component Template
- *
- * @see https://storybook.js.org/docs/react/writing-stories/introduction#using-args
  */
 const Template: ComponentStory<typeof Button> = (args) => {
 	return (
-		<>
+		<div style={{ padding: '20px', background: '#C0C0C0' }}>
 			<Button {...args} />
 			&nbsp;&nbsp;
 			<Button {...args} disabled />
-		</>
+		</div>
 	);
+};
+
+const AllVariantsTemplate: ComponentStory<typeof Button> = (args) => {
+	return (
+		<div
+			style={{
+				padding: '20px',
+				background: '#C0C0C0',
+				display: 'grid',
+				gap: '10px',
+			}}
+		>
+			<div>
+				<strong>Primary Variant:</strong>
+				<br />
+				<Button {...args} variant="primary" />
+				&nbsp;&nbsp;
+				<Button {...args} variant="primary" disabled />
+			</div>
+			<div>
+				<strong>Outline Variant:</strong>
+				<br />
+				<Button {...args} variant="outline" />
+				&nbsp;&nbsp;
+				<Button {...args} variant="outline" disabled />
+			</div>
+			<div>
+				<strong>Flat Variant:</strong>
+				<br />
+				<Button {...args} variant="flat" />
+				&nbsp;&nbsp;
+				<Button {...args} variant="flat" disabled />
+			</div>
+		</div>
+	);
+};
+
+const AllRetroVariantsTemplate: ComponentStory<typeof Button> = () => {
+	const variants: Array<
+		'primary' | 'secondary' | 'success' | 'warning' | 'outline' | 'flat'
+	> = ['primary', 'secondary', 'success', 'warning', 'outline', 'flat'];
+
+	return (
+		<div
+			style={{
+				padding: '20px',
+				background: '#C0C0C0',
+				display: 'grid',
+				gap: '10px',
+			}}
+		>
+			{variants.map((variant) => (
+				<div key={variant}>
+					<strong>{variant.charAt(0).toUpperCase() + variant.slice(1)}:</strong>
+					<br />
+					<Button variant={variant}>
+						{variant.charAt(0).toUpperCase() + variant.slice(1)}
+					</Button>
+					&nbsp;&nbsp;
+					<Button variant={variant} disabled>
+						Disabled
+					</Button>
+				</div>
+			))}
+		</div>
+	);
+};
+
+const AllSizesTemplate: ComponentStory<typeof Button> = (args) => {
+	return (
+		<div
+			style={{
+				padding: '20px',
+				background: '#C0C0C0',
+				display: 'flex',
+				alignItems: 'center',
+				gap: '10px',
+			}}
+		>
+			<Button {...args} size="small">
+				Small
+			</Button>
+			<Button {...args} size="medium">
+				Medium
+			</Button>
+			<Button {...args} size="large">
+				Large
+			</Button>
+		</div>
+	);
+};
+
+// Stories
+
+export const Default = Template.bind({});
+Default.args = {
+	children: 'Button',
+	onClick: action('clicked'),
+	variant: 'primary',
+};
+
+export const AllVariants = AllVariantsTemplate.bind({});
+AllVariants.args = {
+	children: 'Button',
+	onClick: action('clicked'),
+};
+
+export const AllRetroVariants = AllRetroVariantsTemplate.bind({});
+
+export const AllSizes = AllSizesTemplate.bind({});
+AllSizes.args = {
+	children: 'Button',
+	onClick: action('clicked'),
+	variant: 'primary',
 };
 
 export const Primary = Template.bind({});
 Primary.args = {
+	children: 'Primary',
 	onClick: action('clicked'),
-	size: 'medium',
-	disableClickEffect: false,
-	children: 'Primary Button',
-	variant: 'solid',
-	color: 'primary',
+	variant: 'primary',
 };
 
 export const Secondary = Template.bind({});
 Secondary.args = {
-	color: 'secondary',
+	children: 'Secondary',
 	onClick: action('clicked'),
-	size: 'medium',
-	disableClickEffect: false,
-	children: 'Secondary Button',
-	variant: 'solid',
+	variant: 'secondary',
 };
 
 export const Success = Template.bind({});
 Success.args = {
-	color: 'success',
+	children: 'Success',
 	onClick: action('clicked'),
-	size: 'medium',
-	disableClickEffect: false,
-	children: 'Success Button',
-	variant: 'solid',
+	variant: 'success',
 };
 
-export const Error = Template.bind({});
-Error.args = {
-	color: 'error',
+export const Warning = Template.bind({});
+Warning.args = {
+	children: 'Warning',
 	onClick: action('clicked'),
-	size: 'medium',
-	disableClickEffect: false,
-	children: 'Error Button',
-	variant: 'solid',
+	variant: 'warning',
 };
 
-export const Warn = Template.bind({});
-Warn.args = {
-	color: 'warn',
+export const Outline = Template.bind({});
+Outline.args = {
+	children: 'Outline',
 	onClick: action('clicked'),
-	size: 'medium',
-	disableClickEffect: false,
-	children: 'Warn Button',
-	variant: 'solid',
+	variant: 'outline',
 };
 
-export const Greyscale = Template.bind({});
-Greyscale.args = {
-	color: 'greyscale',
+export const Flat = Template.bind({});
+Flat.args = {
+	children: 'Flat',
 	onClick: action('clicked'),
-	size: 'medium',
-	disableClickEffect: false,
-	children: 'Greyscale Button',
-	variant: 'solid',
-};
-
-export const GreyscaleDark = Template.bind({});
-GreyscaleDark.args = {
-	color: 'greyscale-dark',
-	onClick: action('clicked'),
-	size: 'medium',
-	disableClickEffect: false,
-	children: 'Dark Greyscale Button',
-	variant: 'solid',
+	variant: 'flat',
 };

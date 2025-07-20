@@ -2,7 +2,6 @@
 import { forwardRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
-import { ComponentColors } from '@src/utils/getColorScheme';
 import { toKebabCase } from '@src/utils/ToKebabCase';
 import commonClassNames from '@src/constants/commonClassNames';
 import {
@@ -30,12 +29,6 @@ export interface StatisticsProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default ''
 	 */
 	label?: string;
-	/**
-	 * The color scheme of the statistic. Accepts library colors (`primary`, `secondary`, `success`, `greyscale`, etc. ) or hex colors.
-	 *
-	 * @default 'primary'
-	 */
-	color?: ComponentColors | 'greyscale' | 'none' | string;
 	/**
 	 * The size of the displayed number.
 	 *
@@ -92,7 +85,6 @@ export const Statistics = forwardRef<HTMLDivElement, StatisticsProps>(
 			label = '',
 			size = 'medium',
 			icon,
-			color = 'primary',
 			direction = 'vertical',
 			prefix = '',
 			suffix = '',
@@ -105,7 +97,6 @@ export const Statistics = forwardRef<HTMLDivElement, StatisticsProps>(
 		return (
 			<StatisticsWrapper
 				$size={size}
-				$color={color}
 				$direction={direction}
 				title={label}
 				$isClickable={!!onClick}

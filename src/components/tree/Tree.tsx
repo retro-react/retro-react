@@ -4,26 +4,17 @@ import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import commonClassNames from '@src/constants/commonClassNames';
 import {
-	ChevronIcon,
 	ChildrenContainer,
-	DottedLine,
+	ExpandIcon,
 	NodeContainer,
 	NodeContent,
+	NodeIcon,
 	NodeLabel,
 	TreeContainer,
 	TreeNodeContainer,
 	TreeNodeWrapper,
+	TreeVariant,
 } from './Tree.styled';
-
-export type TreeColor =
-	| 'primary'
-	| 'secondary'
-	| 'success'
-	| 'error'
-	| 'warn'
-	| 'greyscale'
-	| 'greyscale-dark'
-	| 'none';
 
 interface TreeProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
@@ -56,17 +47,32 @@ interface TreeProps extends React.HTMLAttributes<HTMLDivElement> {
 	 */
 	data: TreeNodeProps['node'][];
 	/**
-	 * The main color of the tree.
+	 * The visual variant of the Tree.
+	 * - default: Basic tree with white background
+	 * - file-manager: File Manager style with proper indentation
+	 * - explorer: Windows Explorer style with button face background
 	 *
-	 * @default 'greyscale'
+	 * @default 'default'
 	 */
-	color?: TreeColor;
+	variant?: TreeVariant;
 	/**
 	 * Default collapsed state of the tree.
 	 *
 	 * @default false
 	 */
 	defaultCollapsed?: boolean;
+	/**
+	 * Currently selected node label (for controlled selection)
+	 */
+	selectedNode?: string;
+	/**
+	 * Callback when a node is selected
+	 */
+	onNodeSelect?: (nodeLabel: string) => void;
+	/**
+	 * Callback when a node is expanded/collapsed
+	 */
+	onNodeToggle?: (nodeLabel: string, expanded: boolean) => void;
 	sx?: ThemeUICSSObject;
 }
 
@@ -89,41 +95,63 @@ interface TreeNodeProps extends React.HTMLAttributes<HTMLDivElement> {
 		children?: TreeNodeProps['node'][];
 		collapsed?: boolean;
 	};
-	$color: TreeColor;
+	$variant: TreeVariant;
 	$defaultCollapsed: boolean;
+	$selectedNode?: string;
+	$onNodeSelect?: (nodeLabel: string) => void;
+	$onNodeToggle?: (nodeLabel: string, expanded: boolean) => void;
 }
 
 const TreeNode: React.FC<TreeNodeProps> = ({
 	node,
-	$color,
+	$variant,
 	$defaultCollapsed,
+	$selectedNode,
+	$onNodeSelect,
+	$onNodeToggle,
 }) => {
 	const hasChildren = node.children !== undefined;
 	const [collapsed, setCollapsed] = useState(
 		hasChildren ? node.collapsed || $defaultCollapsed : false,
 	);
+	const isSelected = $selectedNode === node.label;
 
-	const handleClick = () => {
-		if (node.children) setCollapsed(!collapsed);
+	const handleToggle = (e: React.MouseEvent) => {
+		e.stopPropagation();
+		if (node.children) {
+			const newCollapsed = !collapsed;
+			setCollapsed(newCollapsed);
+			$onNodeToggle?.(node.label, !newCollapsed);
+		}
+	};
+
+	const handleSelect = () => {
+		$onNodeSelect?.(node.label);
 	};
 
 	return (
-		<TreeNodeContainer $collapsed={collapsed} $color={$color}>
-			<DottedLine $show={$color === 'none'} />
+		<TreeNodeContainer
+			$collapsed={collapsed}
+			$variant={$variant}
+			$selected={isSelected}
+		>
 			<NodeLabel
 				className="tree-node-label"
-				onClick={handleClick}
+				onClick={handleSelect}
 				$collapsible={hasChildren}
+				$variant={$variant}
+				$selected={isSelected}
 			>
 				{hasChildren && (
-					<ChevronIcon
-						viewBox="0 0 24 24"
-						$color={$color}
+					<ExpandIcon
+						$variant={$variant}
 						$collapsed={collapsed}
+						onClick={handleToggle}
 					>
-						<path d="M10.4 15.4l4.8-4.8 1.4 1.4-6.2 6.2-6.2-6.2 1.4-1.4z"></path>
-					</ChevronIcon>
+						{collapsed ? '+' : '−'}
+					</ExpandIcon>
 				)}
+				<NodeIcon>{hasChildren ? (collapsed ? '📁' : '📂') : '📄'}</NodeIcon>
 				{node.label}
 			</NodeLabel>
 			{!node.children && node.content && (
@@ -145,8 +173,11 @@ const TreeNode: React.FC<TreeNodeProps> = ({
 								<TreeNode
 									key={`${node.label}-${index}`}
 									node={child}
-									$color={$color}
+									$variant={$variant}
 									$defaultCollapsed={$defaultCollapsed}
+									$selectedNode={$selectedNode}
+									$onNodeSelect={$onNodeSelect}
+									$onNodeToggle={$onNodeToggle}
 								/>
 							))}
 						</ChildrenContainer>
@@ -158,21 +189,29 @@ const TreeNode: React.FC<TreeNodeProps> = ({
 };
 
 /**
- * Trees are used to display hierarchical data. They are composed of nodes, which can be expanded and collapsed.
- * Each node can have a label, content and children. The content can be any React node while the label is a string.
- * You can customize the label (such as color) with `tree-node-label` class.
+ * Authentic retro Tree component with Windows 3.1 File Manager styling.
  *
+ * Features:
+ * - Authentic Windows 3.1 File Manager appearance
+ * - Classic expand/collapse buttons with + and - symbols
+ * - Multiple retro variants (default, file-manager, explorer)
+ * - Proper indentation and tree hierarchy
+ * - Period-appropriate fonts and styling
+ * - Hierarchical data display with collapsible nodes
  *
  * @example
  * ```tsx
  * <Tree
+ * 	variant="file-manager"
  * 	data={[
  * 		{
- * 			label: 'Parent 1',
- * 			content: <Text variant="paragraph">This is some content</Text>,
- * 			children: [ ... ],
- * 		},
- * ]}
+ * 			label: 'Documents',
+ * 			children: [
+ * 				{ label: 'Resume.doc' },
+ * 				{ label: 'Cover Letter.doc' }
+ * 			]
+ * 		}
+ * 	]}
  * />
  * ```
  */
@@ -183,8 +222,11 @@ export const Tree = forwardRef<HTMLDivElement, TreeProps>(
 			sx,
 			className,
 			data,
-			color = 'greyscale',
+			variant = 'default',
 			defaultCollapsed = false,
+			selectedNode,
+			onNodeSelect,
+			onNodeToggle,
 			...rest
 		},
 		ref,
@@ -194,7 +236,7 @@ export const Tree = forwardRef<HTMLDivElement, TreeProps>(
 				sx={sx}
 				id={id}
 				className={classNames('tree-root', className, commonClassNames)}
-				$color={color}
+				$variant={variant}
 				ref={ref}
 				{...rest}
 			>
@@ -203,8 +245,11 @@ export const Tree = forwardRef<HTMLDivElement, TreeProps>(
 						key={`tree-node-root-${index}`}
 						node={node}
 						className="tree-node"
-						$color={color}
+						$variant={variant}
 						$defaultCollapsed={defaultCollapsed}
+						$selectedNode={selectedNode}
+						$onNodeSelect={onNodeSelect}
+						$onNodeToggle={onNodeToggle}
 					/>
 				))}
 			</TreeContainer>

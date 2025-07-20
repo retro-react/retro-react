@@ -2,8 +2,6 @@
 import { cloneElement, forwardRef, useId, useRef, useState } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
-import { ComponentColors } from '@src/utils/getColorScheme';
-import { ComponentPatterns } from '@src/utils/getPatternScheme';
 import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Tabs.styled';
 
@@ -12,18 +10,6 @@ export type TabsChildren =
 	| React.ReactElement<TabContentProps>;
 
 export interface TabsProps extends React.HTMLAttributes<HTMLDivElement> {
-	/**
-	 * The color of the Tabs.
-	 *
-	 * @default 'primary'
-	 */
-	color?: ComponentColors | 'greyscale';
-	/**
-	 * The pattern of the Tabs.
-	 *
-	 * @default 'noise'
-	 */
-	pattern?: ComponentPatterns;
 	/**
 	 * The default active tab label.
 	 *
@@ -64,25 +50,11 @@ export interface TabsProps extends React.HTMLAttributes<HTMLDivElement> {
  * </Tabs>
  */
 export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
-	(
-		{
-			id,
-			className,
-			children,
-			color = 'primary',
-			pattern = 'noise',
-			defaultActiveTabLabel,
-			...rest
-		},
-		ref,
-	) => {
-		if (color === 'greyscale')
-			// @ts-ignore-next-line
-			color = 'greyscale-dark';
+	({ id, className, children, defaultActiveTabLabel, ...rest }, ref) => {
 		const [activeTabLabel, setActiveTabLabel] = useState<string | undefined>(
 			defaultActiveTabLabel,
 		);
-		const tabsRef = useRef<(HTMLDivElement | null)[]>([]);
+		const tabsRef = useRef<(HTMLButtonElement | null)[]>([]);
 		const tabId = useId();
 
 		// Handling keyboard navigation
@@ -120,12 +92,11 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
 
 		const enhancedTabs = tabs.map((tab, index) =>
 			cloneElement(tab, {
-				ref: (el: HTMLDivElement | null) => {
+				ref: (el: HTMLButtonElement | null) => {
 					tabsRef.current[index] = el;
 				},
 				key: `${tabId}-tab-${index}`,
-				isActive: tab.props.label === activeTabLabel,
-				$color: color,
+				$isActive: tab.props.label === activeTabLabel,
 				setActiveTabLabel,
 				tabIndex: tab.props.label === activeTabLabel ? 0 : -1,
 				'data-tab-id': tab.props.label,
@@ -147,14 +118,12 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
 				aria-orientation="horizontal"
 				{...rest}
 			>
-				<Sc.TabsHeader
-					$color={color === 'greyscale' ? 'greyscale-dark' : color}
-					$pattern={pattern}
-					className="tabs-header"
-				>
-					{enhancedTabs}
-				</Sc.TabsHeader>
-				{activeTabContent}
+				<Sc.TabList className="tabs-header">{enhancedTabs}</Sc.TabList>
+				{activeTabContent && (
+					<Sc.TabContent className="tab-content-area">
+						{activeTabContent}
+					</Sc.TabContent>
+				)}
 			</Sc.TabsWrapper>
 		);
 	},
@@ -162,7 +131,7 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
 
 // ---------------------------------------------- Tab ----------------------------------------------
 
-export interface TabProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface TabProps extends React.HTMLAttributes<HTMLButtonElement> {
 	/**
 	 *	The label of the tab. Has to match the id of the corresponding TabContent.
 	 */
@@ -172,7 +141,7 @@ export interface TabProps extends React.HTMLAttributes<HTMLDivElement> {
 	 *
 	 *	@internal Used to set the active tab.
 	 */
-	isActive?: boolean;
+	$isActive?: boolean;
 	/**
 	 * The onClick handler of the tab.
 	 *
@@ -183,18 +152,6 @@ export interface TabProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @internal Used to set the active tab label.
 	 */
 	setActiveTabLabel?: (label: string) => void;
-	/**
-	 * @internal Used to set the color of the tab.
-	 *
-	 * @default 'primary'
-	 */
-	$color?: ComponentColors;
-	/**
-	 * @internal Used to set the pattern of the tab.
-	 *
-	 * @default 'noise'
-	 */
-	$pattern?: ComponentPatterns;
 	sx?: ThemeUICSSObject;
 }
 
@@ -202,14 +159,13 @@ export interface TabProps extends React.HTMLAttributes<HTMLDivElement> {
  * The tab header. Has to be used with `Tabs` component. Has to have the same label as the corresponding `TabContent`.
  *
  */
-export const Tab = forwardRef<HTMLDivElement, TabProps>(
+export const Tab = forwardRef<HTMLButtonElement, TabProps>(
 	(
 		{
 			sx,
 			label,
 			children,
-			isActive = false,
-			$color = 'primary',
+			$isActive = false,
 			onClick,
 			setActiveTabLabel,
 			...rest
@@ -227,20 +183,19 @@ export const Tab = forwardRef<HTMLDivElement, TabProps>(
 		};
 
 		return (
-			<Sc.TabWrapper
+			<Sc.TabItem
 				ref={ref}
 				sx={sx}
-				label={label}
-				$color={$color}
+				$isActive={$isActive}
 				aria-label={label}
 				onClick={handleClick}
-				isActive={isActive}
-				className={classNames('tab-root', isActive ? 'tab-active' : '')}
+				className={classNames('tab-root', $isActive ? 'tab-active' : '')}
 				role="tab"
+				type="button"
 				{...rest}
 			>
 				{children}
-			</Sc.TabWrapper>
+			</Sc.TabItem>
 		);
 	},
 );
@@ -274,15 +229,9 @@ export const TabContent: React.FC<TabContentProps> = ({
 	...rest
 }) => {
 	return (
-		<Sc.TabContentWrapper
-			label={label}
-			sx={sx}
-			{...rest}
-			className="tab-content"
-			role="tabpanel"
-		>
+		<Sc.TabContent sx={sx} {...rest} className="tab-content" role="tabpanel">
 			{children}
-		</Sc.TabContentWrapper>
+		</Sc.TabContent>
 	);
 };
 

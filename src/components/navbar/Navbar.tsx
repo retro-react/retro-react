@@ -1,30 +1,22 @@
 import React, { Children, cloneElement, forwardRef, useState } from 'react';
 import { classNames } from '@src/utils/classNames';
-import { ComponentColors } from '@src/utils/getColorScheme';
-import { ComponentPatterns } from '@src/utils/getPatternScheme';
 import commonClassNames from '@src/constants/commonClassNames';
-import closeIcon from '../../assets/svg/close_icon.svg';
-import hamburgerIcon from '../../assets/svg/hamburger_icon.svg';
 import * as Sc from './Navbar.styled';
 
-export type NavbarColors = ComponentColors | 'greyscale';
+export type NavbarVariant = 'default' | 'menu-bar' | 'status-bar';
 
 export interface NavbarProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
-	 * The color of the Navbar.
+	 * The visual variant of the Navbar.
+	 * - default: Standard Windows 3.1 application bar
+	 * - menu-bar: Top menu bar with Windows 3.1 styling
+	 * - status-bar: Bottom status bar styling
 	 *
-	 * @default 'primary'
+	 * @default 'default'
 	 */
-	color?: NavbarColors;
-	/**
-	 * The background pattern of the Navbar.
-	 *
-	 * @default 'solid'
-	 */
-	pattern?: ComponentPatterns;
+	variant?: NavbarVariant;
 	/**
 	 * The items of the Navbar.
-	 *
 	 */
 	children: React.ReactNode;
 }
@@ -32,46 +24,35 @@ export interface NavbarProps extends React.HTMLAttributes<HTMLDivElement> {
 export interface NavItemProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
 	 * The content of the NavItem.
-	 *
-	 * @default undefined
 	 */
 	children: React.ReactNode;
 	/**
-	 * @internal The color of the NavItem.
-	 *
-	 * @default 'primary'
+	 * @internal The variant of the NavItem.
 	 */
-	_internalBgColor?: ComponentColors;
+	_internalVariant?: NavbarVariant;
 	/**
 	 * @internal On click handler for the NavItem.
-	 *
-	 * @default undefined
 	 */
 	_internalOnClick?: () => void;
 	/**
 	 * On click handler for the NavItem.
-	 *
-	 * @default undefined
 	 */
 	onClick?: () => void;
 }
 
 /**
  * Navbar is used to create a navigation bar for your application.
- * It is highly customizable and can contain any sort of children components.
+ * Features authentic Windows 3.1 styling with multiple variants.
  *
  * @example
- * <Navbar color="primary">
- * 	<NavItem>Home</NavItem>
- * 	<NavItem>About</NavItem>
- * 	<NavItem>Contact</NavItem>
+ * <Navbar variant="menu-bar">
+ * 	<NavItem>File</NavItem>
+ * 	<NavItem>Edit</NavItem>
+ * 	<NavItem>View</NavItem>
  * </Navbar>
  */
 export const Navbar = forwardRef<HTMLDivElement, NavbarProps>(
-	(
-		{ color = 'primary', pattern = 'solid', children, className, id, ...rest },
-		ref,
-	) => {
+	({ variant = 'default', children, className, id, ...rest }, ref) => {
 		const [open, setOpen] = useState(false);
 		const toggleMenu = () => {
 			setOpen(!open);
@@ -86,8 +67,7 @@ export const Navbar = forwardRef<HTMLDivElement, NavbarProps>(
 
 		return (
 			<Sc.NavbarContainer
-				$color={color}
-				$pattern={pattern}
+				$variant={variant}
 				ref={ref}
 				id={id}
 				className={classNames('navbar-root', className, commonClassNames)}
@@ -98,17 +78,14 @@ export const Navbar = forwardRef<HTMLDivElement, NavbarProps>(
 					<Sc.HamburgerMenu
 						onClick={toggleMenu}
 						className="navbar-hamburger"
-						$hamburgerIcon={hamburgerIcon}
-						$closeIcon={closeIcon}
 						$open={open}
-						$color={color}
+						$variant={variant}
 						aria-controls="navbar-menu"
 						aria-expanded={open}
 					/>
 				)}
 				<Sc.NavbarItemsContainer
-					$color={color}
-					$pattern={pattern}
+					$variant={variant}
 					$open={open}
 					className="navbar-items"
 					id="navbar-menu"
@@ -118,7 +95,7 @@ export const Navbar = forwardRef<HTMLDivElement, NavbarProps>(
 						return (
 							<Sc.NavbarItemWrapper key={`navbar-item-${index}`}>
 								{cloneElement(child as React.ReactElement, {
-									_internalBgColor: color,
+									_internalVariant: variant,
 									_internalOnClick: toggleMenu,
 								})}
 							</Sc.NavbarItemWrapper>
@@ -147,7 +124,7 @@ Navbar.displayName = 'Navbar';
 export const NavItem: React.FC<NavItemProps> = ({
 	children,
 	className,
-	_internalBgColor = 'primary',
+	_internalVariant = 'default',
 	_internalOnClick,
 	onClick,
 	id,
@@ -157,7 +134,7 @@ export const NavItem: React.FC<NavItemProps> = ({
 		<Sc.NavItem
 			id={id}
 			className={classNames('navbar-item', className)}
-			$color={_internalBgColor}
+			$variant={_internalVariant}
 			onClick={() => {
 				if (_internalOnClick) {
 					_internalOnClick();
@@ -195,3 +172,72 @@ export const NavLogo: React.FC<NavLogoProps> = ({ children }) => {
 };
 
 NavLogo.displayName = 'NavLogo';
+
+export interface NavMenuProps extends React.HTMLAttributes<HTMLDivElement> {
+	/**
+	 * The label for the menu trigger
+	 */
+	label: string;
+	/**
+	 * Menu items to be displayed in the dropdown
+	 */
+	children: React.ReactNode;
+	/**
+	 * @internal The variant of the NavMenu
+	 */
+	_internalVariant?: NavbarVariant;
+}
+
+/**
+ * NavMenu creates a dropdown menu within the navbar, perfect for Windows 3.1 style menu bars.
+ *
+ * @example
+ * <Navbar variant="menu-bar">
+ * 	<NavMenu label="File">
+ * 		<MenuItem>New</MenuItem>
+ * 		<MenuItem>Open</MenuItem>
+ * 		<MenuItem>Save</MenuItem>
+ * 	</NavMenu>
+ * </Navbar>
+ */
+export const NavMenu: React.FC<NavMenuProps> = ({
+	label,
+	children,
+	className,
+	_internalVariant = 'default',
+	...rest
+}) => {
+	const [isOpen, setIsOpen] = useState(false);
+
+	const handleToggle = () => {
+		setIsOpen(!isOpen);
+	};
+
+	const handleClose = () => {
+		setIsOpen(false);
+	};
+
+	return (
+		<Sc.NavMenuContainer
+			className={classNames('nav-menu', className)}
+			onMouseLeave={handleClose}
+			{...rest}
+		>
+			<Sc.NavMenuTrigger
+				$variant={_internalVariant}
+				$isOpen={isOpen}
+				onClick={handleToggle}
+				onMouseEnter={() => _internalVariant === 'menu-bar' && setIsOpen(true)}
+			>
+				{label}
+			</Sc.NavMenuTrigger>
+			{isOpen && (
+				<Sc.NavMenuDropdown $variant={_internalVariant}>
+					{children}
+				</Sc.NavMenuDropdown>
+			)}
+		</Sc.NavMenuContainer>
+	);
+};
+
+NavMenu.displayName = 'NavMenu';

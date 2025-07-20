@@ -18,8 +18,6 @@ export const Basic: Story = {
 	},
 	args: {
 		defaultActiveTabLabel: 'tab3',
-		color: 'primary',
-		pattern: 'noise',
 	},
 	render: ({ ...rest }: TabsProps) => {
 		return (

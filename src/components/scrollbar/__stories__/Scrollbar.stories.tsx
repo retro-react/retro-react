@@ -33,6 +33,7 @@ const renderScrollbar = (args: Story['args']) => (
 				overflowY: 'scroll',
 				backgroundColor: 'white',
 				padding: '1rem',
+				border: '2px inset #c0c0c0',
 			}}
 		>
 			{containerContent}
@@ -40,23 +41,30 @@ const renderScrollbar = (args: Story['args']) => (
 	</Scrollbar>
 );
 
-export const PastelScrollbar: Story = {
+export const Default: Story = {
 	args: {
-		theme: 'pastel',
+		variant: 'default',
 	},
 	render: renderScrollbar,
 };
 
-export const NeonScrollbar: Story = {
+export const Windows: Story = {
 	args: {
-		theme: 'neon',
+		variant: 'windows',
 	},
 	render: renderScrollbar,
 };
 
-export const GrayscaleScrollbar: Story = {
+export const Terminal: Story = {
 	args: {
-		theme: 'grayscale',
+		variant: 'terminal',
+	},
+	render: renderScrollbar,
+};
+
+export const Amber: Story = {
+	args: {
+		variant: 'amber',
 	},
 	render: renderScrollbar,
 };

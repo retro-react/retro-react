@@ -1,29 +1,21 @@
 import styled from '@emotion/styled';
 import { darken } from 'polished';
-import getColorScheme, { ComponentColors } from '@src/utils/getColorScheme';
-import { rgba } from '@src/utils/rgba';
-import { BLACK, SHADE_2, SHADE_3, WHITE } from '@src/constants/colors';
+import {
+	VGA_BLACK,
+	WHITE,
+	WIN31_BUTTON_FACE,
+	WIN31_BUTTON_HIGHLIGHT,
+	WIN31_BUTTON_SHADOW,
+} from '@src/constants/colors';
+import { SYSTEM_FONT } from '@src/constants/fonts';
 import { StatisticsSize, StatisticsVariant } from './Statistics';
 
-const getTextColors = (color: ComponentColors | string) => {
-	switch (color) {
-		case 'primary':
-		case 'secondary':
-		case 'success':
-		case 'error':
-			return WHITE;
-		default:
-			return BLACK;
-	}
-};
-
 export const StatisticsWrapper = styled.div<{
-	$color: ComponentColors | string;
 	$direction: StatisticsVariant;
 	$size: StatisticsSize;
 	$isClickable: boolean;
 }>`
-	font-family: 'Trebuchet MS', Helvetica, sans-serif;
+	font-family: ${SYSTEM_FONT};
 	position: relative;
 	display: inline-flex;
 	flex-direction: ${(props) =>
@@ -32,51 +24,48 @@ export const StatisticsWrapper = styled.div<{
 	justify-content: center;
 	margin: 1rem;
 	border: 2px solid;
-	border-radius: 5px;
+	border-color: ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}
+		${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT};
+	border-radius: 0;
+	background-color: ${WIN31_BUTTON_FACE};
 	padding: ${({ $size }) =>
-		$size === 'small' ? '0.5rem' : $size === 'medium' ? '1rem' : '1.5rem'};
+		$size === 'small' ? '0.75rem' : $size === 'medium' ? '1rem' : '1.5rem'};
 	min-width: ${({ $size }) =>
-		$size === 'small' ? '150px' : $size === 'medium' ? '200px' : '250px'};
+		$size === 'small' ? '120px' : $size === 'medium' ? '160px' : '200px'};
+	box-sizing: border-box;
 
 	${({ $direction, $size }) =>
 		$direction === 'horizontal' &&
 		`
 			gap: 1rem;
 			padding: ${
-				$size === 'small' ? '0.5rem' : $size === 'medium' ? '1rem' : '2.5rem'
+				$size === 'small' ? '0.75rem' : $size === 'medium' ? '1rem' : '2rem'
 			};
 			`}
 
-	${({ $color }) => `
-		border-color: ${
-			$color === 'none' ? SHADE_2 : darken(0.1, getColorScheme($color))
-		};
-		background-color: ${$color === 'none' ? 'transparent' : getColorScheme($color)};
-	`}
+	color: ${VGA_BLACK};
+	box-shadow: inset 1px 1px 0px ${WIN31_BUTTON_HIGHLIGHT};
 
-	color: ${({ $color }) => getTextColors($color)};
-	box-shadow: 2px 2px 5px ${rgba(BLACK, 0.3)};
+	/* Responsive adjustments */
+	@media (max-width: 768px) {
+		margin: 0.5rem;
+		min-width: ${({ $size }) =>
+			$size === 'small' ? '100px' : $size === 'medium' ? '140px' : '180px'};
+	}
 
-	${({ $isClickable, $color }) =>
+	${({ $isClickable }) =>
 		$isClickable &&
 		`
 		cursor: pointer;
-		transition: all 0.2s ease-in-out;
+		transition: none;
 		
 		&:hover {
-			::after {
-				content: '';
-				position: absolute;
-				top: 0;
-				left: 0;
-				height: 100%;
-				width: 100%;
-				background-color: ${rgba(
-					$color === 'none' ? SHADE_3 : darken(0.3, getColorScheme($color)),
-					0.3,
-				)};
-				border-radius: 5px;
-			}
+			background-color: ${darken(0.05, WIN31_BUTTON_FACE)};
+		}
+		
+		&:active {
+			border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
+			background-color: ${darken(0.1, WIN31_BUTTON_FACE)};
 		}
 	`};
 `;
@@ -124,9 +113,10 @@ export const StatIcon = styled.div<{
 export const StatNumber = styled.span<{
 	$size: StatisticsSize;
 }>`
+	font-family: ${SYSTEM_FONT};
 	font-size: ${({ $size }) =>
 		$size === 'small' ? '1.5rem' : $size === 'medium' ? '2rem' : '2.5rem'};
-	font-weight: 700;
+	font-weight: bold;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -134,34 +124,48 @@ export const StatNumber = styled.span<{
 	display: inline-block;
 	vertical-align: middle;
 	text-align: center;
+	color: ${VGA_BLACK};
+	text-shadow: 1px 1px 0px ${WHITE};
 `;
 
 export const StatSuffix = styled.span<{
 	$size: StatisticsSize;
 }>`
+	font-family: ${SYSTEM_FONT};
 	font-size: ${({ $size }) =>
-		$size === 'small' ? '1.3rem' : $size === 'medium' ? '1.8rem' : '2.3rem'};
+		$size === 'small' ? '1.2rem' : $size === 'medium' ? '1.6rem' : '2rem'};
 	margin-left: 0.2rem;
-	font-weight: bold;
+	font-weight: normal;
+	color: ${VGA_BLACK};
+	text-shadow: 1px 1px 0px ${WHITE};
 `;
 
 export const StatPrefix = styled.span<{
 	$size: StatisticsSize;
 }>`
+	font-family: ${SYSTEM_FONT};
 	font-size: ${({ $size }) =>
-		$size === 'small' ? '1.3rem' : $size === 'medium' ? '1.8rem' : '2.3rem'};
+		$size === 'small' ? '1.2rem' : $size === 'medium' ? '1.6rem' : '2rem'};
 	margin-right: 0.2rem;
-	font-weight: bold;
+	font-weight: normal;
+	color: ${VGA_BLACK};
+	text-shadow: 1px 1px 0px ${WHITE};
 `;
 
 export const StatLabel = styled.span<{
 	$size: StatisticsSize;
 }>`
+	font-family: ${SYSTEM_FONT};
 	font-size: ${({ $size }) =>
-		$size === 'small' ? '0.8rem' : $size === 'medium' ? '1rem' : '1.2rem'};
+		$size === 'small' ? '0.75rem' : $size === 'medium' ? '0.9rem' : '1.1rem'};
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+	color: ${VGA_BLACK};
+	text-shadow: 1px 1px 0px ${WHITE};
+	font-weight: normal;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
 	max-width: 100%;
 	display: inline-block;
 	vertical-align: middle;

@@ -34,8 +34,8 @@ interface ButtonGroupProps extends React.HTMLAttributes<HTMLDivElement> {
  *
  * @example
  * <ButtonGroup>
- * 	<Button color="success" variant="solid">Submit</Button>
- * 	<Button color="primary" variant="solid">Cancel</Button>
+ * 	<Button variant="success">Submit</Button>
+ * 	<Button variant="primary">Cancel</Button>
  * </ButtonGroup>
  */
 export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(

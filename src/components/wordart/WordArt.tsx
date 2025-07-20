@@ -2,42 +2,68 @@
 import { forwardRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
-import { BLACK } from '@src/constants/colors';
 import commonClassNames from '@src/constants/commonClassNames';
-import { getWordArtColorOptions } from './themes';
 import * as Sc from './WordArt.styled';
 
 export type WordArtStyle =
 	| 'classic'
-	| 'curved'
-	| 'wavy'
+	| 'beveled'
 	| 'shadowed'
-	| 'outline';
+	| 'outlined'
+	| 'retro3d'
+	| 'pixelated'
+	| 'rainbow'
+	| 'wavy'
+	| 'curved'
+	| 'arch'
+	| 'extruded'
+	| 'perspective'
+	| 'inflate';
 
-export type WordArtColor =
+export type WordArtVariant =
 	| 'primary'
 	| 'secondary'
-	| 'rainbow'
-	| 'neon'
-	| 'pastel'
-	| 'grayscale'
-	| 'retro';
+	| 'success'
+	| 'warning'
+	| 'retro'
+	| 'terminal';
 
-export type WordArtSize = 'small' | 'medium' | 'large';
+export type WordArtSize = 'small' | 'medium' | 'large' | 'xlarge';
 
 export interface WordArtProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
 	 * The art style of the WordArt.
+	 * - classic: Standard retro text styling
+	 * - beveled: Raised 3D effect with authentic borders
+	 * - shadowed: Drop shadow effect
+	 * - outlined: Outlined text with retro colors
+	 * - retro3d: Authentic 3D text effect from the era
+	 * - pixelated: Pixel-perfect bitmap-style text
+	 * - rainbow: Classic rainbow gradient effect
+	 * - wavy: Wavy text transformation
+	 * - curved: 3D perspective curved effect
+	 * - arch: True arched text with individual letter positioning
+	 * - extruded: Thick 3D dimensional text with deep shadow layers
+	 * - perspective: 3D perspective transformation
+	 * - inflate: Inflated bubble-like effect
+	 * - perspective: 3D perspective transformation
+	 * - inflate: Inflated bubble-like effect
 	 *
 	 * @default 'classic'
 	 */
-	artStyle: WordArtStyle;
+	artStyle?: WordArtStyle;
 	/**
-	 * The color of the WordArt.
+	 * The visual variant of the WordArt.
+	 * - primary: Classic blue retro styling
+	 * - secondary: Classic gray styling
+	 * - success: Classic green styling
+	 * - warning: Classic yellow styling
+	 * - retro: Classic rainbow retro colors
+	 * - terminal: Green terminal text style
 	 *
 	 * @default 'primary'
 	 */
-	color?: WordArtColor;
+	variant?: WordArtVariant;
 	/**
 	 * The size of the WordArt.
 	 *
@@ -45,7 +71,7 @@ export interface WordArtProps extends React.HTMLAttributes<HTMLDivElement> {
 	 */
 	size?: WordArtSize;
 	/**
-	 * The rotation of the WordArt.
+	 * The rotation of the WordArt in degrees.
 	 *
 	 * @default 0
 	 */
@@ -53,122 +79,25 @@ export interface WordArtProps extends React.HTMLAttributes<HTMLDivElement> {
 	sx?: ThemeUICSSObject;
 }
 
-const handleWavyText = (text: string, color: WordArtColor) => {
-	const wavyTextColor = getWordArtColorOptions(color);
-
-	const wavyText = text.split('').map((char, index) => {
-		const randomRotation = Math.floor(Math.random() * 10);
-		const randomVerticalMovement = Math.floor(Math.random() * 4) - 2; // Randomly move up or down by up to 2 pixels
-		const isEven = index % 2 === 0;
-		const rotation = isEven ? randomRotation : -randomRotation; // Randomly rotate left or right
-		if (char === ' ') {
-			return <span key={index}>&nbsp;</span>;
-		}
-		return (
-			<Sc.WordArtSpan
-				key={index}
-				sx={{
-					transform: `rotate(${rotation}deg) translateY(${randomVerticalMovement}px)`,
-					display: 'inline-block',
-					paddingLeft: '2px',
-					color: wavyTextColor[index % wavyTextColor.length],
-				}}
-			>
-				{char}
-			</Sc.WordArtSpan>
-		);
-	});
-
-	return wavyText;
-};
-
-const handleShadowedText = (text: string, color: WordArtColor) => {
-	const shadowedTextColor = getWordArtColorOptions(color);
-
-	const shadowedText = text.split('').map((char, index) => {
-		if (char === ' ') {
-			return <span key={index}>&nbsp;</span>;
-		}
-		return (
-			<Sc.WordArtSpan
-				key={index}
-				sx={{
-					display: 'inline-block',
-					paddingLeft: '2px',
-					color: shadowedTextColor[index % shadowedTextColor.length],
-					textShadow: `2px 2px 2px ${
-						shadowedTextColor[index % shadowedTextColor.length]
-					}`,
-				}}
-			>
-				{char}
-			</Sc.WordArtSpan>
-		);
-	});
-
-	return shadowedText;
-};
-
-const handleOutlineText = (text: string, color: WordArtColor) => {
-	const outlineTextColor = getWordArtColorOptions(color);
-
-	const outlineText = text.split('').map((char, index) => {
-		if (char === ' ') {
-			return <span key={index}>&nbsp;</span>;
-		}
-		return (
-			<Sc.WordArtSpan
-				key={index}
-				sx={{
-					display: 'inline-block',
-					paddingLeft: '2px',
-					color: outlineTextColor[index % outlineTextColor.length],
-					textShadow: `1px 1px 1px ${BLACK}, -1px -1px 1px ${BLACK}, 1px -1px 1px ${BLACK}, -1px 1px 1px ${BLACK}`,
-				}}
-			>
-				{char}
-			</Sc.WordArtSpan>
-		);
-	});
-
-	return outlineText;
-};
-
-const handleCurvedText = (text: string, color: WordArtColor) => {
-	const curvedTextColor = getWordArtColorOptions(color);
-
-	const curvedText = text.split('').map((char, index) => {
-		// curve like a rainbow
-		const curve = Math.sin((index / text.length) * Math.PI) * 20;
-		if (char === ' ') {
-			return <span key={index}>&nbsp;</span>;
-		}
-
-		return (
-			<Sc.WordArtSpan
-				key={index}
-				sx={{
-					display: 'inline-block',
-					paddingLeft: '2px',
-					color: curvedTextColor[index % curvedTextColor.length],
-					transform: `translateY(${curve}px)`,
-				}}
-			>
-				{char}
-			</Sc.WordArtSpan>
-		);
-	});
-
-	return curvedText;
-};
-
 /**
- * The WordArt component is used to create stylized text.
- * Similar to the WordArt feature in Microsoft Word.
+ * Authentic retro WordArt component inspired by classic desktop publishing software.
+ *
+ * Features authentic 80s/90s text styling with:
+ * - Classic beveled and 3D effects
+ * - Retro color schemes
+ * - Pixelated styling options
+ * - Authentic shadow and outline effects
+ * - Period-appropriate fonts and sizing
  *
  * @example
- * <WordArt artStyle="wavy" color="rainbow">
- * 	Hello World!
+ * // Classic beveled text
+ * <WordArt variant="primary" artStyle="beveled">
+ * 	RETRO COMPUTING
+ * </WordArt>
+ *
+ * // Terminal-style text
+ * <WordArt variant="terminal" artStyle="outlined">
+ * 	SYSTEM READY
  * </WordArt>
  */
 export const WordArt = forwardRef<HTMLDivElement, WordArtProps>(
@@ -178,7 +107,7 @@ export const WordArt = forwardRef<HTMLDivElement, WordArtProps>(
 			sx,
 			className,
 			children,
-			color = 'primary',
+			variant = 'primary',
 			artStyle = 'classic',
 			size = 'medium',
 			rotation = 0,
@@ -186,9 +115,21 @@ export const WordArt = forwardRef<HTMLDivElement, WordArtProps>(
 		},
 		ref,
 	) => {
+		// Split text into individual spans for arch effect
+		const renderText = () => {
+			if (artStyle === 'arch' && typeof children === 'string') {
+				return children
+					.split('')
+					.map((char, index) => (
+						<span key={index}>{char === ' ' ? '\u00A0' : char}</span>
+					));
+			}
+			return children;
+		};
+
 		return (
 			<Sc.WordArt
-				$color={color}
+				$variant={variant}
 				$size={size}
 				$artStyle={artStyle}
 				$rotation={rotation}
@@ -198,15 +139,7 @@ export const WordArt = forwardRef<HTMLDivElement, WordArtProps>(
 				className={classNames('wordart-root', className, commonClassNames)}
 				{...rest}
 			>
-				{artStyle === 'wavy'
-					? handleWavyText(children as string, color)
-					: artStyle === 'shadowed'
-					? handleShadowedText(children as string, color)
-					: artStyle === 'outline'
-					? handleOutlineText(children as string, color)
-					: artStyle === 'curved'
-					? handleCurvedText(children as string, color)
-					: children}
+				{renderText()}
 			</Sc.WordArt>
 		);
 	},

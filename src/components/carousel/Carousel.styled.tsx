@@ -1,43 +1,70 @@
 import styled from '@emotion/styled';
-import getColorScheme, { ComponentColors } from '@src/utils/getColorScheme';
 import {
-	ComponentPatterns,
-	getPatternScheme,
-} from '@src/utils/getPatternScheme';
-import { rgba } from '@src/utils/rgba';
-import { SHADE_4, WHITE } from '@src/constants/colors';
+	VGA_BLACK,
+	WIN31_BUTTON_FACE,
+	WIN31_BUTTON_HIGHLIGHT,
+	WIN31_BUTTON_SHADOW,
+} from '@src/constants/colors';
+import { SYSTEM_FONT } from '@src/constants/fonts';
 
-export const CarouselWrapper = styled.div<{
-	$color: ComponentColors;
-	$pattern: ComponentPatterns;
-}>`
+export const CarouselWrapper = styled.div`
 	position: relative;
 	overflow: hidden;
-	background-image: ${(props) => `url(${getPatternScheme(props.$pattern)})`};
-	background-color: ${({ $color, theme }) => getColorScheme($color, theme)};
+
+	/* Authentic WIN31 inset border like picture frame */
+	background: ${WIN31_BUTTON_FACE};
+	border: 2px solid;
+	border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
+		${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
+
 	width: 100%;
+	font-family: ${SYSTEM_FONT};
 `;
 
 export const CarouselNav = styled.div`
 	position: absolute;
-	bottom: 5%;
+	bottom: 8px;
 	left: 50%;
 	transform: translateX(-50%);
+	display: flex;
+	gap: 4px;
+	padding: 4px 8px;
+
+	/* WIN31 button panel styling */
+	background: ${WIN31_BUTTON_FACE};
+	border: 1px solid;
+	border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
+		${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
 `;
 
 export const CarouselDot = styled.button<{ isActive: boolean }>`
-	position: relative;
-	width: 0.3em;
-	aspect-ratio: 1;
-	margin: 0 0.5rem;
-	background: ${({ isActive }) =>
-		isActive ? rgba(WHITE, 0.7) : rgba(SHADE_4, 0.5)};
-	border: none;
-	border-radius: 50%;
+	width: 8px;
+	height: 8px;
+	margin: 0;
+
+	/* Authentic WIN31 radio button style */
+	background: ${(props) => (props.isActive ? VGA_BLACK : WIN31_BUTTON_FACE)};
+	border: 1px solid;
+	border-color: ${(props) =>
+		props.isActive
+			? `${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}`
+			: `${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}`};
+
+	/* Square shape like old radio buttons */
+	border-radius: 0;
 	cursor: pointer;
 
+	/* Remove modern effects */
+	transition: none;
+	outline: none;
+
 	&:focus {
-		outline: none;
+		outline: 1px dotted ${VGA_BLACK};
+		outline-offset: 1px;
+	}
+
+	&:hover {
+		filter: brightness(1.05);
 	}
 `;
 
@@ -45,7 +72,8 @@ export const CarouselTrack = styled.div`
 	display: flex;
 	width: 100%;
 	height: 100%;
-	transition: transform 0.5s ease-in-out;
+	/* Faster, more authentic transition */
+	transition: transform 0.3s ease-in-out;
 `;
 
 export const CarouselItem = styled.div`
@@ -61,6 +89,7 @@ export const CarouselItem = styled.div`
 	& img {
 		max-width: 100%;
 		height: auto;
+		display: block;
 	}
 `;
 
@@ -69,43 +98,53 @@ export const CarouselButton = styled.button<{
 }>`
 	position: absolute;
 	top: 50%;
-	${(props) => props.$position}: 0;
+	${(props) => props.$position}: 8px;
 	transform: translateY(-50%);
-	border: none;
-	border-radius: 50%;
-	padding: 0.5rem;
+
+	/* Authentic WIN31 button styling */
+	width: 24px;
+	height: 24px;
+	padding: 0;
+
+	background: ${WIN31_BUTTON_FACE};
+	border: 2px solid;
+	border-color: ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}
+		${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT};
+
+	/* Square button like WIN31 */
+	border-radius: 0;
 	cursor: pointer;
 
-	background: none;
+	/* Typography */
+	font-family: ${SYSTEM_FONT};
+	font-size: 12px;
+	font-weight: bold;
+	color: ${VGA_BLACK};
 
-	&:focus {
-		outline: none;
+	/* Remove modern effects */
+	transition: none;
+	outline: none;
+
+	/* Display arrow characters instead of icons */
+	&::before {
+		content: '${(props) => (props.$position === 'left' ? '‹' : '›')}';
+		display: block;
+		line-height: 1;
 	}
-`;
-
-export const CarouselButtonIcon = styled.img<{
-	$position: 'left' | 'right';
-	$color: ComponentColors;
-}>`
-	width: 2rem;
-	height: 2rem;
-
-	transform: ${(props) =>
-		props.$position === 'left' ? 'rotate(180deg)' : 'none'};
-
-	transition: transform 0.2s ease-in-out;
 
 	&:hover {
-		transform: ${(props) =>
-			props.$position === 'left' ? 'rotate(180deg) scale(1.1)' : 'scale(1.1)'};
+		filter: brightness(1.05);
 	}
 
 	&:active {
-		transform: ${(props) =>
-			props.$position === 'left' ? 'rotate(180deg) scale(0.8)' : 'scale(0.8)'};
+		/* Pressed button effect */
+		border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
+			${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
+		transform: translateY(-50%) translate(1px, 1px);
 	}
 
-	background-color: ${(props) =>
-		rgba(getColorScheme(props.$color, props.theme), 0.5)};
-	border-radius: 50%;
+	&:focus {
+		outline: 1px dotted ${VGA_BLACK};
+		outline-offset: -3px;
+	}
 `;

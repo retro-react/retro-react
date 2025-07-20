@@ -1,219 +1,274 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { alterColorEnhanced } from '@src/utils/alterColor';
 import getColorScheme, { ComponentColors } from '@src/utils/getColorScheme';
-import { getPatternScheme } from '@src/utils/getPatternScheme';
-import { rgba } from '@src/utils/rgba';
-import { BLACK, SHADE_2, SHADE_4, SHADE_6, WHITE } from '@src/constants/colors';
+import {
+	VGA_BLACK,
+	VGA_WHITE,
+	WIN31_BUTTON_FACE,
+	WIN31_BUTTON_HIGHLIGHT,
+	WIN31_BUTTON_SHADOW,
+} from '@src/constants/colors';
+import { FONT_SIZES, SYSTEM_FONT } from '@src/constants/fonts';
 import { AutocompleteSizes, AutocompleteVariants } from './Autocomplete';
 
 const sizeStyles = {
-	small: '1rem',
-	medium: '1.2rem',
+	small: { fontSize: FONT_SIZES.TINY, padding: '2px 4px', height: '20px' },
+	medium: { fontSize: FONT_SIZES.NORMAL, padding: '2px 6px', height: '24px' },
 };
 
+// Consistent styling with password input and input components
 const getAutocompleteVariantStyles = (
 	$variant: AutocompleteVariants,
 	$color: string,
 ) => {
-	const filledStyles = css`
-		background-color: ${$color};
-		background-image: linear-gradient(
-				${rgba($color, 0.8)},
-				${rgba($color, 0.8)}
-			),
-			url(${getPatternScheme('stripes')});
-		box-shadow: inset 1px 1px 2px ${BLACK},
-			inset -1px -1px 2px ${rgba(WHITE, 0.45)};
-		filter: contrast(130%) brightness(100%);
+	// Authentic Windows 3.1/95 sunken style (consistent across all inputs)
+	const retroInsetStyles = css`
+		border: 2px solid;
+		border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
+			${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
+		background: ${VGA_WHITE};
+		box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
+		color: ${VGA_BLACK};
+		font-family: ${SYSTEM_FONT};
 
-		color: ${WHITE};
-		font-weight: normal;
-		text-shadow: 1px 1px 2px ${BLACK};
+		/* Remove modern styling */
+		border-radius: 0;
+		transition: none;
+		-webkit-appearance: none;
+		appearance: none;
 
 		&::placeholder {
-			color: ${rgba(WHITE, 0.65)};
-			text-shadow: 1px 1px 2px ${BLACK};
-			user-select: none;
+			color: ${WIN31_BUTTON_SHADOW};
+			font-style: normal;
+		}
+
+		&:focus {
+			outline: 1px dotted ${VGA_BLACK};
+			outline-offset: -3px;
+			border-color: ${$color !== 'greyscale' ? $color : WIN31_BUTTON_SHADOW}
+				${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_HIGHLIGHT}
+				${$color !== 'greyscale' ? $color : WIN31_BUTTON_SHADOW};
+		}
+
+		&:disabled {
+			background: ${WIN31_BUTTON_FACE};
+			color: ${WIN31_BUTTON_SHADOW};
+			border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
+				${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
+			cursor: not-allowed;
 		}
 	`;
 
-	switch ($variant) {
-		case 'outlined':
-			return css`
-				background: ${WHITE};
-				box-shadow: inset 1px 1px 1px ${$color} inset -1px -1px 1px ${$color},
-					2px 2px 2px ${$color}, -2px -2px 2px ${$color};
-				border-color: ${$color};
-
-				color: ${BLACK};
-				&::placeholder {
-					color: ${$color};
-					text-shadow: 1px 1px 1px ${WHITE};
-					user-select: none;
-				}
-			`;
-		case 'filled':
-			if ($color === SHADE_4) {
-				return css`
-					background: linear-gradient(${rgba(BLACK, 0.8)}, ${rgba(BLACK, 0.8)}),
-						url(${getPatternScheme('stripes')});
-					box-shadow: inset 1px 1px 2px ${SHADE_4},
-						inset -1px -1px 2px ${SHADE_6};
-					filter: contrast(130%) brightness(100%);
-
-					color: ${SHADE_2};
-					font-weight: normal;
-					text-shadow: 0 0 2px ${BLACK};
-
-					&::placeholder {
-						color: ${rgba(WHITE, 0.45)};
-						text-shadow: 1px 1px 2px ${BLACK};
-					}
-				`;
-			} else {
-				return filledStyles;
-			}
-		default:
-			return filledStyles;
-	}
+	// All variants use the same consistent styling
+	return retroInsetStyles;
 };
 
-export const AutocompleteWrapper = styled.div`
+export const AutocompleteContainer = styled.div<{
+	$fullWidth?: boolean;
+	$size?: AutocompleteSizes;
+	sx?: any; // Theme UI compatibility
+}>`
 	position: relative;
+	display: inline-flex;
+	flex-direction: column;
+	width: ${(props) => (props.$fullWidth ? '100%' : 'auto')};
+	font-family: ${SYSTEM_FONT};
+
+	/* Apply Theme UI sx prop if provided */
+	${(props) => props.sx}
 `;
 
 export const AutocompleteInput = styled.input<{
 	$variant: AutocompleteVariants;
-	$size: AutocompleteSizes;
 	$color: ComponentColors | 'greyscale';
-	$rounded: boolean;
+	$size: AutocompleteSizes;
+	$fullWidth?: boolean;
+	$rounded?: boolean;
 }>`
-	padding: 0.5rem 1rem;
-	box-sizing: border-box;
-	border-radius: 0.5rem;
-	font-family: 'Trebuchet MS', Helvetica, sans-serif;
+	width: ${(props) => (props.$fullWidth ? '100%' : 'auto')};
+	min-width: ${(props) => (props.$size === 'small' ? '150px' : '200px')};
+	font-size: ${(props) => sizeStyles[props.$size].fontSize};
+	padding: ${(props) => sizeStyles[props.$size].padding};
+	height: ${(props) => sizeStyles[props.$size].height};
+	font-family: ${SYSTEM_FONT};
+	outline: none;
 
-	${({ $color = 'primary', $variant = 'filled', theme }) =>
+	${(props) =>
 		getAutocompleteVariantStyles(
-			$variant,
-			$color === 'greyscale' ? SHADE_4 : getColorScheme($color, theme),
+			props.$variant,
+			props.$color === 'greyscale'
+				? WIN31_BUTTON_SHADOW
+				: getColorScheme(props.$color, props.theme),
 		)}
-
-	${({ color, $variant }) =>
-		$variant === 'filled' &&
-		color === 'warn' &&
-		`
-    color: ${BLACK};
-    text-shadow: 0 0 2px ${rgba(BLACK, 0.4)};
-
-    &::placeholder {
-      color: ${rgba(BLACK, 0.7)};
-      text-shadow: 1px 1px 1px ${rgba(SHADE_4, 0.4)};
-    }
-  `}
-
-  font-size: ${({ $size }) => sizeStyles[$size] || $size};
-	width: 100%;
-
-	${({ $rounded }) =>
-		$rounded &&
-		`
-    border-radius: 1rem;
-  `}
-
-	&:disabled {
-		cursor: not-allowed;
-		opacity: 0.6;
-	}
-
-	&:focus {
-		outline: none;
-		box-shadow: 0 0 0.05rem 0.05rem
-			${(props) =>
-				rgba(
-					props.$color === 'greyscale'
-						? WHITE
-						: getColorScheme(props.$color || 'primary', props.theme),
-					0.6,
-				)};
-	}
 `;
 
-export const SuggestionsList = styled.ul<{
+export const AutocompleteDropdown = styled.div<{
+	$variant?: AutocompleteVariants;
 	$color: ComponentColors | 'greyscale';
+	$open?: boolean;
 }>`
-	padding: 0;
-	margin: 5px 0 0 0;
-	border: 1px solid ${SHADE_4};
-	border-radius: 0.5rem;
-	background-color: ${({ $color, theme }) =>
-		$color === 'greyscale' ? SHADE_4 : getColorScheme($color, theme)};
-	box-shadow: 0 4px 6px ${rgba(BLACK, 0.1)};
-	list-style-type: none;
-	max-height: 150px;
-	overflow-y: auto;
-	color: ${WHITE};
-
 	position: absolute;
 	top: 100%;
 	left: 0;
-	box-sizing: border-box;
-	width: 100%;
+	right: 0;
 	z-index: 1000;
+	background: ${VGA_WHITE};
+	border: 2px solid;
+	border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
+		${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
+	border-top: 1px solid ${WIN31_BUTTON_SHADOW};
+	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+	max-height: 200px;
+	overflow-y: auto;
+	display: ${(props) => (props.$open === false ? 'none' : 'block')};
+	font-family: ${SYSTEM_FONT};
+	font-size: ${FONT_SIZES.NORMAL};
 
-	li {
-		padding: 0.5rem 1rem;
-		transition: background-color 0.2s;
-
-		&:hover {
-			background-color: ${({ $color, theme }) =>
-				$color === 'greyscale'
-					? SHADE_2
-					: alterColorEnhanced(getColorScheme($color, theme), 50)};
-		}
+	/* Retro scrollbar */
+	::-webkit-scrollbar {
+		width: 16px;
+		background: ${WIN31_BUTTON_FACE};
 	}
 
-	.active-suggestion {
-		background-color: ${({ $color, theme }) =>
-			$color === 'greyscale'
-				? SHADE_2
-				: alterColorEnhanced(getColorScheme($color, theme), 70)};
-		color: ${({ $color }) =>
-			$color === 'greyscale' || $color === 'warn' ? BLACK : BLACK};
+	::-webkit-scrollbar-track {
+		background: ${WIN31_BUTTON_FACE};
+		border: 1px solid ${WIN31_BUTTON_SHADOW};
+	}
+
+	::-webkit-scrollbar-thumb {
+		background: ${WIN31_BUTTON_FACE};
+		border: 1px solid;
+		border-color: ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}
+			${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT};
+	}
+
+	::-webkit-scrollbar-button {
+		background: ${WIN31_BUTTON_FACE};
+		border: 1px solid;
+		border-color: ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}
+			${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT};
+		height: 16px;
 	}
 `;
 
-export const SuggestionItem = styled.li<{
+export const AutocompleteOption = styled.div<{
+	$selected: boolean;
+	$highlighted: boolean;
 	$color: ComponentColors | 'greyscale';
 }>`
+	padding: 4px 6px;
 	cursor: pointer;
-
-	&:hover {
-		color: ${({ $color }) =>
-			$color === 'greyscale' || $color === 'warn' ? BLACK : BLACK};
-	}
-`;
-
-export const ClearButton = styled.button<{
-	$icon: string;
-	$color: ComponentColors | 'greyscale';
-}>`
-	position: absolute;
-	top: 0.5rem;
-	right: 0.5rem;
-	width: 1.5rem;
-	height: 1.5rem;
+	font-family: ${SYSTEM_FONT};
+	font-size: ${FONT_SIZES.NORMAL};
+	color: ${VGA_BLACK};
+	background: ${VGA_WHITE};
 	border: none;
-	border-radius: 50%;
-	cursor: pointer;
 
-	mask: url(${({ $icon }) => $icon});
-	background-color: ${({ $color, theme }) =>
-		alterColorEnhanced(getColorScheme($color, theme), -80)};
+	/* Authentic Windows selection styling */
+	${(props) =>
+		props.$highlighted &&
+		css`
+			background: ${props.$color === 'greyscale'
+				? WIN31_BUTTON_SHADOW
+				: getColorScheme(props.$color, props.theme)};
+			color: ${VGA_WHITE};
+		`}
+
+	${(props) =>
+		props.$selected &&
+		css`
+			background: ${props.$color === 'greyscale'
+				? WIN31_BUTTON_SHADOW
+				: getColorScheme(props.$color, props.theme)};
+			color: ${VGA_WHITE};
+			font-weight: bold;
+		`}
 
 	&:hover {
-		background-color: ${({ $color, theme }) =>
-			alterColorEnhanced(getColorScheme($color, theme), -60)};
+		background: ${(props) =>
+			props.$color === 'greyscale'
+				? WIN31_BUTTON_FACE
+				: getColorScheme(props.$color, props.theme)};
+		color: ${VGA_WHITE};
+	}
+`;
+
+export const AutocompleteNoOptions = styled.div`
+	padding: 8px 6px;
+	color: ${WIN31_BUTTON_SHADOW};
+	font-style: italic;
+	text-align: center;
+	font-family: ${SYSTEM_FONT};
+	font-size: ${FONT_SIZES.NORMAL};
+`;
+
+export const AutocompleteLabel = styled.label<{
+	$required: boolean;
+}>`
+	display: block;
+	margin-bottom: 2px;
+	font-family: ${SYSTEM_FONT};
+	font-size: ${FONT_SIZES.NORMAL};
+	font-weight: normal;
+	color: ${VGA_BLACK};
+
+	${(props) =>
+		props.$required &&
+		css`
+			&::after {
+				content: ' *';
+				color: #ff0000;
+			}
+		`}
+`;
+
+export const AutocompleteHelperText = styled.div<{
+	$error: boolean;
+}>`
+	margin-top: 2px;
+	font-family: ${SYSTEM_FONT};
+	font-size: ${FONT_SIZES.TINY};
+	color: ${WIN31_BUTTON_SHADOW};
+
+	${(props) =>
+		props.$error &&
+		css`
+			color: #ff0000;
+		`}
+`;
+
+// Legacy component names for compatibility
+export const AutocompleteWrapper = AutocompleteContainer;
+export const SuggestionsList = AutocompleteDropdown;
+export const SuggestionItem = AutocompleteOption;
+
+export const ClearButton = styled.button`
+	position: absolute;
+	right: 4px;
+	top: 50%;
+	transform: translateY(-50%);
+	background: ${WIN31_BUTTON_FACE};
+	border: 1px solid;
+	border-color: ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}
+		${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT};
+	width: 16px;
+	height: 16px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	font-size: ${FONT_SIZES.TINY};
+	line-height: 1;
+	padding: 0;
+
+	&:active {
+		border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
+			${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
+		transform: translateY(-50%) translate(1px, 1px);
+	}
+
+	&:disabled {
+		color: ${WIN31_BUTTON_SHADOW};
+		cursor: not-allowed;
 	}
 `;

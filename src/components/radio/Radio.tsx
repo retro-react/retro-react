@@ -7,17 +7,10 @@ import {
 	useState,
 } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { ComponentColors } from '@src/utils/getColorScheme';
 import * as Sc from './Radio.styled';
 
 export interface RadioGroupProps
 	extends Omit<React.HTMLAttributes<HTMLFieldSetElement>, 'onChange'> {
-	/**
-	 * The background of the Box. Accepts library colors or hex colors.
-	 *
-	 * @default 'primary'
-	 */
-	color?: ComponentColors | 'greyscale';
 	/**
 	 * Value set by default. Must match the value of one of the Radio children.
 	 *
@@ -43,8 +36,26 @@ export interface RadioGroupProps
 	sx?: ThemeUICSSObject;
 }
 
+export interface RadioProps
+	extends React.InputHTMLAttributes<HTMLInputElement> {
+	/**
+	 * Label for the radio button.
+	 */
+	label?: string;
+	/**
+	 * The boolean value of the Radio. If true, the Radio will be checked.
+	 *
+	 * @default false
+	 *
+	 * @internal
+	 */
+	checked?: boolean;
+}
+
 /**
- * The RadioGroup component is used in forms when you want the user to select one option from several, while clearly seeing all available options. Used in conjunction with the `Radio` component.
+ * The RadioGroup component with authentic WIN31 styling for single-selection forms.
+ * Features classic inset radio buttons with proper dotted focus indicators.
+ * Used in conjunction with the `Radio` component.
  *
  * @example
  * <RadioGroup defaultValue="playstation" onChange={setValue}>
@@ -59,7 +70,6 @@ export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
 			id,
 			className,
 			children,
-			color = 'primary',
 			defaultValue,
 			disabled = false,
 			sx,
@@ -83,7 +93,6 @@ export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
 					checked: child.props.value === value,
 					onChange: () => handleChange(child.props.value),
 					disabled,
-					color,
 				});
 			}
 			return child;
@@ -99,46 +108,19 @@ export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
 
 RadioGroup.displayName = 'RadioGroup';
 
-export interface RadioProps
-	extends React.InputHTMLAttributes<HTMLInputElement> {
-	/**
-	 * Label for the radio button.
-	 */
-	label?: string;
-	/**
-	 * The color of the Radio. Accepts library colors or hex colors.
-	 *
-	 *
-	 * @default 'primary'
-	 *
-	 * @internal
-	 */
-	color?: ComponentColors | 'greyscale';
-	/**
-	 * The boolean value of the Radio. If true, the Radio will be checked.
-	 *
-	 * @default false
-	 *
-	 * @internal
-	 */
-	checked?: boolean;
-}
-
 /**
- * The Radio component is used in forms when you want the user to select one option from several,
- * while clearly seeing all available options. If there are multiple options appearing in a list,
- * users can preserve space by using a dropdown menu, which is another type of single-selection form control.
+ * The Radio component with authentic WIN31 styling for single-selection forms.
+ * Features classic inset radio buttons with proper dotted focus indicators.
  * @see See [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio) for more details about the HTML input element of type radio.
  */
 export const Radio = forwardRef<HTMLInputElement, RadioProps>(
-	({ label = '', color = 'primary', checked, name, ...rest }, ref) => {
+	({ label = '', checked, name, ...rest }, ref) => {
 		return (
 			<Sc.RadioWrapper>
 				<Sc.Radio
 					id={`${name}-${rest.value}`}
 					type="radio"
 					checked={checked}
-					$color={color}
 					ref={ref}
 					role="radio"
 					aria-checked={checked}

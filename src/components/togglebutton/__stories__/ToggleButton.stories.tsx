@@ -1,5 +1,4 @@
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
-import { ButtonColor } from '@src/components/button';
 import { ToggleButton, ToggleButtonGroup } from '../index';
 
 export default {
@@ -62,14 +61,19 @@ export default {
 } as ComponentMeta<typeof ToggleButtonGroup>;
 
 const Template: ComponentStory<typeof ToggleButtonGroup> = (args) => (
-	<ToggleButtonGroup {...args} onValueChange={(value) => console.log(value)}>
-		<ToggleButton value="first" color={args.color as ButtonColor}>
+	<ToggleButtonGroup
+		{...args}
+		onValueChange={(value) => {
+			/* value selected */
+		}}
+	>
+		<ToggleButton value="first" color="greyscale">
 			A
 		</ToggleButton>
-		<ToggleButton value="second" color={args.color as ButtonColor}>
+		<ToggleButton value="second" color="greyscale">
 			B
 		</ToggleButton>
-		<ToggleButton value="third" color={args.color as ButtonColor}>
+		<ToggleButton value="third" color="greyscale">
 			C
 		</ToggleButton>
 	</ToggleButtonGroup>
@@ -84,7 +88,12 @@ Basic.args = {
 };
 
 const TemplateMultiple: ComponentStory<typeof ToggleButtonGroup> = (args) => (
-	<ToggleButtonGroup {...args} onValueChange={(value) => console.log(value)}>
+	<ToggleButtonGroup
+		{...args}
+		onValueChange={(value) => {
+			/* values selected */
+		}}
+	>
 		<ToggleButton value="first" color="greyscale">
 			A
 		</ToggleButton>

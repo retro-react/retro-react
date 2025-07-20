@@ -2,30 +2,10 @@
 import { forwardRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
-import { ComponentColors } from '@src/utils/getColorScheme';
-import { ComponentPatterns } from '@src/utils/getPatternScheme';
 import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Card.styled';
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-	/**
-	 * The library colors or hex color for background of the Card.
-	 *
-	 * @default 'primary'
-	 */
-	color?: ComponentColors | string;
-	/**
-	 * Determines if the Card should have rounded edges.
-	 *
-	 * @default false
-	 */
-	rounded?: boolean;
-	/**
-	 * The pattern of the Card.
-	 *
-	 * @default 'noise'
-	 */
-	pattern?: ComponentPatterns;
 	/**
 	 * The header of the Card.
 	 *
@@ -66,27 +46,11 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
  */
 export const Card = forwardRef<HTMLDivElement, CardProps>(
 	(
-		{
-			id,
-			sx,
-			className,
-			children,
-			rounded = false,
-			header,
-			image,
-			footer,
-			color = 'primary',
-			pattern = 'noise',
-			alt = '',
-			...rest
-		},
+		{ id, sx, className, children, header, image, footer, alt = '', ...rest },
 		ref,
 	) => {
 		return (
 			<Sc.Card
-				$rounded={rounded}
-				$pattern={pattern}
-				$color={color}
 				ref={ref}
 				id={id}
 				role="group"
@@ -110,7 +74,6 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
 					</Sc.CardImageWrapper>
 				)}
 				<Sc.CardContent
-					$color={color}
 					id={id ? `${id}-content` : undefined}
 					className="card-content"
 				>

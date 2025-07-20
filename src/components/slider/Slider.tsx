@@ -2,7 +2,6 @@
 import { forwardRef, useEffect, useRef, useState } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
-import { ComponentColors } from '@src/utils/getColorScheme';
 import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Slider.styled';
 
@@ -47,25 +46,46 @@ export interface SliderProps
 	 */
 	disabled?: boolean;
 	/**
-	 * The color of the Slider.
-	 *
-	 * @default 'primary'
-	 */
-	color?: ComponentColors;
-	/**
-	 * If `true`, the Slider will show a tooltip with the current value.
+	 * If `true`, the Slider will show a tooltip with the current value when dragging.
 	 *
 	 * @default true
 	 */
 	showTooltip?: boolean;
+	/**
+	 * If `true`, the Slider will show tick marks along the track.
+	 *
+	 * @default false
+	 */
+	showTicks?: boolean;
+	/**
+	 * Custom labels for specific values. Object with value as key and label as value.
+	 *
+	 * @default undefined
+	 */
+	marks?: Record<number, string>;
 	sx?: ThemeUICSSObject;
 }
 
 /**
- * Sliders allow users to make selections from a range of values.
+ * Retro-styled slider for range value selection with authentic Windows 95/98 aesthetics.
+ *
+ * Features classic 3D beveled track and thumb with optional tooltip and tick marks.
+ * Designed for fluid, responsive interaction while maintaining pixel-perfect retro styling.
  *
  * @example
- * <Slider value={50} />
+ * // Basic volume slider
+ * <Slider value={75} min={0} max={100} onChange={setVolume} />
+ *
+ * // Slider with custom marks and tooltip
+ * <Slider
+ *   value={50}
+ *   showTicks
+ *   marks={{ 0: 'Min', 50: 'Mid', 100: 'Max' }}
+ *   showTooltip
+ * />
+ *
+ * // Disabled slider
+ * <Slider value={25} disabled />
  */
 export const Slider = forwardRef<HTMLInputElement, SliderProps>(
 	(
@@ -77,76 +97,148 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(
 			min = 0,
 			max = 100,
 			step = 1,
-			color = 'primary',
 			showTooltip = true,
+			showTicks = false,
+			marks,
 			onChange,
 			disabled = false,
 			...rest
 		},
 		ref,
 	) => {
-		const [sliderValue, setSliderValue] = useState(value);
-		const [isSliderMoving, setIsSliderMoving] = useState(false);
+		const [internalValue, setInternalValue] = useState(value);
+		const [isDragging, setIsDragging] = useState(false);
+		const [isHovering, setIsHovering] = useState(false);
 		const [tooltipPosition, setTooltipPosition] = useState(0);
 		const sliderRef = useRef<HTMLInputElement>(null);
 
+		// Sync internal value with prop value
 		useEffect(() => {
-			const newValue = ((sliderValue - min) * 100) / (max - min);
-			const newPosition = Math.max(0, Math.min(100, newValue));
-			setTooltipPosition(newPosition);
-		}, [sliderValue, min, max]);
+			if (value !== undefined) {
+				setInternalValue(value);
+			}
+		}, [value]);
 
-		const updateTooltipPosition = (clientX) => {
-			if (sliderRef.current) {
-				const sliderRect = sliderRef.current.getBoundingClientRect();
-				const newPosition =
-					((clientX - sliderRect.left) / sliderRect.width) * 100;
-				setTooltipPosition(newPosition);
+		// Calculate tooltip position more precisely based on current value
+		const updateTooltipPosition = (currentValue: number) => {
+			const percentage = ((currentValue - min) / (max - min)) * 100;
+			// Clamp between 5% and 95% to keep tooltip visible
+			setTooltipPosition(Math.max(5, Math.min(95, percentage)));
+		};
+
+		useEffect(() => {
+			updateTooltipPosition(internalValue);
+		}, [internalValue, min, max]);
+
+		const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+			const newValue = Number(event.target.value);
+			setInternalValue(newValue);
+			updateTooltipPosition(newValue);
+			onChange?.(newValue);
+		};
+
+		const handleMouseDown = (event: React.MouseEvent) => {
+			if (!disabled) {
+				setIsDragging(true);
+				// Update tooltip position immediately on mouse down
+				if (sliderRef.current) {
+					const rect = sliderRef.current.getBoundingClientRect();
+					const percentage = ((event.clientX - rect.left) / rect.width) * 100;
+					setTooltipPosition(Math.max(5, Math.min(95, percentage)));
+				}
 			}
 		};
 
-		const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-			setSliderValue(Number(event.target.value));
-			onChange && onChange(parseFloat(event.target.value));
+		const handleMouseMove = (event: React.MouseEvent) => {
+			if (isDragging && sliderRef.current) {
+				const rect = sliderRef.current.getBoundingClientRect();
+				const percentage = ((event.clientX - rect.left) / rect.width) * 100;
+				setTooltipPosition(Math.max(5, Math.min(95, percentage)));
+			}
 		};
 
+		const handleMouseEnter = () => {
+			if (!disabled) {
+				setIsHovering(true);
+			}
+		};
+
+		const handleMouseLeave = () => {
+			setIsHovering(false);
+		};
+
+		// Add global mouse events for better tracking
 		useEffect(() => {
-			const handleMouseUp = () => {
-				setIsSliderMoving(false);
-			};
+			if (isDragging) {
+				const handleGlobalMouseMove = (event: MouseEvent) => {
+					if (sliderRef.current) {
+						const rect = sliderRef.current.getBoundingClientRect();
+						const percentage = ((event.clientX - rect.left) / rect.width) * 100;
+						setTooltipPosition(Math.max(5, Math.min(95, percentage)));
+					}
+				};
 
-			const handleMouseMove = (event) => {
-				if (isSliderMoving) {
-					updateTooltipPosition(event.clientX);
-				}
-			};
+				const handleGlobalMouseUp = () => {
+					setIsDragging(false);
+				};
 
-			window.addEventListener('mouseup', handleMouseUp);
-			window.addEventListener('mousemove', handleMouseMove);
+				document.addEventListener('mousemove', handleGlobalMouseMove);
+				document.addEventListener('mouseup', handleGlobalMouseUp);
 
-			return () => {
-				window.removeEventListener('mouseup', handleMouseUp);
-				window.removeEventListener('mousemove', handleMouseMove);
-			};
-		}, []);
+				return () => {
+					document.removeEventListener('mousemove', handleGlobalMouseMove);
+					document.removeEventListener('mouseup', handleGlobalMouseUp);
+				};
+			}
+		}, [isDragging]);
 
-		const handleMouseDown = () => {
-			setIsSliderMoving(true);
-		};
+		// Generate tick marks if requested
+		const tickMarks = showTicks
+			? Array.from(
+					{ length: Math.floor((max - min) / step) + 1 },
+					(_, i) => min + i * step,
+			  )
+			: [];
+
+		// Show tooltip when dragging or hovering (if showTooltip is true)
+		const shouldShowTooltip = showTooltip && (isDragging || isHovering);
 
 		return (
 			<Sc.SliderWrapper
 				className={classNames('slider-root', className, commonClassNames)}
 			>
-				{showTooltip && isSliderMoving && (
-					<Sc.Tooltip $leftPosition={tooltipPosition} $color={color}>
-						{sliderValue}
+				{shouldShowTooltip && (
+					<Sc.Tooltip $leftPosition={tooltipPosition}>
+						{marks?.[internalValue] || internalValue}
 					</Sc.Tooltip>
 				)}
+
+				{showTicks && (
+					<Sc.TickContainer>
+						{tickMarks.map((tick) => (
+							<Sc.Tick
+								key={tick}
+								$position={((tick - min) / (max - min)) * 100}
+							/>
+						))}
+					</Sc.TickContainer>
+				)}
+
+				{marks && (
+					<Sc.MarksContainer>
+						{Object.entries(marks).map(([value, label]) => (
+							<Sc.Mark
+								key={value}
+								$position={((Number(value) - min) / (max - min)) * 100}
+							>
+								{label}
+							</Sc.Mark>
+						))}
+					</Sc.MarksContainer>
+				)}
+
 				<Sc.Slider
-					$color={color}
-					$value={value}
-					ref={ref}
+					ref={sliderRef}
 					id={id}
 					sx={sx}
 					className="slider-input"
@@ -154,9 +246,12 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(
 					min={min}
 					max={max}
 					step={step}
-					value={value}
+					value={internalValue}
 					onChange={handleChange}
 					onMouseDown={handleMouseDown}
+					onMouseMove={handleMouseMove}
+					onMouseEnter={handleMouseEnter}
+					onMouseLeave={handleMouseLeave}
 					disabled={disabled}
 					{...rest}
 				/>

@@ -3,18 +3,10 @@ import { forwardRef, useState } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import commonClassNames from '@src/constants/commonClassNames';
-import closeIcon from '../../assets/svg/close_icon.svg';
 import * as Sc from './Select.styled';
 
-export type SelectColor =
-	| 'primary'
-	| 'secondary'
-	| 'success'
-	| 'error'
-	| 'warn'
-	| 'greyscale';
-
-export type SelectSize = 'small' | 'medium' | 'large';
+export type SelectVariants = 'outlined' | 'filled' | 'terminal' | 'classic';
+export type SelectSizes = 'small' | 'medium' | 'large';
 
 export interface SelectProps extends React.HTMLAttributes<HTMLSelectElement> {
 	/**
@@ -24,17 +16,21 @@ export interface SelectProps extends React.HTMLAttributes<HTMLSelectElement> {
 	 */
 	label?: string;
 	/**
+	 * The variant of the Select.
+	 * - classic: Deep sunken Windows 95/98 dialog style with heavy inset shadow
+	 * - filled: Prominent raised 3D button-like appearance with outer shadow
+	 * - outlined: Clean flat design with simple border and focus ring
+	 * - terminal: Subtle dark terminal aesthetic with soft green text
+	 *
+	 * @default 'filled'
+	 */
+	variant?: SelectVariants;
+	/**
 	 * The size of the Select.
 	 *
 	 * @default 'medium'
 	 */
-	size?: SelectSize;
-	/**
-	 * The color of the Select.
-	 *
-	 * @default 'primary'
-	 */
-	color?: SelectColor;
+	size?: SelectSizes;
 	/**
 	 * If disabled is passed, the Select will be disabled.
 	 *
@@ -63,13 +59,33 @@ export interface SelectProps extends React.HTMLAttributes<HTMLSelectElement> {
 }
 
 /**
- * Select components are used to pick an option from a set of options.
+ * Retro-themed select dropdowns inspired by classic 90s computing aesthetics.
+ *
+ * Features four distinct authentic variants:
+ * - Classic: Deep sunken Windows 95/98 dialog style with heavy inset shadows
+ * - Filled: Prominent raised 3D button-style with outer drop shadows (default)
+ * - Outlined: Clean flat design with simple borders and focus rings
+ * - Terminal: Subtle dark console style with soft phosphor green text
  *
  * @example
- * <Select label="Select an option">
- * 	<option value="1">Option 1</option>
- * 	<option value="2">Option 2</option>
- * 	<option value="3">Option 3</option>
+ * // Deep Windows 95 sunken style
+ * <Select variant="classic" label="Choose option">
+ *   <option value="1">Option 1</option>
+ * </Select>
+ *
+ * // Prominent 3D raised select (default)
+ * <Select label="Select car">
+ *   <option value="camaro">Camaro</option>
+ * </Select>
+ *
+ * // Clean flat outlined style
+ * <Select variant="outlined" label="Filter by">
+ *   <option value="all">All</option>
+ * </Select>
+ *
+ * // Subtle terminal style
+ * <Select variant="terminal" label="System">
+ *   <option value="dos">MS-DOS</option>
  * </Select>
  */
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(
@@ -77,7 +93,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
 		{
 			id,
 			className,
-			color = 'primary',
+			variant = 'filled',
 			size = 'medium',
 			sx,
 			label,
@@ -127,14 +143,14 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
 
 		return (
 			<Sc.SelectWrapper
-				$color={color}
+				$variant={variant}
 				sx={sx}
 				className={classNames('select-root', className, commonClassNames)}
 			>
 				{label && (
 					<Sc.Label
 						htmlFor={id}
-						$color={color}
+						$variant={variant}
 						$size={size}
 						className="select-label"
 						title={label}
@@ -147,11 +163,10 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
 					<Sc.Select
 						id={id}
 						ref={ref}
-						$color={color}
+						$variant={variant}
 						$size={size}
 						className="select-input"
 						disabled={disabled}
-						$required={required}
 						value={selectValue}
 						onChange={handleChange}
 						{...ariaProps}
@@ -160,11 +175,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
 						{children}
 					</Sc.Select>
 					{selectValue && !required && (
-						<Sc.ClearButton
-							onClick={handleClear}
-							$icon={closeIcon}
-							aria-label="Remove button"
-						/>
+						<Sc.ClearButton onClick={handleClear} aria-label="Remove button" />
 					)}
 				</Sc.SelectContainer>
 				{errorMessage && <Sc.Error>{errorMessage}</Sc.Error>}

@@ -11,8 +11,9 @@ type Story = StoryObj<typeof DocumentUpload>;
 
 export const Basic: Story = {
 	args: {
-		pattern: 'noise',
 		color: 'primary',
-		onChange: (file) => console.log('Changed', file),
+		onChange: (file) => {
+			/* Changed: ${file} */
+		},
 	},
 };

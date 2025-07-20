@@ -5,31 +5,28 @@ import { classNames } from '@src/utils/classNames';
 import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Button.styled';
 
-export type ButtonColor =
+export type ButtonVariant =
 	| 'primary'
 	| 'secondary'
 	| 'success'
-	| 'error'
-	| 'warn'
-	| 'greyscale'
-	| 'greyscale-dark';
-
-export type ButtonVariant = 'solid' | 'outline' | 'text';
+	| 'warning'
+	| 'outline'
+	| 'flat';
 
 export type ButtonSize = 'small' | 'medium' | 'large';
 
 export interface ButtonProps
 	extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	/**
-	 * The color of the Button.
+	 * The visual style of the Button.
+	 * - primary: Classic blue primary button
+	 * - secondary: Classic grey secondary button
+	 * - success: Classic green success button
+	 * - warning: Classic yellow warning button
+	 * - outline: Outlined button style
+	 * - flat: Flat button style
 	 *
 	 * @default 'primary'
-	 */
-	color?: ButtonColor;
-	/**
-	 * The visual style of the Button.
-	 *
-	 * @default 'solid'
 	 */
 	variant?: ButtonVariant;
 	/**
@@ -58,7 +55,7 @@ export interface ButtonProps
  * Buttons are used to trigger an action or event, such as submitting a form, opening a dialog, canceling an action, or performing a delete operation.
  *
  * @example
- * <Button color="success" variant="solid">
+ * <Button variant="success">
  * 	Submit
  * </Button>
  */
@@ -68,8 +65,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 			id,
 			className,
 			onClick,
-			color = 'primary',
-			variant = 'solid',
+			variant = 'primary',
 			size = 'medium',
 			isButtonGroup = false,
 			disableClickEffect = false,
@@ -85,7 +81,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 				id={id}
 				variant={variant}
 				$size={size}
-				$color={color}
 				$isButtonGroup={isButtonGroup}
 				$disableClickEffect={disableClickEffect}
 				className={classNames('button-root', className, commonClassNames)}

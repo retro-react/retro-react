@@ -15,6 +15,12 @@ export default {
 			options: [...colorOptions, 'greyscale'],
 			control: { type: 'radio' },
 		},
+		title: {
+			control: { type: 'text' },
+		},
+		backdrop: {
+			control: { type: 'boolean' },
+		},
 	},
 } as ComponentMeta<typeof Modal>;
 
@@ -26,7 +32,9 @@ const TemplateContainer = ({ children }: { children: React.ReactNode }) => {
 				justifyContent: 'center',
 				alignItems: 'center',
 				height: '50vh',
-				border: '1px solid black',
+				background: '#C0C0C0', // WIN31 desktop background
+				border: '2px inset #C0C0C0',
+				padding: '20px',
 			}}
 		>
 			{children}
@@ -51,45 +59,89 @@ const Template: ComponentStory<typeof Modal> = (args) => {
 		updateArgs({ open: isOpen });
 	};
 
+	const handleClose = () => {
+		updateArgs({ open: false });
+	};
+
 	return (
 		<TemplateContainer>
 			<Button onClick={(e) => handleOpen(e, true)}>Open Modal</Button>
-			<Modal {...args} open={open} onClose={(e) => handleOpen(e, false)} />
+			<Modal {...args} open={open} onClose={handleClose} />
 		</TemplateContainer>
 	);
 };
 
 export const Basic = Template.bind({});
 Basic.args = {
-	backdrop: false,
-	pattern: 'noise',
+	backdrop: true,
 	open: false,
+	title: 'Dialog',
 	children: (
-		<div
-			style={{
-				height: '100%',
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-			}}
-		>
-			<Text bevel={true} variant="h6" color="black">
-				Ahoy, matey!
+		<div>
+			<Text variant="body1" color="black">
+				This is an authentic Windows 3.1 style modal dialog.
 			</Text>
-			<Text variant="paragraph" color="black">
-				Welcome aboard our retro ship of wonders, where you'll find treasures
-				from the golden age of the internet. Discover ancient artifacts such as
-				pixel art, gradient backgrounds, and quirky fonts. Navigate through the
-				vast ocean of nostalgia and experience the simpler times when animated
-				GIFs ruled the world wide web!
+			<br />
+			<Text variant="body1" color="black">
+				You can close it by clicking the X button in the title bar or pressing
+				the Escape key.
 			</Text>
 		</div>
 	),
 	color: 'primary',
+};
 
-	// @ts-ignore
-	sx: {
-		maxHeight: '500px',
-		maxWidth: '500px',
-	},
+export const NoBackdrop = Template.bind({});
+NoBackdrop.args = {
+	backdrop: false,
+	open: false,
+	title: 'Information',
+	children: (
+		<div>
+			<Text variant="body1" color="black">
+				This modal has no backdrop - you can see the content behind it.
+			</Text>
+		</div>
+	),
+	color: 'secondary',
+};
+
+export const LongContent = Template.bind({});
+LongContent.args = {
+	backdrop: true,
+	open: false,
+	title: 'About Program',
+	children: (
+		<div>
+			<Text variant="body1" color="black">
+				Welcome to our retro application! This modal demonstrates how long
+				content is handled with proper scrolling behavior, just like in classic
+				Windows applications.
+			</Text>
+			<br />
+			<br />
+			<Text variant="body1" color="black">
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
+				tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+				veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+				commodo consequat.
+			</Text>
+			<br />
+			<br />
+			<Text variant="body1" color="black">
+				Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+				dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+			</Text>
+			<br />
+			<br />
+			<Text variant="body1" color="black">
+				Sed ut perspiciatis unde omnis iste natus error sit voluptatem
+				accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab
+				illo inventore veritatis et quasi architecto beatae vitae dicta sunt
+				explicabo.
+			</Text>
+		</div>
+	),
+	color: 'success',
 };

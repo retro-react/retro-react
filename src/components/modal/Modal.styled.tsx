@@ -1,139 +1,175 @@
 import styled from '@emotion/styled';
-import { alterColorEnhanced } from '@src/utils/alterColor';
-import getColorScheme, { ComponentColors } from '@src/utils/getColorScheme';
+import { ComponentColors } from '@src/utils/getColorScheme';
 import {
-	ComponentPatterns,
-	getPatternScheme,
-} from '@src/utils/getPatternScheme';
-import { rgba } from '@src/utils/rgba';
-import { SCREEN_XM } from '@src/constants/breakpoints';
-import { BLACK } from '@src/constants/colors';
+	VGA_BLACK,
+	VGA_WHITE,
+	WIN31_BLUE,
+	WIN31_BUTTON_FACE,
+	WIN31_BUTTON_HIGHLIGHT,
+	WIN31_BUTTON_SHADOW,
+} from '@src/constants/colors';
+import { SYSTEM_FONT } from '@src/constants/fonts';
 
 export const Modal = styled.div<{
 	$color: ComponentColors | string;
 	$open: boolean;
-	$pattern: ComponentPatterns;
 	$backdrop: boolean;
 }>`
-	background-color: ${(props) =>
-		getColorScheme(props.$color, props.theme) || props.$color};
-	box-shadow: inset 1px 1px 5px ${rgba(BLACK, 0.3)},
-		inset -1px -1px 2px rgba(255, 255, 255, 0.2);
-	padding: 1rem;
-	font-family: 'Trebuchet MS', Helvetica, sans-serif;
-	font-size: 1.5rem;
-
+	/* Authentic Windows 3.1 dialog window styling */
 	position: fixed;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	max-width: 90%;
-	width: auto;
-	box-sizing: border-box;
-	overflow: auto;
 	z-index: 1001;
-	padding-right: 3rem;
 
-	${(props) => {
-		const gradient = `
-			linear-gradient(
-				${rgba(getColorScheme(props.$color, props.theme) || props.$color, 0.4)},
-				${rgba(getColorScheme(props.$color, props.theme) || props.$color, 0.4)}
-			),
-			url(${getPatternScheme(props.$pattern)})
-		`;
+	/* WIN31 dialog dimensions */
+	min-width: 300px;
+	max-width: 90vw;
+	max-height: 90vh;
 
-		return `
-			background-image: ${gradient};
-			background-position: center;
-		`;
-	}}
+	/* Authentic WIN31 raised border */
+	border: 2px solid;
+	border-color: ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}
+		${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT};
+	background: ${WIN31_BUTTON_FACE};
 
-	@media only screen and (max-width: ${SCREEN_XM}px) {
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
+	/* Remove modern effects */
+	border-radius: 0;
+	box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3); /* Simple drop shadow like WIN31 */
+
+	font-family: ${SYSTEM_FONT};
+	font-size: 11px;
+	color: ${VGA_BLACK};
+
+	/* Visibility control */
+	opacity: ${(props) => (props.$open ? 1 : 0)};
+	visibility: ${(props) => (props.$open ? 'visible' : 'hidden')};
+	transition: opacity 0.1s linear, visibility 0.1s linear; /* Fast, simple transition */
+
+	/* Responsive behavior */
+	@media (max-width: 480px) {
+		top: 10px;
+		left: 10px;
+		right: 10px;
+		width: calc(100vw - 20px);
+		max-width: none;
 		transform: none;
-		border-radius: 0;
 	}
-
-	${(props) =>
-		props.$open
-			? `
-		opacity: 1;
-		visibility: visible;
-		transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-	`
-			: `
-		opacity: 0;
-		visibility: hidden;
-		transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-	`}
 `;
 
-export const CloseButton = styled.button<{
-	$color: string;
-}>`
-	position: absolute;
-	top: 10px;
-	right: 5px;
-	width: 2rem;
-	height: 2rem;
-	background-color: transparent;
-	border: none;
+export const ModalTitleBar = styled.div`
+	/* Authentic WIN31 title bar */
+	background: ${WIN31_BLUE};
+	color: ${VGA_WHITE};
+	padding: 2px 4px;
+	font-family: ${SYSTEM_FONT};
+	font-size: 11px;
+	font-weight: bold;
+
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	/* Title bar has inset border on top and left */
+	border-bottom: 1px solid ${WIN31_BUTTON_SHADOW};
+	margin: -2px -2px 0 -2px; /* Extend to modal edges */
+`;
+
+export const ModalTitle = styled.span`
+	flex: 1;
+	padding-left: 4px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+`;
+
+export const ModalContent = styled.div`
+	padding: 12px;
+	background: ${WIN31_BUTTON_FACE};
+	color: ${VGA_BLACK};
+	font-family: ${SYSTEM_FONT};
+	font-size: 11px;
+	line-height: 1.4;
+
+	/* Allow scrolling for long content */
+	overflow-y: auto;
+	max-height: calc(90vh - 60px); /* Account for title bar and padding */
+`;
+
+export const CloseButton = styled.button`
+	/* Authentic WIN31 close button (X) */
+	width: 16px;
+	height: 14px;
+	border: 1px solid;
+	border-color: ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}
+		${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT};
+	background: ${WIN31_BUTTON_FACE};
+
+	font-family: ${SYSTEM_FONT};
+	font-size: 10px;
+	font-weight: bold;
+	color: ${VGA_BLACK};
+
 	cursor: pointer;
-	transition: transform 0.1s linear;
+	padding: 0;
+	margin: 0;
 
-	&:hover {
-		transform: rotate(15deg);
-	}
+	/* Remove modern styling */
+	border-radius: 0;
+	outline: none;
 
+	/* Authentic button press effect */
 	&:active {
-		transform: scale(0.9);
+		border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
+			${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
+		transform: translate(1px, 1px);
 	}
 
-	&::before,
-	&::after {
-		content: '';
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		width: 1.5rem;
-		height: 0.2rem;
-		background-color: ${(props) =>
-			alterColorEnhanced(
-				getColorScheme(props.$color, props.theme) || props.$color,
-				100,
-			)};
-		transform: translate(-50%, -50%) rotate(45deg);
+	&:focus {
+		outline: 1px dotted ${VGA_BLACK};
+		outline-offset: -3px;
 	}
 
-	&::after {
-		transform: translate(-50%, -50%) rotate(-45deg);
+	/* Cross symbol */
+	&::before {
+		content: '×';
+		display: block;
+		line-height: 1;
 	}
 `;
 
-export const ModalBackdrop = styled.div<{ $open: boolean }>`
+export const ModalBackdrop = styled.div<{
+	$open: boolean;
+}>`
 	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
-	background-color: ${rgba(BLACK, 0.5)};
+	background-color: rgba(
+		0,
+		0,
+		0,
+		0.3
+	); /* Lighter backdrop like classic Windows */
 	z-index: 1000;
-	transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
 
-	${(props) =>
-		props.$open
-			? `
-		opacity: 1;
-		visibility: visible;
-		transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-	`
-			: `
-		opacity: 0;
-		visibility: hidden;
-		transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-	`}
+	/* Simple visibility control */
+	opacity: ${(props) => (props.$open ? 1 : 0)};
+	visibility: ${(props) => (props.$open ? 'visible' : 'hidden')};
+	transition: opacity 0.1s linear, visibility 0.1s linear;
+`;
+
+/* Optional: Modal footer for buttons */
+export const ModalFooter = styled.div`
+	padding: 8px 12px;
+	background: ${WIN31_BUTTON_FACE};
+	border-top: 1px solid ${WIN31_BUTTON_SHADOW};
+
+	display: flex;
+	justify-content: flex-end;
+	gap: 8px;
+
+	/* Extend to modal edges */
+	margin: 0 -12px -12px -12px;
 `;

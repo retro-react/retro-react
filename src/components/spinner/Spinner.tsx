@@ -4,33 +4,17 @@ import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './Spinner.styled';
-import { getSpinnerColorOptions } from './themes';
 
-export type SpinnerShape = 'circle' | 'square' | 'star' | 'diamond';
+export type SpinnerVariant = 'hourglass' | 'dots' | 'bars' | 'rotating';
 export type SpinnerSize = 'small' | 'medium' | 'large';
-
-export type SpinnerColor =
-	| 'primary'
-	| 'secondary'
-	| 'rainbow'
-	| 'neon'
-	| 'pastel'
-	| 'grayscale'
-	| 'retro';
 
 export interface SpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
-	 * The color of the spinner. __Hex colors__ are also supported.
+	 * The variant of the spinner - authentic WIN31 loading styles.
 	 *
-	 * @default 'primary'
+	 * @default 'hourglass'
 	 */
-	color?: SpinnerColor;
-	/**
-	 * The shape of the spinner.
-	 *
-	 * @default 'circle'
-	 */
-	shape?: SpinnerShape;
+	variant?: SpinnerVariant;
 	/**
 	 * The size of the spinner.
 	 *
@@ -41,11 +25,12 @@ export interface SpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Spinners are used to indicate the loading state of a component or page.
+ * Authentic Windows 3.1 style spinner components for loading states.
+ * Features classic loading indicators reminiscent of early Windows applications.
  *
  * @example
- * <Spinner color="primary" shape="circle" />
- * <Spinner color="secondary" shape="square" />
+ * <Spinner variant="hourglass" size="medium" />
+ * <Spinner variant="dots" size="small" />
  */
 export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
 	(
@@ -53,40 +38,39 @@ export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
 			id,
 			className,
 			children,
-			color = 'primary',
-			shape = 'circle',
+			variant = 'hourglass',
 			size = 'medium',
 			sx,
 			...rest
 		},
 		ref,
 	) => {
-		const colors = getSpinnerColorOptions(color);
-
 		return (
 			<Sc.Wrapper
 				ref={ref}
 				className={classNames('spinner-root', className, commonClassNames)}
 				{...rest}
 				sx={sx}
+				role="status"
+				aria-label="Loading"
 			>
-				{shape === 'circle' && (
-					<Sc.CircleSpinner $colors={colors} $size={size} {...rest} ref={ref} />
+				{variant === 'hourglass' && <Sc.HourglassSpinner $size={size} />}
+				{variant === 'dots' && (
+					<Sc.DotsSpinner $size={size}>
+						<Sc.Dot />
+						<Sc.Dot />
+						<Sc.Dot />
+					</Sc.DotsSpinner>
 				)}
-				{shape === 'square' && (
-					<Sc.SquareSpinner $colors={colors} $size={size} {...rest} ref={ref} />
+				{variant === 'bars' && (
+					<Sc.BarsSpinner $size={size}>
+						<Sc.Bar />
+						<Sc.Bar />
+						<Sc.Bar />
+						<Sc.Bar />
+					</Sc.BarsSpinner>
 				)}
-				{shape === 'star' && (
-					<Sc.StarSpinner $colors={colors} $size={size} {...rest} ref={ref} />
-				)}
-				{shape === 'diamond' && (
-					<Sc.DiamondSpinner
-						$colors={colors}
-						$size={size}
-						{...rest}
-						ref={ref}
-					/>
-				)}
+				{variant === 'rotating' && <Sc.RotatingSpinner $size={size} />}
 			</Sc.Wrapper>
 		);
 	},

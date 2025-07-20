@@ -2,24 +2,18 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Box } from '@src/components/box';
 
 const meta: Meta<typeof Box> = {
-	title: 'Overview/Patterns',
+	title: 'Overview/Retro Design Patterns',
 	component: Box,
 	parameters: {
 		controls: { hideNoControlsWarning: true, disable: true },
 		docs: {
 			description: {
 				component:
-					'Almost every component has a `pattern` prop that you can use to apply a background pattern to it. This is useful to create a visual hierarchy between components. You can use the `color` prop to change the color of the pattern.',
+					'Authentic retro design patterns showcase the visual aesthetic of the react-retro library. These examples demonstrate the classic raised and sunken panel styles that define authentic vintage interfaces.',
 			},
 		},
 	},
 	argTypes: {
-		color: {
-			table: {
-				disable: true,
-			},
-		},
-
 		sx: {
 			table: {
 				disable: true,
@@ -32,72 +26,75 @@ export default meta;
 type Story = StoryObj<typeof Box>;
 
 /**
- * Noise Pattern
+ * Raised Panel - Classic Windows raised look
  */
-export const Noise: Story = {
+export const RaisedPanel: Story = {
 	args: {
-		pattern: 'noise',
-		children: 'This is a noise pattern',
-		color: '#9DB2BF',
+		variant: 'raised',
+		children: 'Raised Panel - Classic raised appearance',
+		style: { padding: '16px', margin: '8px' },
 	},
 	parameters: {
 		docs: {
 			description: {
-				story: 'The Noise pattern provides a dense, grungy texture.',
+				story:
+					'The raised panel style creates a classic Windows-style elevated appearance.',
 			},
 		},
 	},
 };
 
 /**
- * Dots Pattern
+ * Sunken Panel - Classic Windows sunken look
  */
-export const Dots: Story = {
+export const SunkenPanel: Story = {
 	args: {
-		pattern: 'dots',
-		children: 'This is a dots pattern',
-		color: '#9DB2BF',
+		variant: 'sunken',
+		children: 'Sunken Panel - Classic sunken appearance',
+		style: { padding: '16px', margin: '8px' },
 	},
 	parameters: {
 		docs: {
 			description: {
-				story: 'The Dots pattern displays a regular arrangement of circles.',
+				story:
+					'The sunken panel style creates a classic Windows-style recessed appearance.',
 			},
 		},
 	},
 };
 
 /**
- * Stars Pattern
+ * Flat Panel - Minimal modern look
  */
-export const Stars: Story = {
+export const FlatPanel: Story = {
 	args: {
-		pattern: 'stars',
-		children: 'This is a stars pattern',
-		color: '#9DB2BF',
+		variant: 'flat',
+		children: 'Flat Panel - Simple flat appearance',
+		style: { padding: '16px', margin: '8px' },
 	},
 	parameters: {
 		docs: {
 			description: {
-				story: 'The Stars pattern shines with a celestial theme.',
+				story: 'The flat panel style provides a minimal, clean appearance.',
 			},
 		},
 	},
 };
 
 /**
- * Stripes Pattern
+ * Panel Group - Multiple panels together
  */
-export const Stripes: Story = {
+export const PanelGroup: Story = {
 	args: {
-		pattern: 'stripes',
-		children: 'This is a stripes pattern',
-		color: '#9DB2BF',
+		variant: 'panel',
+		children: 'Panel Group - Standard retro panel',
+		style: { padding: '16px', margin: '8px' },
 	},
 	parameters: {
 		docs: {
 			description: {
-				story: 'The Stripes pattern features a classic, linear design.',
+				story:
+					'The panel variant provides the standard retro-style container appearance.',
 			},
 		},
 	},

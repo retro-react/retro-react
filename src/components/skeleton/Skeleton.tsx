@@ -1,8 +1,7 @@
 /** @jsxImportSource theme-ui */
-import { forwardRef, useEffect, useRef, useState } from 'react';
+import { forwardRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
-import getColorScheme, { ComponentColors } from '@src/utils/getColorScheme';
 import { StyledSkeleton } from './Skeleton.styled';
 
 export interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -13,74 +12,47 @@ export interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
 	 */
 	height?: string | number;
 	/**
-	 * The color of the skeleton.
-	 *
-	 * @default 'greyscale'
-	 */
-	color?: ComponentColors | 'greyscale';
-	/**
 	 * The shape of the skeleton. For a circle, the height will also be used for the width.
 	 *
 	 * @default 'rectangle'
 	 */
 	shape?: 'rectangle' | 'circle';
 	/**
-	 * Whether or not the skeleton should have rounded corners.
+	 * The effect to use for the skeleton loading animation.
 	 *
-	 * @default false
+	 * @default 'scanlines'
 	 */
-	rounded?: boolean;
-	/**
-	 * The effect to use for the skeleton.
-	 *
-	 * @default 'blink'
-	 */
-	effect?: 'blink' | 'shimmer';
+	effect?: 'scanlines' | 'dither' | 'processing';
 	sx?: ThemeUICSSObject;
 }
 
 /**
- * A simple skeleton loading component. Useful for when you need to show a loading state for a component.
+ * A retro skeleton loading component with authentic WIN31 styling.
+ * Features classic scan line, dithering, and processing effects reminiscent of early computer graphics.
  *
  * @example
  * <Container>
- * 		<Skeleton height="20px" />
- * 		<Skeleton height="20px" />
- * 		<Skeleton height="20px" />
+ * 		<Skeleton height="20px" effect="scanlines" />
+ * 		<Skeleton height="20px" effect="dither" />
+ * 		<Skeleton height="40px" shape="circle" effect="processing" />
  * </Container>
  */
 export const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
 	({
 		height = '20px',
-		color = 'greyscale',
 		shape = 'rectangle',
-		effect = 'blink',
-		rounded = false,
+		effect = 'scanlines',
 		sx,
 		className,
 		...rest
 	}) => {
-		const skeletonRef = useRef<HTMLDivElement>(null);
-		const gradientColor = getColorScheme(color);
-
-		const [gradientWidth, setGradientWidth] = useState(0);
-
-		useEffect(() => {
-			if (skeletonRef.current) {
-				setGradientWidth(skeletonRef.current.offsetWidth);
-			}
-		}, []);
-
 		return (
 			<StyledSkeleton
-				ref={skeletonRef}
 				className={classNames('skeleton-root', className)}
-				$color={gradientColor}
 				$shape={shape}
-				$rounded={rounded}
 				$height={height}
 				$effect={effect}
-				$gradientWidth={gradientWidth}
+				sx={sx}
 				{...rest}
 			/>
 		);

@@ -1,8 +1,11 @@
 import styled from '@emotion/styled';
-import { alterColorEnhanced } from '@src/utils/alterColor';
-import getColorScheme, { ComponentColors } from '@src/utils/getColorScheme';
-import { getPatternScheme } from '@src/utils/getPatternScheme';
-import { BLACK } from '@src/constants/colors';
+import {
+	VGA_BLACK,
+	WIN31_BUTTON_FACE,
+	WIN31_BUTTON_HIGHLIGHT,
+	WIN31_BUTTON_SHADOW,
+} from '@src/constants/colors';
+import { SYSTEM_FONT } from '@src/constants/fonts';
 
 export const RadioGroup = styled.fieldset`
 	border: none;
@@ -11,99 +14,114 @@ export const RadioGroup = styled.fieldset`
 
 	display: flex;
 	flex-direction: column;
-	gap: 0.5rem;
+	gap: 4px;
+
+	/* Authentic WIN31 fieldset styling */
+	font-family: ${SYSTEM_FONT};
 `;
 
-export const Radio = styled.input<{ $color: ComponentColors | 'greyscale' }>`
-	/* Reset */
+export const Radio = styled.input`
+	/* Reset default radio button appearance */
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
 	border: none;
 	outline: none;
-	/* Custom */
+
+	/* Authentic WIN31 radio button styling */
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	position: relative;
-	height: 20px;
-	width: 20px;
-	border-radius: 50%; // round corners
+	height: 13px;
+	width: 13px;
+
+	/* Perfect circle with WIN31 inset styling */
+	border-radius: 50%;
 	cursor: pointer;
 	padding: 0;
 
-	background-image: linear-gradient(
-			to bottom,
-			${(props) =>
-				alterColorEnhanced(
-					getColorScheme(
-						props.$color === 'greyscale' ? 'greyscale-dark' : props.$color,
-						props.theme,
-					),
-					-20,
-				)},
-			${(props) =>
-				getColorScheme(
-					props.$color === 'greyscale' ? 'greyscale-dark' : props.$color,
-					props.theme,
-				)}
-		),
-		url(${getPatternScheme('noise')});
+	/* Authentic inset border like WIN31 radio buttons */
+	background: ${WIN31_BUTTON_FACE};
+	border: 2px solid;
+	border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
+		${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
 
-	box-shadow: inset 1px 1px 2px ${BLACK} inset -1px -1px 2px
-		${(props) =>
-			getColorScheme(
-				props.$color === 'greyscale' ? 'greyscale-dark' : props.$color,
-				props.theme,
-			)};
+	/* Remove modern effects */
+	transition: none;
+	box-shadow: none;
 
+	/* Authentic selected state - black dot in center */
 	&::after {
 		content: '';
 		position: absolute;
 		top: 50%;
 		left: 50%;
-		width: 10px;
-		height: 10px;
+		width: 5px;
+		height: 5px;
 		border-radius: 50%;
-		background-color: ${(props) =>
-			alterColorEnhanced(getColorScheme(props.$color, props.theme), 75)};
+		background-color: ${VGA_BLACK};
 		transform: translate(-50%, -50%);
 		opacity: 0;
-		transition: opacity 0.2s ease-in-out;
 	}
 
 	&:checked::after {
 		opacity: 1;
 	}
 
+	/* Minimal hover effect */
 	&:hover:not([disabled]) {
-		opacity: 0.8;
-		box-shadow: inset 0 8px 6px -6px ${BLACK};
-		filter: saturate(70%);
+		filter: brightness(1.02);
 	}
 
+	/* No active effect - keep authentic */
 	&:active:not([disabled]) {
-		filter: contrast(60%);
+		/* Slight press effect */
+		transform: translate(0.5px, 0.5px);
 	}
 
+	/* Disabled state */
 	&:disabled {
 		cursor: not-allowed;
-		opacity: 0.6;
+		background: ${WIN31_BUTTON_FACE};
+		border-color: ${WIN31_BUTTON_SHADOW};
+
+		&::after {
+			background-color: ${WIN31_BUTTON_SHADOW};
+		}
 	}
 
+	/* Authentic focus state with dotted outline */
 	&:focus {
-		outline: 2px solid ${(props) => getColorScheme(props.$color, props.theme)};
-		box-shadow: 0 0 5px ${(props) => getColorScheme(props.$color, props.theme)};
+		outline: 1px dotted ${VGA_BLACK};
+		outline-offset: 2px;
 	}
 `;
 
 export const RadioWrapper = styled.div`
 	display: flex;
 	align-items: center;
-	gap: 0.5rem;
+	gap: 6px;
+
+	/* Better click target */
+	cursor: pointer;
+
+	/* Ensure proper alignment */
+	line-height: 1;
 `;
 
 export const RadioLabel = styled.label`
-	font-family: 'Trebuchet MS', Helvetica, sans-serif;
-	font-size: 1rem;
+	font-family: ${SYSTEM_FONT};
+	font-size: 11px;
+	color: ${VGA_BLACK};
+	cursor: pointer;
+
+	/* Ensure text aligns properly with radio button */
+	line-height: 1.2;
+
+	/* Disabled state */
+	input:disabled + & {
+		color: ${WIN31_BUTTON_SHADOW};
+		cursor: not-allowed;
+	}
 `;

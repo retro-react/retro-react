@@ -1,5 +1,12 @@
 /** @jsxImportSource theme-ui */
-import { CSSProperties, forwardRef, useEffect, useRef, useState } from 'react';
+import {
+	CSSProperties,
+	forwardRef,
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import { Text, TextProps } from '../text/index';
@@ -16,106 +23,234 @@ interface TypewriterTextProps extends Omit<TextProps, 'children'> {
 	 */
 	typingSpeed?: number;
 	/**
-	 * Repeatedly type the text.
+	 * The erasing speed in milliseconds. Determines how quickly the text is erased when repeating.
+	 *
+	 * @default 50
+	 */
+	erasingSpeed?: number;
+	/**
+	 * Repeatedly type the text. When true, text will be typed, paused, erased, and repeated.
 	 *
 	 * @default false
 	 */
 	repeat?: boolean;
+	/**
+	 * Pause duration in milliseconds after typing is complete before erasing (when repeat is true).
+	 *
+	 * @default 2000
+	 */
+	pauseDuration?: number;
+	/**
+	 * Pause duration in milliseconds after erasing is complete before starting again (when repeat is true).
+	 *
+	 * @default 1000
+	 */
+	restartPause?: number;
+	/**
+	 * Show a blinking cursor at the end of the text.
+	 *
+	 * @default true
+	 */
+	showCursor?: boolean;
+	/**
+	 * The cursor character to display.
+	 *
+	 * @default '|'
+	 */
+	cursor?: string;
 	/**
 	 * The color of the text.
 	 *
 	 * @default '#000000'
 	 */
 	color?: CSSProperties['color'];
-	sx?: ThemeUICSSObject; // Add the sx prop
+	sx?: ThemeUICSSObject;
 }
 
 /**
- * TypewriterText is used to display text as if it is being typed. It can be used to create a typewriter effect.
+ * TypewriterText creates an authentic retro typing effect reminiscent of classic computer terminals.
  *
- * `IMPORTANT:` Make sure to refresh the page if the text is not displayed correctly.
- *
- * The props should not be changed after the component is mounted. It can cause unexpected behavior.
+ * Features:
+ * - Smooth typing animation with configurable speed
+ * - Optional repeat functionality with erase effect
+ * - Blinking cursor (classic terminal style)
+ * - Proper cleanup and state management
+ * - Retro monospace styling
  *
  * @example
- * <TypewriterText text="Life is like a box of chocolates. You never know what you are going to get." />
+ * // Basic typing effect
+ * <TypewriterText text="Hello, World!" />
+ *
+ * // Repeating with custom timing
+ * <TypewriterText
+ *   text="Welcome to the retro terminal..."
+ *   repeat
+ *   typingSpeed={80}
+ *   erasingSpeed={40}
+ * />
  */
-export const TypewriterText = forwardRef<HTMLSpanElement, TypewriterTextProps>(
+export const TypewriterText = forwardRef<HTMLDivElement, TypewriterTextProps>(
 	(
 		{
 			id,
 			className,
 			text,
 			typingSpeed = 100,
-			repeat,
+			erasingSpeed = 50,
+			repeat = false,
+			pauseDuration = 2000,
+			restartPause = 1000,
+			showCursor = true,
+			cursor = '|',
 			color = '#000000',
 			sx,
 			...rest
 		},
 		ref,
 	) => {
-		const pauseDuration = 3000;
 		const [displayText, setDisplayText] = useState('');
-		const isMounted = useRef(false);
-		const repeatRef = useRef(repeat);
-		const [restart, setRestart] = useState(false);
+		const [isTyping, setIsTyping] = useState(true);
+		const [showCursorState, setShowCursorState] = useState(true);
 
-		useEffect(() => {
-			if (repeatRef.current !== repeat) {
-				repeatRef.current = repeat;
-				if (repeat) {
-					setRestart(true);
-				}
+		const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+		const cursorTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+		const currentIndexRef = useRef(0);
+		const mountedRef = useRef(true);
+
+		// Clean up timeouts
+		const clearTimeouts = useCallback(() => {
+			if (timeoutRef.current) {
+				clearTimeout(timeoutRef.current);
+				timeoutRef.current = null;
 			}
-		}, [repeat]);
-
-		useEffect(() => {
-			if (restart) {
-				setRestart(false);
-				setDisplayText('');
+			if (cursorTimeoutRef.current) {
+				clearTimeout(cursorTimeoutRef.current);
+				cursorTimeoutRef.current = null;
 			}
-		}, [restart]);
+		}, []);
 
-		useEffect(() => {
-			if (!isMounted.current || restart) {
-				isMounted.current = true;
-				let currentIndex = 0;
+		// Cursor blinking effect
+		const startCursorBlink = useCallback(() => {
+			if (!showCursor || !mountedRef.current) return;
 
-				const typeText = () => {
-					if (isMounted.current) {
-						setDisplayText(text.slice(0, currentIndex));
-						currentIndex++;
+			const blink = () => {
+				if (!mountedRef.current) return;
+				setShowCursorState((prev) => !prev);
+				cursorTimeoutRef.current = setTimeout(blink, 530); // Authentic terminal blink speed
+			};
 
-						if (currentIndex > text.length) {
-							if (repeatRef.current) {
-								setTimeout(() => {
-									currentIndex = 0;
-									setDisplayText('');
-									setTimeout(typeText, typingSpeed);
-								}, pauseDuration);
-							}
-						} else {
-							setTimeout(typeText, typingSpeed);
+			cursorTimeoutRef.current = setTimeout(blink, 530);
+		}, [showCursor]);
+
+		// Main animation logic
+		const animate = useCallback(() => {
+			if (!mountedRef.current) return;
+
+			const currentIndex = currentIndexRef.current;
+
+			if (isTyping) {
+				// Typing phase
+				if (currentIndex <= text.length) {
+					setDisplayText(text.slice(0, currentIndex));
+					currentIndexRef.current = currentIndex + 1;
+
+					if (currentIndex < text.length) {
+						timeoutRef.current = setTimeout(animate, typingSpeed);
+					} else {
+						// Typing complete
+						if (repeat) {
+							timeoutRef.current = setTimeout(() => {
+								setIsTyping(false);
+								animate();
+							}, pauseDuration);
 						}
 					}
-				};
+				}
+			} else {
+				// Erasing phase (only when repeat is true)
+				if (currentIndex >= 0) {
+					setDisplayText(text.slice(0, currentIndex));
+					currentIndexRef.current = currentIndex - 1;
 
-				typeText();
+					if (currentIndex > 0) {
+						timeoutRef.current = setTimeout(animate, erasingSpeed);
+					} else {
+						// Erasing complete, restart
+						timeoutRef.current = setTimeout(() => {
+							setIsTyping(true);
+							currentIndexRef.current = 0;
+							animate();
+						}, restartPause);
+					}
+				}
 			}
-		}, [text, typingSpeed, restart]);
+		}, [
+			text,
+			typingSpeed,
+			erasingSpeed,
+			pauseDuration,
+			restartPause,
+			repeat,
+			isTyping,
+		]);
+
+		// Initialize animation
+		useEffect(() => {
+			mountedRef.current = true;
+			currentIndexRef.current = 0;
+			setDisplayText('');
+			setIsTyping(true);
+
+			// Start cursor blinking
+			startCursorBlink();
+
+			// Start typing animation
+			timeoutRef.current = setTimeout(animate, typingSpeed);
+
+			return () => {
+				mountedRef.current = false;
+				clearTimeouts();
+			};
+		}, [text, animate, startCursorBlink, typingSpeed, clearTimeouts]);
+
+		// Update cursor when showCursor prop changes
+		useEffect(() => {
+			if (showCursor && mountedRef.current) {
+				startCursorBlink();
+			} else {
+				if (cursorTimeoutRef.current) {
+					clearTimeout(cursorTimeoutRef.current);
+					cursorTimeoutRef.current = null;
+				}
+				setShowCursorState(false);
+			}
+		}, [showCursor, startCursorBlink]);
 
 		return (
 			<Text
+				ref={ref}
 				id={id}
 				color={color}
 				className={classNames('typewriter-text-root', className)}
 				{...rest}
 				sx={{
+					fontFamily: "'Courier New', monospace", // Authentic terminal font
 					minHeight: '1.2em',
+					whiteSpace: 'pre-wrap', // Preserve spacing
 					...sx,
 				}}
 			>
 				{displayText}
+				{showCursor && (
+					<span
+						style={{
+							opacity: showCursorState ? 1 : 0,
+							transition: 'none', // No smooth transitions for authentic feel
+						}}
+					>
+						{cursor}
+					</span>
+				)}
 			</Text>
 		);
 	},

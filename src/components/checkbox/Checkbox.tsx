@@ -1,6 +1,6 @@
 /** @jsxImportSource theme-ui */
 import _ from 'lodash';
-import { forwardRef } from 'react';
+import { forwardRef, useEffect, useRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import commonClassNames from '@src/constants/commonClassNames';
@@ -28,7 +28,12 @@ export interface CheckboxProps
 	 *
 	 * @default undefined
 	 */
-	label?: React.ReactNode;
+	label?: string | React.ReactNode;
+	/**
+	 * Puts the checkbox in an indeterminate state.
+	 * @default false
+	 */
+	indeterminate?: boolean;
 	sx?: ThemeUICSSObject;
 }
 
@@ -40,44 +45,61 @@ export interface CheckboxProps
  * <Checkbox color="primary" checked />
  * <Checkbox color="primary" disabled />
  */
-export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
-	({ id, className, onClick, color = 'primary', sx, label, ...rest }, ref) => {
+export const Checkbox = forwardRef(
+	(
+		{
+			id,
+			className,
+			onClick,
+			color = 'primary',
+			sx,
+			label,
+			indeterminate,
+			...rest
+		}: CheckboxProps,
+		ref: React.Ref<HTMLInputElement>,
+	) => {
 		id = id ?? `retro-checkbox-${_.uniqueId()}`;
+		const localRef = useRef<HTMLInputElement>(null);
+		const resolvedRef = (ref as React.RefObject<HTMLInputElement>) || localRef;
+
+		useEffect(() => {
+			if ('current' in resolvedRef && resolvedRef.current) {
+				resolvedRef.current.indeterminate = indeterminate ?? false;
+			}
+		}, [resolvedRef, indeterminate]);
+
+		const checkbox = (
+			<Sc.Checkbox
+				id={id}
+				type="checkbox"
+				className={classNames(commonClassNames, className)}
+				onClick={onClick}
+				$color={color}
+				sx={sx}
+				ref={resolvedRef}
+				{...rest}
+			/>
+		);
 
 		if (label) {
 			return (
 				<Sc.CheckboxWrapper
-					sx={sx}
 					className={classNames('checkbox-root', className, commonClassNames)}
 				>
-					<Sc.Checkbox
-						ref={ref}
-						id={id}
+					<Sc.CheckboxLabel
+						htmlFor={id}
 						$color={color}
-						type="checkbox"
-						className={classNames('checkbox-root', className, commonClassNames)}
-						onClick={onClick}
-						{...rest}
-					/>
-					<Sc.CheckboxLabel htmlFor={id} $color={color}>
+						className={commonClassNames}
+					>
+						{checkbox}
 						{label}
 					</Sc.CheckboxLabel>
 				</Sc.CheckboxWrapper>
 			);
 		}
 
-		return (
-			<Sc.Checkbox
-				ref={ref}
-				id={id}
-				sx={sx}
-				$color={color}
-				type="checkbox"
-				className={classNames('checkbox-root', className, commonClassNames)}
-				onClick={onClick}
-				{...rest}
-			/>
-		);
+		return checkbox;
 	},
 );
 

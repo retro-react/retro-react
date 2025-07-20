@@ -1,25 +1,15 @@
-import { css, keyframes } from '@emotion/react';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { CSSProperties } from 'react';
 import getColorScheme from '@src/utils/getColorScheme';
+import { terminalBlink } from '@src/utils/retroEffects';
 import { RAINBOW_GRADIENT } from '@src/constants/colors';
+import { FONT_SIZES, SYSTEM_FONT } from '@src/constants/fonts';
 import {
 	fontSizeForBreakpoint,
 	fontSizeForVariant,
 } from './responsiveVariants';
 import { TextVariant } from './Text';
-
-const blinkEffect = keyframes`
-	0% {
-		opacity: 1;
-	}
-	50% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 1;
-	}
-`;
 
 export const Text = styled.div<{
 	$align: CSSProperties['textAlign'];
@@ -28,8 +18,8 @@ export const Text = styled.div<{
 	$bevel: boolean;
 	$variant: TextVariant;
 }>`
-	font-family: 'Trebuchet MS', Helvetica, sans-serif;
-	font-size: 1rem;
+	font-family: ${SYSTEM_FONT};
+	font-size: ${FONT_SIZES.NORMAL};
 	font-weight: 400;
 
 	text-align: ${(props) => props.$align};
@@ -39,14 +29,18 @@ export const Text = styled.div<{
 	${(props) =>
 		props.$blink
 			? css`
-					animation: ${blinkEffect} 1s linear infinite;
+					animation: ${terminalBlink} 1s linear infinite;
 			  `
 			: ''}
 
 	${(props) =>
 		props.$bevel
 			? `
-				text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.3), -1px -1px 2px rgba(0, 0, 0, 0.2);
+				/* Authentic retro bevel effect - more chunky and obvious */
+				text-shadow: 
+					1px 1px 0px rgba(255, 255, 255, 0.8), 
+					2px 2px 0px rgba(0, 0, 0, 0.3);
+				font-weight: bold;
 			`
 			: ''}
 

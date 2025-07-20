@@ -1,39 +1,19 @@
 /** @jsxImportSource theme-ui */
-import { CSSProperties, forwardRef } from 'react';
+import { forwardRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
-import { ComponentPatterns } from '@src/utils/getPatternScheme';
 import commonClassNames from '@src/constants/commonClassNames';
 import * as Sc from './ProgressBar.styled';
 
 export interface ProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
-	 * The value of the Progress Bar.
+	 * The value of the Progress Bar (0-100).
 	 *
 	 * @default 0
 	 */
 	value?: number;
 	/**
-	 * The color of the Progress Bar.
-	 *
-	 * @default 'primary'
-	 */
-	color?: CSSProperties['color'];
-	/**
-	 * The background color of the Progress Bar.
-	 * Set to `none` to remove the background completely.
-	 *
-	 * @default 'white'
-	 */
-	colorBg?: CSSProperties['color'] | 'none';
-	/**
-	 * The pattern of the Progress Bar.
-	 *
-	 * @default 'stripes'
-	 */
-	pattern?: ComponentPatterns;
-	/**
-	 * Animation effect of the Progress Bar. Will not work if `pattern` is set to `solid` or `stars`.
+	 * Animation effect with classic "barber pole" stripes moving from left to right.
 	 *
 	 * @default false
 	 */
@@ -42,34 +22,20 @@ export interface ProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * Progress Bars are used to show the progress of a task.
- * Use `sx` prop to style the Progress Bar.
+ * Authentic Windows 3.1 style progress bar with classic inset border and diagonal stripe pattern.
+ * Features the iconic "barber pole" animation when animated is enabled.
+ * Use `sx` prop to customize styling if needed.
  *
  * @example
  * <ProgressBar value={50} />
+ * <ProgressBar value={75} animated />
  */
 export const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
-	(
-		{
-			id,
-			className,
-			value = 0,
-			color,
-			colorBg,
-			pattern = 'noise',
-			animated = false,
-			sx,
-			...rest
-		},
-		ref,
-	) => {
+	({ id, className, value = 0, animated = false, sx, ...rest }, ref) => {
 		return (
 			<Sc.ProgressBarWrapper>
 				<Sc.ProgressBar
-					$bg={colorBg}
 					$value={value}
-					$color={color}
-					$pattern={pattern}
 					$animated={animated}
 					ref={ref}
 					id={id}
@@ -79,6 +45,10 @@ export const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
 						className,
 						commonClassNames,
 					)}
+					role="progressbar"
+					aria-valuenow={value}
+					aria-valuemin={0}
+					aria-valuemax={100}
 					{...rest}
 				/>
 			</Sc.ProgressBarWrapper>

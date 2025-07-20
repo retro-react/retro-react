@@ -1,53 +1,49 @@
 /** @jsxImportSource theme-ui */
-import { createRef, useRef, useState } from 'react';
+import { forwardRef, useState } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
-import { ComponentColors } from '@src/utils/getColorScheme';
-import { ComponentPatterns } from '@src/utils/getPatternScheme';
 import commonClassNames from '@src/constants/commonClassNames';
 import {
-	PasswordInputBlock,
 	PasswordInputContainer,
+	PasswordInputField,
+	PasswordToggleButton,
 } from './PasswordInput.styled';
 
-export type PasswordInputSizes = 'small' | 'medium';
+export type PasswordInputVariants =
+	| 'outlined'
+	| 'filled'
+	| 'terminal'
+	| 'classic';
+export type PasswordInputSizes = 'small' | 'medium' | 'large' | string;
 
-export interface BasePasswordInputProps
+export interface PasswordInputProps
 	extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
 	/**
-	 * Defines the pattern of the input fields. Can be a pattern from ComponentPatterns or 'none'.
+	 * The variant of the PasswordInput.
+	 * - classic: Deep sunken Windows 95/98 dialog style with heavy inset shadow
+	 * - filled: Prominent raised 3D button-like appearance with outer shadow
+	 * - outlined: Clean flat design with simple border and focus ring
+	 * - terminal: Subtle dark terminal aesthetic with soft green text
 	 *
-	 * @default 'noise'
+	 * @default 'filled'
 	 */
-	pattern?: ComponentPatterns | 'none';
+	variant?: PasswordInputVariants;
 
 	/**
-	 * Defines if the corners of the input fields should be rounded.
-	 *
-	 * @default true
-	 */
-	rounded?: boolean;
-
-	/**
-	 * Defines the color of the input fields. Can be a color from ComponentColors or 'greyscale'.
-	 *
-	 * @default 'primary'
-	 */
-	color?: ComponentColors | 'greyscale';
-
-	/**
-	 * Defines the size of the input fields. Can be 'small' or 'medium'.
+	 * The size of the PasswordInput.
+	 * Supports predefined sizes: 'small', 'medium', 'large'
+	 * Or custom size string for font-size
 	 *
 	 * @default 'medium'
 	 */
 	size?: PasswordInputSizes;
 
 	/**
-	 * Defines the number of input fields.
+	 * Whether to show a toggle button to reveal/hide the password.
 	 *
-	 * @default 6
+	 * @default true
 	 */
-	length?: number;
+	showToggle?: boolean;
 
 	/**
 	 * A function to be called when the password changes.
@@ -55,131 +51,93 @@ export interface BasePasswordInputProps
 	onPasswordChange?: (password: string) => void;
 
 	/**
-	 * A theme-ui prop to pass custom styles.
+	 * Theme-UI sx prop for additional styling
 	 */
 	sx?: ThemeUICSSObject;
 }
 
 /**
- * PasswordInputs are used to collect user provided information. They are used to collect passwords.
- * The component creates a number of input fields that can be filled with a password.
- * Use the `onPasswordChange` prop to get the password when it changes.
+ * Retro-themed password input inspired by classic 90s computing aesthetics.
+ *
+ * Features four distinct authentic variants:
+ * - Classic: Deep sunken Windows 95/98 dialog inputs with heavy inset shadows
+ * - Filled: Prominent raised 3D button-style with outer drop shadows
+ * - Outlined: Clean flat design with simple borders and focus rings
+ * - Terminal: Subtle dark console style with soft phosphor green text
  *
  * @example
- * <PasswordInput
- * 		pattern="noise"
- * 		color="primary"
- * 		size="medium"
- * 		rounded={true}
- * 		length={6}
- * 		onPasswordChange={(newPass: string) => console.log(newPass)}
- * />
+ * // Deep Windows 95 sunken style
+ * <PasswordInput variant="classic" placeholder="Enter password..." />
+ *
+ * // Prominent 3D raised input (default)
+ * <PasswordInput placeholder="Enter password..." />
+ *
+ * // Clean flat outlined style
+ * <PasswordInput variant="outlined" placeholder="Password..." />
+ *
+ * // Subtle terminal style
+ * <PasswordInput variant="terminal" placeholder="Enter passphrase..." />
  */
-export const PasswordInput: React.FC<BasePasswordInputProps> = ({
-	id,
-	className,
-	pattern = 'noise',
-	color = 'primary',
-	size = 'medium',
-	rounded = true,
-	length = 6,
-	sx,
-	onPasswordChange,
-	value = '',
-	...rest
-}) => {
-	length = Math.max(length, 1);
-	const [values, setValues] = useState<string[]>(
-		Array.from({ length }, (_, i) => value[i] || ''),
-	);
-
-	const inputRefs = useRef(
-		new Array(length).fill(0).map(() => createRef<HTMLInputElement>()),
-	);
-
-	const focusInput = (inputIndex: number) => {
-		if (inputRefs.current[inputIndex]) {
-			inputRefs.current[inputIndex].current?.focus();
-		}
-	};
-
-	const handleKeyDown = (
-		event: React.KeyboardEvent<HTMLInputElement>,
-		index: number,
+export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
+	(
+		{
+			id,
+			className,
+			variant = 'filled',
+			size = 'medium',
+			showToggle = true,
+			sx,
+			onPasswordChange,
+			onChange,
+			...rest
+		},
+		ref,
 	) => {
-		const target = event.target as HTMLInputElement;
+		const [showPassword, setShowPassword] = useState(false);
 
-		switch (event.key) {
-			case 'Backspace':
-				if (index > 0 && values[index] === '') {
-					focusInput(index - 1);
-				}
-				break;
-			case 'ArrowLeft':
-				if (index > 0) {
-					focusInput(index - 1);
-				}
-				break;
-			case 'ArrowRight':
-				if (index < length - 1) {
-					focusInput(index + 1);
-				}
-				break;
-			default:
-				break;
-		}
+		const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+			onPasswordChange?.(e.target.value);
+			onChange?.(e);
+		};
 
-		// move the cursor to the end if the user tries to type
-		if (index < length - 1 && target.value.length > 0) {
-			target.setSelectionRange(1, 1);
-		}
-	};
+		const togglePasswordVisibility = () => {
+			setShowPassword(!showPassword);
+		};
 
-	const handleChange = (
-		event: React.ChangeEvent<HTMLInputElement>,
-		index: number,
-	) => {
-		const newValue = event.currentTarget.value;
-
-		setValues((oldValues) => {
-			const newValues = [...oldValues];
-			newValues[index] = newValue;
-			return newValues;
-		});
-
-		if (onPasswordChange) {
-			const newValues = [...values];
-			newValues[index] = newValue;
-			const newPassword = newValues.join('');
-			onPasswordChange(newPassword);
-		}
-
-		const isDeleting = newValue.length < 1;
-		if (!isDeleting && index < length - 1) {
-			focusInput(index + 1);
-		}
-	};
-
-	const inputs = Array.from({ length }, (_, index) => (
-		<PasswordInputBlock
-			key={index}
-			ref={inputRefs.current[index]}
-			id={`${id}-${index}`}
-			type="password"
-			$pattern={pattern}
-			$rounded={rounded}
-			$color={color}
-			$size={size}
-			maxLength={1}
-			className={classNames('password-input-root', className, commonClassNames)}
-			sx={sx}
-			onKeyDown={(e) => handleKeyDown(e, index)}
-			onChange={(e) => handleChange(e, index)}
-			{...rest}
-		/>
-	));
-
-	return <PasswordInputContainer>{inputs}</PasswordInputContainer>;
-};
+		return (
+			<PasswordInputContainer
+				className={classNames(
+					'password-input-root',
+					className,
+					commonClassNames,
+				)}
+				sx={sx}
+			>
+				<PasswordInputField
+					{...rest}
+					ref={ref}
+					id={id}
+					type={showPassword ? 'text' : 'password'}
+					$variant={variant}
+					$size={size}
+					onChange={handleChange}
+					className="password-input-field"
+				/>
+				{showToggle && (
+					<PasswordToggleButton
+						type="button"
+						$variant={variant}
+						onClick={togglePasswordVisibility}
+						className="password-toggle-button"
+						aria-label={showPassword ? 'Hide password' : 'Show password'}
+						tabIndex={-1}
+					>
+						{showPassword ? '●' : '○'}
+					</PasswordToggleButton>
+				)}
+			</PasswordInputContainer>
+		);
+	},
+);
 
 PasswordInput.displayName = 'PasswordInput';

@@ -1,79 +1,67 @@
 import styled from '@emotion/styled';
-import { alterColorEnhanced } from '@src/utils/alterColor';
-import getColorScheme, { ComponentColors } from '@src/utils/getColorScheme';
-import {
-	ComponentPatterns,
-	getPatternScheme,
-} from '@src/utils/getPatternScheme';
-import { rgba } from '@src/utils/rgba';
-import { BLACK, WHITE } from '@src/constants/colors';
 
-export const MenuContainer = styled.div<{
-	$pattern: ComponentPatterns;
-	$rounded: boolean;
-	$color: ComponentColors | 'greyscale';
-}>`
+export const MenuContainer = styled.div`
 	position: relative;
 	display: inline-block;
-	background-color: ${(props) =>
-		getColorScheme(props.$color, props.theme) || props.$color};
+	background-color: #c0c0c0;
+	border: 2px solid;
+	border-color: #ffffff #808080 #808080 #ffffff;
+	font-family: 'MS Sans Serif', sans-serif;
+	font-size: 11px;
+	min-width: 150px;
+	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 
-	background-image: ${(props) => `
-		linear-gradient(
-				${rgba(getColorScheme(props.$color, props.theme) || props.$color, 0.7)},
-				${rgba(getColorScheme(props.$color, props.theme) || props.$color, 0.7)}
-		), url(${getPatternScheme(props.$pattern)})
-`};
-
-	box-shadow: inset 1px 1px 2px ${rgba(BLACK, 0.2)},
-		inset -1px -1px 2px ${rgba(WHITE, 0.2)};
-	border: 2px solid
-		${(props) => getColorScheme(props.$color, props.theme) || props.$color};
-	border-radius: ${(props) => (props.$rounded ? '0.5rem' : '0')};
-
-	font-family: 'Trebuchet MS', Helvetica, sans-serif;
-	font-size: 1rem;
-	overflow: auto;
-
-	& .menu-item {
-		color: ${({ $color }) => ($color === 'warn' ? BLACK : WHITE)};
-	}
+	/* Add subtle dithering pattern for authentic WIN31 look */
+	background-image: radial-gradient(
+		circle at 1px 1px,
+		rgba(0, 0, 0, 0.15) 1px,
+		transparent 0
+	);
+	background-size: 2px 2px;
 `;
 
 export const MenuStyled = styled.ul`
-	min-width: 140px;
-	padding: 8px 12px;
-	background-color: ${rgba(BLACK, 0.1)};
 	list-style: none;
 	margin: 0;
-
-	${MenuContainer}:hover & {
-		display: block;
-	}
+	padding: 2px;
+	background-color: #c0c0c0;
 `;
-export const MenuItemDivider = styled.hr<{
-	$color: ComponentColors | 'greyscale';
-}>`
-	border: 1px solid
-		${(props) =>
-			alterColorEnhanced(getColorScheme(props.$color, props.theme), 20)};
-	margin: 0.5rem 0;
+
+export const MenuItemDivider = styled.hr`
+	border: none;
+	border-top: 1px solid #808080;
+	border-bottom: 1px solid #ffffff;
+	margin: 2px 4px;
+	height: 0;
 `;
 
 export const MenuItem = styled.li`
-	font-family: 'Trebuchet MS', Helvetica, sans-serif;
-	padding: 0.3rem 0.5rem;
+	font-family: 'MS Sans Serif', sans-serif;
+	font-size: 11px;
+	padding: 4px 16px;
 	background-color: transparent;
+	color: #000000;
+	cursor: pointer;
+	position: relative;
+	line-height: 1.2;
 
 	&:hover {
-		background-color: ${rgba(BLACK, 0.2)};
+		background-color: #0000ff;
+		color: #ffffff;
 	}
 
 	&:active {
-		background-color: ${rgba(BLACK, 0.3)};
+		background-color: #000080;
+		color: #ffffff;
 	}
 
-	&:not(:last-child) {
-		margin-bottom: 0.3rem;
+	/* Add keyboard focus indicator */
+	&:focus {
+		outline: 1px dotted #000000;
+		outline-offset: -1px;
+	}
+
+	&:hover:focus {
+		outline-color: #ffffff;
 	}
 `;

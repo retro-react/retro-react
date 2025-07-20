@@ -11,7 +11,6 @@ import { ThemeUICSSObject } from 'theme-ui';
 import { classNames } from '@src/utils/classNames';
 import { ComponentColors } from '@src/utils/getColorScheme';
 import commonClassNames from '@src/constants/commonClassNames';
-import closeIcon from '../../assets/svg/close_icon.svg';
 import {
 	AutocompleteInput,
 	AutocompleteWrapper,
@@ -106,14 +105,14 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
 		},
 		ref: ForwardedRef<HTMLInputElement>,
 	) => {
-		const suggestionsListRef = useRef<HTMLUListElement>(null);
+		const suggestionsListRef = useRef<HTMLDivElement>(null);
 		const [inputValue, setInputValue] = useState('');
 		const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>(
 			[],
 		);
 		const [wasSuggestionSelected, setWasSuggestionSelected] = useState(false);
 		const [isInteractingWithList, setIsInteractingWithList] = useState(false);
-		const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(0);
+		const [activeSuggestionIndex, setActiveSuggestionIndex] = useState(-1);
 		const [showSuggestions, setShowSuggestions] = useState(false);
 
 		useEffect(() => {
@@ -145,14 +144,10 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
 				);
 				setFilteredSuggestions(filtered);
 				setShowSuggestions(true);
-
-				if (filtered.length === 1) {
-					setActiveSuggestionIndex(0);
-				} else {
-					setActiveSuggestionIndex(-1);
-				}
+				setActiveSuggestionIndex(-1); // Reset to no selection when filtering
 			} else {
 				setShowSuggestions(false);
+				setActiveSuggestionIndex(-1);
 			}
 		}, [inputValue, suggestions, wasSuggestionSelected]);
 
@@ -170,26 +165,39 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
 
 		const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
 			if (e.key === 'ArrowDown') {
-				if (activeSuggestionIndex < filteredSuggestions.length - 1) {
-					setActiveSuggestionIndex(activeSuggestionIndex + 1);
+				e.preventDefault();
+				if (showSuggestions && filteredSuggestions.length > 0) {
+					if (activeSuggestionIndex < filteredSuggestions.length - 1) {
+						setActiveSuggestionIndex(activeSuggestionIndex + 1);
+					} else {
+						setActiveSuggestionIndex(0); // Wrap to first item
+					}
 				}
 			} else if (e.key === 'ArrowUp') {
-				if (activeSuggestionIndex > 0) {
-					setActiveSuggestionIndex(activeSuggestionIndex - 1);
+				e.preventDefault();
+				if (showSuggestions && filteredSuggestions.length > 0) {
+					if (activeSuggestionIndex > 0) {
+						setActiveSuggestionIndex(activeSuggestionIndex - 1);
+					} else {
+						setActiveSuggestionIndex(filteredSuggestions.length - 1); // Wrap to last item
+					}
 				}
 			} else if (e.key === 'Enter') {
-				const selectedSuggestion = filteredSuggestions[activeSuggestionIndex];
-				setInputValue((prev) => {
-					if (prev !== selectedSuggestion) {
-						onSuggestionSelect && onSuggestionSelect(selectedSuggestion);
-					}
+				e.preventDefault();
+				if (
+					showSuggestions &&
+					activeSuggestionIndex >= 0 &&
+					filteredSuggestions[activeSuggestionIndex]
+				) {
+					const selectedSuggestion = filteredSuggestions[activeSuggestionIndex];
+					setInputValue(selectedSuggestion);
 					setShowSuggestions(false);
 					setWasSuggestionSelected(true);
-
-					return selectedSuggestion;
-				});
+					onSuggestionSelect && onSuggestionSelect(selectedSuggestion);
+				}
 			} else if (e.key === 'Escape') {
 				setShowSuggestions(false);
+				setActiveSuggestionIndex(-1);
 			}
 		};
 
@@ -238,7 +246,10 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
 								<SuggestionItem
 									key={suggestion}
 									$color={color}
+									$highlighted={index === activeSuggestionIndex}
+									$selected={false}
 									onClick={() => handleClick(suggestion)}
+									onMouseEnter={() => setActiveSuggestionIndex(index)}
 									className={
 										index === activeSuggestionIndex
 											? 'active-suggestion'
@@ -263,12 +274,12 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
 				)}
 				{clearable && inputValue && !rest.disabled && (
 					<ClearButton
-						$icon={closeIcon}
-						$color={color}
 						className="autocomplete-clear-button"
 						onClick={() => setInputValue('')}
 						aria-label="Clear input"
-					/>
+					>
+						×
+					</ClearButton>
 				)}
 			</AutocompleteWrapper>
 		);

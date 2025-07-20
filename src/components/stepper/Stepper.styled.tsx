@@ -1,84 +1,207 @@
 import styled from '@emotion/styled';
-import { lighten } from 'polished';
-import { alterColorEnhanced } from '@src/utils/alterColor';
-import getColorScheme, { ComponentColors } from '@src/utils/getColorScheme';
-import { rgba } from '@src/utils/rgba';
-import { BLACK, WHITE } from '@src/constants/colors';
+import {
+	VGA_BLACK,
+	VGA_WHITE,
+	WIN31_BUTTON_FACE,
+	WIN31_BUTTON_HIGHLIGHT,
+	WIN31_BUTTON_SHADOW,
+} from '@src/constants/colors';
+import { SYSTEM_FONT } from '@src/constants/fonts';
+
+export type StepperVariant = 'default' | 'process' | 'warning' | 'success';
+
+// Get authentic retro colors for stepper variants
+const getStepperColors = (variant: StepperVariant) => {
+	switch (variant) {
+		case 'process':
+			return {
+				active: '#000080', // Classic Windows blue
+				completed: '#008000', // Windows green
+				inactive: WIN31_BUTTON_SHADOW,
+			};
+		case 'warning':
+			return {
+				active: '#800000', // Dark red
+				completed: '#008000', // Windows green
+				inactive: WIN31_BUTTON_SHADOW,
+			};
+		case 'success':
+			return {
+				active: '#008000', // Windows green
+				completed: '#008000', // Windows green
+				inactive: WIN31_BUTTON_SHADOW,
+			};
+		default:
+			return {
+				active: '#000080', // Classic Windows blue
+				completed: '#008000', // Windows green
+				inactive: WIN31_BUTTON_SHADOW,
+			};
+	}
+};
 
 export const StepperWrapper = styled.div`
 	display: flex;
-	justify-content: space-between;
-	align-items: center;
+	align-items: flex-start; /* Align to top to prevent shifting */
+	justify-content: flex-start;
+	gap: 0;
+	font-family: ${SYSTEM_FONT};
+	padding: 8px;
 `;
 
-export const Step = styled.div<{ active: boolean; color: ComponentColors }>`
-	padding: 0.2em;
-	border-radius: 50%;
-	margin-right: 1em;
-	width: 20px;
-	height: 20px;
+export const Step = styled.div<{
+	$active: boolean;
+	$completed: boolean;
+	$variant: StepperVariant;
+}>`
+	width: 28px;
+	height: 28px;
 	display: flex;
-	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	background-color: ${({ active, color, theme }) =>
-		active
-			? getColorScheme(color, theme)
-			: rgba(alterColorEnhanced(getColorScheme(color, theme)), 0.9)};
-	color: ${({ active, color, theme }) =>
-		active && color === 'warn'
-			? BLACK
-			: active
-			? WHITE
-			: lighten(0.3, getColorScheme(color, theme))};
+	background: ${WIN31_BUTTON_FACE};
+	color: ${VGA_BLACK};
+	border: 2px solid;
+	border-color: ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}
+		${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT};
+	font-family: ${SYSTEM_FONT};
+	font-size: 11px;
+	font-weight: bold;
+	position: relative;
 
-	transition: color 350ms ease-in-out, background-color 150ms ease-in-out;
+	/* Authentic Windows 3.1 button styling */
+	box-shadow: inset 1px 1px 0 ${WIN31_BUTTON_HIGHLIGHT},
+		inset -1px -1px 0 ${WIN31_BUTTON_SHADOW};
+
+	/* Active step styling - sunken appearance */
+	${({ $active, $variant }) =>
+		$active &&
+		`
+		background: ${getStepperColors($variant).active};
+		color: ${VGA_WHITE};
+		border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT} 
+			${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
+		box-shadow: 
+			inset 2px 2px 2px rgba(0, 0, 0, 0.3),
+			inset -1px -1px 0 rgba(255, 255, 255, 0.1);
+		font-weight: bold;
+	`}
+
+	/* Completed step styling - raised with checkmark */
+	${({ $completed, $active, $variant }) =>
+		$completed &&
+		!$active &&
+		`
+		background: ${getStepperColors($variant).completed};
+		color: ${VGA_WHITE};
+		border-color: ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW} 
+			${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT};
+		box-shadow: 
+			inset 1px 1px 0 ${WIN31_BUTTON_HIGHLIGHT},
+			inset -1px -1px 0 ${WIN31_BUTTON_SHADOW};
+		
+		&::after {
+			content: '✓';
+			position: absolute;
+			font-size: 12px;
+			font-weight: bold;
+		}
+	`}
+	
+	/* Inactive step styling - flat appearance */
+	${({ $active, $completed }) =>
+		!$active &&
+		!$completed &&
+		`
+		background: ${WIN31_BUTTON_SHADOW};
+		color: ${VGA_WHITE};
+		border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_SHADOW} 
+			${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_SHADOW};
+		box-shadow: none;
+		opacity: 0.7;
+	`}
 `;
 
 export const StepConnector = styled.div<{
-	color: ComponentColors;
+	$variant: StepperVariant;
 	$showLabels: boolean;
+	$completed: boolean;
 }>`
-	flex-grow: 1;
-	border-bottom: 1px solid
-		${({ color, theme }) =>
-			rgba(alterColorEnhanced(getColorScheme(color, theme)), 0.9)};
-	margin-left: -10px;
-	margin-right: 10px;
+	flex: 1;
+	height: 2px;
+	min-width: 40px;
+	background: ${WIN31_BUTTON_SHADOW};
+	margin: 0 4px;
+	margin-top: 14px; /* Fixed position from top to align with step centers */
+	position: relative;
+	border: 1px solid;
+	border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
+		${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
 
-	${({ $showLabels }) => $showLabels && 'margin-bottom: 1.8em;'}
+	/* Completed connector - raised appearance */
+	${({ $completed, $variant }) =>
+		$completed &&
+		`
+		background: ${getStepperColors($variant).completed};
+		border-color: ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW} 
+			${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT};
+		height: 3px;
+	`}
 `;
 
 export const StepContainer = styled.div`
 	display: flex;
-	flex-direction: column;
 	align-items: center;
+	justify-content: center;
+	position: relative;
 `;
 
 export const StepLabel = styled.p<{
-	active: boolean;
-	color: ComponentColors;
+	$active: boolean;
+	$completed: boolean;
+	$variant: StepperVariant;
 }>`
-	height: 1em;
-	width: 4em;
-	margin-top: 0.3em;
-	margin-bottom: 1em;
-	margin-left: -1em;
-	font-size: 0.8em;
+	margin: 4px 0 0 0;
+	font-size: 10px;
+	font-family: ${SYSTEM_FONT};
 	text-align: center;
-	color: ${({ active, color, theme }) =>
-		active
-			? getColorScheme(color, theme)
-			: color === 'warn'
-			? BLACK
-			: lighten(0.3, getColorScheme(color, theme))};
+	max-width: 60px;
+	white-space: nowrap; /* Prevent wrapping to avoid alignment issues */
+	overflow: hidden;
+	text-overflow: ellipsis;
+	line-height: 1.1;
 
-	transition: color 350ms ease-in-out, background-color 150ms ease-in-out;
+	/* Active step label */
+	${({ $active, $variant }) =>
+		$active &&
+		`
+		color: ${getStepperColors($variant).active};
+		font-weight: bold;
+	`}
+
+	/* Completed step label */
+	${({ $completed, $active, $variant }) =>
+		$completed &&
+		!$active &&
+		`
+		color: ${getStepperColors($variant).completed};
+		font-weight: normal;
+	`}
+	
+	/* Inactive step label */
+	${({ $active, $completed }) =>
+		!$active &&
+		!$completed &&
+		`
+		color: ${WIN31_BUTTON_SHADOW};
+	`}
 `;
 
 export const StepWrapper = styled.div`
 	display: flex;
-	align-items: center;
-	justify-content: center;
 	flex-direction: column;
+	align-items: center;
+	justify-content: flex-start;
+	position: relative;
+	min-height: 50px; /* Fixed height to prevent misalignment */
 `;

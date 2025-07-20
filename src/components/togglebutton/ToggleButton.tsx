@@ -25,9 +25,19 @@ export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(
 				sx={{
 					...buttonProps.sx,
 					minWidth: 'fit-content',
-					filter: selected ? 'brightness(0.65) contrast(1.2)' : 'none',
+					borderColor: selected
+						? '#808080 #FFFFFF #FFFFFF #808080'
+						: '#FFFFFF #808080 #808080 #FFFFFF',
+					backgroundColor: selected ? '#A0A0A0' : '#C0C0C0',
+					transform: selected ? 'none' : 'none',
+					filter: 'none',
 					'&:hover': {
-						transform: selected ? 'scale(1.05)' : 'scale(1.02)',
+						backgroundColor: selected ? '#909090' : '#B0B0B0',
+						transform: 'none',
+					},
+					'&:active': {
+						borderColor: '#808080 #FFFFFF #FFFFFF #808080',
+						backgroundColor: '#A0A0A0',
 					},
 				}}
 				ref={ref}

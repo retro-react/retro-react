@@ -1,14 +1,24 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import getColorScheme from '@src/utils/getColorScheme';
-import { getPatternScheme } from '@src/utils/getPatternScheme';
-import { WHITE } from '@src/constants/colors';
+import {
+	VGA_BLACK,
+	WIN31_BUTTON_HIGHLIGHT,
+	WIN31_BUTTON_SHADOW,
+} from '@src/constants/colors';
+import { FONT_SIZES, SYSTEM_FONT } from '@src/constants/fonts';
 import { AvatarColor, AvatarSize, AvatarVariant } from './Avatar';
 
 const sizeStyles = {
-	small: '2rem',
-	medium: '3rem',
-	large: '4rem',
+	small: '32px',
+	medium: '48px',
+	large: '64px',
+};
+
+const fontSizeStyles = {
+	small: FONT_SIZES.SMALL,
+	medium: FONT_SIZES.NORMAL,
+	large: FONT_SIZES.LARGE,
 };
 
 export const Avatar = styled.div<{
@@ -18,46 +28,70 @@ export const Avatar = styled.div<{
 	$variant: AvatarVariant;
 	$src?: string;
 }>`
-	font-family: 'Trebuchet MS', Helvetica, sans-serif;
+	font-family: ${SYSTEM_FONT};
 	font-weight: bold;
-	font-size: ${(props) =>
-		props.$size === 'small'
-			? '0.8rem'
-			: props.$size === 'medium'
-			? '1rem'
-			: '1.6rem'};
-	color: ${WHITE};
+	font-size: ${(props) => fontSizeStyles[props.$size]};
+	color: ${VGA_BLACK};
 	text-align: center;
 	line-height: ${(props) => sizeStyles[props.$size]};
-	background-color: ${(props) => getColorScheme(props.$color, props.theme)};
-	background-image: ${(props) =>
-		props.$src ? `url(${props.$src})` : `url(${getPatternScheme('noise')})`};
+	background: ${(props) =>
+		props.$src
+			? `url(${props.$src}) center/cover`
+			: getColorScheme(props.$color, props.theme)};
 	width: ${(props) => sizeStyles[props.$size]};
 	height: ${(props) => sizeStyles[props.$size]};
-	border: 0.1rem solid ${WHITE};
+	border: 2px solid;
+	border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
+		${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
+	box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
 	overflow: hidden;
+	position: relative;
+
+	/* Remove modern styling */
+	border-radius: 0;
+
+	/* Add retro computer effect */
+	&::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: ${(props) =>
+			props.$src
+				? 'none'
+				: 'repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(0,0,0,0.03) 1px, rgba(0,0,0,0.03) 2px)'};
+		pointer-events: none;
+	}
 
 	${(props) =>
 		props.$variant === 'circle' &&
 		css`
 			border-radius: 50%;
+			&::before {
+				border-radius: 50%;
+			}
 		`}
 
 	${(props) =>
 		props.$variant === 'square' &&
+		props.$rounded &&
 		css`
-			border-radius: ${props.$rounded ? '0.5rem' : '0'};
+			border-radius: 4px;
+			&::before {
+				border-radius: 2px;
+			}
 		`}
 
-
+	/* Text styling for initials */
 	${(props) =>
-		props.$src &&
+		!props.$src &&
 		css`
-			background-size: cover;
-			background-position: center;
-			border: 0.1rem solid ${getColorScheme(props.$color, props.theme)};
-			& > * {
-				display: none;
-			}
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.8);
+			background: ${getColorScheme(props.$color, props.theme)};
 		`}
 `;
