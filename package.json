@@ -1,6 +1,6 @@
 {
 	"name": "retro-react",
-	"version": "1.3.11",
+	"version": "1.4.0",
 	"private": false,
 	"description": "A React component library for building retro-style websites",
 	"keywords": [
