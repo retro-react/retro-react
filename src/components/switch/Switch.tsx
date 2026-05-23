@@ -14,7 +14,7 @@ export interface SwitchProps
 	/**
 	 * The variant of the Switch.
 	 *
-	 * @default 'square'
+	 * @default 'rounded'
 	 */
 	variant?: SwitchVariant;
 	/**

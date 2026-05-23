@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { pressed, raised, sunken } from '../../constants/bevels';
+import { pressed, raised } from '../../constants/bevels';
 import {
 	VGA_BLACK,
 	WIN31_BUTTON_FACE,
@@ -32,23 +32,29 @@ export const Slider = styled.input<{
 
 	&::-webkit-slider-runnable-track {
 		width: 100%;
-		height: 6px;
+		height: 4px;
 		background: ${WIN31_BUTTON_FACE};
-		${sunken}
+		border: 1px solid ${WIN31_BUTTON_SHADOW};
+		box-shadow: inset 1px 1px 0 #0a0a0a;
+		box-sizing: content-box;
 	}
 
 	&::-moz-range-track {
 		width: 100%;
-		height: 6px;
+		height: 4px;
 		background: ${WIN31_BUTTON_FACE};
-		${sunken}
+		border: 1px solid ${WIN31_BUTTON_SHADOW};
+		box-shadow: inset 1px 1px 0 #0a0a0a;
+		box-sizing: content-box;
 	}
 
 	&::-ms-track {
 		width: 100%;
-		height: 6px;
+		height: 4px;
 		background: ${WIN31_BUTTON_FACE};
-		${sunken}
+		border: 1px solid ${WIN31_BUTTON_SHADOW};
+		box-shadow: inset 1px 1px 0 #0a0a0a;
+		box-sizing: content-box;
 		color: transparent;
 	}
 
@@ -213,7 +219,6 @@ export const Tick = styled.div<{
 	width: 1px;
 	height: 6px;
 	background: ${WIN31_BUTTON_SHADOW};
-	border-right: 1px solid ${WIN31_BUTTON_HIGHLIGHT};
 `;
 
 export const MarksContainer = styled.div`

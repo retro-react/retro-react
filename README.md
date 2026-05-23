@@ -3,19 +3,20 @@
 [![npm version](https://badge.fury.io/js/retro-react.svg)](https://www.npmjs.com/package/retro-react)
 [![npm license](https://img.shields.io/npm/l/retro-react.svg)](https://www.npmjs.com/package/retro-react)
 
-Authentic Windows 95 / 98 component library for React. 50+ typed, tree-shakable components with classic 3D bevels, sharp pixels, and CRT vibes — including buttons, inputs, modals, tabs, accordions, tables, trees, popovers, alerts, plus retro one-of-a-kind extras like `Pager`, `CRT`, `Terminal`, `WordArt`, `Marquee`, `TypewriterText`, and `SevenSegmentDisplay`.
+A React component library that looks like Windows 95 / 98. 50+ typed, tree-shakable components with classic 3D bevels and sharp pixel edges. Includes the usual lineup (buttons, inputs, modals, tabs, accordions, tables, trees, popovers, alerts) plus one-of-a-kind retro pieces like `Pager`, `CRT`, `Terminal`, `WordArt`, `Marquee`, `TypewriterText`, and `SevenSegmentDisplay`.
 
-→ **[Live demo & docs](https://retro-react.github.io/retro-react/?path=/docs/overview-introduction--docs/)**
+[Live demo and docs](https://retro-react.github.io/retro-react/?path=/docs/overview-introduction--docs/)
 
 ## Highlights
 
-- **Authentic Win9x look** — sunken / raised / pressed bevels, system fonts, navy-and-silver palette, no rounded corners
-- **One-command install** — no peer dep dance, no theme provider, no global CSS
-- **Tree-shakable** — `sideEffects: false`, single ESM + CJS entry, ships only what you import
-- **First-class TypeScript** — strict types ship with the package; works with `tsc`, Vite, Next.js, Remix
-- **Controlled & uncontrolled** — every form-style component supports both
-- **Accessible by default** — focus trap on dialogs, ARIA on combobox/tree/tabs/menu, full keyboard nav
-- **React 16.8 – 19** as the only peer dependency
+- Looks like Win 9x. Sunken / raised / pressed bevels, system fonts, navy-and-silver palette, no rounded corners.
+- Installs with one command. No peer-dep dance, no theme provider, no global CSS.
+- Tree-shakable. `sideEffects: false`, single ESM + CJS entry. Your bundler only ships what you import.
+- TypeScript-first. Strict types ship with the package and work with `tsc`, Vite, Next.js, Remix.
+- Controlled and uncontrolled. Every form-style component supports both.
+- Accessible by default. Focus trap on dialogs, ARIA on combobox / tree / tabs / menu, full keyboard nav.
+- Works in React Server Components. The bundle ships with `"use client"` so it drops into Next.js App Router without setup.
+- React 16.8 through 19 as the only peer dependency.
 
 ## Install
 
@@ -56,23 +57,23 @@ export default function App() {
 
 ## What's in the box
 
-**Buttons & actions** — `Button`, `ButtonGroup`, `ToggleButton`, `ToggleButtonGroup`, `Chip`
+Buttons and actions: `Button`, `ButtonGroup`, `ToggleButton`, `ToggleButtonGroup`, `Chip`.
 
-**Form controls** — `Input`, `PasswordInput`, `Select`, `Autocomplete`, `Checkbox`, `Radio`, `Switch`, `Slider`, `DocumentUpload`
+Form controls: `Input`, `PasswordInput`, `Select`, `Autocomplete`, `Checkbox`, `Radio`, `Switch`, `Slider`, `DocumentUpload`.
 
-**Data display** — `Table`, `Statistics`, `Avatar`, `Badge`, `Tree`, `SevenSegmentDisplay`, `Carousel`
+Data display: `Table`, `Statistics`, `Avatar`, `Badge`, `Tree`, `SevenSegmentDisplay`, `Carousel`.
 
-**Feedback & status** — `Alert`, `ProgressBar`, `Spinner`, `Skeleton`, `Stepper`
+Feedback and status: `Alert`, `ProgressBar`, `Spinner`, `Skeleton`, `Stepper`.
 
-**Navigation** — `Tabs`, `Menu`, `Navbar`, `Breadcrumbs`, `Pager`
+Navigation: `Tabs`, `Menu`, `Navbar`, `Breadcrumbs`, `Pager`.
 
-**Layout & containers** — `Box`, `Card`, `Container`, `Accordion`, `Divider`, `FlexibleLayout`, `Group`
+Layout and containers: `Box`, `Card`, `Container`, `Accordion`, `Divider`, `FlexibleLayout`, `Group`.
 
-**Retro text effects** — `Text`, `WordArt`, `Marquee`, `TypewriterText`
+Retro text effects: `Text`, `WordArt`, `Marquee`, `TypewriterText`.
 
-**Dialogs & overlays** — `Modal`, `Drawer`, `Popover`, `Tooltip`
+Dialogs and overlays: `Modal`, `Drawer`, `Popover`, `Tooltip`.
 
-**Atmosphere** — `CRT`, `Terminal`, `StarField`, `MouseTrail`, `PixelatedImage`, `Scrollbar`, `Background`
+Atmosphere: `CRT`, `Terminal`, `StarField`, `MouseTrail`, `PixelatedImage`, `Scrollbar`, `Background`.
 
 See the [demo](https://retro-react.github.io/retro-react/?path=/docs/overview-introduction--docs/) for live props, controls, and source for every component.
 
@@ -89,7 +90,7 @@ Every component accepts an `sx` prop for one-off overrides:
 
 ### `retro-ui` class
 
-Every component carries the `retro-ui` class so you can override globally without targeting internals:
+Every component carries a `retro-ui` class so you can override globally without targeting internals:
 
 ```css
 .retro-ui {

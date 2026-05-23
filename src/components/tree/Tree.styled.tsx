@@ -18,8 +18,8 @@ const getTreeColors = (variant: TreeVariant) => {
 			return {
 				background: VGA_WHITE,
 				text: VGA_BLACK,
-				border: VGA_BLACK,
-				selected: VGA_BLUE,
+				border: WIN31_BUTTON_SHADOW,
+				selected: '#008080',
 				selectedText: VGA_WHITE,
 			};
 		case 'explorer':

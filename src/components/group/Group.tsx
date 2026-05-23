@@ -1,6 +1,7 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
+import commonClassNames from '../../constants/commonClassNames';
 import { classNames as cx } from '../../utils/classNames';
 
 interface GroupProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -54,7 +55,7 @@ export const Group = forwardRef<HTMLDivElement, GroupProps>(
 				id={id}
 				ref={ref}
 				sx={sx}
-				className={cx('group-root', className)}
+				className={cx('group-root', className, commonClassNames)}
 				style={{
 					display: 'flex',
 					gap: gap,

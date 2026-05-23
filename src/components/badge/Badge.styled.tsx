@@ -50,10 +50,12 @@ export const Badge = styled.span<BadgeProps>`
 	background: ${({ $color }) => getBadgeColorScheme($color)};
 	color: ${({ $color }) =>
 		$color === 'warn' || $color === 'highlight' ? VGA_BLACK : VGA_WHITE};
-	text-shadow: ${({ $color }) =>
-		$color === 'warn' || $color === 'highlight'
+	text-shadow: ${({ $color, $size }) => {
+		if ($size === 'small') return 'none';
+		return $color === 'warn' || $color === 'highlight'
 			? '1px 1px 0px rgba(255, 255, 255, 0.8)'
-			: '1px 1px 0px rgba(0, 0, 0, 0.5)'};
+			: '1px 1px 0px rgba(0, 0, 0, 0.5)';
+	}};
 	${raised}
 	padding: 0.05rem;
 	transition: none;

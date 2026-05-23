@@ -4,7 +4,7 @@ import { Meta, Source } from '@storybook/addon-docs';
 
 # Retro React 📟
 
-> A React component library inspired by Windows 95/98 — authentic bevels, sharp pixels, and 50+ accessible, typed components.
+A React component library that looks like Windows 95/98. 50+ typed, accessible components with classic 3D bevels and sharp pixel edges.
 
 ## Install
 
@@ -12,7 +12,7 @@ import { Meta, Source } from '@storybook/addon-docs';
 npm install retro-react
 ```
 
-That's it. `@emotion/react`, `@emotion/styled`, and `theme-ui` install automatically. React is the only peer dependency (16.8 – 19).
+That's it. `@emotion/react`, `@emotion/styled`, and `theme-ui` install automatically. React is the only peer dependency (16.8 through 19).
 
 ## Quick start
 
@@ -34,37 +34,38 @@ export default function App() {
 
 ## What's in the box
 
-- **50+ components** — Button, Input, Select, Modal, Drawer, Tabs, Accordion, Table, Tree, Tooltip, ProgressBar, Pager, CRT, Terminal, WordArt, and more.
-- **Controlled & uncontrolled** — Every stateful component supports both patterns (`value` / `defaultValue`, `open` / `defaultOpen`, etc.).
-- **TypeScript-first** — Full type definitions ship with the package; props are documented inline.
-- **Accessible** — Proper ARIA roles, keyboard navigation, focus traps where it matters.
-- **Tree-shakeable** — Single ESM + CJS bundles with `sideEffects: false`.
-- **Tiny core** — ~300 KB minified, no peer dep installs required.
+50+ components, including Button, Input, Select, Modal, Drawer, Tabs, Accordion, Table, Tree, Tooltip, ProgressBar, Pager, CRT, Terminal, WordArt, and more (see the full list below).
+
+Every stateful component supports both controlled and uncontrolled use (`value` / `defaultValue`, `open` / `defaultOpen`). Full TypeScript types ship with the package and the props are documented inline.
+
+ARIA roles, keyboard navigation, and focus traps are in place where they matter (Modal, Drawer, Tree, Menu, Tabs, Combobox).
+
+The whole thing is a single ESM + CJS bundle, ~300 KB minified (118 KB gzipped), `sideEffects: false` so your bundler can tree-shake.
 
 ## Controlled vs uncontrolled
 
-Most stateful components work both ways out of the box:
+Most stateful components work either way:
 
 <Source
 	dark
 	language="tsx"
-	code={`// Uncontrolled — the component manages its own state
+	code={`// Uncontrolled. The component manages its own state.
 <Accordion title="Settings" defaultOpen>
-	General preferences…
+	General preferences...
 </Accordion>
 
-// Controlled — your state, your rules
+// Controlled. You manage state.
 const [open, setOpen] = useState(false);
 <Accordion title="Settings" open={open} onToggle={setOpen}>
-	General preferences…
+	General preferences...
 </Accordion>`}
 />
 
-Same pattern for `Tabs`, `Switch`, `Slider`, `Select`, `RadioGroup`, `Carousel`, `Tree`, `ToggleButtonGroup`, `Popover`, and more.
+Same pattern works for `Tabs`, `Switch`, `Slider`, `Select`, `RadioGroup`, `Carousel`, `Tree`, `ToggleButtonGroup`, `Popover`, and others.
 
 ## Theming with `sx`
 
-Every component accepts the `sx` prop ([Theme UI](https://theme-ui.com)) for one-off styling, with full theme access:
+Every component accepts an `sx` prop ([Theme UI](https://theme-ui.com)) for one-off styling, with full theme access:
 
 <Source
 	dark
@@ -81,7 +82,7 @@ Every component accepts the `sx` prop ([Theme UI](https://theme-ui.com)) for one
 
 ## Global styling
 
-Every rendered element carries a `retro-ui` class plus a component-specific `<name>-root` class — so you can blanket-style across the library:
+Every rendered element carries a `retro-ui` class plus a component-specific `<name>-root` class, so you can blanket-style across the library:
 
 <Source
 	dark
@@ -99,15 +100,22 @@ See the [CSS docs](/docs/css-general--docs) for the full class-name map.
 
 ## Browse
 
-- **Layout** — Container, FlexibleLayout, Navbar
-- **Forms** — Input, Checkbox, Radio, Select, Slider, Switch, Autocomplete, PasswordInput, DocumentUpload
-- **Data Display** — Table, Statistics, Tree, Avatar, Badge, SevenSegmentDisplay
-- **Feedback** — Alert, Spinner, Skeleton, ProgressBar, Stepper
-- **Navigation** — Tabs, Menu, Breadcrumbs, Pager
-- **Layout & Containers** — Box, Card, Container, Accordion, Divider
-- **Retro Effects** — Text, WordArt, Marquee, TypewriterText, CRT, Terminal
-- **Overlays** — Modal, Drawer, Popover, Tooltip
+Layout: Container, FlexibleLayout, Navbar.
 
-Or just go straight to the [components showcase](/story/overview-retro-components--components-overview).
+Forms: Input, Checkbox, Radio, Select, Slider, Switch, Autocomplete, PasswordInput, DocumentUpload.
+
+Data display: Table, Statistics, Tree, Avatar, Badge, SevenSegmentDisplay.
+
+Feedback: Alert, Spinner, Skeleton, ProgressBar, Stepper.
+
+Navigation: Tabs, Menu, Breadcrumbs, Pager.
+
+Layout and containers: Box, Card, Container, Accordion, Divider.
+
+Retro text effects: Text, WordArt, Marquee, TypewriterText, CRT, Terminal.
+
+Overlays: Modal, Drawer, Popover, Tooltip.
+
+Or jump straight to the [components showcase](/story/overview-retro-components--components-overview).
 
 Happy hacking. 🚀

@@ -1,10 +1,16 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { sunken } from '../../constants/bevels';
-import { VGA_BLACK } from '../../constants/colors';
+import { VGA_BLACK, VGA_WHITE } from '../../constants/colors';
 import { FONT_SIZES, SYSTEM_FONT } from '../../constants/fonts';
 import getColorScheme from '../../utils/getColorScheme';
 import { AvatarColor, AvatarSize, AvatarVariant } from './Avatar';
+
+const isDarkFill = (color: AvatarColor) =>
+	color === 'primary' ||
+	color === 'secondary' ||
+	color === 'error' ||
+	color === 'greyscale-dark';
 
 const sizeStyles = {
 	small: '32px',
@@ -28,7 +34,7 @@ export const Avatar = styled.div<{
 	font-family: ${SYSTEM_FONT};
 	font-weight: bold;
 	font-size: ${(props) => fontSizeStyles[props.$size]};
-	color: ${VGA_BLACK};
+	color: ${(props) => (isDarkFill(props.$color) ? VGA_WHITE : VGA_BLACK)};
 	text-align: center;
 	line-height: ${(props) => sizeStyles[props.$size]};
 	background: ${(props) =>
@@ -40,11 +46,8 @@ export const Avatar = styled.div<{
 	${sunken}
 	overflow: hidden;
 	position: relative;
-
-	/* Remove modern styling */
 	border-radius: 0;
 
-	/* Add retro computer effect */
 	&::before {
 		content: '';
 		position: absolute;
@@ -78,14 +81,15 @@ export const Avatar = styled.div<{
 			}
 		`}
 
-	/* Text styling for initials */
 	${(props) =>
 		!props.$src &&
 		css`
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.8);
+			text-shadow: ${isDarkFill(props.$color)
+				? '1px 1px 0 rgba(0, 0, 0, 0.4)'
+				: '1px 1px 0 rgba(255, 255, 255, 0.6)'};
 			background: ${getColorScheme(props.$color, props.theme)};
 		`}
 `;

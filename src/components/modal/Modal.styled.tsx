@@ -3,17 +3,15 @@ import { pressed, raised, windowFrame } from '../../constants/bevels';
 import {
 	VGA_BLACK,
 	VGA_WHITE,
-	WIN31_BLUE,
 	WIN31_BUTTON_FACE,
 	WIN31_BUTTON_SHADOW,
 } from '../../constants/colors';
 import { FONT_SIZES, SYSTEM_FONT } from '../../constants/fonts';
-import { ComponentColors } from '../../utils/getColorScheme';
+import getColorScheme, { ComponentColors } from '../../utils/getColorScheme';
 
 export const Modal = styled.div<{
 	$color: ComponentColors | string;
 	$open: boolean;
-	$backdrop: boolean;
 }>`
 	position: fixed;
 	top: 50%;
@@ -48,8 +46,10 @@ export const Modal = styled.div<{
 	}
 `;
 
-export const ModalTitleBar = styled.div`
-	background: ${WIN31_BLUE};
+export const ModalTitleBar = styled.div<{
+	$color: ComponentColors | string;
+}>`
+	background: ${(props) => getColorScheme(props.$color, props.theme)};
 	color: ${VGA_WHITE};
 	padding: 2px 4px;
 	font-family: ${SYSTEM_FONT};

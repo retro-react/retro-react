@@ -62,7 +62,7 @@ export const NoBackdrop: Story = {
 		color: 'secondary',
 		children: (
 			<Text variant="body1" color="black">
-				This modal has no backdrop — page content remains visible behind it.
+				This modal has no backdrop, page content remains visible behind it.
 			</Text>
 		),
 	},

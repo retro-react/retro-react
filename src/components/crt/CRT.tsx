@@ -65,7 +65,7 @@ export const CRT = forwardRef<HTMLDivElement, CRTProps>(
 				$glowIntensity={glowIntensity}
 				{...props}
 			>
-				<Sc.CRTScreen>
+				<Sc.CRTScreen $curvature={curvature}>
 					<Sc.CRTContent $phosphor={phosphor} $glowIntensity={glowIntensity}>
 						{children}
 					</Sc.CRTContent>

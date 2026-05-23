@@ -32,9 +32,9 @@ export const Default: Story = {
 	},
 	render: (args) => (
 		<div>
-			<p>Section one — introductory copy.</p>
+			<p>Section one, introductory copy.</p>
 			<Divider {...args} />
-			<p>Section two — more content below.</p>
+			<p>Section two, more content below.</p>
 		</div>
 	),
 };
@@ -61,9 +61,9 @@ export const Rainbow: Story = {
 	},
 	render: (args) => (
 		<div>
-			<p>Section one — introductory copy.</p>
+			<p>Section one, introductory copy.</p>
 			<Divider {...args} />
-			<p>Section two — more content below.</p>
+			<p>Section two, more content below.</p>
 		</div>
 	),
 };

@@ -29,7 +29,7 @@ const meta: Meta<typeof Popover> = {
 		},
 		isOpen: {
 			description:
-				'Optional. When provided, the popover becomes controlled — pair with `onOpenChange`.',
+				'Optional. When provided, the popover becomes controlled, pair with `onOpenChange`.',
 		},
 	},
 };

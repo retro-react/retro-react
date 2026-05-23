@@ -15,7 +15,7 @@ const getStepperColors = (variant: StepperVariant) => {
 	switch (variant) {
 		case 'process':
 			return {
-				active: WIN31_BLUE,
+				active: '#008080',
 				completed: '#008000',
 				inactive: WIN31_BUTTON_SHADOW,
 			};

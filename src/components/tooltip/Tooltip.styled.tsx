@@ -13,7 +13,6 @@ import { TooltipVariants } from './Tooltip';
 interface TooltipContentProps {
 	$visible: boolean;
 	$variant: TooltipVariants;
-	$position: 'top' | 'bottom' | 'left' | 'right';
 	sx?: ThemeUICSSObject;
 }
 

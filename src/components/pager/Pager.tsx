@@ -100,7 +100,6 @@ export const Pager = forwardRef<HTMLDivElement, PagerProps>(
 
 		const isEmpty = messages.length === 0;
 
-		// Clamp index back into range when the messages array shrinks under us.
 		useEffect(() => {
 			if (!isEmpty && currentIndex >= messages.length) {
 				setCurrentIndex(0);
@@ -126,7 +125,6 @@ export const Pager = forwardRef<HTMLDivElement, PagerProps>(
 				ref={ref}
 				id={id}
 				sx={sx}
-				$variant={variant}
 				className={classNames('pager-root', className, commonClassNames)}
 				{...rest}
 			>
@@ -153,18 +151,12 @@ export const Pager = forwardRef<HTMLDivElement, PagerProps>(
 				<Sc.ButtonGroup>
 					<Sc.PagerButton
 						type="button"
-						$variant={variant}
 						onClick={handlePrevious}
 						disabled={isEmpty}
 					>
 						{prevLabel}
 					</Sc.PagerButton>
-					<Sc.PagerButton
-						type="button"
-						$variant={variant}
-						onClick={handleNext}
-						disabled={isEmpty}
-					>
+					<Sc.PagerButton type="button" onClick={handleNext} disabled={isEmpty}>
 						{nextLabel}
 					</Sc.PagerButton>
 				</Sc.ButtonGroup>

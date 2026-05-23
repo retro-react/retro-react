@@ -37,7 +37,7 @@ export const Default: Story = {
 				Fine-tune performance, caching and experimental flags.
 			</TabContent>
 			<TabContent label="about">
-				retro-react v1.0 — a React component library with a 90s flair.
+				retro-react v1.0, a React component library with a 90s flair.
 			</TabContent>
 		</Tabs>
 	),

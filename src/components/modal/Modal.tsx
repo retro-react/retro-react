@@ -153,7 +153,6 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
 				)}
 				<Sc.Modal
 					$color={color}
-					$backdrop={backdrop}
 					$open={open}
 					ref={setRefs}
 					id={id}
@@ -166,7 +165,7 @@ export const Modal = forwardRef<HTMLDivElement, ModalProps>(
 					className={classNames('modal-root', className, commonClassNames)}
 					{...rest}
 				>
-					<Sc.ModalTitleBar>
+					<Sc.ModalTitleBar $color={color}>
 						<Sc.ModalTitle id={titleId}>{title}</Sc.ModalTitle>
 						<Sc.CloseButton
 							className="modal-close-button"

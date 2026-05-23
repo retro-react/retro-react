@@ -240,7 +240,8 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
 				ref={ref}
 				sx={sx}
 				$isActive={$isActive}
-				aria-label={label}
+				data-tab-id={label}
+				aria-label={typeof children === 'string' ? undefined : label}
 				onClick={handleClick}
 				className={classNames('tab-root', $isActive ? 'tab-active' : '')}
 				role="tab"

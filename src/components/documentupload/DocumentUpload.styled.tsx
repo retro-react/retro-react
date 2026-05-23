@@ -17,6 +17,7 @@ export const DropzoneWrapper = styled.label<{
 	$isDragOver: boolean;
 	$isPressed: boolean;
 	$isUploading: boolean;
+	$color: UploadColor;
 }>`
 	position: relative;
 	display: flex;
@@ -34,16 +35,27 @@ export const DropzoneWrapper = styled.label<{
 	font-size: ${FONT_SIZES.NORMAL};
 	font-weight: normal;
 	cursor: ${(props) => (props.$isUploading ? 'wait' : 'pointer')};
-	transition: none;
+	transition: outline-color 80ms linear, background-color 80ms linear;
 	outline: none;
 
-	&:focus {
-		outline: 1px dotted ${VGA_BLACK};
-		outline-offset: -3px;
-	}
+	${(props) =>
+		props.$isDragOver &&
+		`
+		outline: 2px dashed ${getColorScheme(props.$color || 'primary', props.theme)};
+		outline-offset: -6px;
+		background: ${VGA_WHITE};
+	`}
 
 	&:hover:not(:disabled) {
-		background: ${WIN31_BUTTON_FACE};
+		outline: 1px dashed
+			${(props) => getColorScheme(props.$color || 'primary', props.theme)};
+		outline-offset: -4px;
+	}
+
+	&:focus-visible {
+		outline: 1px dotted
+			${(props) => getColorScheme(props.$color || 'primary', props.theme)};
+		outline-offset: -3px;
 	}
 
 	&:disabled {

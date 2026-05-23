@@ -35,7 +35,7 @@ export const TabItem = styled.button<{
 		props.$isActive ? 'none' : `2px solid ${WIN31_BUTTON_SHADOW}`};
 
 	padding: 4px 12px;
-	margin: 0 1px 0 0;
+	margin: ${(props) => (props.$isActive ? '0 2px 0 -2px' : '0 1px 0 0')};
 
 	background: ${WIN31_BUTTON_FACE};
 
