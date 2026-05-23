@@ -318,13 +318,84 @@
   } catch (e) {
     // eslint-disable-next-line no-console
     console.warn('unable to connect to top frame for connecting dev tools');
-  }</script><style>@font-face {
-		font-family: 'FrauncesLatin';
-		src: url('fonts/Fraunces--latin_basic.woff2');
-	}</style><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Orbitron:wght@400;700&family=Share+Tech+Mono&family=Exo+2:wght@400;700&display=swap" rel="stylesheet"><style>/* Global retro font fallbacks */
+  }</script><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet"><style>/* === Story canvas (where components render) === */
 	body {
 		font-family: 'MS Sans Serif', 'Tahoma', 'Verdana', sans-serif;
-		font-size: 11px;
+		font-size: 12px;
+		color: #000;
+		background: #ffffff;
+	}
+
+	/* === Docs pages: clean, professional typography (system fonts) === */
+	.sbdocs.sbdocs-wrapper {
+		background: #ffffff;
+	}
+
+	.sbdocs-content {
+		font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+			'Helvetica Neue', Arial, sans-serif;
+	}
+
+	.sbdocs h1,
+	.sbdocs h2,
+	.sbdocs h3,
+	.sbdocs h4,
+	.sbdocs h5,
+	.sbdocs h6 {
+		font-family: inherit;
+		font-weight: 700;
+	}
+
+	.sbdocs h1 {
+		font-size: 32px;
+		letter-spacing: -0.02em;
+	}
+
+	.sbdocs h2 {
+		font-size: 22px;
+		margin-top: 40px;
+		padding-bottom: 8px;
+		border-bottom: 1px solid #e5e7eb;
+	}
+
+	.sbdocs h3 {
+		font-size: 17px;
+		margin-top: 28px;
+	}
+
+	.sbdocs p,
+	.sbdocs li {
+		font-size: 15px;
+		line-height: 1.65;
+		color: #1f2937;
+	}
+
+	.sbdocs blockquote {
+		border-left: 3px solid #000080;
+		background: #f8fafc;
+		padding: 10px 16px;
+		color: #1f2937;
+		font-style: normal;
+	}
+
+	.sbdocs a {
+		color: #000080;
+	}
+
+	.sbdocs a:hover {
+		color: #0000c8;
+	}
+
+	/* Inline code chips */
+	.sbdocs :not(pre) > code {
+		font-family: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Courier New',
+			monospace;
+		background: #f3f4f6;
+		color: #be185d;
+		border: 1px solid #e5e7eb;
+		padding: 1px 5px;
+		font-size: 0.9em;
+		border-radius: 3px;
 	}</style><style>#storybook-root[hidden],
       #storybook-docs[hidden] {
         display: none !important;
@@ -339,6 +410,8 @@
             window['FRAMEWORK_OPTIONS'] = {};
           
       
+          
+            window['CHANNEL_OPTIONS'] = {};
           
       
           
@@ -355,8 +428,8 @@
             window['DOCS_OPTIONS'] = {"defaultName":"Docs","autodocs":true};</script><script type="module">import './sb-preview/runtime.js';
 
       
-      import './runtime~main.137f8f6e.iframe.bundle.js';
+      import './runtime~main.95dbfde6.iframe.bundle.js';
       
-      import './2824.dbdb0c0e.iframe.bundle.js';
+      import './9080.e48d1868.iframe.bundle.js';
       
-      import './main.df580af1.iframe.bundle.js';</script></body></html>
+      import './main.7596d234.iframe.bundle.js';</script></body></html>
