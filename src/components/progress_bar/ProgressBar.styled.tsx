@@ -9,7 +9,7 @@ const progressAnimation = keyframes`
 		background-position: 0 0;
 	}
 	100% {
-		background-position: 8px 0;
+		background-position: 11.3137px 0;
 	}
 `;
 
