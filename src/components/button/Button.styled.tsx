@@ -156,11 +156,11 @@ export const Button = styled.button<{
 	height: ${(props) => {
 		switch (props.$size) {
 			case 'small':
-				return '20px';
-			case 'large':
 				return '28px';
+			case 'large':
+				return '36px';
 			default:
-				return '24px';
+				return '32px';
 		}
 	}};
 
