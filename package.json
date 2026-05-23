@@ -1,6 +1,6 @@
 {
 	"name": "retro-react",
-	"version": "1.5.0",
+	"version": "1.5.1",
 	"type": "commonjs",
 	"private": false,
 	"description": "A React UI library that looks like Windows 95/98. 50+ typed, accessible components with classic 3D bevels and sharp pixel edges.",
