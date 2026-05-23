@@ -1,140 +1,86 @@
 import { action } from '@storybook/addon-actions';
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 import { Input } from '../index';
 
-// https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default {
+const meta: Meta<typeof Input> = {
 	title: 'Forms/Input',
 	component: Input,
 	argTypes: {
 		variant: {
-			options: ['classic', 'filled', 'outlined', 'terminal'],
 			control: { type: 'radio' },
+			options: ['classic', 'filled', 'outlined', 'terminal'],
 		},
 		size: {
-			options: ['small', 'medium'],
 			control: { type: 'radio' },
+			options: ['small', 'medium', 'large'],
+		},
+		label: { description: 'Optional label rendered above the input.' },
+		helperText: {
+			description: 'Optional helper text rendered below the input.',
+		},
+		error: {
+			description:
+				'Renders the input in an error state and tints the helper text.',
+		},
+		multiline: {
+			description:
+				'When true, renders a textarea instead of an input. Use the `rows` prop to size it.',
 		},
 	},
-} as ComponentMeta<typeof Input>;
+};
 
-/**
- * Component Template
- *
- * @see https://storybook.js.org/docs/react/writing-stories/introduction#using-args
- */
-const Template: ComponentStory<typeof Input> = (args) => {
-	return (
-		<div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-			<Input {...args} />
-			<Input {...args} disabled />
+export default meta;
+type Story = StoryObj<typeof Input>;
+
+export const Default: Story = {
+	args: {
+		placeholder: 'Enter your username',
+		variant: 'filled',
+		size: 'medium',
+		sx: { width: 260 },
+		onChange: action('onChange'),
+	},
+};
+
+export const WithLabel: Story = {
+	args: {
+		label: 'Email address',
+		helperText: "We'll never share your email.",
+		placeholder: 'you@example.com',
+		variant: 'classic',
+		sx: { width: 260 },
+	},
+};
+
+export const Error: Story = {
+	args: {
+		label: 'Password',
+		type: 'password',
+		error: true,
+		helperText: 'Password must be at least 8 characters.',
+		defaultValue: 'abc',
+		variant: 'classic',
+		sx: { width: 260 },
+	},
+};
+
+export const Variants: Story = {
+	render: () => (
+		<div style={{ display: 'grid', gap: 12, width: 320 }}>
+			<Input variant="classic" placeholder="Classic — sunken Win95 dialog" />
+			<Input variant="filled" placeholder="Filled — raised 3D" />
+			<Input variant="outlined" placeholder="Outlined — flat border" />
+			<Input variant="terminal" placeholder="Terminal — C:\> _" />
 		</div>
-	);
+	),
 };
 
-const VariantsTemplate: ComponentStory<typeof Input> = (args) => {
-	return (
-		<div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-			<div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-				<div
-					style={{
-						width: '80px',
-						fontFamily: 'MS Sans Serif',
-						fontSize: '11px',
-					}}
-				>
-					Classic:
-				</div>
-				<Input
-					{...args}
-					variant="classic"
-					placeholder="Deep sunken Windows 95 style"
-				/>
-			</div>
-			<div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-				<div
-					style={{
-						width: '80px',
-						fontFamily: 'MS Sans Serif',
-						fontSize: '11px',
-					}}
-				>
-					Filled:
-				</div>
-				<Input
-					{...args}
-					variant="filled"
-					placeholder="Prominent 3D raised style"
-				/>
-			</div>
-			<div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-				<div
-					style={{
-						width: '80px',
-						fontFamily: 'MS Sans Serif',
-						fontSize: '11px',
-					}}
-				>
-					Outlined:
-				</div>
-				<Input
-					{...args}
-					variant="outlined"
-					placeholder="Clean flat border style"
-				/>
-			</div>
-			<div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-				<div
-					style={{
-						width: '80px',
-						fontFamily: 'MS Sans Serif',
-						fontSize: '11px',
-					}}
-				>
-					Terminal:
-				</div>
-				<Input
-					{...args}
-					variant="terminal"
-					placeholder="Subtle console style"
-				/>
-			</div>
-		</div>
-	);
-};
-
-export const Default = Template.bind({});
-Default.args = {
-	placeholder: 'Enter text...',
-	onChange: action('onChange'),
-	variant: 'filled',
-	size: 'medium',
-	sx: { width: '250px' },
-};
-
-export const AllVariants = VariantsTemplate.bind({});
-AllVariants.args = {
-	onChange: action('onChange'),
-	size: 'medium',
-	sx: { width: '300px' },
-};
-
-export const Multiline = Template.bind({});
-Multiline.args = {
-	placeholder: 'Enter a longer message...',
-	onChange: action('onChange'),
-	variant: 'classic',
-	size: 'medium',
-	multiline: true,
-	rows: 4,
-	sx: { width: '300px' },
-};
-
-export const TerminalStyle = Template.bind({});
-TerminalStyle.args = {
-	placeholder: 'C:\\Users\\> _',
-	onChange: action('onChange'),
-	variant: 'terminal',
-	size: 'medium',
-	sx: { width: '400px' },
+export const Multiline: Story = {
+	args: {
+		multiline: true,
+		rows: 4,
+		placeholder: 'Write a longer message...',
+		variant: 'classic',
+		sx: { width: 320 },
+	},
 };

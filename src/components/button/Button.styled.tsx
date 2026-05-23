@@ -9,8 +9,8 @@ import {
 	WIN31_BUTTON_FACE,
 	WIN31_BUTTON_HIGHLIGHT,
 	WIN31_BUTTON_SHADOW,
-} from '@src/constants/colors';
-import { SYSTEM_FONT } from '@src/constants/fonts';
+} from '../../constants/colors';
+import { SYSTEM_FONT } from '../../constants/fonts';
 import type { ButtonSize, ButtonVariant } from './Button';
 
 // Authentic retro button press effect
@@ -19,8 +19,6 @@ const retroButtonPress = css`
 		border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
 			${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
 		transform: translate(1px, 1px);
-		/* Slight darkening effect on press */
-		filter: brightness(0.95);
 	}
 `;
 
@@ -33,11 +31,6 @@ const getVariantStyles = (variant: ButtonVariant) => {
 				color: ${VGA_WHITE};
 				border-color: ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}
 					${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT};
-
-				&:hover:not(:disabled) {
-					/* Subtle brightness increase on hover */
-					filter: brightness(1.1);
-				}
 
 				&:focus:not(:disabled) {
 					outline: 1px dotted ${VGA_WHITE};
@@ -52,11 +45,6 @@ const getVariantStyles = (variant: ButtonVariant) => {
 				border-color: ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}
 					${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT};
 
-				&:hover:not(:disabled) {
-					/* Subtle brightness increase on hover */
-					filter: brightness(1.05);
-				}
-
 				&:focus:not(:disabled) {
 					outline: 1px dotted ${VGA_BLACK};
 					outline-offset: -3px;
@@ -70,10 +58,6 @@ const getVariantStyles = (variant: ButtonVariant) => {
 				border-color: ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}
 					${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT};
 
-				&:hover:not(:disabled) {
-					filter: brightness(1.1);
-				}
-
 				&:focus:not(:disabled) {
 					outline: 1px dotted ${VGA_WHITE};
 					outline-offset: -3px;
@@ -86,10 +70,6 @@ const getVariantStyles = (variant: ButtonVariant) => {
 				color: ${VGA_BLACK};
 				border-color: ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}
 					${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT};
-
-				&:hover:not(:disabled) {
-					filter: brightness(1.1);
-				}
 
 				&:focus:not(:disabled) {
 					outline: 1px dotted ${VGA_BLACK};
@@ -272,30 +252,5 @@ export const Button = styled.button<{
 		100% {
 			opacity: 1;
 		}
-	}
-
-	/* Responsive considerations */
-	@media (max-width: 480px) {
-		min-width: ${(props) => {
-			switch (props.$size) {
-				case 'small':
-					return '50px';
-				case 'large':
-					return '80px';
-				default:
-					return '65px';
-			}
-		}};
-
-		padding: ${(props) => {
-			switch (props.$size) {
-				case 'small':
-					return '1px 4px';
-				case 'large':
-					return '4px 12px';
-				default:
-					return '2px 8px';
-			}
-		}};
 	}
 `;

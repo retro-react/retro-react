@@ -1,8 +1,8 @@
 /** @jsxImportSource theme-ui */
 import React, { forwardRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import getColorScheme, { ComponentColors } from '@src/utils/getColorScheme';
+import { classNames } from '../../utils/classNames';
+import getColorScheme, { ComponentColors } from '../../utils/getColorScheme';
 import { SevenSegmentDisplayContainer } from './SevenSegmentDisplay.styled';
 
 interface SevenSegmentDisplayProps
@@ -115,10 +115,15 @@ export const SevenSegmentDisplay = forwardRef<
 		},
 		ref,
 	) => {
-		const digits = value
+		const safeValue = Number.isFinite(value) ? value : 0;
+		const isNegative = safeValue < 0;
+
+		const digits = Math.abs(safeValue)
 			.toString()
 			.split('')
 			.filter((char) => char.match(/[0-9]/));
+
+		const colorScheme = getColorScheme(color);
 
 		const segmentSize = {
 			small: 16,
@@ -139,6 +144,30 @@ export const SevenSegmentDisplay = forwardRef<
 				sx={sx}
 				{...rest}
 			>
+				{isNegative && (
+					<div
+						aria-hidden
+						className="seven-segment-display-sign"
+						style={{
+							display: 'inline-block',
+							width: `${segmentSize * 0.6}px`,
+							height: `${segmentSize * 2}px`,
+							position: 'relative',
+						}}
+					>
+						<div
+							style={{
+								position: 'absolute',
+								top: '50%',
+								left: '10%',
+								right: '10%',
+								height: thickness === '0px' ? '3px' : thickness,
+								backgroundColor: colorScheme,
+								transform: 'translateY(-50%)',
+							}}
+						/>
+					</div>
+				)}
 				{digits.map((digit, index) => {
 					const activeSegments = segments[Number(digit)];
 					return (
@@ -159,9 +188,9 @@ export const SevenSegmentDisplay = forwardRef<
 									style={{
 										...segmentStyles[segment],
 										position: 'absolute',
-										backgroundColor: getColorScheme(color),
+										backgroundColor: colorScheme,
 										opacity: activeSegments.includes(segment) ? 1 : 0.1,
-										border: `${thickness} solid ${getColorScheme(color)}`,
+										border: `${thickness} solid ${colorScheme}`,
 										boxSizing: 'border-box',
 									}}
 								></div>
@@ -173,3 +202,5 @@ export const SevenSegmentDisplay = forwardRef<
 		);
 	},
 );
+
+SevenSegmentDisplay.displayName = 'SevenSegmentDisplay';

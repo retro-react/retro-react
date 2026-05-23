@@ -4,19 +4,34 @@ import {
 	cloneElement,
 	forwardRef,
 	isValidElement,
+	useRef,
 	useState,
 } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
+import { uniqueId } from '../../utils/uniqueId';
 import * as Sc from './Radio.styled';
 
 export interface RadioGroupProps
 	extends Omit<React.HTMLAttributes<HTMLFieldSetElement>, 'onChange'> {
 	/**
 	 * Value set by default. Must match the value of one of the Radio children.
+	 * Used when the RadioGroup is uncontrolled.
 	 *
 	 * @default undefined
 	 */
 	defaultValue?: string;
+	/**
+	 * The selected value. When provided, the RadioGroup is controlled.
+	 *
+	 * @default undefined
+	 */
+	value?: string;
+	/**
+	 * The shared `name` for the radio inputs. Injected into each child Radio.
+	 *
+	 * @default undefined
+	 */
+	name?: string;
 	/**
 	 * Controls whether the RadioGroup is disabled.
 	 *
@@ -71,6 +86,8 @@ export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
 			className,
 			children,
 			defaultValue,
+			value,
+			name,
 			disabled = false,
 			sx,
 			onChange,
@@ -78,10 +95,14 @@ export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
 		},
 		ref,
 	) => {
-		const [value, setValue] = useState(defaultValue);
+		const isControlled = value !== undefined;
+		const [internalValue, setInternalValue] = useState(defaultValue);
+		const selectedValue = isControlled ? value : internalValue;
 
 		const handleChange = (newValue: string) => {
-			setValue(newValue);
+			if (!isControlled) {
+				setInternalValue(newValue);
+			}
 			if (onChange) {
 				onChange(newValue);
 			}
@@ -89,9 +110,17 @@ export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
 
 		const clonedChildren = Children.map(children, (child) => {
 			if (isValidElement(child) && child.type === Radio) {
+				const childProps = child.props as RadioProps;
+				const childOnChange = childProps.onChange;
 				return cloneElement(child as React.ReactElement<RadioProps>, {
-					checked: child.props.value === value,
-					onChange: () => handleChange(child.props.value),
+					checked: childProps.value === selectedValue,
+					name: childProps.name ?? name,
+					onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
+						handleChange(String(childProps.value));
+						if (childOnChange) {
+							childOnChange(event);
+						}
+					},
 					disabled,
 				});
 			}
@@ -99,7 +128,15 @@ export const RadioGroup = forwardRef<HTMLFieldSetElement, RadioGroupProps>(
 		});
 
 		return (
-			<Sc.RadioGroup disabled={disabled} {...rest} sx={sx} ref={ref}>
+			<Sc.RadioGroup
+				id={id}
+				className={className}
+				role="radiogroup"
+				disabled={disabled}
+				{...rest}
+				sx={sx}
+				ref={ref}
+			>
 				{clonedChildren}
 			</Sc.RadioGroup>
 		);
@@ -114,24 +151,22 @@ RadioGroup.displayName = 'RadioGroup';
  * @see See [MDN](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/radio) for more details about the HTML input element of type radio.
  */
 export const Radio = forwardRef<HTMLInputElement, RadioProps>(
-	({ label = '', checked, name, ...rest }, ref) => {
+	({ label = '', checked, name, id, ...rest }, ref) => {
+		const generatedIdRef = useRef(uniqueId('retro-radio-'));
+		const radioId = id ?? generatedIdRef.current;
+
 		return (
 			<Sc.RadioWrapper>
 				<Sc.Radio
-					id={`${name}-${rest.value}`}
+					id={radioId}
+					name={name}
 					type="radio"
 					checked={checked}
 					ref={ref}
-					role="radio"
-					aria-checked={checked}
 					aria-disabled={rest.disabled}
 					{...rest}
 				/>
-				{label && (
-					<Sc.RadioLabel htmlFor={`${name}-${rest.value}`}>
-						{label}
-					</Sc.RadioLabel>
-				)}
+				{label && <Sc.RadioLabel htmlFor={radioId}>{label}</Sc.RadioLabel>}
 			</Sc.RadioWrapper>
 		);
 	},

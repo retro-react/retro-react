@@ -1,7 +1,7 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames as cx } from '@src/utils/classNames';
+import { classNames as cx } from '../../utils/classNames';
 
 interface GroupProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
@@ -37,7 +37,16 @@ interface GroupProps extends React.HTMLAttributes<HTMLDivElement> {
  */
 export const Group = forwardRef<HTMLDivElement, GroupProps>(
 	(
-		{ children, gap = '10px', direction = 'row', id, className, sx, ...rest },
+		{
+			children,
+			gap = '10px',
+			direction = 'row',
+			id,
+			className,
+			style,
+			sx,
+			...rest
+		},
 		ref,
 	) => {
 		return (
@@ -46,7 +55,12 @@ export const Group = forwardRef<HTMLDivElement, GroupProps>(
 				ref={ref}
 				sx={sx}
 				className={cx('group-root', className)}
-				style={{ display: 'flex', gap: gap, flexDirection: direction }}
+				style={{
+					display: 'flex',
+					gap: gap,
+					flexDirection: direction,
+					...style,
+				}}
 				{...rest}
 			>
 				{children}

@@ -2,39 +2,39 @@ import styled from '@emotion/styled';
 import {
 	VGA_BLACK,
 	VGA_WHITE,
+	WIN31_BLUE,
 	WIN31_BUTTON_FACE,
 	WIN31_BUTTON_HIGHLIGHT,
 	WIN31_BUTTON_SHADOW,
-} from '@src/constants/colors';
-import { SYSTEM_FONT } from '@src/constants/fonts';
+} from '../../constants/colors';
+import { FONT_SIZES, SYSTEM_FONT } from '../../constants/fonts';
 
 export type StepperVariant = 'default' | 'process' | 'warning' | 'success';
 
-// Get authentic retro colors for stepper variants
 const getStepperColors = (variant: StepperVariant) => {
 	switch (variant) {
 		case 'process':
 			return {
-				active: '#000080', // Classic Windows blue
-				completed: '#008000', // Windows green
+				active: WIN31_BLUE,
+				completed: '#008000',
 				inactive: WIN31_BUTTON_SHADOW,
 			};
 		case 'warning':
 			return {
-				active: '#800000', // Dark red
-				completed: '#008000', // Windows green
+				active: '#800000',
+				completed: '#008000',
 				inactive: WIN31_BUTTON_SHADOW,
 			};
 		case 'success':
 			return {
-				active: '#008000', // Windows green
-				completed: '#008000', // Windows green
+				active: '#008000',
+				completed: '#008000',
 				inactive: WIN31_BUTTON_SHADOW,
 			};
 		default:
 			return {
-				active: '#000080', // Classic Windows blue
-				completed: '#008000', // Windows green
+				active: WIN31_BLUE,
+				completed: '#008000',
 				inactive: WIN31_BUTTON_SHADOW,
 			};
 	}
@@ -42,7 +42,7 @@ const getStepperColors = (variant: StepperVariant) => {
 
 export const StepperWrapper = styled.div`
 	display: flex;
-	align-items: flex-start; /* Align to top to prevent shifting */
+	align-items: flex-start;
 	justify-content: flex-start;
 	gap: 0;
 	font-family: ${SYSTEM_FONT};
@@ -65,41 +65,38 @@ export const Step = styled.div<{
 	border-color: ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}
 		${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT};
 	font-family: ${SYSTEM_FONT};
-	font-size: 11px;
+	font-size: ${FONT_SIZES.SMALL};
 	font-weight: bold;
 	position: relative;
 
-	/* Authentic Windows 3.1 button styling */
 	box-shadow: inset 1px 1px 0 ${WIN31_BUTTON_HIGHLIGHT},
 		inset -1px -1px 0 ${WIN31_BUTTON_SHADOW};
 
-	/* Active step styling - sunken appearance */
 	${({ $active, $variant }) =>
 		$active &&
 		`
 		background: ${getStepperColors($variant).active};
 		color: ${VGA_WHITE};
-		border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT} 
+		border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
 			${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
-		box-shadow: 
-			inset 2px 2px 2px rgba(0, 0, 0, 0.3),
-			inset -1px -1px 0 rgba(255, 255, 255, 0.1);
+		box-shadow:
+			inset 1px 1px 0 ${WIN31_BUTTON_SHADOW},
+			inset -1px -1px 0 ${WIN31_BUTTON_HIGHLIGHT};
 		font-weight: bold;
 	`}
 
-	/* Completed step styling - raised with checkmark */
 	${({ $completed, $active, $variant }) =>
 		$completed &&
 		!$active &&
 		`
 		background: ${getStepperColors($variant).completed};
 		color: ${VGA_WHITE};
-		border-color: ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW} 
+		border-color: ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}
 			${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT};
-		box-shadow: 
+		box-shadow:
 			inset 1px 1px 0 ${WIN31_BUTTON_HIGHLIGHT},
 			inset -1px -1px 0 ${WIN31_BUTTON_SHADOW};
-		
+
 		&::after {
 			content: '✓';
 			position: absolute;
@@ -107,15 +104,14 @@ export const Step = styled.div<{
 			font-weight: bold;
 		}
 	`}
-	
-	/* Inactive step styling - flat appearance */
+
 	${({ $active, $completed }) =>
 		!$active &&
 		!$completed &&
 		`
 		background: ${WIN31_BUTTON_SHADOW};
 		color: ${VGA_WHITE};
-		border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_SHADOW} 
+		border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_SHADOW}
 			${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_SHADOW};
 		box-shadow: none;
 		opacity: 0.7;
@@ -131,29 +127,20 @@ export const StepConnector = styled.div<{
 	height: 2px;
 	min-width: 40px;
 	background: ${WIN31_BUTTON_SHADOW};
-	margin: 0 4px;
-	margin-top: 14px; /* Fixed position from top to align with step centers */
+	margin: 14px 4px 0 4px;
 	position: relative;
 	border: 1px solid;
 	border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
 		${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
 
-	/* Completed connector - raised appearance */
 	${({ $completed, $variant }) =>
 		$completed &&
 		`
 		background: ${getStepperColors($variant).completed};
-		border-color: ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW} 
+		border-color: ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}
 			${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT};
 		height: 3px;
 	`}
-`;
-
-export const StepContainer = styled.div`
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	position: relative;
 `;
 
 export const StepLabel = styled.p<{
@@ -162,16 +149,13 @@ export const StepLabel = styled.p<{
 	$variant: StepperVariant;
 }>`
 	margin: 4px 0 0 0;
-	font-size: 10px;
+	font-size: ${FONT_SIZES.TINY};
 	font-family: ${SYSTEM_FONT};
 	text-align: center;
-	max-width: 60px;
-	white-space: nowrap; /* Prevent wrapping to avoid alignment issues */
-	overflow: hidden;
-	text-overflow: ellipsis;
-	line-height: 1.1;
+	max-width: 120px;
+	line-height: 1.2;
+	word-break: break-word;
 
-	/* Active step label */
 	${({ $active, $variant }) =>
 		$active &&
 		`
@@ -179,7 +163,6 @@ export const StepLabel = styled.p<{
 		font-weight: bold;
 	`}
 
-	/* Completed step label */
 	${({ $completed, $active, $variant }) =>
 		$completed &&
 		!$active &&
@@ -187,8 +170,7 @@ export const StepLabel = styled.p<{
 		color: ${getStepperColors($variant).completed};
 		font-weight: normal;
 	`}
-	
-	/* Inactive step label */
+
 	${({ $active, $completed }) =>
 		!$active &&
 		!$completed &&
@@ -203,5 +185,5 @@ export const StepWrapper = styled.div`
 	align-items: center;
 	justify-content: flex-start;
 	position: relative;
-	min-height: 50px; /* Fixed height to prevent misalignment */
+	min-height: 50px;
 `;

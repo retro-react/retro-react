@@ -1,13 +1,13 @@
 /** @jsxImportSource theme-ui */
-import React, { useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import commonClassNames from '@src/constants/commonClassNames';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
 import * as Sc from './Pager.styled';
 
 export type PagerVariant = 'default' | 'terminal' | 'retro' | 'amber';
 
-export interface PagerProps {
+export interface PagerProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
 	 * List of messages or notifications to be displayed on the pager screen.
 	 */
@@ -30,9 +30,33 @@ export interface PagerProps {
 	variant?: PagerVariant;
 
 	/**
-	 * Custom class name for the component.
+	 * The brand label shown above the screen.
+	 *
+	 * @default 'RETROCOM-90'
 	 */
-	className?: string;
+	deviceLabel?: React.ReactNode;
+
+	/**
+	 * Content of the previous-message button. Override for localization.
+	 *
+	 * @default '◀ PREV'
+	 */
+	prevLabel?: React.ReactNode;
+
+	/**
+	 * Content of the next-message button. Override for localization.
+	 *
+	 * @default 'NEXT ▶'
+	 */
+	nextLabel?: React.ReactNode;
+
+	/**
+	 * Renders the page indicator from the current and total counts.
+	 * Override for localization.
+	 *
+	 * @default (current, total) => `${current} / ${total}`
+	 */
+	renderPageIndicator?: (current: number, total: number) => React.ReactNode;
 
 	sx?: ThemeUICSSObject;
 }
@@ -40,75 +64,113 @@ export interface PagerProps {
 /**
  * Authentic retro Pager (Beeper) component reminiscent of 80s/90s communication devices.
  *
- * Features:
- * - Large, prominent LCD-style display with enhanced scanlines and glow effects
- * - Authentic RETROCOM-90 branding and status indicator
- * - Classic Windows 3.1-style button layout with proper dithering texture
- * - Multiple display variants with distinct color schemes
- * - Message scrolling with smooth transitions and page indicators
- * - Period-appropriate visual effects and typography
- * - Enhanced sizing and proportions for better visual impact
- *
  * @example
- * // Classic terminal-style pager
  * <Pager
  *   variant="terminal"
- *   messages={["NEW MESSAGE", "CALL HOME", "MEETING @ 3PM"]}
+ *   messages={['NEW MESSAGE', 'CALL HOME', 'MEETING @ 3PM']}
+ * />
+ *
+ * @example
+ * // Localized
+ * <Pager
+ *   messages={mensajes}
+ *   prevLabel="◀ ANTERIOR"
+ *   nextLabel="SIGUIENTE ▶"
+ *   renderPageIndicator={(c, t) => `${c} de ${t}`}
  * />
  */
-export const Pager: React.FC<PagerProps> = ({
-	messages,
-	onButtonPress,
-	variant = 'default',
-	className,
-	sx,
-}) => {
-	const [currentIndex, setCurrentIndex] = useState(0);
+export const Pager = forwardRef<HTMLDivElement, PagerProps>(
+	(
+		{
+			messages,
+			onButtonPress,
+			variant = 'default',
+			deviceLabel = 'RETROCOM-90',
+			prevLabel = '◀ PREV',
+			nextLabel = 'NEXT ▶',
+			renderPageIndicator = (current, total) => `${current} / ${total}`,
+			className,
+			id,
+			sx,
+			...rest
+		},
+		ref,
+	) => {
+		const [currentIndex, setCurrentIndex] = useState(0);
 
-	const handleNext = () => {
-		setCurrentIndex((prev) => (prev + 1) % messages.length);
-		onButtonPress && onButtonPress(currentIndex);
-	};
+		const isEmpty = messages.length === 0;
 
-	const handlePrevious = () => {
-		setCurrentIndex((prev) => (prev - 1 + messages.length) % messages.length);
-		onButtonPress && onButtonPress(currentIndex);
-	};
+		// Clamp index back into range when the messages array shrinks under us.
+		useEffect(() => {
+			if (!isEmpty && currentIndex >= messages.length) {
+				setCurrentIndex(0);
+			}
+		}, [messages.length, currentIndex, isEmpty]);
 
-	return (
-		<Sc.PagerBody
-			sx={sx}
-			$variant={variant}
-			className={classNames('pager-root', className, commonClassNames)}
-		>
-			<Sc.PagerLabel>RETROCOM-90</Sc.PagerLabel>
-			<Sc.StatusIndicator $variant={variant} />
-			<Sc.PagerScreen $variant={variant}>
-				<Sc.MessageContainer>
-					{messages.map((msg, index) => (
-						<Sc.MessageSlide
-							key={index}
-							visible={index === currentIndex}
-							$variant={variant}
-						>
-							{msg}
-						</Sc.MessageSlide>
-					))}
-				</Sc.MessageContainer>
-			</Sc.PagerScreen>
-			<Sc.PageIndicator>
-				{currentIndex + 1} / {messages.length}
-			</Sc.PageIndicator>
-			<Sc.ButtonGroup>
-				<Sc.PagerButton $variant={variant} onClick={handlePrevious}>
-					◀ PREV
-				</Sc.PagerButton>
-				<Sc.PagerButton $variant={variant} onClick={handleNext}>
-					NEXT ▶
-				</Sc.PagerButton>
-			</Sc.ButtonGroup>
-		</Sc.PagerBody>
-	);
-};
+		const handleNext = () => {
+			if (isEmpty) return;
+			const nextIndex = (currentIndex + 1) % messages.length;
+			setCurrentIndex(nextIndex);
+			onButtonPress?.(nextIndex);
+		};
+
+		const handlePrevious = () => {
+			if (isEmpty) return;
+			const prevIndex = (currentIndex - 1 + messages.length) % messages.length;
+			setCurrentIndex(prevIndex);
+			onButtonPress?.(prevIndex);
+		};
+
+		return (
+			<Sc.PagerBody
+				ref={ref}
+				id={id}
+				sx={sx}
+				$variant={variant}
+				className={classNames('pager-root', className, commonClassNames)}
+				{...rest}
+			>
+				<Sc.PagerHeader>
+					<Sc.PagerLabel>{deviceLabel}</Sc.PagerLabel>
+					<Sc.StatusIndicator $variant={variant} />
+				</Sc.PagerHeader>
+				<Sc.PagerScreen $variant={variant}>
+					<Sc.MessageContainer aria-live="polite">
+						{messages.map((msg, index) => (
+							<Sc.MessageSlide
+								key={index}
+								visible={index === currentIndex}
+								$variant={variant}
+							>
+								{msg}
+							</Sc.MessageSlide>
+						))}
+					</Sc.MessageContainer>
+				</Sc.PagerScreen>
+				<Sc.PageIndicator>
+					{renderPageIndicator(isEmpty ? 0 : currentIndex + 1, messages.length)}
+				</Sc.PageIndicator>
+				<Sc.ButtonGroup>
+					<Sc.PagerButton
+						type="button"
+						$variant={variant}
+						onClick={handlePrevious}
+						disabled={isEmpty}
+					>
+						{prevLabel}
+					</Sc.PagerButton>
+					<Sc.PagerButton
+						type="button"
+						$variant={variant}
+						onClick={handleNext}
+						disabled={isEmpty}
+					>
+						{nextLabel}
+					</Sc.PagerButton>
+				</Sc.ButtonGroup>
+			</Sc.PagerBody>
+		);
+	},
+);
 
 Pager.displayName = 'Pager';

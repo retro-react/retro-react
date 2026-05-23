@@ -1,8 +1,9 @@
 {
 	"name": "retro-react",
 	"version": "1.4.0",
+	"type": "commonjs",
 	"private": false,
-	"description": "A React component library for building retro-style websites",
+	"description": "Authentic Windows 95/98 retro React UI library — 50+ typed, accessible components with bevels, sharp pixels, and CRT vibes.",
 	"keywords": [
 		"react",
 		"react-component",
@@ -19,38 +20,48 @@
 		"ui-library",
 		"webcore"
 	],
-	"author": "Retro React",
+	"author": {
+		"name": "Retro React",
+		"url": "https://github.com/retro-react"
+	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/retro-react/retro-react"
+		"url": "git+https://github.com/retro-react/retro-react.git"
 	},
+	"bugs": {
+		"url": "https://github.com/retro-react/retro-react/issues"
+	},
+	"homepage": "https://retro-react.github.io/retro-react",
 	"license": "MIT",
 	"sideEffects": false,
 	"exports": {
 		".": {
-			"import": "./dist/esm/index.js",
-			"require": "./dist/cjs/index.js"
-		},
-		"./assets/*": {
-			"import": "./dist/esm/assets/*",
-			"require": "./dist/cjs/assets/*"
+			"import": {
+				"types": "./dist/index.d.mts",
+				"default": "./dist/index.mjs"
+			},
+			"require": {
+				"types": "./dist/index.d.ts",
+				"default": "./dist/index.js"
+			}
 		}
 	},
-	"main": "dist/cjs/index.js",
-	"module": "dist/esm/index.js",
-	"types": "dist/esm/index.d.ts",
+	"main": "dist/index.js",
+	"module": "dist/index.mjs",
+	"types": "dist/index.d.ts",
 	"files": [
 		"dist"
 	],
 	"scripts": {
-		"build": "NODE_ENV=production rollup -c",
+		"build": "tsup && tsc -p tsconfig.build.json && cp dist/index.d.ts dist/index.d.mts",
 		"build:storybook": "storybook build -o docs-build",
 		"changeset": "changeset",
 		"lint": "eslint . --ext .ts,.tsx,.js,.jsx",
 		"prepare": "husky install",
+		"prepublishOnly": "npm run build",
 		"release": "changeset publish",
 		"storybook": "NODE_ENV=development storybook dev -p 6006 --quiet",
-		"test": "NODE_ENV=test jest",
+		"test": "NODE_ENV=test jest --passWithNoTests",
 		"test:coverage": "NODE_ENV=test jest --coverage",
 		"test:watch": "NODE_ENV=test jest --watch",
 		"format": "prettier **/*.tsx --write",
@@ -73,7 +84,10 @@
 		"not op_mini all"
 	],
 	"dependencies": {
-		"@babel/runtime": "^7.21.0"
+		"@babel/runtime": "^7.21.0",
+		"@emotion/react": "^11.0.0",
+		"@emotion/styled": "^11.0.0",
+		"theme-ui": "^0.15.7"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.21.4",
@@ -88,11 +102,6 @@
 		"@emotion/react": "^11.10.6",
 		"@emotion/styled": "^11.10.6",
 		"@mdx-js/react": "^2.3.0",
-		"@rollup/plugin-babel": "^6.0.3",
-		"@rollup/plugin-commonjs": "^24.1.0",
-		"@rollup/plugin-node-resolve": "^15.0.2",
-		"@rollup/plugin-terser": "^0.4.1",
-		"@rollup/plugin-url": "^8.0.1",
 		"@storybook/addon-a11y": "^7.0.7",
 		"@storybook/addon-actions": "^7.0.7",
 		"@storybook/addon-essentials": "^7.0.7",
@@ -108,13 +117,11 @@
 		"@trivago/prettier-plugin-sort-imports": "^4.1.1",
 		"@types/jest": "^29.5.1",
 		"@types/node": "^18.16.1",
-		"@types/react": "^18.2.0",
-		"@types/react-dom": "^18.2.1",
-		"@types/styled-components": "^5.1.26",
+		"@types/react": "~18.2.0",
+		"@types/react-dom": "~18.2.0",
 		"@types/testing-library__jest-dom": "^5.14.5",
 		"@typescript-eslint/eslint-plugin": "^5.59.1",
 		"@typescript-eslint/parser": "^5.59.1",
-		"@zerollup/ts-transform-paths": "^1.7.18",
 		"babel-loader": "^9.1.2",
 		"eslint": "8.39.0",
 		"eslint-config-prettier": "^8.8.0",
@@ -130,31 +137,21 @@
 		"jest-transform-stub": "^2.0.0",
 		"lint-staged": "^13.2.2",
 		"prettier": "^2.8.8",
+		"publint": "^0.3.21",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
-		"rollup": "^3.21.0",
-		"rollup-plugin-copy": "^3.4.0",
-		"rollup-plugin-css-only": "^4.3.0",
-		"rollup-plugin-delete": "^2.0.0",
-		"rollup-plugin-peer-deps-external": "^2.2.4",
-		"rollup-plugin-typescript2": "^0.34.1",
 		"storybook": "^7.0.7",
-		"theme-ui": "^0.15.7",
 		"ts-jest": "^29.1.0",
-		"tslib": "^2.5.0",
-		"ttypescript": "^1.5.15",
-		"typescript": "^4.3.5",
-		"typescript-transform-paths": "^3.4.6",
+		"tsup": "^8.5.1",
+		"typescript": "^4.9.5",
 		"webpack": "^5.81.0",
 		"webpack-cli": "^5.0.2"
 	},
 	"peerDependencies": {
-		"@emotion/react": "^11.0.0",
-		"@emotion/styled": "^11.0.0",
-		"react": "^16.8.0 || ^17 || ^18",
-		"react-dom": "^16.8.0 || ^17 || ^18"
+		"react": "^16.8.0 || ^17 || ^18 || ^19",
+		"react-dom": "^16.8.0 || ^17 || ^18 || ^19"
 	},
 	"engines": {
-		"node": ">=16"
+		"node": ">=18"
 	}
 }

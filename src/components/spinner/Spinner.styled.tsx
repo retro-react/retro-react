@@ -1,12 +1,8 @@
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
-import {
-	VGA_BLACK,
-	WIN31_BUTTON_FACE,
-	WIN31_BUTTON_HIGHLIGHT,
-	WIN31_BUTTON_SHADOW,
-} from '@src/constants/colors';
-import { SYSTEM_FONT } from '@src/constants/fonts';
+import { raised } from '../../constants/bevels';
+import { VGA_BLACK, WIN31_BUTTON_FACE } from '../../constants/colors';
+import { SYSTEM_FONT } from '../../constants/fonts';
 import { SpinnerSize } from './Spinner';
 
 // Authentic WIN31 spinning animation - simple rotation
@@ -139,9 +135,7 @@ export const RotatingSpinner = styled.div<{ $size: SpinnerSize }>`
 	background: ${WIN31_BUTTON_FACE};
 
 	/* Authentic WIN31 raised border */
-	border: 2px solid;
-	border-color: ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}
-		${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT};
+	${raised}
 
 	animation: ${spin} 1s linear infinite;
 

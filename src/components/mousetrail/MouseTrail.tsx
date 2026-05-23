@@ -1,11 +1,11 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef, useEffect, useRef, useState } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
+import { classNames } from '../../utils/classNames';
 import {
 	ColorGradients,
 	getColorGradientOptions,
-} from '@src/utils/getColorGradients';
+} from '../../utils/getColorGradients';
 import { TrailingStar } from './trails';
 
 interface MouseTrailProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -31,15 +31,6 @@ interface MouseTrailProps extends React.HTMLAttributes<HTMLDivElement> {
 	sx?: ThemeUICSSObject;
 }
 
-interface MouseTrailRef {
-	/**
-	 * @internal The array of particles
-	 *
-	 * @default []
-	 */
-	particles: Array<HTMLDivElement>;
-}
-
 interface Star {
 	x: number;
 	y: number;
@@ -55,7 +46,7 @@ interface Star {
  * `IMPORTANT:` Make sure to set the parent container to `position: relative`.
  *
  */
-export const MouseTrail = forwardRef<MouseTrailRef, MouseTrailProps>(
+export const MouseTrail = forwardRef<HTMLDivElement, MouseTrailProps>(
 	(
 		{
 			id,
@@ -64,18 +55,29 @@ export const MouseTrail = forwardRef<MouseTrailRef, MouseTrailProps>(
 			particleColor = 'rainbow',
 			offset = { x: 0, y: 0 },
 			sx,
+			...rest
 		},
 		ref,
 	) => {
 		const offsetY = offset.y;
 		const offsetX = offset.x;
-		const containerRef = useRef<HTMLDivElement>(null);
+		const containerRef = useRef<HTMLDivElement | null>(null);
 		const [stars, setStars] = useState<Star[]>([]);
 		const position = useRef({ x: 0, y: 0 });
 		const visibleTime = 1500;
 		const particleCount = 50;
 		const createRefreshRate = 50;
 		const updateRefreshRate = 20;
+		const idleTimeout = 2000;
+
+		const setRefs = (element: HTMLDivElement | null) => {
+			containerRef.current = element;
+			if (typeof ref === 'function') {
+				ref(element);
+			} else if (ref) {
+				ref.current = element;
+			}
+		};
 
 		const getStarIndex = (stars: Star[]): number => {
 			for (let i = 0; i < stars.length; i++) {
@@ -85,6 +87,13 @@ export const MouseTrail = forwardRef<MouseTrailRef, MouseTrailProps>(
 		};
 
 		useEffect(() => {
+			const hideTimeouts = new Set<ReturnType<typeof setTimeout>>();
+			let lastMoveTime = 0;
+			let lastCreate = 0;
+			let lastUpdate = 0;
+			let hasVisibleStars = false;
+			let rafId: number | null = null;
+
 			const handleMouseMove = (event: MouseEvent) => {
 				const containerRect = containerRef.current?.getBoundingClientRect();
 				if (containerRect) {
@@ -93,11 +102,16 @@ export const MouseTrail = forwardRef<MouseTrailRef, MouseTrailProps>(
 						y: event.clientY - containerRect.top,
 					};
 				}
+				lastMoveTime = Date.now();
+				if (rafId === null) {
+					rafId = requestAnimationFrame(tick);
+				}
 			};
 
 			const hideStar = (index: number) => {
 				const randomTime = Math.floor(Math.random() * visibleTime) + 1000;
-				setTimeout(() => {
+				const timeoutId = setTimeout(() => {
+					hideTimeouts.delete(timeoutId);
 					setStars((prev) =>
 						prev.map((star, i) => {
 							if (i === index) {
@@ -110,6 +124,7 @@ export const MouseTrail = forwardRef<MouseTrailRef, MouseTrailProps>(
 						}),
 					);
 				}, randomTime);
+				hideTimeouts.add(timeoutId);
 			};
 
 			const createStar = () => {
@@ -121,7 +136,8 @@ export const MouseTrail = forwardRef<MouseTrailRef, MouseTrailProps>(
 				setStars((prev) => {
 					const index = getStarIndex(prev);
 					if (index !== -1) {
-						prev[index] = {
+						const next = prev.slice();
+						next[index] = {
 							x: position.current.x - size / 2 + offsetX,
 							y: position.current.y - size / 2 + offsetY,
 							size,
@@ -129,6 +145,7 @@ export const MouseTrail = forwardRef<MouseTrailRef, MouseTrailProps>(
 							visible: true,
 						};
 						hideStar(index);
+						return next;
 					} else if (prev.length < particleCount) {
 						const newStars = [
 							...prev,
@@ -146,36 +163,58 @@ export const MouseTrail = forwardRef<MouseTrailRef, MouseTrailProps>(
 					return prev;
 				});
 			};
+
 			const updateStars = () => {
 				const shouldResize = Math.random() > 0.5;
-				setStars((prev) =>
-					prev.map((star) => ({
+				setStars((prev) => {
+					hasVisibleStars = prev.some((star) => star.visible);
+					return prev.map((star) => ({
 						...star,
 						y: star.y + 1 + Math.random() * 3,
 						x: star.x + (Math.random() - 0.5) * 2,
 						size: shouldResize ? Math.max(0, star.size - 0.1) : star.size,
-					})),
-				);
+					}));
+				});
 			};
 
-			const interval = setInterval(createStar, createRefreshRate);
-			const updateInterval = setInterval(updateStars, updateRefreshRate);
+			const tick = () => {
+				const now = Date.now();
+				const recentlyMoved = now - lastMoveTime < idleTimeout;
+
+				if (recentlyMoved && now - lastCreate >= createRefreshRate) {
+					lastCreate = now;
+					createStar();
+				}
+				if (now - lastUpdate >= updateRefreshRate) {
+					lastUpdate = now;
+					updateStars();
+				}
+
+				if (recentlyMoved || hasVisibleStars) {
+					rafId = requestAnimationFrame(tick);
+				} else {
+					rafId = null;
+				}
+			};
 
 			window.addEventListener('mousemove', handleMouseMove);
 
 			return () => {
 				window.removeEventListener('mousemove', handleMouseMove);
-				clearInterval(interval);
-				clearInterval(updateInterval);
+				if (rafId !== null) {
+					cancelAnimationFrame(rafId);
+				}
+				hideTimeouts.forEach((timeoutId) => clearTimeout(timeoutId));
+				hideTimeouts.clear();
 			};
-		}, [particleColor, particleSize]);
+		}, [particleColor, particleSize, offsetX, offsetY]);
 
 		return (
 			<div
 				id={id}
 				sx={sx}
 				className={classNames('mouse-trail-root', className)}
-				ref={containerRef}
+				ref={setRefs}
 				style={{
 					position: 'absolute',
 					top: 0,
@@ -186,6 +225,7 @@ export const MouseTrail = forwardRef<MouseTrailRef, MouseTrailProps>(
 					pointerEvents: 'none',
 					zIndex: 9999,
 				}}
+				{...rest}
 			>
 				{stars.map((star, index) => (
 					<TrailingStar

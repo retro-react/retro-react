@@ -1,18 +1,24 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef, useEffect, useRef, useState } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import commonClassNames from '@src/constants/commonClassNames';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
 import * as Sc from './Slider.styled';
 
 export interface SliderProps
 	extends Omit<React.HTMLAttributes<HTMLInputElement>, 'onChange'> {
 	/**
-	 * The value of the Slider.
+	 * The value of the Slider. When provided, the Slider is controlled.
 	 *
 	 * @default undefined
 	 */
 	value?: number;
+	/**
+	 * The default value of the Slider when uncontrolled.
+	 *
+	 * @default 0
+	 */
+	defaultValue?: number;
 	/**
 	 * The minimum allowed value of the Slider.
 	 *
@@ -93,7 +99,8 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(
 			id,
 			sx,
 			className,
-			value = 0,
+			value,
+			defaultValue = 0,
 			min = 0,
 			max = 100,
 			step = 1,
@@ -106,33 +113,36 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(
 		},
 		ref,
 	) => {
-		const [internalValue, setInternalValue] = useState(value);
+		const isControlled = value !== undefined;
+		const [internalValue, setInternalValue] = useState(defaultValue);
 		const [isDragging, setIsDragging] = useState(false);
 		const [isHovering, setIsHovering] = useState(false);
 		const [tooltipPosition, setTooltipPosition] = useState(0);
-		const sliderRef = useRef<HTMLInputElement>(null);
+		const sliderRef = useRef<HTMLInputElement | null>(null);
+		const setRefs = (node: HTMLInputElement | null) => {
+			sliderRef.current = node;
+			if (typeof ref === 'function') ref(node);
+			else if (ref)
+				(ref as React.MutableRefObject<HTMLInputElement | null>).current = node;
+		};
 
-		// Sync internal value with prop value
-		useEffect(() => {
-			if (value !== undefined) {
-				setInternalValue(value);
-			}
-		}, [value]);
+		const currentValue = value ?? internalValue;
 
-		// Calculate tooltip position more precisely based on current value
 		const updateTooltipPosition = (currentValue: number) => {
 			const percentage = ((currentValue - min) / (max - min)) * 100;
-			// Clamp between 5% and 95% to keep tooltip visible
 			setTooltipPosition(Math.max(5, Math.min(95, percentage)));
 		};
 
 		useEffect(() => {
-			updateTooltipPosition(internalValue);
-		}, [internalValue, min, max]);
+			const percentage = ((currentValue - min) / (max - min)) * 100;
+			setTooltipPosition(Math.max(5, Math.min(95, percentage)));
+		}, [currentValue, min, max]);
 
 		const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 			const newValue = Number(event.target.value);
-			setInternalValue(newValue);
+			if (!isControlled) {
+				setInternalValue(newValue);
+			}
 			updateTooltipPosition(newValue);
 			onChange?.(newValue);
 		};
@@ -140,7 +150,6 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(
 		const handleMouseDown = (event: React.MouseEvent) => {
 			if (!disabled) {
 				setIsDragging(true);
-				// Update tooltip position immediately on mouse down
 				if (sliderRef.current) {
 					const rect = sliderRef.current.getBoundingClientRect();
 					const percentage = ((event.clientX - rect.left) / rect.width) * 100;
@@ -167,7 +176,6 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(
 			setIsHovering(false);
 		};
 
-		// Add global mouse events for better tracking
 		useEffect(() => {
 			if (isDragging) {
 				const handleGlobalMouseMove = (event: MouseEvent) => {
@@ -192,15 +200,12 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(
 			}
 		}, [isDragging]);
 
-		// Generate tick marks if requested
-		const tickMarks = showTicks
-			? Array.from(
-					{ length: Math.floor((max - min) / step) + 1 },
-					(_, i) => min + i * step,
-			  )
-			: [];
+		const tickCount = Math.floor((max - min) / step) + 1;
+		const tickMarks =
+			showTicks && tickCount <= 100
+				? Array.from({ length: tickCount }, (_, i) => min + i * step)
+				: [];
 
-		// Show tooltip when dragging or hovering (if showTooltip is true)
 		const shouldShowTooltip = showTooltip && (isDragging || isHovering);
 
 		return (
@@ -209,11 +214,11 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(
 			>
 				{shouldShowTooltip && (
 					<Sc.Tooltip $leftPosition={tooltipPosition}>
-						{marks?.[internalValue] || internalValue}
+						{marks?.[currentValue] || currentValue}
 					</Sc.Tooltip>
 				)}
 
-				{showTicks && (
+				{showTicks && tickMarks.length > 0 && (
 					<Sc.TickContainer>
 						{tickMarks.map((tick) => (
 							<Sc.Tick
@@ -238,7 +243,7 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(
 				)}
 
 				<Sc.Slider
-					ref={sliderRef}
+					ref={setRefs}
 					id={id}
 					sx={sx}
 					className="slider-input"
@@ -246,7 +251,7 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(
 					min={min}
 					max={max}
 					step={step}
-					value={internalValue}
+					value={currentValue}
 					onChange={handleChange}
 					onMouseDown={handleMouseDown}
 					onMouseMove={handleMouseMove}

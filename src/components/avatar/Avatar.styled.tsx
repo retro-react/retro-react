@@ -1,12 +1,9 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import getColorScheme from '@src/utils/getColorScheme';
-import {
-	VGA_BLACK,
-	WIN31_BUTTON_HIGHLIGHT,
-	WIN31_BUTTON_SHADOW,
-} from '@src/constants/colors';
-import { FONT_SIZES, SYSTEM_FONT } from '@src/constants/fonts';
+import { sunken } from '../../constants/bevels';
+import { VGA_BLACK } from '../../constants/colors';
+import { FONT_SIZES, SYSTEM_FONT } from '../../constants/fonts';
+import getColorScheme from '../../utils/getColorScheme';
 import { AvatarColor, AvatarSize, AvatarVariant } from './Avatar';
 
 const sizeStyles = {
@@ -40,10 +37,7 @@ export const Avatar = styled.div<{
 			: getColorScheme(props.$color, props.theme)};
 	width: ${(props) => sizeStyles[props.$size]};
 	height: ${(props) => sizeStyles[props.$size]};
-	border: 2px solid;
-	border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
-		${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
-	box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
+	${sunken}
 	overflow: hidden;
 	position: relative;
 

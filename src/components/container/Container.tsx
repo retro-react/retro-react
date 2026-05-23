@@ -1,7 +1,8 @@
 /** @jsxImportSource theme-ui */
+import { forwardRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import commonClassNames from '@src/constants/commonClassNames';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
 import * as Sc from './Container.styled';
 
 export interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -29,30 +30,29 @@ export interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {
  *   <!-- your content here -->
  * </Container>
  */
-export const Container = ({
-	fluid = false,
-	className,
-	children,
-	...rest
-}: ContainerProps) => {
-	const classes = classNames(
-		'container-root',
-		fluid ? 'container-fluid' : '',
-		className,
-		commonClassNames,
-	);
-
-	if (fluid) {
-		return (
-			<Sc.FluidContainer className={classes} {...rest}>
-				{children}
-			</Sc.FluidContainer>
+export const Container = forwardRef<HTMLDivElement, ContainerProps>(
+	({ fluid = false, className, children, sx, ...rest }, ref) => {
+		const classes = classNames(
+			'container-root',
+			fluid ? 'container-fluid' : '',
+			className,
+			commonClassNames,
 		);
-	}
 
-	return (
-		<Sc.Container className={classes} {...rest}>
-			{children}
-		</Sc.Container>
-	);
-};
+		if (fluid) {
+			return (
+				<Sc.FluidContainer ref={ref} className={classes} sx={sx} {...rest}>
+					{children}
+				</Sc.FluidContainer>
+			);
+		}
+
+		return (
+			<Sc.Container ref={ref} className={classes} sx={sx} {...rest}>
+				{children}
+			</Sc.Container>
+		);
+	},
+);
+
+Container.displayName = 'Container';

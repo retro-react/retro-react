@@ -1,18 +1,26 @@
 import styled from '@emotion/styled';
+import { sunken } from '../../constants/bevels';
+import {
+	VGA_BLACK,
+	VGA_WHITE,
+	WIN31_BLUE,
+	WIN31_BUTTON_FACE,
+	WIN31_BUTTON_HIGHLIGHT,
+	WIN31_BUTTON_SHADOW,
+} from '../../constants/colors';
+import { FONT_SIZES, SYSTEM_FONT } from '../../constants/fonts';
 
 export const BreadcrumbsWrapper = styled.nav`
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
 	padding: 4px 8px;
-	background-color: #c0c0c0;
-	border: 2px inset #c0c0c0;
-	border-color: #ffffff #808080 #808080 #ffffff;
-	font-family: 'MS Sans Serif', sans-serif;
-	font-size: 11px;
+	background-color: ${WIN31_BUTTON_FACE};
+	${sunken}
+	font-family: ${SYSTEM_FONT};
+	font-size: ${FONT_SIZES.SMALL};
 	position: relative;
 
-	/* Subtle dithering pattern for authentic texture */
 	background-image: radial-gradient(
 		circle at 1px 1px,
 		rgba(0, 0, 0, 0.1) 1px,
@@ -22,7 +30,6 @@ export const BreadcrumbsWrapper = styled.nav`
 
 	@media (max-width: 768px) {
 		padding: 3px 6px;
-		font-size: 10px;
 		flex-wrap: nowrap;
 		overflow-x: auto;
 		scrollbar-width: thin;
@@ -49,7 +56,7 @@ export const Breadcrumb = styled.span<{
 	display: inline-flex;
 	align-items: center;
 	font-size: inherit;
-	color: ${(props) => (props.$disabled ? '#808080' : '#000000')};
+	color: ${(props) => (props.$disabled ? WIN31_BUTTON_SHADOW : VGA_BLACK)};
 	font-weight: ${(props) => (props.$active ? 'bold' : 'normal')};
 	opacity: ${(props) => (props.$disabled ? 0.6 : 1)};
 	white-space: nowrap;
@@ -58,7 +65,7 @@ export const Breadcrumb = styled.span<{
 export const BreadcrumbSeparator = styled.span<{
 	$type: 'arrow' | 'backslash' | 'dot' | 'pipe';
 }>`
-	color: #808080;
+	color: ${WIN31_BUTTON_SHADOW};
 	font-weight: normal;
 	margin: 0 4px;
 	user-select: none;
@@ -68,7 +75,7 @@ export const BreadcrumbSeparator = styled.span<{
 export const BreadcrumbAnchor = styled.a<{
 	$disabled?: boolean;
 }>`
-	color: ${(props) => (props.$disabled ? '#808080' : '#000000')};
+	color: ${(props) => (props.$disabled ? WIN31_BUTTON_SHADOW : VGA_BLACK)};
 	text-decoration: none;
 	padding: 1px 3px;
 	border: 1px solid transparent;
@@ -80,25 +87,25 @@ export const BreadcrumbAnchor = styled.a<{
 	gap: 2px;
 
 	&:hover:not([disabled]) {
-		background-color: #0000ff;
-		color: #ffffff;
-		border: 1px outset #c0c0c0;
+		background-color: ${WIN31_BLUE};
+		color: ${VGA_WHITE};
+		border: 1px outset ${WIN31_BUTTON_FACE};
 	}
 
 	&:focus:not([disabled]) {
-		outline: 1px dotted #000000;
+		outline: 1px dotted ${VGA_BLACK};
 		outline-offset: 1px;
 	}
 
 	&:active:not([disabled]) {
-		border: 1px inset #c0c0c0;
-		background-color: #c0c0c0;
-		color: #000000;
+		border: 1px inset ${WIN31_BUTTON_FACE};
+		background-color: ${WIN31_BUTTON_FACE};
+		color: ${VGA_BLACK};
 	}
 `;
 
 export const BreadcrumbActive = styled.span`
-	color: #000000;
+	color: ${VGA_BLACK};
 	font-weight: bold;
 	padding: 1px 3px;
 	background: transparent;
@@ -110,17 +117,18 @@ export const BreadcrumbActive = styled.span`
 export const BreadcrumbIcon = styled.span`
 	display: inline-flex;
 	align-items: center;
-	font-size: 10px;
+	font-size: ${FONT_SIZES.TINY};
 	margin-right: 2px;
 `;
 
 export const CopyButton = styled.button`
-	background: #c0c0c0;
-	border: 1px outset #c0c0c0;
-	border-color: #ffffff #808080 #808080 #ffffff;
-	color: #000000;
-	font-family: 'MS Sans Serif', sans-serif;
-	font-size: 10px;
+	background: ${WIN31_BUTTON_FACE};
+	border: 1px outset ${WIN31_BUTTON_FACE};
+	border-color: ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}
+		${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT};
+	color: ${VGA_BLACK};
+	font-family: ${SYSTEM_FONT};
+	font-size: ${FONT_SIZES.TINY};
 	padding: 2px 4px;
 	margin-left: 8px;
 	cursor: pointer;
@@ -130,18 +138,19 @@ export const CopyButton = styled.button`
 	}
 
 	&:active {
-		border: 1px inset #c0c0c0;
-		border-color: #808080 #ffffff #ffffff #808080;
+		border: 1px inset ${WIN31_BUTTON_FACE};
+		border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
+			${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
 	}
 
 	&:focus {
-		outline: 1px dotted #000000;
+		outline: 1px dotted ${VGA_BLACK};
 		outline-offset: 1px;
 	}
 `;
 
 export const TruncationIndicator = styled.span`
-	color: #808080;
+	color: ${WIN31_BUTTON_SHADOW};
 	font-weight: normal;
 	margin: 0 4px;
 	cursor: help;
@@ -149,6 +158,6 @@ export const TruncationIndicator = styled.span`
 	position: relative;
 
 	&:hover {
-		color: #000000;
+		color: ${VGA_BLACK};
 	}
 `;

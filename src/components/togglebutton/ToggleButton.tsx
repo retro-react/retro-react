@@ -8,8 +8,14 @@ import {
 	useState,
 } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import commonClassNames from '@src/constants/commonClassNames';
+import {
+	VGA_BLACK,
+	WIN31_BUTTON_FACE,
+	WIN31_BUTTON_HIGHLIGHT,
+	WIN31_BUTTON_SHADOW,
+} from '../../constants/colors';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
 import { Button, ButtonProps, ButtonSize } from '../button/Button';
 
 interface ToggleButtonProps extends ButtonProps {
@@ -24,19 +30,20 @@ export const ToggleButton = forwardRef<HTMLButtonElement, ToggleButtonProps>(
 				{...buttonProps}
 				sx={{
 					...buttonProps.sx,
-					minWidth: 'fit-content',
+					minWidth: '28px',
+					padding: '2px 8px',
 					borderColor: selected
-						? '#808080 #FFFFFF #FFFFFF #808080'
-						: '#FFFFFF #808080 #808080 #FFFFFF',
-					backgroundColor: selected ? '#A0A0A0' : '#C0C0C0',
-					transform: selected ? 'none' : 'none',
+						? `${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}`
+						: `${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}`,
+					backgroundColor: selected ? '#A0A0A0' : WIN31_BUTTON_FACE,
+					color: VGA_BLACK,
 					filter: 'none',
 					'&:hover': {
 						backgroundColor: selected ? '#909090' : '#B0B0B0',
 						transform: 'none',
 					},
 					'&:active': {
-						borderColor: '#808080 #FFFFFF #FFFFFF #808080',
+						borderColor: `${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}`,
 						backgroundColor: '#A0A0A0',
 					},
 				}}
@@ -70,7 +77,7 @@ export interface ToggleButtonGroupProps
 	 * A callback function that is called when the selected value changes.
 	 * The new selection (array of values of the selected buttons) is passed as argument.
 	 */
-	onValueChange?: (value: string | string[]) => void;
+	onValueChange?: (value: string[]) => void;
 
 	/**
 	 * If true, multiple buttons can be selected.
@@ -120,7 +127,9 @@ export const ToggleButtonGroup = forwardRef<
 		},
 		ref,
 	) => {
-		const [selectedValues, setSelectedValues] = useState<string[]>(value || []);
+		const isControlled = value !== undefined;
+		const [internalValues, setInternalValues] = useState<string[]>([]);
+		const selectedValues = value ?? internalValues;
 
 		const handleButtonClick = (val: string) => {
 			let newSelectedValues;
@@ -131,7 +140,9 @@ export const ToggleButtonGroup = forwardRef<
 			} else {
 				newSelectedValues = [val];
 			}
-			setSelectedValues(newSelectedValues);
+			if (!isControlled) {
+				setInternalValues(newSelectedValues);
+			}
 			onValueChange?.(newSelectedValues);
 		};
 
@@ -139,6 +150,7 @@ export const ToggleButtonGroup = forwardRef<
 			<div
 				ref={ref}
 				id={id}
+				role="group"
 				className={classNames(
 					'toggle-button-group-root',
 					className,
@@ -153,6 +165,9 @@ export const ToggleButtonGroup = forwardRef<
 					}
 
 					const val = child.props.value;
+					if (typeof val !== 'string') {
+						return child;
+					}
 					const selected = selectedValues.includes(val);
 
 					return cloneElement(child as ReactElement, {

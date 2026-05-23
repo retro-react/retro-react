@@ -1,8 +1,8 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef, useState } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import commonClassNames from '@src/constants/commonClassNames';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
 import {
 	PasswordInputContainer,
 	PasswordInputField,
@@ -130,7 +130,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
 						onClick={togglePasswordVisibility}
 						className="password-toggle-button"
 						aria-label={showPassword ? 'Hide password' : 'Show password'}
-						tabIndex={-1}
+						aria-pressed={showPassword}
 					>
 						{showPassword ? '●' : '○'}
 					</PasswordToggleButton>

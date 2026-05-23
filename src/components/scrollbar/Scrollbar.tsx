@@ -1,12 +1,12 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
+import { classNames } from '../../utils/classNames';
 import { GlobalScrollbarStyles } from './GlobalScrollbarStyles';
 
 export type ScrollbarVariant = 'default' | 'windows' | 'terminal' | 'amber';
 
-export interface ScrollbarProps extends React.HTMLAttributes<HTMLElement> {
+export interface ScrollbarProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
 	 * The variant of the Scrollbar.
 	 * - default: Classic Windows 95/98 scrollbar with raised 3D effect
@@ -48,13 +48,13 @@ export interface ScrollbarProps extends React.HTMLAttributes<HTMLElement> {
  * 	</div>
  * </Scrollbar>
  */
-export const Scrollbar = forwardRef<HTMLElement, ScrollbarProps>(
+export const Scrollbar = forwardRef<HTMLDivElement, ScrollbarProps>(
 	({ id, className, children, variant = 'default', sx, ...rest }, ref) => {
 		return (
 			<>
 				<GlobalScrollbarStyles variant={variant} />
 				<div
-					ref={ref as any}
+					ref={ref}
 					id={id}
 					sx={sx}
 					className={classNames('scrollbar-root', variant, className)}

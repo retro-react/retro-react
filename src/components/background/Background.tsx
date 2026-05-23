@@ -3,8 +3,8 @@
 /** @jsxImportSource theme-ui */
 import { CSSProperties, forwardRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import commonClassNames from '@src/constants/commonClassNames';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
 import * as Sc from './Background.styled';
 
 export interface BackgroundProps extends React.HTMLAttributes<HTMLDivElement> {

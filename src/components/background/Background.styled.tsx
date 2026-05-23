@@ -9,11 +9,14 @@ export const Background = styled.div<{
 	$backgroundPosition?: string;
 }>`
 	background-color: ${({ $color }) => $color};
-	background-image: ${({ $backgroundImage }) =>
-		$backgroundImage && `url(${$backgroundImage})`};
-	background-repeat: ${({ $backgroundRepeat }) => $backgroundRepeat};
-	background-size: ${({ $backgroundSize }) => $backgroundSize};
-	background-position: ${({ $backgroundPosition }) => $backgroundPosition};
+	${({ $backgroundImage }) =>
+		$backgroundImage && `background-image: url(${$backgroundImage});`}
+	${({ $backgroundRepeat }) =>
+		$backgroundRepeat && `background-repeat: ${$backgroundRepeat};`}
+	${({ $backgroundSize }) =>
+		$backgroundSize && `background-size: ${$backgroundSize};`}
+	${({ $backgroundPosition }) =>
+		$backgroundPosition && `background-position: ${$backgroundPosition};`}
 	background-attachment: fixed;
 	width: 100%;
 	min-height: 100%;

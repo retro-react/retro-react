@@ -1,11 +1,12 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { SCREEN_LG } from '@src/constants/breakpoints';
-import { WHITE } from '@src/constants/colors';
+import { SCREEN_LG } from '../../constants/breakpoints';
+import { WHITE } from '../../constants/colors';
+import { SPACING } from '../../constants/spacing';
 
 const flexibleLayoutCell = css`
 	background-color: ${WHITE};
-	padding: 1rem;
+	padding: ${SPACING.XL};
 `;
 
 export const FlexibleLayout = styled.div`

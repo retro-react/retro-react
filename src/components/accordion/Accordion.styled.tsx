@@ -1,12 +1,19 @@
 import styled from '@emotion/styled';
+import { pressed, raised } from '../../constants/bevels';
+import {
+	BLACK,
+	WHITE,
+	WIN31_BUTTON_FACE,
+	WIN31_BUTTON_SHADOW,
+} from '../../constants/colors';
+import { FONT_SIZES, SYSTEM_FONT } from '../../constants/fonts';
 
 export const AccordionWrapper = styled.div`
-	font-family: 'MS Sans Serif', sans-serif;
+	font-family: ${SYSTEM_FONT};
 	margin-bottom: 2px;
-	border: 1px solid #808080;
-	background-color: #c0c0c0;
+	border: 1px solid ${WIN31_BUTTON_SHADOW};
+	background-color: ${WIN31_BUTTON_FACE};
 
-	/* Subtle dithering pattern for authentic texture */
 	background-image: radial-gradient(
 		circle at 1px 1px,
 		rgba(0, 0, 0, 0.05) 1px,
@@ -22,45 +29,32 @@ export const AccordionHeader = styled.button<{
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	background-color: #c0c0c0;
-	border: 2px outset #c0c0c0;
-	border-color: #ffffff #808080 #808080 #ffffff;
+	background-color: ${WIN31_BUTTON_FACE};
+	${raised};
 	padding: 4px 8px;
-	font-size: 11px;
+	font-size: ${FONT_SIZES.SMALL};
 	font-weight: normal;
-	font-family: 'MS Sans Serif', sans-serif;
-	color: ${(props) => (props.$disabled ? '#808080' : '#000000')};
+	font-family: ${SYSTEM_FONT};
+	color: ${(props) => (props.$disabled ? WIN31_BUTTON_SHADOW : BLACK)};
 	width: 100%;
 	outline: none;
 	cursor: ${(props) => (props.$disabled ? 'not-allowed' : 'pointer')};
 	text-align: left;
 	opacity: ${(props) => (props.$loading ? 0.7 : 1)};
 
-	&:hover:not(:disabled) {
-		background-color: #e0e0e0;
-		border-color: #ffffff #a0a0a0 #a0a0a0 #ffffff;
-	}
-
 	&:active:not(:disabled) {
-		border: 2px inset #c0c0c0;
-		border-color: #808080 #ffffff #ffffff #808080;
+		${pressed};
 		background-color: #a0a0a0;
 	}
 
 	&:focus:not(:disabled) {
-		outline: 1px dotted #000000;
+		outline: 1px dotted ${BLACK};
 		outline-offset: -3px;
 	}
 
 	&:disabled {
-		background-color: #c0c0c0;
-		border-color: #c0c0c0;
+		background-color: ${WIN31_BUTTON_FACE};
 		cursor: not-allowed;
-	}
-
-	@media (max-width: 768px) {
-		padding: 3px 6px;
-		font-size: 10px;
 	}
 `;
 
@@ -100,7 +94,7 @@ export const AccordionToggleIcon = styled.span<{
 	justify-content: center;
 	font-size: 8px;
 	line-height: 1;
-	color: #000000;
+	color: ${BLACK};
 	margin-left: 8px;
 	min-width: 12px;
 	height: 12px;
@@ -110,7 +104,7 @@ export const AccordionToggleIcon = styled.span<{
 		props.$loading &&
 		`
 		animation: spin 1s linear infinite;
-		
+
 		@keyframes spin {
 			0% { transform: rotate(0deg); }
 			100% { transform: rotate(360deg); }
@@ -123,8 +117,8 @@ export const AccordionContent = styled.div<{
 	$maxHeight: string;
 	$animated?: boolean;
 }>`
-	background-color: #ffffff;
-	border-top: 1px solid #808080;
+	background-color: ${WHITE};
+	border-top: 1px solid ${WIN31_BUTTON_SHADOW};
 	overflow: hidden;
 	max-height: ${(props) => (props.$isOpen ? props.$maxHeight : '0')};
 
@@ -137,21 +131,16 @@ export const AccordionContent = styled.div<{
 
 export const AccordionContentInner = styled.div`
 	padding: 8px 12px;
-	font-size: 11px;
+	font-size: ${FONT_SIZES.SMALL};
 	line-height: 1.4;
-	color: #000000;
-
-	@media (max-width: 768px) {
-		padding: 6px 10px;
-		font-size: 10px;
-	}
+	color: ${BLACK};
 `;
 
 export const LoadingContent = styled.div`
 	display: flex;
 	align-items: center;
 	gap: 8px;
-	color: #808080;
+	color: ${WIN31_BUTTON_SHADOW};
 	font-style: italic;
 	padding: 8px 0;
 `;

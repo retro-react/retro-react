@@ -1,8 +1,8 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import commonClassNames from '@src/constants/commonClassNames';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
 import * as Sc from './Spinner.styled';
 
 export type SpinnerVariant = 'hourglass' | 'dots' | 'bars' | 'rotating';
@@ -34,20 +34,13 @@ export interface SpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
  */
 export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
 	(
-		{
-			id,
-			className,
-			children,
-			variant = 'hourglass',
-			size = 'medium',
-			sx,
-			...rest
-		},
+		{ id, className, variant = 'hourglass', size = 'medium', sx, ...rest },
 		ref,
 	) => {
 		return (
 			<Sc.Wrapper
 				ref={ref}
+				id={id}
 				className={classNames('spinner-root', className, commonClassNames)}
 				{...rest}
 				sx={sx}

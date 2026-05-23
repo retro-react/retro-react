@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { ComponentColors } from '@src/utils/getColorScheme';
+import { raised } from '../../constants/bevels';
 import {
 	ERROR,
 	HIGHLIGHT,
@@ -9,10 +9,9 @@ import {
 	VGA_BLACK,
 	VGA_WHITE,
 	WARN,
-	WIN31_BUTTON_HIGHLIGHT,
-	WIN31_BUTTON_SHADOW,
-} from '@src/constants/colors';
-import { FONT_SIZES, SYSTEM_FONT } from '@src/constants/fonts';
+} from '../../constants/colors';
+import { FONT_SIZES, SYSTEM_FONT } from '../../constants/fonts';
+import { ComponentColors } from '../../utils/getColorScheme';
 import { BadgeSize } from './Badge';
 
 interface BadgeProps {
@@ -55,9 +54,7 @@ export const Badge = styled.span<BadgeProps>`
 		$color === 'warn' || $color === 'highlight'
 			? '1px 1px 0px rgba(255, 255, 255, 0.8)'
 			: '1px 1px 0px rgba(0, 0, 0, 0.5)'};
-	border: 2px solid;
-	border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
-		${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
+	${raised}
 	padding: 0.05rem;
 	transition: none;
 

@@ -1,41 +1,79 @@
 import { ComponentMeta, StoryFn } from '@storybook/react';
-import { Badge } from '@src/components/badge';
-import { Group } from '@src/components/group';
+import { Badge } from '../../../components/badge';
+import { Group } from '../../../components/group';
 import { Avatar } from '../index';
 
-// https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
 	title: 'Components/Avatar',
 	component: Avatar,
+	argTypes: {
+		color: {
+			control: { type: 'select' },
+			options: [
+				'primary',
+				'secondary',
+				'success',
+				'error',
+				'warn',
+				'greyscale',
+				'greyscale-dark',
+			],
+			description: 'Background color used when no image is loaded.',
+		},
+		size: {
+			control: { type: 'radio' },
+			options: ['small', 'medium', 'large'],
+			description: 'Size of the avatar.',
+		},
+		variant: {
+			control: { type: 'radio' },
+			options: ['circle', 'square'],
+			description: 'Shape of the avatar.',
+		},
+		rounded: {
+			control: 'boolean',
+			description: 'Applies extra rounding (mainly visible on square variant).',
+		},
+		src: {
+			control: 'text',
+			description:
+				'Image URL. Falls back to children (initials) on error or if omitted.',
+		},
+		children: {
+			control: 'text',
+			description: 'Fallback initials shown when no image is available.',
+		},
+	},
 } as ComponentMeta<typeof Avatar>;
 
-/**
- * Component Template
- *
- * @see https://storybook.js.org/docs/react/writing-stories/introduction#using-args
- */
-const Template: StoryFn<typeof Avatar> = (args) => {
-	return (
-		<div style={{ display: 'flex', gap: '1rem' }}>
-			<Avatar {...args} src="" />
-			<Avatar {...args} />
-		</div>
-	);
-};
+const Template: StoryFn<typeof Avatar> = (args) => <Avatar {...args} />;
 
-const image = 'https://i.pravatar.cc/300';
-
-export const Primary = Template.bind({});
-Primary.args = {
-	color: 'primary',
+export const Default = Template.bind({});
+Default.args = {
 	children: 'AB',
+	color: 'primary',
 	size: 'medium',
 	variant: 'circle',
-	rounded: false,
-	src: image,
+	src: 'https://i.pravatar.cc/300',
 };
 
-const GroupTemplate: StoryFn<typeof Avatar> = () => {
+export const Initials = Template.bind({});
+Initials.args = {
+	children: 'AB',
+	color: 'primary',
+	size: 'medium',
+	variant: 'circle',
+};
+
+export const Sizes: StoryFn<typeof Avatar> = () => (
+	<Group>
+		<Avatar size="small">SM</Avatar>
+		<Avatar size="medium">MD</Avatar>
+		<Avatar size="large">LG</Avatar>
+	</Group>
+);
+
+export const Grouped: StoryFn<typeof Avatar> = () => {
 	const randomImage = () => `https://i.pravatar.cc/300?random=${Math.random()}`;
 	return (
 		<Group>
@@ -48,19 +86,8 @@ const GroupTemplate: StoryFn<typeof Avatar> = () => {
 	);
 };
 
-/**
- * Using the `Group` component, you can group multiple avatars together.
- */
-export const Grouped = GroupTemplate.bind({});
-
-const WithBadgeTemplate: StoryFn<typeof Avatar> = () => {
-	return (
-		<Badge badgeContent={5} color="secondary">
-			<Avatar color="primary">AB</Avatar>
-		</Badge>
-	);
-};
-/**
- * You can add a badge to the avatar by wrapping it in a `Badge` component.
- */
-export const WithBadge = WithBadgeTemplate.bind({});
+export const WithBadge: StoryFn<typeof Avatar> = () => (
+	<Badge badgeContent={5} color="secondary">
+		<Avatar color="primary">AB</Avatar>
+	</Badge>
+);

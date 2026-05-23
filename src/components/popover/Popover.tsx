@@ -3,12 +3,14 @@ import {
 	Children,
 	cloneElement,
 	forwardRef,
+	useCallback,
 	useEffect,
+	useId,
 	useRef,
 	useState,
 } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
+import { classNames } from '../../utils/classNames';
 import { Button, ButtonProps } from '../button';
 import { Portal } from '../portal/Portal';
 import * as Sc from './Popover.styled';
@@ -16,6 +18,34 @@ import * as Sc from './Popover.styled';
 export type PopoverPosition = 'top' | 'right' | 'bottom' | 'left';
 
 export interface PopoverProps extends React.HTMLAttributes<HTMLDivElement> {
+	/**
+	 * The content and trigger of the popover. Use `PopoverButton` and `PopoverContent` to render the trigger and content.
+	 */
+	children: React.ReactElement | React.ReactElement[];
+	/**
+	 * Position of the popover relative to the trigger.
+	 *
+	 * @default 'bottom'
+	 */
+	position?: PopoverPosition;
+	/**
+	 * Close the popover when clicking outside of it.
+	 *
+	 * @default true
+	 */
+	closeOnClickOutside?: boolean;
+	/**
+	 * Controls the open state of the popover. When provided, the popover is controlled.
+	 *
+	 * @default undefined
+	 */
+	isOpen?: boolean;
+	/**
+	 * Callback fired when the open state should change.
+	 *
+	 * @default undefined
+	 */
+	onOpenChange?: (open: boolean) => void;
 	sx?: ThemeUICSSObject;
 }
 
@@ -77,26 +107,6 @@ export const PopoverContent = forwardRef<HTMLDivElement, PopoverContentProps>(
 
 PopoverContent.displayName = 'PopoverContent';
 
-export interface PopoverProps {
-	/**
-	 * The content and trigger of the popover. Use `PopoverButton` and `PopoverContent` to render the trigger and content.
-	 */
-	children: React.ReactElement | React.ReactElement[];
-	/**
-	 * Position of the popover relative to the trigger.
-	 *
-	 * @default 'bottom'
-	 */
-	position?: PopoverPosition;
-	/**
-	 * Close the popover when clicking outside of it.
-	 *
-	 * @default true
-	 */
-	closeOnClickOutside?: boolean;
-	sx?: ThemeUICSSObject;
-}
-
 /**
  * A popover. The content is rendered in a Portal. Use `sx` to style the popover container.
  *
@@ -110,17 +120,36 @@ export interface PopoverProps {
  */
 export const Popover = forwardRef<HTMLDivElement, PopoverProps>(
 	(
-		{ children, position = 'bottom', closeOnClickOutside = true, sx, ...rest },
+		{
+			children,
+			position = 'bottom',
+			closeOnClickOutside = true,
+			isOpen: controlledIsOpen,
+			onOpenChange,
+			sx,
+			...rest
+		},
 		ref,
 	) => {
-		const [isOpen, setIsOpen] = useState(false);
+		const isControlled = controlledIsOpen !== undefined;
+		const [internalIsOpen, setInternalIsOpen] = useState(false);
+		const isOpen = isControlled ? controlledIsOpen : internalIsOpen;
 		const [popoverPosition, setPopoverPosition] = useState({ top: 0, left: 0 });
 		const buttonRef = useRef<HTMLButtonElement | null>(null);
 		const popoverRef = useRef<HTMLDivElement | null>(null);
+		const contentId = useId();
 
-		useEffect(() => {
-			if (!isOpen) return;
+		const setOpen = useCallback(
+			(open: boolean) => {
+				if (!isControlled) {
+					setInternalIsOpen(open);
+				}
+				onOpenChange?.(open);
+			},
+			[isControlled, onOpenChange],
+		);
 
+		const computePosition = useCallback(() => {
 			const rect = buttonRef.current?.getBoundingClientRect() || {
 				top: 0,
 				left: 0,
@@ -164,8 +193,29 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(
 			}
 
 			setPopoverPosition(pos);
-		}, [isOpen, position]);
+		}, [position]);
+
 		useEffect(() => {
+			if (!isOpen) return;
+
+			computePosition();
+
+			const handleReposition = () => {
+				computePosition();
+			};
+
+			window.addEventListener('scroll', handleReposition, true);
+			window.addEventListener('resize', handleReposition);
+
+			return () => {
+				window.removeEventListener('scroll', handleReposition, true);
+				window.removeEventListener('resize', handleReposition);
+			};
+		}, [isOpen, computePosition]);
+
+		useEffect(() => {
+			if (!isOpen) return;
+
 			const handleClickOutside = (event: MouseEvent) => {
 				if (
 					popoverRef.current &&
@@ -173,21 +223,29 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(
 					buttonRef.current &&
 					!buttonRef.current.contains(event.target as Node)
 				) {
-					setIsOpen(false);
+					setOpen(false);
+				}
+			};
+
+			const handleKeyDown = (event: KeyboardEvent) => {
+				if (event.key === 'Escape') {
+					setOpen(false);
 				}
 			};
 
 			if (closeOnClickOutside) {
 				document.addEventListener('mousedown', handleClickOutside);
 			}
+			document.addEventListener('keydown', handleKeyDown);
 
 			return () => {
 				document.removeEventListener('mousedown', handleClickOutside);
+				document.removeEventListener('keydown', handleKeyDown);
 			};
-		}, [isOpen, closeOnClickOutside, popoverRef, buttonRef]);
+		}, [isOpen, closeOnClickOutside, setOpen]);
 
 		const onButtonClick = () => {
-			setIsOpen(!isOpen);
+			setOpen(!isOpen);
 		};
 
 		const childrenWithProps = Children.map(children, (child) => {
@@ -197,22 +255,22 @@ export const Popover = forwardRef<HTMLDivElement, PopoverProps>(
 					onClick: onButtonClick,
 					ref: buttonRef,
 					isOpen,
+					'aria-haspopup': true,
+					'aria-expanded': isOpen,
+					'aria-controls': contentId,
+					'data-state': isOpen ? 'open' : 'closed',
 				});
 			}
 			if (child.type === PopoverContent) {
+				if (!isOpen) return null;
 				return (
 					<Portal>
 						<PopoverContent
 							ref={popoverRef}
-							position={isOpen ? popoverPosition : undefined}
-							data-visible={isOpen}
-							style={{
-								position: 'fixed',
-								visibility: isOpen ? 'visible' : 'hidden',
-								transition: 'visibility 0s linear 0.2s',
-								// Position the popover far off-screen when it's not open.
-								left: isOpen ? undefined : '-9999px',
-							}}
+							id={contentId}
+							position={popoverPosition}
+							data-state="open"
+							style={{ position: 'fixed' }}
 						>
 							{child.props.children}
 						</PopoverContent>

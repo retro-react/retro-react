@@ -1,8 +1,8 @@
 /** @jsxImportSource theme-ui */
-import { forwardRef } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import commonClassNames from '@src/constants/commonClassNames';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
 import * as Sc from './Card.styled';
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -49,12 +49,18 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
 		{ id, sx, className, children, header, image, footer, alt = '', ...rest },
 		ref,
 	) => {
+		const [imageError, setImageError] = useState(false);
+
+		useEffect(() => {
+			setImageError(false);
+		}, [image]);
+
 		return (
 			<Sc.Card
 				ref={ref}
 				id={id}
 				role="group"
-				aria-labelledby={id ? `${id}-title` : undefined}
+				aria-labelledby={id && header ? `${id}-title` : undefined}
 				aria-describedby={id ? `${id}-content` : undefined}
 				className={classNames('card-root', className, commonClassNames)}
 				sx={sx}
@@ -65,12 +71,17 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
 						id={id ? `${id}-title` : undefined}
 						className="card-header"
 					>
-						{typeof header === 'string' ? header : header}
+						{header}
 					</Sc.CardTitle>
 				)}
-				{image && (
+				{image && !imageError && (
 					<Sc.CardImageWrapper className="card-image-wrapper">
-						<Sc.CardImage className="card-image" src={image} alt={alt} />
+						<Sc.CardImage
+							className="card-image"
+							src={image}
+							alt={alt}
+							onError={() => setImageError(true)}
+						/>
 					</Sc.CardImageWrapper>
 				)}
 				<Sc.CardContent
@@ -80,9 +91,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(
 					{children}
 				</Sc.CardContent>
 				{footer && (
-					<Sc.CardFooter className="card-footer">
-						{typeof footer === 'string' ? footer : footer}
-					</Sc.CardFooter>
+					<Sc.CardFooter className="card-footer">{footer}</Sc.CardFooter>
 				)}
 			</Sc.Card>
 		);

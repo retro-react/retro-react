@@ -1,12 +1,8 @@
 import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
-import {
-	VGA_BLUE,
-	WIN31_BUTTON_FACE,
-	WIN31_BUTTON_HIGHLIGHT,
-	WIN31_BUTTON_SHADOW,
-} from '@src/constants/colors';
-import { SYSTEM_FONT } from '@src/constants/fonts';
+import { sunken } from '../../constants/bevels';
+import { VGA_BLUE, WIN31_BUTTON_FACE } from '../../constants/colors';
+import { SYSTEM_FONT } from '../../constants/fonts';
 
 // Authentic WIN31 progress bar animation - smooth barber pole effect
 const progressAnimation = keyframes`
@@ -36,13 +32,7 @@ export const ProgressBar = styled.div<{
 	background: ${WIN31_BUTTON_FACE};
 
 	/* Authentic WIN31 inset border - recessed appearance */
-	border: 2px solid;
-	border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
-		${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
-
-	/* Remove modern effects */
-	border-radius: 0;
-	box-shadow: none;
+	${sunken}
 
 	/* Progress bar fill */
 	&::after {

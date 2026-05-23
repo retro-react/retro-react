@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
-import { SCREEN_LG, SCREEN_XM } from '@src/constants/breakpoints';
-import { COLUMN_WIDTH, GUTTER } from '@src/constants/spacing';
+import { SCREEN_LG, SCREEN_XM } from '../../constants/breakpoints';
+import { BODY_FONT } from '../../constants/fonts';
+import { COLUMN_WIDTH, GUTTER } from '../../constants/spacing';
 
 export const FluidContainer = styled.div`
 	margin-left: auto;
@@ -11,7 +12,7 @@ export const FluidContainer = styled.div`
 export const Container = styled.div`
 	box-sizing: border-box;
 	width: 100%;
-	font-family: 'Trebuchet MS', Helvetica, sans-serif;
+	font-family: ${BODY_FONT};
 	max-width: ${COLUMN_WIDTH * 4 + GUTTER * 2 * 3}px;
 	margin-left: auto;
 	margin-right: auto;

@@ -1,10 +1,10 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef, useCallback, useEffect, useMemo, useState } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import { ComponentColors } from '@src/utils/getColorScheme';
-import commonClassNames from '@src/constants/commonClassNames';
 import arrowIcon from '../../assets/svg/arrow_icon.svg';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
+import { ComponentColors } from '../../utils/getColorScheme';
 import {
 	PaginationButton,
 	PaginationContainer,
@@ -149,7 +149,6 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(
 		{
 			id,
 			className,
-			children,
 			columnWidths,
 			columnAlign = 'left',
 			color = 'greyscale',
@@ -177,25 +176,37 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(
 		const [currentPage, setCurrentPage] = useState(
 			paginationOptions ? paginationOptions.initialPage || 1 : 1,
 		);
+		const pageSize = paginationOptions
+			? Math.max(1, paginationOptions.pageSize)
+			: data.length || 1;
 		const totalPages = pagination
-			? Math.ceil(
-					data.length /
-						(paginationOptions ? paginationOptions.pageSize : data.length),
-			  )
+			? Math.max(1, Math.ceil(data.length / pageSize))
 			: 1;
 
 		useEffect(() => {
-			let sorted = [...data];
+			setCurrentPage((prev) => Math.min(Math.max(1, prev), totalPages));
+		}, [totalPages]);
+
+		useEffect(() => {
+			const sorted = [...data];
 
 			if (sortConfig !== null) {
+				const compareCells = (a: TableCell, b: TableCell): number => {
+					const isPrimitive = (v: TableCell): v is string | number =>
+						typeof v === 'string' || typeof v === 'number';
+
+					if (typeof a === 'number' && typeof b === 'number') {
+						return a - b;
+					}
+
+					const aStr = isPrimitive(a) ? String(a) : '';
+					const bStr = isPrimitive(b) ? String(b) : '';
+					return aStr.localeCompare(bStr);
+				};
+
 				sorted.sort((a, b) => {
-					if (a[sortConfig.key] < b[sortConfig.key]) {
-						return sortConfig.direction === 'ascending' ? -1 : 1;
-					}
-					if (a[sortConfig.key] > b[sortConfig.key]) {
-						return sortConfig.direction === 'ascending' ? 1 : -1;
-					}
-					return 0;
+					const result = compareCells(a[sortConfig.key], b[sortConfig.key]);
+					return sortConfig.direction === 'ascending' ? result : -result;
 				});
 			}
 
@@ -217,18 +228,6 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(
 			},
 			[sortable, sortConfig],
 		);
-
-		if (sortConfig !== null) {
-			sortedData.sort((a, b) => {
-				if (a[sortConfig.key] < b[sortConfig.key]) {
-					return sortConfig.direction === 'ascending' ? -1 : 1;
-				}
-				if (a[sortConfig.key] > b[sortConfig.key]) {
-					return sortConfig.direction === 'ascending' ? 1 : -1;
-				}
-				return 0;
-			});
-		}
 
 		const paginatedData = useMemo(() => {
 			return pagination && paginationOptions
@@ -337,12 +336,12 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(
 							Page {currentPage} of {totalPages}
 						</PaginationInfo>
 						<PaginationButton
-							disabled={currentPage === totalPages}
+							disabled={currentPage >= totalPages}
 							onClick={() => setCurrentPage(currentPage + 1)}
 							className="retro-pagination-button"
 						>
 							<PaginationIcon
-								$disabled={currentPage === totalPages}
+								$disabled={currentPage >= totalPages}
 								className="retro-pagination-arrow retro-arrow-right"
 								alt="Next page"
 								src={arrowIcon}

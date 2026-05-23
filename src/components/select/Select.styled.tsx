@@ -1,33 +1,29 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { pressed, raised, sunken } from '../../constants/bevels';
 import {
 	VGA_BLACK,
 	VGA_WHITE,
 	WIN31_BUTTON_FACE,
 	WIN31_BUTTON_HIGHLIGHT,
 	WIN31_BUTTON_SHADOW,
-} from '@src/constants/colors';
-import { FONT_SIZES, SYSTEM_FONT, TERMINAL_FONT } from '@src/constants/fonts';
+} from '../../constants/colors';
+import { FONT_SIZES, SYSTEM_FONT, TERMINAL_FONT } from '../../constants/fonts';
 import { SelectSizes, SelectVariants } from './Select';
 
 const sizeStyles = {
-	small: { fontSize: FONT_SIZES.TINY, padding: '2px 4px', height: '20px' },
-	medium: { fontSize: FONT_SIZES.NORMAL, padding: '2px 6px', height: '24px' },
-	large: { fontSize: FONT_SIZES.MEDIUM, padding: '4px 8px', height: '28px' },
+	small: { fontSize: FONT_SIZES.SMALL, padding: '2px 4px', height: '22px' },
+	medium: { fontSize: FONT_SIZES.NORMAL, padding: '2px 6px', height: '26px' },
+	large: { fontSize: FONT_SIZES.MEDIUM, padding: '4px 8px', height: '30px' },
 };
 
 const getSelectVariantStyles = (variant: SelectVariants) => {
-	// Classic sunken dialog select (Windows 95/98 style) - Deep inset appearance
 	const classicStyles = css`
-		border: 2px solid;
-		border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
-			${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
+		${sunken}
 		background: ${VGA_WHITE};
-		box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.15);
 		color: ${VGA_BLACK};
 		font-family: ${SYSTEM_FONT};
 
-		/* Add dropdown arrow */
 		background-image: linear-gradient(45deg, transparent 50%, ${VGA_BLACK} 50%),
 			linear-gradient(135deg, ${VGA_BLACK} 50%, transparent 50%);
 		background-position: calc(100% - 10px) calc(50% - 2px),
@@ -38,30 +34,21 @@ const getSelectVariantStyles = (variant: SelectVariants) => {
 		&:focus {
 			outline: 1px dotted ${VGA_BLACK};
 			outline-offset: -3px;
-			border-color: ${VGA_BLACK} ${WIN31_BUTTON_HIGHLIGHT}
-				${WIN31_BUTTON_HIGHLIGHT} ${VGA_BLACK};
-			box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.2);
 		}
 
 		&:disabled {
 			background: ${WIN31_BUTTON_FACE};
 			color: ${WIN31_BUTTON_SHADOW};
 			cursor: not-allowed;
-			box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
 		}
 	`;
 
-	// Raised button-style select - Prominent 3D appearance
 	const filledStyles = css`
-		border: 2px solid;
-		border-color: ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}
-			${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT};
+		${raised}
 		background: ${WIN31_BUTTON_FACE};
 		color: ${VGA_BLACK};
 		font-family: ${SYSTEM_FONT};
-		box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.25);
 
-		/* Add dropdown arrow */
 		background-image: linear-gradient(45deg, transparent 50%, ${VGA_BLACK} 50%),
 			linear-gradient(135deg, ${VGA_BLACK} 50%, transparent 50%);
 		background-position: calc(100% - 10px) calc(50% - 2px),
@@ -72,27 +59,19 @@ const getSelectVariantStyles = (variant: SelectVariants) => {
 		&:focus {
 			outline: 1px dotted ${VGA_BLACK};
 			outline-offset: -3px;
-			background: ${VGA_WHITE};
-			border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
-				${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
-			box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
 		}
 
 		&:active {
-			border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
-				${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
-			box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.15);
+			${pressed}
 		}
 
 		&:disabled {
 			background: ${WIN31_BUTTON_FACE};
 			color: ${WIN31_BUTTON_SHADOW};
 			cursor: not-allowed;
-			box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
 		}
 	`;
 
-	// Flat outlined style - Simple, clean appearance
 	const outlinedStyles = css`
 		border: 2px solid ${WIN31_BUTTON_SHADOW};
 		background: ${VGA_WHITE};
@@ -100,7 +79,6 @@ const getSelectVariantStyles = (variant: SelectVariants) => {
 		font-family: ${SYSTEM_FONT};
 		box-shadow: none;
 
-		/* Add dropdown arrow */
 		background-image: linear-gradient(45deg, transparent 50%, ${VGA_BLACK} 50%),
 			linear-gradient(135deg, ${VGA_BLACK} 50%, transparent 50%);
 		background-position: calc(100% - 10px) calc(50% - 2px),
@@ -122,7 +100,6 @@ const getSelectVariantStyles = (variant: SelectVariants) => {
 		}
 	`;
 
-	// Terminal style - Subtle retro computer aesthetic
 	const terminalStyles = css`
 		background: #1a1a1a;
 		color: #90ee90;
@@ -131,7 +108,6 @@ const getSelectVariantStyles = (variant: SelectVariants) => {
 		letter-spacing: 0.02em;
 		box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
 
-		/* Add dropdown arrow */
 		background-image: linear-gradient(45deg, transparent 50%, #90ee90 50%),
 			linear-gradient(135deg, #90ee90 50%, transparent 50%);
 		background-position: calc(100% - 10px) calc(50% - 2px),
@@ -152,7 +128,6 @@ const getSelectVariantStyles = (variant: SelectVariants) => {
 			cursor: not-allowed;
 		}
 
-		/* Terminal option styling */
 		option {
 			background: #1a1a1a;
 			color: #90ee90;
@@ -195,13 +170,11 @@ export const Select = styled.select<{
 	cursor: pointer;
 	padding-right: 20px;
 
-	/* Remove modern styling */
 	-webkit-appearance: none;
 	appearance: none;
 
 	${(props) => getSelectVariantStyles(props.$variant)}
 
-	/* Style option elements */
 	option {
 		font-family: ${SYSTEM_FONT};
 		background: ${VGA_WHITE};
@@ -243,6 +216,7 @@ export const ClearButton = styled.button`
 	}
 
 	&:disabled {
+		background: ${WIN31_BUTTON_FACE};
 		color: ${WIN31_BUTTON_SHADOW};
 		cursor: not-allowed;
 	}

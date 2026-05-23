@@ -4,21 +4,22 @@ import { Carousel } from '../index';
 const meta: Meta<typeof Carousel> = {
 	title: 'Components/Carousel',
 	component: Carousel,
-	parameters: {
-		docs: {
-			description: {
-				component:
-					'A retro carousel component with authentic WIN31 styling. Features classic button navigation and dot indicators reminiscent of early multimedia software.',
-			},
+	argTypes: {
+		interval: {
+			control: { type: 'number', min: 1000, step: 500 },
+			description: 'Milliseconds between automatic slide transitions.',
 		},
-		backgrounds: {
-			default: 'win31',
-			values: [
-				{
-					name: 'win31',
-					value: '#C0C0C0',
-				},
-			],
+		hideArrows: {
+			control: 'boolean',
+			description: 'Hides the previous/next navigation buttons.',
+		},
+		activeIndex: {
+			control: { type: 'number', min: 0 },
+			description: 'Controlled active slide index.',
+		},
+		onChange: {
+			action: 'changed',
+			description: 'Called with the new active index when the slide changes.',
 		},
 	},
 };
@@ -26,107 +27,64 @@ const meta: Meta<typeof Carousel> = {
 export default meta;
 type Story = StoryObj<typeof Carousel>;
 
-export const Basic: Story = {
-	args: {
-		interval: 4000,
-		hideArrows: false,
-	},
-	render: (args) => {
-		return (
-			<div style={{ maxWidth: '800px', height: '400px', margin: '0 auto' }}>
-				<Carousel {...args}>
-					<img
-						alt="Retro Computer Setup"
-						src="https://picsum.photos/800/400?random=1"
-						style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-					/>
-					<img
-						alt="Classic Gaming"
-						src="https://picsum.photos/800/400?random=2"
-						style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-					/>
-					<img
-						alt="Vintage Technology"
-						src="https://picsum.photos/800/400?random=3"
-						style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-					/>
-				</Carousel>
-			</div>
-		);
-	},
+const slideStyle = (bg: string): React.CSSProperties => ({
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	width: '100%',
+	height: '100%',
+	backgroundColor: bg,
+	color: '#FFFFFF',
+	fontFamily: 'MS Sans Serif, sans-serif',
+	fontSize: 16,
+});
+
+export const Default: Story = {
+	args: { interval: 4000, hideArrows: false },
+	render: (args) => (
+		<div style={{ maxWidth: 600, height: 300 }}>
+			<Carousel {...args}>
+				<div style={slideStyle('#000080')}>Slide One</div>
+				<div style={slideStyle('#008080')}>Slide Two</div>
+				<div style={slideStyle('#800080')}>Slide Three</div>
+			</Carousel>
+		</div>
+	),
 };
 
-export const RetroContent: Story = {
-	args: {
-		interval: 5000,
-		hideArrows: false,
-	},
+export const Images: Story = {
+	args: { interval: 4000 },
 	render: (args) => (
-		<div style={{ maxWidth: '600px', height: '300px', margin: '0 auto' }}>
+		<div style={{ maxWidth: 600, height: 300 }}>
 			<Carousel {...args}>
-				<div
-					style={{
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: 'center',
-						height: '100%',
-						backgroundColor: '#000080',
-						color: '#FFFFFF',
-						fontFamily: 'MS Sans Serif',
-						fontSize: '14px',
-						textAlign: 'center',
-						padding: '20px',
-					}}
-				>
-					<div>
-						<h2 style={{ margin: '0 0 10px 0', fontSize: '16px' }}>
-							💾 Welcome to Windows 3.1!
-						</h2>
-						<p style={{ margin: 0 }}>Authentic retro computing experience</p>
-					</div>
-				</div>
-				<div
-					style={{
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: 'center',
-						height: '100%',
-						backgroundColor: '#008080',
-						color: '#FFFFFF',
-						fontFamily: 'MS Sans Serif',
-						fontSize: '14px',
-						textAlign: 'center',
-						padding: '20px',
-					}}
-				>
-					<div>
-						<h2 style={{ margin: '0 0 10px 0', fontSize: '16px' }}>
-							🖥️ Classic Interface
-						</h2>
-						<p style={{ margin: 0 }}>Featuring authentic WIN31 styling</p>
-					</div>
-				</div>
-				<div
-					style={{
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: 'center',
-						height: '100%',
-						backgroundColor: '#800080',
-						color: '#FFFFFF',
-						fontFamily: 'MS Sans Serif',
-						fontSize: '14px',
-						textAlign: 'center',
-						padding: '20px',
-					}}
-				>
-					<div>
-						<h2 style={{ margin: '0 0 10px 0', fontSize: '16px' }}>
-							⚡ Retro Innovation
-						</h2>
-						<p style={{ margin: 0 }}>Modern React with vintage aesthetics</p>
-					</div>
-				</div>
+				<img
+					alt="Slide 1"
+					src="https://picsum.photos/600/300?random=1"
+					style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+				/>
+				<img
+					alt="Slide 2"
+					src="https://picsum.photos/600/300?random=2"
+					style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+				/>
+				<img
+					alt="Slide 3"
+					src="https://picsum.photos/600/300?random=3"
+					style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+				/>
+			</Carousel>
+		</div>
+	),
+};
+
+export const NoArrows: Story = {
+	args: { interval: 3000, hideArrows: true },
+	render: (args) => (
+		<div style={{ maxWidth: 600, height: 300 }}>
+			<Carousel {...args}>
+				<div style={slideStyle('#000080')}>Use dots to navigate</div>
+				<div style={slideStyle('#008080')}>Arrows are hidden</div>
+				<div style={slideStyle('#800080')}>Auto-advances on interval</div>
 			</Carousel>
 		</div>
 	),

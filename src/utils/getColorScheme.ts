@@ -8,7 +8,7 @@ import {
 	SHADE_6,
 	SUCCESS,
 	WARN,
-} from '@src/constants/colors';
+} from '../constants/colors';
 
 export type ComponentColors =
 	| 'primary'

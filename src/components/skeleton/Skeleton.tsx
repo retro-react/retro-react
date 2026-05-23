@@ -1,7 +1,7 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
+import { classNames } from '../../utils/classNames';
 import { StyledSkeleton } from './Skeleton.styled';
 
 export interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -38,16 +38,20 @@ export interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
  * </Container>
  */
 export const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(
-	({
-		height = '20px',
-		shape = 'rectangle',
-		effect = 'scanlines',
-		sx,
-		className,
-		...rest
-	}) => {
+	(
+		{
+			height = '20px',
+			shape = 'rectangle',
+			effect = 'scanlines',
+			sx,
+			className,
+			...rest
+		},
+		ref,
+	) => {
 		return (
 			<StyledSkeleton
+				ref={ref}
 				className={classNames('skeleton-root', className)}
 				$shape={shape}
 				$height={height}

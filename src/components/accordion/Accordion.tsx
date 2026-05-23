@@ -2,8 +2,9 @@
 import { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
 import React from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import commonClassNames from '@src/constants/commonClassNames';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
+import { uniqueId } from '../../utils/uniqueId';
 import * as Sc from './Accordion.styled';
 
 export interface AccordionProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -31,6 +32,12 @@ export interface AccordionProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default false
 	 */
 	defaultOpen?: boolean;
+	/**
+	 * Controls the open state of the accordion. When provided, the accordion is controlled.
+	 *
+	 * @default undefined
+	 */
+	open?: boolean;
 	/**
 	 * Whether the accordion is disabled.
 	 *
@@ -67,7 +74,7 @@ export interface AccordionProps extends React.HTMLAttributes<HTMLDivElement> {
 	 *
 	 * @default undefined
 	 */
-	sxHeader?: any;
+	sxHeader?: ThemeUICSSObject;
 	sx?: ThemeUICSSObject;
 }
 
@@ -102,6 +109,7 @@ export const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
 			icon,
 			children = undefined,
 			defaultOpen = false,
+			open,
 			disabled = false,
 			loading = false,
 			onToggle,
@@ -114,10 +122,16 @@ export const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
 		},
 		ref,
 	) => {
-		const [isOpen, setIsOpen] = useState(defaultOpen);
+		const [internalIsOpen, setInternalIsOpen] = useState(defaultOpen);
+		const isControlled = open !== undefined;
+		const isOpen = open ?? internalIsOpen;
 		const [maxHeight, setMaxHeight] = useState('0px');
 		const contentRef = useRef<HTMLDivElement | null>(null);
 		const headerRef = useRef<HTMLButtonElement | null>(null);
+		const baseIdRef = useRef<string>(id ?? uniqueId('retro-accordion-'));
+		const baseId = baseIdRef.current;
+		const headerId = `${baseId}-header`;
+		const contentId = `${baseId}-content`;
 
 		const updateMaxHeight = useCallback(() => {
 			if (contentRef.current) {
@@ -137,7 +151,9 @@ export const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
 			if (disabled || loading) return;
 
 			const newIsOpen = !isOpen;
-			setIsOpen(newIsOpen);
+			if (!isControlled) {
+				setInternalIsOpen(newIsOpen);
+			}
 
 			if (onToggle) {
 				onToggle(newIsOpen);
@@ -153,15 +169,13 @@ export const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
 			}
 		};
 
-		// Get the appropriate expand/collapse icon
 		const getToggleIcon = () => {
-			if (loading) return '⧗'; // Loading icon
+			if (loading) return '⧗';
 
 			if (expandIcon && collapseIcon) {
 				return isOpen ? collapseIcon : expandIcon;
 			}
 
-			// Default retro-style arrows
 			return isOpen ? '▼' : '▶';
 		};
 
@@ -170,18 +184,21 @@ export const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
 				ref={ref}
 				id={id}
 				sx={sx}
+				data-state={isOpen ? 'open' : 'closed'}
+				data-disabled={disabled ? '' : undefined}
 				className={classNames('accordion-root', className, commonClassNames)}
 				{...rest}
 			>
 				<Sc.AccordionHeader
 					ref={headerRef}
+					id={headerId}
 					onClick={toggleAccordion}
 					onKeyDown={handleKeyDown}
 					$disabled={disabled}
 					$loading={loading}
 					sx={sxHeader}
 					aria-expanded={isOpen}
-					aria-controls={`${id}-content`}
+					aria-controls={contentId}
 					aria-disabled={disabled}
 					disabled={disabled}
 					className="accordion-header"
@@ -201,9 +218,9 @@ export const Accordion = forwardRef<HTMLDivElement, AccordionProps>(
 					$maxHeight={maxHeight}
 					$animated={animated}
 					role="region"
-					aria-labelledby={`${id}-header`}
+					aria-labelledby={headerId}
 					aria-hidden={!isOpen}
-					id={`${id}-content`}
+					id={contentId}
 					className="accordion-content"
 				>
 					<Sc.AccordionContentInner>

@@ -1,7 +1,16 @@
 import styled from '@emotion/styled';
 import { lighten } from 'polished';
-import getColorScheme from '@src/utils/getColorScheme';
-import { BLACK, SHADE_2, SHADE_5, WHITE } from '@src/constants/colors';
+import { raised } from '../../constants/bevels';
+import {
+	BLACK,
+	SHADE_2,
+	VGA_WHITE,
+	WHITE,
+	WIN31_BLUE,
+	WIN31_BUTTON_FACE,
+} from '../../constants/colors';
+import { FONT_SIZES, SYSTEM_FONT } from '../../constants/fonts';
+import getColorScheme from '../../utils/getColorScheme';
 import { TableColors } from './Table';
 
 export const TableWrapper = styled.div<{ $maxHeight?: string }>`
@@ -24,7 +33,7 @@ export const TableContainer = styled.table<{
 	$maxHeight?: string;
 	$color: TableColors;
 }>`
-	font-family: 'Trebuchet MS', Helvetica, sans-serif;
+	font-family: ${SYSTEM_FONT};
 	width: 100%;
 
 	${({ $bordered, $maxHeight, $color }) =>
@@ -60,8 +69,11 @@ export const TableHeaderCell = styled.th<{
 	$color: TableColors;
 }>`
 	box-sizing: border-box;
-	background-color: ${({ $color }) => getColorScheme($color)};
-	padding: 8px;
+	${raised}
+	background-color: ${WIN31_BUTTON_FACE};
+	color: ${BLACK};
+	font-weight: bold;
+	padding: 4px 8px;
 	width: ${(props) => props.width || 'auto'};
 	text-align: ${(props) => props.align || 'left'};
 	z-index: 2;
@@ -82,9 +94,6 @@ export const TableHeaderCell = styled.th<{
 			margin-left: 5px;
 		}
 	`}
-
-	color: ${({ $color }) =>
-		$color === 'warn' || $color === 'greyscale' ? BLACK : WHITE};
 `;
 
 export const TableCell = styled.td<{ width?: string; align?: string }>`
@@ -113,25 +122,19 @@ export const Tr = styled.tr<{
 		}
 	`}
 
-	${({ $isRowClickEnabled, $color }) =>
+	${({ $isRowClickEnabled }) =>
 		$isRowClickEnabled &&
 		`
-		&:hover {
-			background-color: ${
-				$color === 'greyscale'
-					? lighten(0.2, SHADE_5)
-					: $color === 'warn'
-					? lighten(0.1, getColorScheme($color))
-					: lighten(0.2, getColorScheme($color))
-			};
+		cursor: pointer;
+		&:hover, &:hover td {
+			background-color: ${WIN31_BLUE};
+			color: ${VGA_WHITE};
 		}
 	`}
 `;
 
-// Pagination
-
 export const PaginationContainer = styled.div<{ $bordered?: boolean }>`
-	font-family: 'Trebuchet MS', Helvetica, sans-serif;
+	font-family: ${SYSTEM_FONT};
 	background-color: ${WHITE};
 	display: flex;
 	justify-content: end;
@@ -146,17 +149,21 @@ export const PaginationContainer = styled.div<{ $bordered?: boolean }>`
 	`}
 `;
 
-export const PaginationButton = styled.button({
-	color: WHITE,
-	border: 'none',
-	cursor: 'pointer',
-	margin: '0 5px',
-	borderRadius: '5px',
+export const PaginationButton = styled.button`
+	color: ${BLACK};
+	background-color: ${SHADE_2};
+	${raised}
+	cursor: pointer;
+	margin: 0 5px;
 
-	'&:disabled': {
-		cursor: 'not-allowed',
-	},
-});
+	&:active:not(:disabled) {
+		cursor: pointer;
+	}
+
+	&:disabled {
+		cursor: not-allowed;
+	}
+`;
 
 export const PaginationIcon = styled.img<{
 	$disabled?: boolean;
@@ -178,5 +185,5 @@ export const PaginationIcon = styled.img<{
 
 export const PaginationInfo = styled.span({
 	margin: '0 10px',
-	fontSize: '14px',
+	fontSize: FONT_SIZES.MEDIUM,
 });

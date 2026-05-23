@@ -1,93 +1,105 @@
-import { Heading, Meta, Source, Subtitle, Title } from '@storybook/addon-docs';
+import { Meta, Source } from '@storybook/addon-docs';
 
 <Meta title="Overview/Global Styles" />
 
-# Global Styles in Retro React UI 🎨
+# Global Styles & Theming 🎨
 
-## Introduction
+Retro React is built on [Theme UI](https://theme-ui.com) + [Emotion](https://emotion.sh). You get a default Win95-flavoured theme out of the box and can override anything you like.
 
-Retro React UI provides you with the power to customize retro-styled components by using global styles. Using global `ThemeProvider`, you can effortlessly adjust colors, fonts, and other design elements throughout your entire application.
+## Wrap your app
 
-## Setup
-
-To get started, wrap your application with the `ThemeProvider` component and pass in your custom theme object. The `ThemeProvider` is part of the `@emotion/react` package which Retro React UI utilizes for styling.
-
-<Source
-dark
-language="tsx"
-code={`import React from 'react';
-import { Button, ThemeProvider } from 'retro-react';
-import myTheme from './myTheme';
-
-function App() {
-return (
-
-    <ThemeProvider theme={myTheme}>
-      <Button>Click me</Button>
-    </ThemeProvider>
-
-    );
-
-} `} />
-
-## Customizing the Theme
-
-The theme object you pass to the `ThemeProvider` should follow the structure of Retro React UI's default theme. However, you can override any value in the theme.
-
-Here is an example of a theme object that changes the primary, secondary, success, error, and warn colors (only hex values are supported at this time):
+For most consumers you don't need to do anything — components ship with the default theme baked in. To override colors or extend the theme, wrap your app:
 
 <Source
 	dark
 	language="tsx"
-	code={`
-  import { defaultTheme } from 'retro-react';
-  
-const myTheme = { 
-  ...defaultTheme, 
-  colors: { 
-    ...defaultTheme.colors, 
-    primary: '#ff0000', 
-    secondary: '#00ff00', 
-    success: '#0000ff', 
-    error: '#ffff00', 
-    warn: '#00ffff', 
-    }, 
-  }; 
-`}
+	code={`import { ThemeProvider, defaultTheme } from 'retro-react';
+
+const myTheme = {
+	...defaultTheme,
+	colors: {
+		...defaultTheme.colors,
+		primary: '#003366',
+		secondary: '#cc0066',
+	},
+};
+
+export default function App({ children }) {
+	return <ThemeProvider theme={myTheme}>{children}</ThemeProvider>;
+}`}
 />
 
-## Custom Styles
+## What the theme contains
 
-In addition to using the `ThemeProvider` for global styles, Retro React UI allows you to create or customize components with your own styles using the `@emotion/styled` package. This makes it easy to add a unique touch to individual components.
-
-### Setup
-
-To get started, import the `styled` function from the `retro-react` package. You can then use this function to create styled components.
+The `defaultTheme` export gives you a typed view of every token:
 
 <Source
-dark
-language="tsx"
-code={`
-import styled from 'retro-react';
+	dark
+	language="ts"
+	code={`{
+	colors: {
+		primary: '#000080',     // Win31 navy
+		secondary: '#AA00AA',
+		success: '#00FF41',     // CRT green
+		error: '#AA0000',
+		warn: '#FFFF55',
+		text: '#000000',
+		greyscale: '#C0C0C0',
+		'greyscale-dark': '#808080',
+	},
+	gui: {
+		buttonFace: '#C0C0C0',
+		buttonShadow: '#808080',
+		buttonHighlight: '#FFFFFF',
+	},
+	terminal: {
+		background: '#000000',
+		foreground: '#00FF41',
+	},
+	// ...shades, etc.
+}`}
+/>
+
+## Styling individual components
+
+Every component accepts an `sx` prop for one-off styling, with access to the theme:
+
+<Source
+	dark
+	language="tsx"
+	code={`import { Button } from 'retro-react';
+
+<Button
+	sx={{
+		minWidth: 200,
+		px: 3,
+		'&:hover': { filter: 'brightness(1.1)' },
+	}}
+>
+	Wide Button
+</Button>`}
+/>
+
+## Re-using the emotion primitives
+
+If you need to write your own styled components, the Emotion helpers are re-exported so you only need one import:
+
+<Source
+	dark
+	language="tsx"
+	code={`import { styled, useTheme, css } from 'retro-react';
 
 const MyStyledButton = styled.button\`
-background-color: #ff0000;
-color: #ffffff;
-padding: 10px 20px;
-border-radius: 5px;
-border: none;
-font-size: 16px;
-&:hover {
-background-color: #cc0000;
-}
+	background: \${(p) => p.theme.colors.primary};
+	color: #fff;
+	border: 2px solid;
+	border-color: #fff #808080 #808080 #fff;
+	padding: 4px 12px;
+	font-family: 'MS Sans Serif', sans-serif;
 \`;
 
-function App() {
-  return (
-
-  <MyStyledButton>Click me</MyStyledButton>
-
-  ); 
-}
-
-`} />
+function Hello() {
+	const theme = useTheme();
+	return <MyStyledButton>Hello, {theme.colors.primary}</MyStyledButton>;
+}`}
+/>

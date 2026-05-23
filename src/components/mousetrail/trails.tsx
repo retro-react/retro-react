@@ -12,7 +12,7 @@ interface StarProps {
 export const TrailingStar = React.memo(
 	({ $top, $left, $width, $height, $color, $visible }: StarProps) => {
 		const sharedStyles = {
-			position: 'absolute' as 'absolute',
+			position: 'absolute' as const,
 			top: $top,
 			left: $left,
 			width: $width,
@@ -37,8 +37,8 @@ export const TrailingStar = React.memo(
 					width: $width,
 					visibility: $visible ? 'visible' : 'hidden',
 					transition: 'visibility 0.5s',
-					userSelect: 'none' as 'none',
-					pointerEvents: 'none' as 'none',
+					userSelect: 'none' as const,
+					pointerEvents: 'none' as const,
 				}}
 			>
 				<span style={beforeStyles} />
@@ -47,3 +47,5 @@ export const TrailingStar = React.memo(
 		);
 	},
 );
+
+TrailingStar.displayName = 'TrailingStar';

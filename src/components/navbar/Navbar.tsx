@@ -1,6 +1,14 @@
-import React, { Children, cloneElement, forwardRef, useState } from 'react';
-import { classNames } from '@src/utils/classNames';
-import commonClassNames from '@src/constants/commonClassNames';
+import React, {
+	Children,
+	cloneElement,
+	forwardRef,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
+import { uniqueId } from '../../utils/uniqueId';
 import * as Sc from './Navbar.styled';
 
 export type NavbarVariant = 'default' | 'menu-bar' | 'status-bar';
@@ -37,7 +45,7 @@ export interface NavItemProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
 	 * On click handler for the NavItem.
 	 */
-	onClick?: () => void;
+	onClick?: React.MouseEventHandler<HTMLSpanElement>;
 }
 
 /**
@@ -54,9 +62,39 @@ export interface NavItemProps extends React.HTMLAttributes<HTMLDivElement> {
 export const Navbar = forwardRef<HTMLDivElement, NavbarProps>(
 	({ variant = 'default', children, className, id, ...rest }, ref) => {
 		const [open, setOpen] = useState(false);
+		const menuIdRef = useRef(uniqueId('navbar-menu-'));
+		const menuId = menuIdRef.current;
+		const containerRef = useRef<HTMLDivElement | null>(null);
 		const toggleMenu = () => {
 			setOpen(!open);
 		};
+
+		useEffect(() => {
+			if (!open) return;
+
+			const handleKeyDown = (event: KeyboardEvent) => {
+				if (event.key === 'Escape') {
+					setOpen(false);
+				}
+			};
+
+			const handleClickOutside = (event: MouseEvent) => {
+				if (
+					containerRef.current &&
+					!containerRef.current.contains(event.target as Node)
+				) {
+					setOpen(false);
+				}
+			};
+
+			document.addEventListener('keydown', handleKeyDown);
+			document.addEventListener('mousedown', handleClickOutside);
+
+			return () => {
+				document.removeEventListener('keydown', handleKeyDown);
+				document.removeEventListener('mousedown', handleClickOutside);
+			};
+		}, [open]);
 
 		const NavLogoElement = Children.toArray(children).find(
 			(child) => (child as React.ReactElement).type === NavLogo,
@@ -68,7 +106,14 @@ export const Navbar = forwardRef<HTMLDivElement, NavbarProps>(
 		return (
 			<Sc.NavbarContainer
 				$variant={variant}
-				ref={ref}
+				ref={(node: HTMLDivElement | null) => {
+					containerRef.current = node;
+					if (typeof ref === 'function') {
+						ref(node);
+					} else if (ref) {
+						ref.current = node;
+					}
+				}}
 				id={id}
 				className={classNames('navbar-root', className, commonClassNames)}
 				{...rest}
@@ -80,7 +125,8 @@ export const Navbar = forwardRef<HTMLDivElement, NavbarProps>(
 						className="navbar-hamburger"
 						$open={open}
 						$variant={variant}
-						aria-controls="navbar-menu"
+						aria-label="Menu"
+						aria-controls={menuId}
 						aria-expanded={open}
 					/>
 				)}
@@ -88,7 +134,7 @@ export const Navbar = forwardRef<HTMLDivElement, NavbarProps>(
 					$variant={variant}
 					$open={open}
 					className="navbar-items"
-					id="navbar-menu"
+					id={menuId}
 					role="menu"
 				>
 					{Children.map(NavItemsElements, (child, index) => {
@@ -135,12 +181,12 @@ export const NavItem: React.FC<NavItemProps> = ({
 			id={id}
 			className={classNames('navbar-item', className)}
 			$variant={_internalVariant}
-			onClick={() => {
+			onClick={(e) => {
 				if (_internalOnClick) {
 					_internalOnClick();
 				}
 				if (onClick) {
-					onClick();
+					onClick(e);
 				}
 			}}
 			role="menuitem"
@@ -164,8 +210,10 @@ interface NavLogoProps {
 }
 
 export const NavLogo: React.FC<NavLogoProps> = ({ children }) => {
+	const logoIdRef = useRef(uniqueId('retro-navbar-logo-'));
+
 	return (
-		<Sc.NavbarLogoContainer id="retro-navbar-logo">
+		<Sc.NavbarLogoContainer id={logoIdRef.current}>
 			{children}
 		</Sc.NavbarLogoContainer>
 	);

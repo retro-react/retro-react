@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
+import { CRT_GREEN, SHADE_5, VGA_BLACK } from '../../constants/colors';
+import { CRT_FONT } from '../../constants/fonts';
 import {
 	crtEffect,
 	terminalBlink,
 	terminalGlow,
-} from '@src/utils/retroEffects';
-import { CRT_GREEN, VGA_BLACK } from '@src/constants/colors';
-import { CRT_FONT } from '@src/constants/fonts';
+} from '../../utils/retroEffects';
 
 export const Terminal = styled.div`
 	font-family: ${CRT_FONT};
@@ -29,7 +29,7 @@ export const Terminal = styled.div`
 	${terminalGlow}
 	
 	/* Authentic CRT border */
-	border: 4px solid #333;
+	border: 4px solid ${SHADE_5};
 	box-shadow: inset 0 0 10px rgba(0, 255, 65, 0.3), 0 0 20px rgba(0, 0, 0, 0.8);
 
 	/* Authentic character spacing */

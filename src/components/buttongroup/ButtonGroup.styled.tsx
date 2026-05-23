@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import {
 	WIN31_BUTTON_HIGHLIGHT,
 	WIN31_BUTTON_SHADOW,
-} from '@src/constants/colors';
+} from '../../constants/colors';
 
 export const GroupContainer = styled.div`
 	display: inline-flex; /* Changed from flex to inline-flex to fit content */

@@ -9,10 +9,24 @@ import {
 	useRef,
 } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import commonClassNames from '@src/constants/commonClassNames';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
 import { Button, ButtonSize } from '../button/Button';
 import * as Sc from './ButtonGroup.styled';
+
+function mergeRefs<T>(
+	...refs: (React.Ref<T> | undefined)[]
+): React.RefCallback<T> {
+	return (value: T | null) => {
+		refs.forEach((ref) => {
+			if (typeof ref === 'function') {
+				ref(value);
+			} else if (ref && typeof ref === 'object') {
+				(ref as React.MutableRefObject<T | null>).current = value;
+			}
+		});
+	};
+}
 
 interface ButtonGroupProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
@@ -72,6 +86,7 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
 				ref={ref}
 				id={id}
 				onKeyDown={handleKeyDown}
+				role="group"
 				className={classNames('button-group-root', className, commonClassNames)}
 				sx={sx}
 				{...rest}
@@ -86,9 +101,13 @@ export const ButtonGroup = forwardRef<HTMLDivElement, ButtonGroupProps>(
 					return cloneElement(child as ReactElement, {
 						isButtonGroup: true,
 						size,
-						ref: (el: HTMLButtonElement | null) => {
-							buttonsRef.current[index] = el;
-						},
+						ref: mergeRefs<HTMLButtonElement>(
+							(child as ReactElement & { ref?: React.Ref<HTMLButtonElement> })
+								.ref,
+							(el: HTMLButtonElement | null) => {
+								buttonsRef.current[index] = el;
+							},
+						),
 					});
 				})}
 			</Sc.GroupContainer>

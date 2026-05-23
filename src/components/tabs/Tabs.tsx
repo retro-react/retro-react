@@ -1,8 +1,15 @@
 /** @jsxImportSource theme-ui */
-import { cloneElement, forwardRef, useId, useRef, useState } from 'react';
+import {
+	Children,
+	cloneElement,
+	forwardRef,
+	useId,
+	useRef,
+	useState,
+} from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import commonClassNames from '@src/constants/commonClassNames';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
 import * as Sc from './Tabs.styled';
 
 export type TabsChildren =
@@ -11,17 +18,29 @@ export type TabsChildren =
 
 export interface TabsProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
-	 * The default active tab label.
+	 * The default active tab label (uncontrolled mode).
 	 *
 	 * @default undefined
 	 */
 	defaultActiveTabLabel?: string;
 	/**
+	 * The active tab label (controlled mode).
+	 *
+	 * @default undefined
+	 */
+	activeTabLabel?: string;
+	/**
+	 * Callback fired when the active tab changes.
+	 *
+	 * @default undefined
+	 */
+	onTabChange?: (label: string) => void;
+	/**
 	 * The content of the tabs (only Tab and TabContent components).
 	 *
 	 * @default []
 	 */
-	children: TabsChildren[];
+	children: TabsChildren | TabsChildren[];
 }
 
 /**
@@ -50,15 +69,51 @@ export interface TabsProps extends React.HTMLAttributes<HTMLDivElement> {
  * </Tabs>
  */
 export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
-	({ id, className, children, defaultActiveTabLabel, ...rest }, ref) => {
-		const [activeTabLabel, setActiveTabLabel] = useState<string | undefined>(
+	(
+		{
+			id,
+			className,
+			children,
 			defaultActiveTabLabel,
-		);
+			activeTabLabel: controlledActiveTabLabel,
+			onTabChange,
+			...rest
+		},
+		ref,
+	) => {
+		const childArray = Children.toArray(children) as React.ReactElement[];
+
+		const tabs = childArray.filter(
+			(child) => child && child.type === Tab,
+		) as React.ReactElement[];
+
+		const tabContents = childArray.filter(
+			(child) => child && child.type === TabContent,
+		) as React.ReactElement[];
+
+		const firstTabLabel = tabs[0]?.props.label as string | undefined;
+		const isControlled = controlledActiveTabLabel !== undefined;
+		const [internalActiveTabLabel, setInternalActiveTabLabel] = useState<
+			string | undefined
+		>(defaultActiveTabLabel ?? firstTabLabel);
+		const activeTabLabel = isControlled
+			? controlledActiveTabLabel
+			: internalActiveTabLabel;
+
+		const setActiveTabLabel = (label: string) => {
+			if (!isControlled) {
+				setInternalActiveTabLabel(label);
+			}
+			onTabChange?.(label);
+		};
+
 		const tabsRef = useRef<(HTMLButtonElement | null)[]>([]);
 		const tabId = useId();
 
-		// Handling keyboard navigation
 		const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+			const target = e.target as HTMLElement;
+			if (!target?.getAttribute('data-tab-id')) return;
+
 			const currentIndex = tabsRef.current.findIndex(
 				(tab) => tab && tab.getAttribute('data-tab-id') === activeTabLabel,
 			);
@@ -68,7 +123,7 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
 				const nextTab = tabsRef.current[nextIndex];
 
 				if (nextTab) {
-					setActiveTabLabel(nextTab.getAttribute('data-tab-id') || undefined);
+					setActiveTabLabel(nextTab.getAttribute('data-tab-id') || '');
 					nextTab.focus();
 				}
 			} else if (e.key === 'ArrowLeft') {
@@ -76,19 +131,16 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
 					(currentIndex - 1 + tabsRef.current.length) % tabsRef.current.length;
 				const prevTab = tabsRef.current[prevIndex];
 				if (prevTab) {
-					setActiveTabLabel(prevTab.getAttribute('data-tab-id') || undefined);
+					setActiveTabLabel(prevTab.getAttribute('data-tab-id') || '');
 					prevTab.focus();
 				}
 			}
 		};
 
-		const tabs = children.filter(
-			(child) => child && child.type === Tab,
-		) as React.ReactElement[];
-
-		const tabContents = children.filter(
-			(child) => child && child.type === TabContent,
-		) as React.ReactElement[];
+		const tabButtonId = (label: string) =>
+			`${tabId}-tab-${encodeURIComponent(label)}`;
+		const tabPanelId = (label: string) =>
+			`${tabId}-panel-${encodeURIComponent(label)}`;
 
 		const enhancedTabs = tabs.map((tab, index) =>
 			cloneElement(tab, {
@@ -96,10 +148,13 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
 					tabsRef.current[index] = el;
 				},
 				key: `${tabId}-tab-${index}`,
+				id: tabButtonId(tab.props.label),
 				$isActive: tab.props.label === activeTabLabel,
 				setActiveTabLabel,
 				tabIndex: tab.props.label === activeTabLabel ? 0 : -1,
 				'data-tab-id': tab.props.label,
+				'aria-controls': tabPanelId(tab.props.label),
+				'aria-selected': tab.props.label === activeTabLabel,
 			}),
 		);
 
@@ -107,7 +162,6 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
 			(tabContent) => tabContent.props.label === activeTabLabel,
 		);
 
-		// Added onKeyDown to the Sc.TabsWrapper props
 		return (
 			<Sc.TabsWrapper
 				ref={ref}
@@ -119,17 +173,16 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(
 				{...rest}
 			>
 				<Sc.TabList className="tabs-header">{enhancedTabs}</Sc.TabList>
-				{activeTabContent && (
-					<Sc.TabContent className="tab-content-area">
-						{activeTabContent}
-					</Sc.TabContent>
-				)}
+				{activeTabContent &&
+					activeTabLabel &&
+					cloneElement(activeTabContent, {
+						id: tabPanelId(activeTabLabel),
+						'aria-labelledby': tabButtonId(activeTabLabel),
+					})}
 			</Sc.TabsWrapper>
 		);
 	},
 );
-
-// ---------------------------------------------- Tab ----------------------------------------------
 
 export interface TabProps extends React.HTMLAttributes<HTMLButtonElement> {
 	/**
@@ -200,8 +253,6 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(
 	},
 );
 
-// ---------------------------------------------- TabContent ----------------------------------------------
-
 export interface TabContentProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**
 	 * The content of the tab.
@@ -222,8 +273,9 @@ export interface TabContentProps extends React.HTMLAttributes<HTMLDivElement> {
  *
  * The `label` prop has to match the label of the corresponding `Tab` component.
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const TabContent: React.FC<TabContentProps> = ({
-	label,
+	label: _label, // consumed by parent <Tabs> to match TabContent → Tab
 	children,
 	sx,
 	...rest
@@ -236,3 +288,5 @@ export const TabContent: React.FC<TabContentProps> = ({
 };
 
 Tabs.displayName = 'Tabs';
+Tab.displayName = 'Tab';
+TabContent.displayName = 'TabContent';

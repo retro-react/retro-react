@@ -1,9 +1,9 @@
 /** @jsxImportSource theme-ui */
 import { CSSProperties, forwardRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import { ComponentColors } from '@src/utils/getColorScheme';
-import commonClassNames from '@src/constants/commonClassNames';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
+import { ComponentColors } from '../../utils/getColorScheme';
 import * as Sc from './Text.styled';
 
 export type TextVariant =
@@ -81,7 +81,7 @@ export const Text = forwardRef<HTMLDivElement, TextProps>(
 			...rest
 		},
 		ref,
-	) => {
+	): JSX.Element => {
 		const variantToElementMap: {
 			[key in TextVariant]: keyof JSX.IntrinsicElements;
 		} = {

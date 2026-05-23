@@ -1,29 +1,32 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 import { Container } from '../index';
 
-export default {
+const meta: Meta<typeof Container> = {
 	title: 'Layout/Container',
 	component: Container,
-} as ComponentMeta<typeof Container>;
-
-const Template: ComponentStory<typeof Container> = (args) => (
-	<Container {...args} />
-);
-
-export const Default = Template.bind({});
-Default.args = {
-	fluid: false,
-	sx: {
-		background: 'lightgray',
-		py: '10px',
+	argTypes: {
+		fluid: {
+			description:
+				'When true, the container spans 100% width instead of being constrained to 1024px.',
+		},
 	},
-	children: (
-		<p
-			style={{
-				padding: '5px',
-			}}
-		>
-			max-width default is 1024px.
-		</p>
-	),
+};
+
+export default meta;
+type Story = StoryObj<typeof Container>;
+
+export const Default: Story = {
+	args: {
+		fluid: false,
+		sx: { background: '#e5e5e5', p: 3 },
+		children: 'Centered content with max-width 1024px.',
+	},
+};
+
+export const Fluid: Story = {
+	args: {
+		fluid: true,
+		sx: { background: '#e5e5e5', p: 3 },
+		children: 'Fluid container — spans the full available width.',
+	},
 };

@@ -11,11 +11,22 @@ export const parameters = {
 			date: /Date$/,
 		},
 	},
+	backgrounds: {
+		default: 'White',
+		values: [
+			{ name: 'White', value: '#ffffff' },
+			{ name: 'Win95 grey', value: '#c0c0c0' },
+			{ name: 'Win95 navy', value: '#000080' },
+			{ name: 'CRT black', value: '#000000' },
+			{ name: 'Terminal green', value: '#002200' },
+			{ name: 'Amber', value: '#221100' },
+		],
+	},
 	options: {
 		storySort: {
 			order: [
 				'Overview',
-				['Introduction', 'Global Styles'],
+				['Introduction', 'Retro Components', 'Retro Design Patterns', 'Global Styles'],
 				'Layout',
 				'Data Display',
 				'Forms',

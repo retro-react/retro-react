@@ -1,7 +1,13 @@
 /** @jsxImportSource theme-ui */
-import React, { Dispatch, forwardRef, useEffect, useRef } from 'react';
+import React, {
+	Dispatch,
+	forwardRef,
+	useCallback,
+	useEffect,
+	useRef,
+} from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { ComponentColors } from '@src/utils/getColorScheme';
+import { ComponentColors } from '../../utils/getColorScheme';
 import { Portal } from '../portal/Portal';
 import { Backdrop, DrawerContainer } from './Drawer.styled';
 
@@ -17,10 +23,17 @@ interface DrawerProps extends React.HTMLAttributes<HTMLDivElement> {
 	isOpen: boolean;
 	/**
 	 * A function to set the visibility of the drawer.
+	 * Compatible with `useState` setters.
 	 *
-	 * @default () => {}
+	 * Prefer `onOpenChange` for non-`useState` integrations
+	 * (Zustand, Redux, controlled parents). If both are provided, both run.
 	 */
-	setIsOpen: Dispatch<React.SetStateAction<boolean>>;
+	setIsOpen?: Dispatch<React.SetStateAction<boolean>>;
+	/**
+	 * Callback fired when the drawer's open state should change.
+	 * Receives the next open value.
+	 */
+	onOpenChange?: (open: boolean) => void;
 	/**
 	 * The direction from which the drawer will appear.
 	 *
@@ -57,6 +70,7 @@ export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(
 		{
 			isOpen,
 			setIsOpen,
+			onOpenChange,
 			direction = 'right',
 			color = 'primary',
 			sx,
@@ -68,13 +82,20 @@ export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(
 		const drawerElement = useRef<HTMLDivElement | null>(null);
 		const previouslyFocusedElement = useRef<Element | null>(null);
 
+		const requestClose = useCallback(() => {
+			setIsOpen?.(false);
+			onOpenChange?.(false);
+		}, [setIsOpen, onOpenChange]);
+
 		useEffect(() => {
-			const handleClickOutside = (event) => {
+			if (!isOpen) return;
+
+			const handleClickOutside = (event: MouseEvent) => {
 				if (
 					drawerElement.current &&
-					!drawerElement.current.contains(event.target)
+					!drawerElement.current.contains(event.target as Node)
 				) {
-					setIsOpen(false);
+					requestClose();
 				}
 			};
 
@@ -82,27 +103,58 @@ export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(
 			return () => {
 				document.removeEventListener('mousedown', handleClickOutside);
 			};
-		}, [setIsOpen]);
+		}, [isOpen, requestClose]);
 
 		useEffect(() => {
 			if (isOpen && drawerElement.current) {
 				previouslyFocusedElement.current = document.activeElement;
 				drawerElement.current.focus();
-			} else {
-				(previouslyFocusedElement.current as HTMLElement)?.focus();
+				return () => {
+					(previouslyFocusedElement.current as HTMLElement)?.focus();
+				};
 			}
 		}, [isOpen]);
 
 		useEffect(() => {
+			if (!isOpen) return;
+
+			const handleFocusTrap = (event: KeyboardEvent) => {
+				if (event.key !== 'Tab' || !drawerElement.current) return;
+
+				const focusable = drawerElement.current.querySelectorAll<HTMLElement>(
+					'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])',
+				);
+				const elements = Array.from(focusable);
+				const first = elements[0] ?? drawerElement.current;
+				const last = elements[elements.length - 1] ?? drawerElement.current;
+				const active = document.activeElement;
+
+				if (event.shiftKey) {
+					if (active === first || active === drawerElement.current) {
+						event.preventDefault();
+						last.focus();
+					}
+				} else if (active === last) {
+					event.preventDefault();
+					first.focus();
+				}
+			};
+
+			document.addEventListener('keydown', handleFocusTrap);
+			return () => document.removeEventListener('keydown', handleFocusTrap);
+		}, [isOpen]);
+
+		useEffect(() => {
+			if (!isOpen) return;
 			const handleKeyDown = (event: KeyboardEvent) => {
 				if (event.key === 'Escape') {
-					setIsOpen(false);
+					requestClose();
 				}
 			};
 
 			window.addEventListener('keydown', handleKeyDown);
 			return () => window.removeEventListener('keydown', handleKeyDown);
-		}, [setIsOpen]);
+		}, [isOpen, requestClose]);
 
 		const setRefs = (element: HTMLDivElement) => {
 			if (ref) {
@@ -117,7 +169,7 @@ export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(
 
 		const drawer = (
 			<>
-				{isOpen && <Backdrop onClick={() => setIsOpen((prev) => !prev)} />}
+				{isOpen && <Backdrop onClick={requestClose} />}
 				<DrawerContainer
 					ref={setRefs}
 					$isOpen={isOpen}
@@ -127,6 +179,7 @@ export const Drawer = forwardRef<HTMLDivElement, DrawerProps>(
 					role="dialog"
 					aria-modal="true"
 					tabIndex={-1}
+					data-state={isOpen ? 'open' : 'closed'}
 					{...rest}
 				>
 					{children}

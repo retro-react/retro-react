@@ -8,7 +8,8 @@ import {
 	useState,
 } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
+import { classNames } from '../../utils/classNames';
+import { usePrefersReducedMotion } from '../../utils/usePrefersReducedMotion';
 import { Text, TextProps } from '../text/index';
 
 interface TypewriterTextProps extends Omit<TextProps, 'children'> {
@@ -108,14 +109,15 @@ export const TypewriterText = forwardRef<HTMLDivElement, TypewriterTextProps>(
 		},
 		ref,
 	) => {
+		const reducedMotion = usePrefersReducedMotion();
 		const [displayText, setDisplayText] = useState('');
-		const [isTyping, setIsTyping] = useState(true);
 		const [showCursorState, setShowCursorState] = useState(true);
 
 		const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 		const cursorTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 		const currentIndexRef = useRef(0);
 		const mountedRef = useRef(true);
+		const isTypingRef = useRef(true);
 
 		// Clean up timeouts
 		const clearTimeouts = useCallback(() => {
@@ -148,7 +150,7 @@ export const TypewriterText = forwardRef<HTMLDivElement, TypewriterTextProps>(
 
 			const currentIndex = currentIndexRef.current;
 
-			if (isTyping) {
+			if (isTypingRef.current) {
 				// Typing phase
 				if (currentIndex <= text.length) {
 					setDisplayText(text.slice(0, currentIndex));
@@ -160,7 +162,7 @@ export const TypewriterText = forwardRef<HTMLDivElement, TypewriterTextProps>(
 						// Typing complete
 						if (repeat) {
 							timeoutRef.current = setTimeout(() => {
-								setIsTyping(false);
+								isTypingRef.current = false;
 								animate();
 							}, pauseDuration);
 						}
@@ -177,41 +179,46 @@ export const TypewriterText = forwardRef<HTMLDivElement, TypewriterTextProps>(
 					} else {
 						// Erasing complete, restart
 						timeoutRef.current = setTimeout(() => {
-							setIsTyping(true);
+							isTypingRef.current = true;
 							currentIndexRef.current = 0;
 							animate();
 						}, restartPause);
 					}
 				}
 			}
-		}, [
-			text,
-			typingSpeed,
-			erasingSpeed,
-			pauseDuration,
-			restartPause,
-			repeat,
-			isTyping,
-		]);
+		}, [text, typingSpeed, erasingSpeed, pauseDuration, restartPause, repeat]);
 
 		// Initialize animation
 		useEffect(() => {
 			mountedRef.current = true;
 			currentIndexRef.current = 0;
+			isTypingRef.current = true;
+
+			if (reducedMotion) {
+				// Honor the user's reduced-motion preference: show the final text
+				// immediately and skip the typing animation entirely.
+				setDisplayText(text);
+				return () => {
+					mountedRef.current = false;
+				};
+			}
+
 			setDisplayText('');
-			setIsTyping(true);
-
-			// Start cursor blinking
 			startCursorBlink();
-
-			// Start typing animation
 			timeoutRef.current = setTimeout(animate, typingSpeed);
 
 			return () => {
 				mountedRef.current = false;
 				clearTimeouts();
 			};
-		}, [text, animate, startCursorBlink, typingSpeed, clearTimeouts]);
+		}, [
+			text,
+			animate,
+			startCursorBlink,
+			typingSpeed,
+			clearTimeouts,
+			reducedMotion,
+		]);
 
 		// Update cursor when showCursor prop changes
 		useEffect(() => {

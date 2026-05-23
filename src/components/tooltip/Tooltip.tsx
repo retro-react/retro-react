@@ -1,8 +1,8 @@
 /** @jsxImportSource theme-ui */
 import React from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import commonClassNames from '@src/constants/commonClassNames';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
 import { Portal } from '../portal/Portal';
 import * as Sc from './Tooltip.styled';
 
@@ -80,7 +80,6 @@ const setPosition = (
 			break;
 	}
 
-	// Prevent the tooltip from going out of the window
 	top = Math.min(innerHeight - tooltipRect.height - 10, Math.max(10, top));
 	left = Math.min(innerWidth - tooltipRect.width - 10, Math.max(10, left));
 
@@ -117,15 +116,32 @@ export const Tooltip: React.FC<TooltipProps> = ({
 	sx,
 	...rest
 }: TooltipProps) => {
-	const triggerRef = React.useRef<HTMLElement>(null);
-	const tooltipRef = React.useRef<HTMLDivElement>(null);
+	const triggerRef = React.useRef<HTMLElement | null>(null);
+	const tooltipRef = React.useRef<HTMLDivElement | null>(null);
 
 	const [visible, setVisible] = React.useState(false);
 	const hoverTimeout = React.useRef<NodeJS.Timeout | null>(null);
+	const tooltipId = React.useId();
+
+	const canTakeRef =
+		typeof children.type === 'string' ||
+		(typeof children.type === 'object' &&
+			// React.forwardRef returns an object with $$typeof
+			(children.type as { $$typeof?: symbol }).$$typeof ===
+				Symbol.for('react.forward_ref'));
+
+	const mergeRefs = (node: HTMLElement | null) => {
+		triggerRef.current = node;
+		const childRef = (children as { ref?: React.Ref<HTMLElement> }).ref;
+		if (typeof childRef === 'function') {
+			childRef(node);
+		} else if (childRef && typeof childRef === 'object') {
+			(childRef as React.MutableRefObject<HTMLElement | null>).current = node;
+		}
+	};
 
 	React.useEffect(() => {
 		if (visible) {
-			// Small delay to ensure DOM has been updated
 			requestAnimationFrame(() => {
 				setPosition(triggerRef, tooltipRef, position);
 			});
@@ -133,43 +149,55 @@ export const Tooltip: React.FC<TooltipProps> = ({
 	}, [visible, position]);
 
 	React.useEffect(() => {
-		const handleScroll = () => {
-			if (visible) {
-				setPosition(triggerRef, tooltipRef, position);
-			}
-		};
-
-		const handleResize = () => {
-			if (visible) {
-				setPosition(triggerRef, tooltipRef, position);
-			}
+		if (!visible) return;
+		const handleScroll = () => setPosition(triggerRef, tooltipRef, position);
+		const handleResize = () => setPosition(triggerRef, tooltipRef, position);
+		const handleKey = (e: KeyboardEvent) => {
+			if (e.key === 'Escape') setVisible(false);
 		};
 
 		window.addEventListener('scroll', handleScroll, true);
 		window.addEventListener('resize', handleResize);
+		window.addEventListener('keydown', handleKey);
 
 		return () => {
 			window.removeEventListener('scroll', handleScroll, true);
 			window.removeEventListener('resize', handleResize);
-			if (hoverTimeout.current) {
-				clearTimeout(hoverTimeout.current);
-			}
+			window.removeEventListener('keydown', handleKey);
 		};
 	}, [visible, position]);
 
+	React.useEffect(
+		() => () => {
+			if (hoverTimeout.current) clearTimeout(hoverTimeout.current);
+		},
+		[],
+	);
+
 	const handleMouseEnter = () => {
-		// Clear the existing timeout if any
 		if (hoverTimeout.current) {
 			clearTimeout(hoverTimeout.current);
 		}
-		// Set the timeout with the provided delay
 		hoverTimeout.current = setTimeout(() => {
 			setVisible(true);
 		}, delay);
 	};
 
 	const handleMouseLeave = () => {
-		// Clear the existing timeout if any
+		if (hoverTimeout.current) {
+			clearTimeout(hoverTimeout.current);
+		}
+		setVisible(false);
+	};
+
+	const handleFocus = () => {
+		if (hoverTimeout.current) {
+			clearTimeout(hoverTimeout.current);
+		}
+		setVisible(true);
+	};
+
+	const handleBlur = () => {
 		if (hoverTimeout.current) {
 			clearTimeout(hoverTimeout.current);
 		}
@@ -180,15 +208,25 @@ export const Tooltip: React.FC<TooltipProps> = ({
 		<Sc.TooltipWrapper
 			onMouseEnter={handleMouseEnter}
 			onMouseLeave={handleMouseLeave}
+			onFocus={handleFocus}
+			onBlur={handleBlur}
 			{...rest}
 		>
-			{React.cloneElement(children, { ref: triggerRef })}
+			{React.cloneElement(
+				children,
+				canTakeRef
+					? { ref: mergeRefs, 'aria-describedby': tooltipId }
+					: { 'aria-describedby': tooltipId },
+			)}
 			<Portal>
 				<Sc.TooltipContent
 					ref={tooltipRef}
+					id={tooltipId}
+					role="tooltip"
 					$visible={visible}
 					$variant={variant}
 					$position={position}
+					data-state={visible ? 'open' : 'closed'}
 					className={classNames('tooltip-root', commonClassNames)}
 					sx={sx}
 				>

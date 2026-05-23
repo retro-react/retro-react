@@ -1,20 +1,35 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Container } from '@src/components/container';
-import { Text } from '@src/components/text';
+import { Container } from '../../../components/container';
+import { Text } from '../../../components/text';
 import { StarField } from '../index';
 
 const meta: Meta<typeof StarField> = {
 	title: 'Experimental/StarField',
 	component: StarField,
 	argTypes: {
-		starColor: { control: 'color' },
+		starColor: {
+			control: 'color',
+			description: 'Color used to paint each star.',
+		},
+		numStars: {
+			control: { type: 'number', min: 10, max: 1000, step: 10 },
+			description: 'Number of stars rendered on the canvas.',
+		},
+		speed: {
+			control: { type: 'number', min: 0.1, max: 10, step: 0.1 },
+			description: 'Base falling speed multiplier for the stars.',
+		},
+		size: {
+			control: { type: 'number', min: 1, max: 10, step: 1 },
+			description: 'Pixel size of each star.',
+		},
 	},
 };
 
 export default meta;
 type Story = StoryObj<typeof StarField>;
 
-export const Basic: Story = {
+export const Default: Story = {
 	args: {
 		starColor: 'white',
 		numStars: 100,
@@ -22,7 +37,7 @@ export const Basic: Story = {
 		size: 2,
 	},
 	render: (args) => (
-		<Container sx={{ width: '100%', height: '500px', position: 'relative' }}>
+		<Container sx={{ width: '100%', height: 500, position: 'relative' }}>
 			<StarField {...args} />
 			<Text
 				sx={{
@@ -36,7 +51,20 @@ export const Basic: Story = {
 			>
 				Long ago in a galaxy far, far away....
 			</Text>
-			{/* Your other components */}
+		</Container>
+	),
+};
+
+export const Hyperspace: Story = {
+	args: {
+		starColor: '#9be7ff',
+		numStars: 400,
+		speed: 6,
+		size: 2,
+	},
+	render: (args) => (
+		<Container sx={{ width: '100%', height: 500, position: 'relative' }}>
+			<StarField {...args} />
 		</Container>
 	),
 };

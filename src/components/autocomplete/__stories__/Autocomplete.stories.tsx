@@ -1,69 +1,95 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { Text } from '@src/components/text';
 import { Autocomplete } from '../index';
 
-// https://storybook.js.org/docs/react/writing-stories/introduction#default-export
+const suggestions = [
+	'Bell-bottom jeans',
+	'Vinyl records',
+	'Polaroid cameras',
+	'Disco balls',
+	'Roller skates',
+	'Jukeboxes',
+	'Cassette tapes',
+	'Tube televisions',
+	'Rotary phones',
+	'Typewriters',
+];
+
 export default {
 	title: 'Forms/Autocomplete',
 	component: Autocomplete,
 	argTypes: {
-		size: {
-			options: ['small', 'medium'],
+		variant: {
 			control: { type: 'radio' },
+			options: ['filled', 'outlined'],
+			description: 'Visual style of the input.',
+		},
+		color: {
+			control: { type: 'select' },
+			options: [
+				'primary',
+				'secondary',
+				'success',
+				'error',
+				'warn',
+				'greyscale',
+			],
+			description:
+				'Color scheme applied to the input and highlighted suggestion.',
+		},
+		size: {
+			control: { type: 'radio' },
+			options: ['small', 'medium'],
+			description: 'Size of the input field.',
+		},
+		rounded: {
+			control: 'boolean',
+			description: 'Applies rounded corners to the input.',
+		},
+		clearable: {
+			control: 'boolean',
+			description: 'Shows a clear (×) button when the input has a value.',
+		},
+		noResultsMessage: {
+			control: 'text',
+			description: 'Message shown when no suggestions match the input.',
+		},
+		disabled: {
+			control: 'boolean',
+			description: 'Disables the input.',
+		},
+		placeholder: {
+			control: 'text',
+			description: 'Placeholder text for the input.',
 		},
 	},
 } as ComponentMeta<typeof Autocomplete>;
 
-/**
- * Component Template
- *
- * @see https://storybook.js.org/docs/react/writing-stories/introduction#using-args
- */
-const Template: ComponentStory<typeof Autocomplete> = (args) => {
-	const suggestions = [
-		'Bell-bottom jeans',
-		'Vinyl records',
-		'Polaroid cameras',
-		'Disco balls',
-		'Roller skates',
-		'Jukeboxes',
-		'Cassette tapes',
-		'Tube televisions',
-		'Rotary phones',
-		'Typewriters',
-	];
-
-	return (
-		<div style={{ minHeight: '500px' }}>
-			<Text>Options: {suggestions.join(', ')}</Text>
-			<div style={{ width: '300px', marginTop: '1rem' }}>
-				<Autocomplete
-					suggestions={suggestions}
-					onSuggestionSelect={(selected) => {
-						/* Selected: ${selected} */
-					}}
-					{...args}
-				/>
-				<br />
-				<Autocomplete
-					suggestions={suggestions}
-					onSuggestionSelect={(selected) => {
-						/* Selected: ${selected} */
-					}}
-					disabled
-					placeholder="Disabled"
-					{...args}
-				/>
-			</div>
-		</div>
-	);
-};
+const Template: ComponentStory<typeof Autocomplete> = (args) => (
+	<div style={{ width: 300, minHeight: 400 }}>
+		<Autocomplete {...args} />
+	</div>
+);
 
 export const Default = Template.bind({});
 Default.args = {
+	suggestions,
+	placeholder: 'Search retro items...',
 	variant: 'filled',
 	color: 'primary',
 	size: 'medium',
 	rounded: true,
 	clearable: true,
+};
+
+export const Outlined = Template.bind({});
+Outlined.args = {
+	...Default.args,
+	variant: 'outlined',
+};
+
+export const Disabled = Template.bind({});
+Disabled.args = {
+	...Default.args,
+	disabled: true,
+	placeholder: 'Disabled',
 };

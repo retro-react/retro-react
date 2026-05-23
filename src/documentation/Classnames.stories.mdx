@@ -1,41 +1,58 @@
-import { Heading, Meta, Source, Subtitle, Title } from '@storybook/addon-docs';
+import { Meta, Source } from '@storybook/addon-docs';
 
 <Meta title="CSS/General" />
 
-# Customizing Component Styles
+# Class Names & Custom CSS
 
-Each component in the library has its own set of class names that can be used to customize its appearance. You can use these class names in combination with the `sx` prop or **css** to style the components.
+Every component renders with two stable class hooks:
 
-## Using the `sx` prop
+- `retro-ui` — present on every component in the library
+- `<component>-root` — specific to each component (`button-root`, `card-root`, `modal-root`, etc.)
 
-The `sx` prop is a shortcut for the `style` prop. It accepts an object with CSS properties and values. The keys of the object are camelCased versions of the CSS property names. The values can be either strings or numbers. You can target specific class names within a component and apply your desired styles.
+You can target these from any stylesheet to restyle the whole library at once, or just one component.
 
-Here's an example of using the `sx` prop to customize the styles of a component:
+## Restyle everything
 
 <Source
 	dark
-  format="dedent"
+	language="css"
+	code={`.retro-ui {
+	font-family: 'Perfect DOS VGA 437', 'Courier New', monospace !important;
+}`}
+/>
+
+## Target a specific component
+
+<Source
+	dark
+	language="css"
+	code={`.button-root {
+	letter-spacing: 0.5px;
+}
+
+.card-root {
+	max-width: 480px;
+}`}
+/>
+
+## Per-instance overrides with `sx`
+
+For one-off changes, the `sx` prop is usually cleaner — it accepts standard CSS in object form and has access to the theme:
+
+<Source
+	dark
 	language="tsx"
-
-    code={`import React from 'react';
-
-import { Button } from 'retro-react';
+	code={`import { Button } from 'retro-react';
 
 <Button
 	variant="outline"
 	sx={{
-		'& .button-root': {
-			backgroundColor: 'red',
-			color: 'blue',
-		},
+		minWidth: 160,
+		'&:hover': { backgroundColor: '#ffe1e1' },
 	}}
 >
-	Click me
-</Button>
-`} />
+	Custom hover
+</Button>`}
+/>
 
-In this example, the `button-root` class name is being targeted to customize the background color and text color of the button.
-
-## Component-specific CSS documentation
-
-Each component has its own CSS documentation that lists the available class names and provides examples of how to use them. Be sure to consult the specific component's CSS documentation for more details on the class names and customization options.
+Each component's docs page lists any **additional** class names it exposes for child elements (e.g. `card-header`, `modal-close-button`).

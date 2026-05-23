@@ -1,13 +1,9 @@
 import styled from '@emotion/styled';
 import { darken } from 'polished';
-import {
-	VGA_BLACK,
-	WHITE,
-	WIN31_BUTTON_FACE,
-	WIN31_BUTTON_HIGHLIGHT,
-	WIN31_BUTTON_SHADOW,
-} from '@src/constants/colors';
-import { SYSTEM_FONT } from '@src/constants/fonts';
+import { pressed, raised } from '../../constants/bevels';
+import { VGA_BLACK, WHITE, WIN31_BUTTON_FACE } from '../../constants/colors';
+import { FONT_SIZES, SYSTEM_FONT } from '../../constants/fonts';
+import { SPACING } from '../../constants/spacing';
 import { StatisticsSize, StatisticsVariant } from './Statistics';
 
 export const StatisticsWrapper = styled.div<{
@@ -22,14 +18,11 @@ export const StatisticsWrapper = styled.div<{
 		props.$direction === 'vertical' ? 'row' : 'column'};
 	align-items: center;
 	justify-content: center;
-	margin: 1rem;
-	border: 2px solid;
-	border-color: ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}
-		${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT};
-	border-radius: 0;
+	margin: ${SPACING.XL};
+	${raised}
 	background-color: ${WIN31_BUTTON_FACE};
 	padding: ${({ $size }) =>
-		$size === 'small' ? '0.75rem' : $size === 'medium' ? '1rem' : '1.5rem'};
+		$size === 'small' ? SPACING.LG : $size === 'medium' ? SPACING.XL : '24px'};
 	min-width: ${({ $size }) =>
 		$size === 'small' ? '120px' : $size === 'medium' ? '160px' : '200px'};
 	box-sizing: border-box;
@@ -37,18 +30,20 @@ export const StatisticsWrapper = styled.div<{
 	${({ $direction, $size }) =>
 		$direction === 'horizontal' &&
 		`
-			gap: 1rem;
+			gap: ${SPACING.XL};
 			padding: ${
-				$size === 'small' ? '0.75rem' : $size === 'medium' ? '1rem' : '2rem'
+				$size === 'small'
+					? SPACING.LG
+					: $size === 'medium'
+					? SPACING.XL
+					: SPACING.XXXL
 			};
 			`}
 
 	color: ${VGA_BLACK};
-	box-shadow: inset 1px 1px 0px ${WIN31_BUTTON_HIGHLIGHT};
 
-	/* Responsive adjustments */
 	@media (max-width: 768px) {
-		margin: 0.5rem;
+		margin: ${SPACING.MD};
 		min-width: ${({ $size }) =>
 			$size === 'small' ? '100px' : $size === 'medium' ? '140px' : '180px'};
 	}
@@ -58,13 +53,13 @@ export const StatisticsWrapper = styled.div<{
 		`
 		cursor: pointer;
 		transition: none;
-		
+
 		&:hover {
 			background-color: ${darken(0.05, WIN31_BUTTON_FACE)};
 		}
-		
+
 		&:active {
-			border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
+			${pressed.styles}
 			background-color: ${darken(0.1, WIN31_BUTTON_FACE)};
 		}
 	`};
@@ -75,19 +70,18 @@ export const StatNumberWrapper = styled.div<{
 	$size: StatisticsSize;
 }>`
 	position: relative;
-	width: 100%;
 	display: flex;
 	flex-direction: ${(props) =>
 		props.$direction === 'vertical' ? 'column' : 'row'};
 	align-items: center;
 	justify-content: center;
-	overflow: hidden;
 
 	${({ $direction, $size }) =>
 		$direction === 'horizontal' &&
 		`
-		gap: 
-		${$size === 'small' ? '0.5rem' : $size === 'medium' ? '1rem' : '1.5rem'};
+		gap: ${
+			$size === 'small' ? SPACING.MD : $size === 'medium' ? SPACING.XL : '24px'
+		};
 			`}
 `;
 
@@ -102,7 +96,7 @@ export const StatIcon = styled.div<{
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin-right: 1.5rem;
+	margin-right: 24px;
 
 	& > svg {
 		height: 100%;
@@ -115,7 +109,7 @@ export const StatNumber = styled.span<{
 }>`
 	font-family: ${SYSTEM_FONT};
 	font-size: ${({ $size }) =>
-		$size === 'small' ? '1.5rem' : $size === 'medium' ? '2rem' : '2.5rem'};
+		$size === 'small' ? '24px' : $size === 'medium' ? '32px' : '40px'};
 	font-weight: bold;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -133,8 +127,8 @@ export const StatSuffix = styled.span<{
 }>`
 	font-family: ${SYSTEM_FONT};
 	font-size: ${({ $size }) =>
-		$size === 'small' ? '1.2rem' : $size === 'medium' ? '1.6rem' : '2rem'};
-	margin-left: 0.2rem;
+		$size === 'small' ? '19px' : $size === 'medium' ? '26px' : '32px'};
+	margin-left: ${SPACING.XXS};
 	font-weight: normal;
 	color: ${VGA_BLACK};
 	text-shadow: 1px 1px 0px ${WHITE};
@@ -145,8 +139,8 @@ export const StatPrefix = styled.span<{
 }>`
 	font-family: ${SYSTEM_FONT};
 	font-size: ${({ $size }) =>
-		$size === 'small' ? '1.2rem' : $size === 'medium' ? '1.6rem' : '2rem'};
-	margin-right: 0.2rem;
+		$size === 'small' ? '19px' : $size === 'medium' ? '26px' : '32px'};
+	margin-right: ${SPACING.XXS};
 	font-weight: normal;
 	color: ${VGA_BLACK};
 	text-shadow: 1px 1px 0px ${WHITE};
@@ -157,7 +151,11 @@ export const StatLabel = styled.span<{
 }>`
 	font-family: ${SYSTEM_FONT};
 	font-size: ${({ $size }) =>
-		$size === 'small' ? '0.75rem' : $size === 'medium' ? '0.9rem' : '1.1rem'};
+		$size === 'small'
+			? FONT_SIZES.NORMAL
+			: $size === 'medium'
+			? FONT_SIZES.MEDIUM
+			: '18px'};
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;

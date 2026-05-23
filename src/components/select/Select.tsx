@@ -1,14 +1,15 @@
 /** @jsxImportSource theme-ui */
-import { forwardRef, useState } from 'react';
+import { forwardRef, useRef, useState } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import commonClassNames from '@src/constants/commonClassNames';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
 import * as Sc from './Select.styled';
 
 export type SelectVariants = 'outlined' | 'filled' | 'terminal' | 'classic';
 export type SelectSizes = 'small' | 'medium' | 'large';
 
-export interface SelectProps extends React.HTMLAttributes<HTMLSelectElement> {
+export interface SelectProps
+	extends Omit<React.SelectHTMLAttributes<HTMLSelectElement>, 'size'> {
 	/**
 	 * The label for the Select.
 	 *
@@ -102,39 +103,61 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
 			errorMessage,
 			required = false,
 			onChange,
+			value,
 			defaultValue,
 			...rest
 		},
 		ref,
 	) => {
-		const [selectValue, setSelectValue] = useState(defaultValue);
+		const isControlled = value !== undefined;
+		const innerRef = useRef<HTMLSelectElement | null>(null);
+		const [internalValue, setInternalValue] = useState(
+			defaultValue !== undefined ? String(defaultValue) : '',
+		);
+		const selectValue = isControlled ? value : internalValue;
 
-		const handleChange = (event) => {
+		const errorId = id ? `${id}-error` : undefined;
+
+		const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+			if (!isControlled) {
+				setInternalValue(event.target.value);
+			}
 			if (onChange) onChange(event);
-			setSelectValue(event.target.value);
 		};
 
 		const handleClear = () => {
-			const event = {
-				target: {
-					value: '',
-					id: id || '',
-				},
-			} as React.ChangeEvent<HTMLSelectElement>;
-
-			setSelectValue('');
-			if (onChange) onChange(event);
+			if (!isControlled) {
+				setInternalValue('');
+			}
+			const select = innerRef.current;
+			if (select) {
+				select.value = '';
+				const event = Object.create(
+					new Event('change', { bubbles: true }),
+				) as Event;
+				Object.defineProperty(event, 'target', {
+					value: select,
+					enumerable: true,
+				});
+				Object.defineProperty(event, 'currentTarget', {
+					value: select,
+					enumerable: true,
+				});
+				if (onChange) {
+					onChange(event as unknown as React.ChangeEvent<HTMLSelectElement>);
+				}
+			}
 		};
 
 		const ariaProps = {};
 		if (!label) {
-			ariaProps['aria-label'] = rest.placeholder || 'Select an option';
+			ariaProps['aria-label'] = 'Select an option';
 		}
 		if (disabled) {
 			ariaProps['aria-disabled'] = true;
 		}
 		if (errorMessage) {
-			ariaProps['aria-errormessage'] = errorMessage;
+			ariaProps['aria-describedby'] = errorId;
 			ariaProps['aria-invalid'] = true;
 		}
 		if (required) {
@@ -162,12 +185,19 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
 				<Sc.SelectContainer>
 					<Sc.Select
 						id={id}
-						ref={ref}
+						ref={(node: HTMLSelectElement | null) => {
+							innerRef.current = node;
+							if (typeof ref === 'function') {
+								ref(node);
+							} else if (ref) {
+								ref.current = node;
+							}
+						}}
 						$variant={variant}
 						$size={size}
 						className="select-input"
 						disabled={disabled}
-						value={selectValue}
+						value={selectValue ?? ''}
 						onChange={handleChange}
 						{...ariaProps}
 						{...rest}
@@ -175,10 +205,14 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(
 						{children}
 					</Sc.Select>
 					{selectValue && !required && (
-						<Sc.ClearButton onClick={handleClear} aria-label="Remove button" />
+						<Sc.ClearButton
+							type="button"
+							onClick={handleClear}
+							aria-label="Remove button"
+						/>
 					)}
 				</Sc.SelectContainer>
-				{errorMessage && <Sc.Error>{errorMessage}</Sc.Error>}
+				{errorMessage && <Sc.Error id={errorId}>{errorMessage}</Sc.Error>}
 			</Sc.SelectWrapper>
 		);
 	},

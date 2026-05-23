@@ -1,15 +1,16 @@
 /** @jsxImportSource theme-ui */
 import styled from '@emotion/styled';
-import { SCREEN_XM } from '@src/constants/breakpoints';
+import { groove, pressed, raised, sunken } from '../../constants/bevels';
+import { SCREEN_XM } from '../../constants/breakpoints';
 import {
 	VGA_BLACK,
-	VGA_BLUE,
 	VGA_WHITE,
+	WIN31_BLUE,
 	WIN31_BUTTON_FACE,
 	WIN31_BUTTON_HIGHLIGHT,
 	WIN31_BUTTON_SHADOW,
-} from '@src/constants/colors';
-import { SYSTEM_FONT } from '@src/constants/fonts';
+} from '../../constants/colors';
+import { FONT_SIZES, SYSTEM_FONT } from '../../constants/fonts';
 import { NavbarVariant } from './Navbar';
 
 // Get authentic retro colors for navbar variants
@@ -31,7 +32,7 @@ const getNavbarColors = (variant: NavbarVariant) => {
 			};
 		default:
 			return {
-				background: VGA_BLUE,
+				background: WIN31_BLUE,
 				text: VGA_WHITE,
 				border: WIN31_BUTTON_SHADOW,
 				highlight: WIN31_BUTTON_HIGHLIGHT,
@@ -54,36 +55,22 @@ export const NavbarContainer = styled.nav<{
 	font-family: ${SYSTEM_FONT};
 	background: ${({ $variant }) => getNavbarColors($variant).background};
 	color: ${({ $variant }) => getNavbarColors($variant).text};
-	border: ${({ $variant }) =>
-		$variant === 'menu-bar'
-			? 'none'
-			: $variant === 'status-bar'
-			? '2px solid'
-			: '1px solid'};
-	border-color: ${({ $variant }) =>
+
+	/* Authentic Windows 3.1 3D edge per variant */
+	${({ $variant }) =>
 		$variant === 'status-bar'
-			? `${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}`
-			: WIN31_BUTTON_SHADOW};
-	border-bottom: ${({ $variant }) =>
-		$variant === 'menu-bar'
-			? `1px solid ${WIN31_BUTTON_SHADOW}`
-			: $variant === 'status-bar'
-			? 'inherit'
-			: `2px solid ${WIN31_BUTTON_SHADOW}`};
+			? sunken
+			: $variant === 'menu-bar'
+			? `border-bottom: 1px solid ${WIN31_BUTTON_SHADOW};`
+			: groove};
+
 	position: sticky;
 	top: 0;
 	width: 100%;
 	z-index: 1000;
 	justify-content: space-between;
-	font-size: ${({ $variant }) => ($variant === 'menu-bar' ? '11px' : '12px')};
-
-	/* Authentic Windows 3.1 effects */
-	box-shadow: ${({ $variant }) =>
-		$variant === 'status-bar'
-			? 'inset 2px 2px 2px rgba(0, 0, 0, 0.3)'
-			: $variant === 'menu-bar'
-			? 'none'
-			: '0 1px 0 rgba(255, 255, 255, 0.3)'};
+	font-size: ${({ $variant }) =>
+		$variant === 'menu-bar' ? FONT_SIZES.SMALL : FONT_SIZES.NORMAL};
 
 	/* Responsive adjustments */
 	@media (max-width: ${SCREEN_XM}px) {
@@ -108,9 +95,7 @@ export const NavbarItemsContainer = styled.ul<{
 	@media (max-width: ${SCREEN_XM}px) {
 		flex-direction: column;
 		max-height: ${({ $open }) => ($open ? '100vh' : '0')};
-		border: 2px solid;
-		border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
-			${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
+		${sunken}
 		position: absolute;
 		top: 100%;
 		right: 0;
@@ -122,7 +107,6 @@ export const NavbarItemsContainer = styled.ul<{
 		z-index: 999;
 		overflow: hidden;
 		padding: 1em;
-		box-shadow: inset 1px 1px 0px ${WIN31_BUTTON_HIGHLIGHT};
 	}
 `;
 
@@ -145,18 +129,15 @@ export const NavItem = styled.span<{
 	$variant: NavbarVariant;
 }>`
 	font-family: ${SYSTEM_FONT};
-	font-size: ${({ $variant }) => ($variant === 'menu-bar' ? '11px' : '12px')};
+	font-size: ${({ $variant }) =>
+		$variant === 'menu-bar' ? FONT_SIZES.SMALL : FONT_SIZES.NORMAL};
 	font-weight: normal;
 	display: block;
 	background: ${({ $variant }) =>
 		$variant === 'menu-bar' ? 'transparent' : WIN31_BUTTON_FACE};
-	/* Always have border to prevent layout shift */
-	border: ${({ $variant }) =>
-		$variant === 'menu-bar' ? '1px solid' : '2px solid'};
-	border-color: ${({ $variant }) =>
-		$variant === 'menu-bar'
-			? 'transparent'
-			: `${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}`};
+	/* Always have a 2px border to prevent layout shift */
+	${({ $variant }) =>
+		$variant === 'menu-bar' ? 'border: 2px solid transparent;' : raised};
 	color: ${({ $variant }) => getNavbarColors($variant).text};
 	padding: ${({ $variant }) =>
 		$variant === 'menu-bar' ? '4px 8px' : '0.4em 1em'};
@@ -169,17 +150,13 @@ export const NavItem = styled.span<{
 	&:hover {
 		background: ${({ $variant }) =>
 			$variant === 'menu-bar' ? WIN31_BUTTON_FACE : '#d4d0c8'};
-		border-color: ${({ $variant }) =>
-			$variant === 'menu-bar'
-				? `${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}`
-				: `${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}`};
+		${({ $variant }) => ($variant === 'menu-bar' ? raised : pressed)};
 	}
 
 	&:active {
 		background: ${({ $variant }) =>
-			$variant === 'menu-bar' ? '#c0c0c0' : '#b8b4a8'};
-		border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
-			${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
+			$variant === 'menu-bar' ? WIN31_BUTTON_FACE : '#b8b4a8'};
+		${pressed};
 	}
 
 	& a {
@@ -201,14 +178,12 @@ export const HamburgerMenu = styled.button<{
 }>`
 	display: none;
 	z-index: 1001;
-	width: 2rem;
-	height: 1.5rem;
-	border: 2px solid;
-	border-color: ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}
-		${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT};
+	width: 32px;
+	height: 24px;
+	${raised}
 	background: ${WIN31_BUTTON_FACE};
 	cursor: pointer;
-	padding: 0.25rem;
+	padding: 4px;
 
 	@media (max-width: ${SCREEN_XM}px) {
 		display: block;
@@ -219,8 +194,7 @@ export const HamburgerMenu = styled.button<{
 	}
 
 	&:active {
-		border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
-			${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
+		${pressed}
 		background: #b8b4a8;
 	}
 
@@ -228,7 +202,7 @@ export const HamburgerMenu = styled.button<{
 		content: ${({ $open }) => ($open ? '"✕"' : '"☰"')};
 		color: ${VGA_BLACK};
 		font-family: ${SYSTEM_FONT};
-		font-size: 1rem;
+		font-size: 16px;
 		font-weight: bold;
 		display: flex;
 		align-items: center;
@@ -255,7 +229,8 @@ export const NavMenuTrigger = styled.span<{
 	$isOpen: boolean;
 }>`
 	font-family: ${SYSTEM_FONT};
-	font-size: ${({ $variant }) => ($variant === 'menu-bar' ? '11px' : '12px')};
+	font-size: ${({ $variant }) =>
+		$variant === 'menu-bar' ? FONT_SIZES.SMALL : FONT_SIZES.NORMAL};
 	font-weight: normal;
 	display: block;
 	background: ${({ $variant, $isOpen }) =>
@@ -264,15 +239,13 @@ export const NavMenuTrigger = styled.span<{
 				? WIN31_BUTTON_FACE
 				: 'transparent'
 			: WIN31_BUTTON_FACE};
-	/* Always have border to prevent layout shift */
-	border: ${({ $variant }) =>
-		$variant === 'menu-bar' ? '1px solid' : '2px solid'};
-	border-color: ${({ $variant, $isOpen }) =>
+	/* Always have a 2px border to prevent layout shift */
+	${({ $variant, $isOpen }) =>
 		$variant === 'menu-bar'
 			? $isOpen
-				? `${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}`
-				: 'transparent'
-			: `${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}`};
+				? pressed
+				: 'border: 2px solid transparent;'
+			: raised};
 	color: ${({ $variant }) => getNavbarColors($variant).text};
 	padding: ${({ $variant }) =>
 		$variant === 'menu-bar' ? '4px 8px' : '0.4em 1em'};
@@ -285,17 +258,13 @@ export const NavMenuTrigger = styled.span<{
 	&:hover {
 		background: ${({ $variant }) =>
 			$variant === 'menu-bar' ? WIN31_BUTTON_FACE : '#d4d0c8'};
-		border-color: ${({ $variant }) =>
-			$variant === 'menu-bar'
-				? `${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}`
-				: `${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}`};
+		${pressed};
 	}
 
 	&:active {
 		background: ${({ $variant }) =>
-			$variant === 'menu-bar' ? '#c0c0c0' : '#b8b4a8'};
-		border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
-			${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
+			$variant === 'menu-bar' ? WIN31_BUTTON_FACE : '#b8b4a8'};
+		${pressed};
 	}
 `;
 
@@ -306,11 +275,8 @@ export const NavMenuDropdown = styled.div<{
 	top: 100%;
 	left: 0;
 	z-index: 1001;
+	${raised}
 	background: ${WIN31_BUTTON_FACE};
-	border: 2px solid;
-	border-color: ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}
-		${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT};
-	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 	min-width: 120px;
 
 	/* Add subtle dithering pattern for authentic WIN31 look */

@@ -6,7 +6,7 @@ import {
 	WIN31_BUTTON_FACE,
 	WIN31_BUTTON_HIGHLIGHT,
 	WIN31_BUTTON_SHADOW,
-} from '@src/constants/colors';
+} from '../../constants/colors';
 
 // Authentic retro "loading" animation - more like old CRT scan lines
 const retroScanLines = keyframes`

@@ -1,8 +1,8 @@
 /** @jsxImportSource theme-ui */
-import { forwardRef, useState } from 'react';
+import { forwardRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import commonClassNames from '@src/constants/commonClassNames';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
 import * as Sc from './Marquee.styled';
 
 export type MarqueeSize = 'small' | 'medium' | 'large';
@@ -66,49 +66,33 @@ export const Marquee = forwardRef<HTMLDivElement, MarqueeProps>(
 		},
 		ref,
 	) => {
-		const [isHovered, setIsHovered] = useState(false);
-
-		const handleMouseEnter = () => {
-			if (!pauseOnHover) return;
-			setIsHovered(true);
-		};
-
-		const handleMouseLeave = () => {
-			if (!pauseOnHover) return;
-			setIsHovered(false);
-		};
-
 		return (
 			<Sc.MarqueeWrapper
 				className={classNames('marquee-root', className, commonClassNames)}
-				$gap={gap}
 				ref={ref}
 				id={id}
 				sx={sx}
-				onMouseEnter={handleMouseEnter}
-				onMouseLeave={handleMouseLeave}
 				{...rest}
 			>
-				<Sc.Marquee
-					$gap={gap}
-					$size={size}
-					$color={color}
-					$speed={speed}
-					$isHovered={isHovered}
-					className="marquee-content"
-				>
-					{children}
-				</Sc.Marquee>
-				<Sc.Marquee
-					$gap={gap}
-					$size={size}
-					$color={color}
-					$speed={speed}
-					$isHovered={isHovered}
-					className="marquee-content"
-				>
-					{children}
-				</Sc.Marquee>
+				<Sc.MarqueeTrack $speed={speed} $pauseOnHover={pauseOnHover}>
+					<Sc.MarqueeContent
+						$gap={gap}
+						$size={size}
+						$color={color}
+						className="marquee-content"
+					>
+						{children}
+					</Sc.MarqueeContent>
+					<Sc.MarqueeContent
+						$gap={gap}
+						$size={size}
+						$color={color}
+						className="marquee-content"
+						aria-hidden="true"
+					>
+						{children}
+					</Sc.MarqueeContent>
+				</Sc.MarqueeTrack>
 			</Sc.MarqueeWrapper>
 		);
 	},

@@ -1,46 +1,59 @@
+import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
+import { FONT_SIZES, SYSTEM_FONT } from '../../constants/fonts';
 import { MarqueeSize } from './Marquee';
 
-export const MarqueeWrapper = styled.div<{
-	$gap: string;
-}>`
-	display: flex;
-	overflow: hidden;
-	gap: ${(props) => props.$gap};
+const scroll = keyframes`
+	from {
+		transform: translateX(0);
+	}
+	to {
+		transform: translateX(-50%);
+	}
 `;
 
-export const Marquee = styled.div<{
-	$size: MarqueeSize;
-	$gap: string;
-	$color: string;
+export const MarqueeWrapper = styled.div`
+	display: flex;
+	overflow: hidden;
+`;
+
+export const MarqueeTrack = styled.div<{
 	$speed: string;
-	$isHovered: boolean;
+	$pauseOnHover: boolean;
 }>`
-	font-family: 'Trebuchet MS', Helvetica, sans-serif;
+	display: flex;
+	flex-shrink: 0;
+	width: max-content;
+	animation: ${scroll} ${(props) => props.$speed} linear infinite;
+
+	${(props) =>
+		props.$pauseOnHover &&
+		`
+		&:hover {
+			animation-play-state: paused;
+		}
+	`}
+
+	@media (prefers-reduced-motion: reduce) {
+		animation: none;
+	}
+`;
+
+export const MarqueeContent = styled.div<{
+	$size: MarqueeSize;
+	$color: string;
+	$gap: string;
+}>`
+	flex-shrink: 0;
+	white-space: nowrap;
+	padding-right: ${(props) => props.$gap};
+	font-family: ${SYSTEM_FONT};
 	font-size: ${(props) =>
 		props.$size === 'small'
-			? '1rem'
+			? FONT_SIZES.NORMAL
 			: props.$size === 'medium'
-			? '1.5rem'
-			: '2rem'};
+			? FONT_SIZES.LARGE
+			: FONT_SIZES.XLARGE};
 	color: ${(props) => props.$color};
 	font-weight: 400;
-
-	flex-shrink: 0;
-	display: flex;
-	justify-content: space-around;
-	min-width: 100%;
-	gap: ${(props) => props.$gap};
-
-	animation: marquee ${(props) => props.$speed} linear infinite;
-	animation-play-state: ${(props) => (props.$isHovered ? 'paused' : 'running')};
-
-	@keyframes marquee {
-		0% {
-			transform: translateX(0);
-		}
-		100% {
-			transform: translateX(calc(-100% + ${(props) => props.$gap}));
-		}
-	}
 `;

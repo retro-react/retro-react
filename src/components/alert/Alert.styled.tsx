@@ -1,5 +1,6 @@
 import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
+import { raised } from '../../constants/bevels';
 import {
 	ERROR,
 	PRIMARY,
@@ -11,9 +12,9 @@ import {
 	WIN31_BUTTON_FACE,
 	WIN31_BUTTON_HIGHLIGHT,
 	WIN31_BUTTON_SHADOW,
-} from '@src/constants/colors';
-import { FONT_SIZES, SYSTEM_FONT } from '@src/constants/fonts';
-import type { AlertColor } from './Alert';
+} from '../../constants/colors';
+import { FONT_SIZES, SYSTEM_FONT } from '../../constants/fonts';
+import type { AlertColor, AlertPosition } from './Alert';
 
 function getColorScheme(color: AlertColor) {
 	switch (color) {
@@ -31,10 +32,21 @@ function getColorScheme(color: AlertColor) {
 	}
 }
 
-const slideIn = keyframes`
+const slideInLeft = keyframes`
 	from {
 		opacity: 0;
 		transform: translateX(-100%);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+`;
+
+const slideInRight = keyframes`
+	from {
+		opacity: 0;
+		transform: translateX(100%);
 	}
 	to {
 		opacity: 1;
@@ -47,7 +59,11 @@ const blink = keyframes`
 	51%, 100% { opacity: 0; }
 `;
 
-export const Alert = styled.div<{ $color: AlertColor; $isOpenProp?: boolean }>`
+export const Alert = styled.div<{
+	$color: AlertColor;
+	$isOpenProp?: boolean;
+	$position?: AlertPosition;
+}>`
 	display: inline-flex;
 	flex-direction: column;
 	position: relative;
@@ -55,19 +71,14 @@ export const Alert = styled.div<{ $color: AlertColor; $isOpenProp?: boolean }>`
 	font-size: ${FONT_SIZES.NORMAL};
 	font-family: ${SYSTEM_FONT};
 	font-weight: normal;
-	border: 2px solid;
-	border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
-		${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
+	${raised};
 	background: ${WIN31_BUTTON_FACE};
 	color: ${VGA_BLACK};
 	width: 100%;
 	min-height: 40px;
-	box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
 
-	/* Remove modern styling */
 	border-radius: 0;
 
-	/* Alert color indicator */
 	&::before {
 		content: '';
 		position: absolute;
@@ -78,7 +89,6 @@ export const Alert = styled.div<{ $color: AlertColor; $isOpenProp?: boolean }>`
 		background: ${({ $color }) => getColorScheme($color)};
 	}
 
-	/* Blinking indicator for errors */
 	${({ $color }) =>
 		$color === 'error' &&
 		css`
@@ -93,10 +103,13 @@ export const Alert = styled.div<{ $color: AlertColor; $isOpenProp?: boolean }>`
 			}
 		`}
 
-	${({ $isOpenProp }) =>
+	${({ $isOpenProp, $position }) =>
 		$isOpenProp &&
 		css`
-			animation: ${slideIn} 0.2s ease-out;
+			animation: ${$position === 'top-right' || $position === 'bottom-right'
+					? slideInRight
+					: slideInLeft}
+				0.2s ease-out;
 		`}
 `;
 
@@ -105,10 +118,9 @@ export const Title = styled.div`
 	margin-bottom: 4px;
 	color: ${VGA_BLACK};
 	font-family: ${SYSTEM_FONT};
-	text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.8);
 `;
 
-export const CloseButton = styled.button<{ $icon: string; $color: AlertColor }>`
+export const CloseButton = styled.button<{ $color: AlertColor }>`
 	position: absolute;
 	top: 8px;
 	right: 8px;
@@ -128,7 +140,6 @@ export const CloseButton = styled.button<{ $icon: string; $color: AlertColor }>`
 	justify-content: center;
 	transition: none;
 
-	/* X mark */
 	&::before {
 		content: '×';
 		line-height: 1;
@@ -136,7 +147,7 @@ export const CloseButton = styled.button<{ $icon: string; $color: AlertColor }>`
 
 	&:hover {
 		background: ${({ $color }) => getColorScheme($color)};
-		color: ${VGA_WHITE};
+		color: ${({ $color }) => ($color === 'warn' ? VGA_BLACK : VGA_WHITE)};
 		border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
 			${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
 	}

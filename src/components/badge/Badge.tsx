@@ -7,9 +7,9 @@ import {
 	ReactElement,
 } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import { ComponentColors } from '@src/utils/getColorScheme';
-import commonClassNames from '@src/constants/commonClassNames';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
+import { ComponentColors } from '../../utils/getColorScheme';
 import * as Sc from './Badge.styled';
 
 export type BadgeSize = 'small' | 'medium' | 'large';
@@ -71,8 +71,10 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
 		if (children) {
 			children = Children.map(children, (child) => {
 				if (isValidElement(child)) {
+					const childSx = (child.props.sx ?? {}) as Record<string, unknown>;
+					const hasMargin = childSx['margin'] !== undefined;
 					return cloneElement(child as ReactElement, {
-						sx: { ...child.props.sx, margin: 1 },
+						sx: hasMargin ? childSx : { ...childSx, margin: 1 },
 					});
 				}
 				return child;
@@ -91,7 +93,11 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
 						$pulsate={pulse}
 						$size={size}
 						className={classNames('badge-root', className, commonClassNames)}
-						aria-hidden="true"
+						aria-label={
+							badgeContent !== undefined && badgeContent !== null
+								? `${badgeContent}`
+								: undefined
+						}
 						{...rest}
 					>
 						{badgeContent}
@@ -101,3 +107,5 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(
 		);
 	},
 );
+
+Badge.displayName = 'Badge';
