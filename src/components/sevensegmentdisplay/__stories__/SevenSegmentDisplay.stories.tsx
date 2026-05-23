@@ -19,7 +19,7 @@ const meta: Meta<typeof SevenSegmentDisplay> = {
 		},
 		color: {
 			control: { type: 'color' },
-			description: 'Segment colour — any library colour name or CSS colour.',
+			description: 'Segment colour, any library colour name or CSS colour.',
 		},
 		size: {
 			control: { type: 'radio' },

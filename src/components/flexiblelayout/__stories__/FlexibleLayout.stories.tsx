@@ -45,7 +45,7 @@ export const Default: Story = {
 			<LayoutMain>
 				<Text variant="paragraph">
 					Main content goes here. The layout uses CSS Grid and reflows on
-					smaller screens — sidebars stack above and below the main area.
+					smaller screens, sidebars stack above and below the main area.
 				</Text>
 			</LayoutMain>
 			<LayoutSidebarRight>
@@ -67,7 +67,7 @@ export const HeaderMainOnly: Story = {
 			</LayoutHeader>
 			<LayoutMain>
 				<Text variant="paragraph">
-					Slots are optional — render only the regions you need.
+					Slots are optional, render only the regions you need.
 				</Text>
 			</LayoutMain>
 		</FlexibleLayout>

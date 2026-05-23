@@ -75,17 +75,17 @@ export const WithLongLabels: Story = {
 				<Text sx={{ ...label, mb: 2, fontWeight: 'bold' }}>Power plan:</Text>
 				<RadioGroup {...args} onChange={setValue}>
 					<Radio
-						label="High Performance — maximum speed and responsiveness"
+						label="High Performance, maximum speed and responsiveness"
 						name="config"
 						value="performance"
 					/>
 					<Radio
-						label="Balanced — good performance with power efficiency"
+						label="Balanced, good performance with power efficiency"
 						name="config"
 						value="balanced"
 					/>
 					<Radio
-						label="Power Saver — extended battery life on laptops"
+						label="Power Saver, extended battery life on laptops"
 						name="config"
 						value="powersaver"
 					/>

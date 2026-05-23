@@ -67,10 +67,10 @@ export const Error: Story = {
 export const Variants: Story = {
 	render: () => (
 		<div style={{ display: 'grid', gap: 12, width: 320 }}>
-			<Input variant="classic" placeholder="Classic — sunken Win95 dialog" />
-			<Input variant="filled" placeholder="Filled — raised 3D" />
-			<Input variant="outlined" placeholder="Outlined — flat border" />
-			<Input variant="terminal" placeholder="Terminal — C:\> _" />
+			<Input variant="classic" placeholder="Classic, sunken Win95 dialog" />
+			<Input variant="filled" placeholder="Filled, raised 3D" />
+			<Input variant="outlined" placeholder="Outlined, flat border" />
+			<Input variant="terminal" placeholder="Terminal, C:\> _" />
 		</div>
 	),
 };

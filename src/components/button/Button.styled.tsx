@@ -13,7 +13,6 @@ import {
 import { SYSTEM_FONT } from '../../constants/fonts';
 import type { ButtonSize, ButtonVariant } from './Button';
 
-// Authentic retro button press effect
 const retroButtonPress = css`
 	&:active:not(:disabled) {
 		border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
@@ -22,7 +21,6 @@ const retroButtonPress = css`
 	}
 `;
 
-// Get variant-specific styling
 const getVariantStyles = (variant: ButtonVariant) => {
 	switch (variant) {
 		case 'primary':
@@ -127,14 +125,12 @@ export const Button = styled.button<{
 	$isButtonGroup?: boolean;
 	$disableClickEffect?: boolean;
 }>`
-	/* Base authentic WIN31 button styling */
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	position: relative;
 	box-sizing: border-box;
 
-	/* Authentic Windows button dimensions and spacing */
 	min-width: ${(props) => {
 		switch (props.$size) {
 			case 'small':
@@ -142,7 +138,7 @@ export const Button = styled.button<{
 			case 'large':
 				return '100px';
 			default:
-				return '75px'; // medium
+				return '75px';
 		}
 	}};
 
@@ -153,22 +149,21 @@ export const Button = styled.button<{
 			case 'large':
 				return '6px 16px';
 			default:
-				return '3px 12px'; // medium - authentic WIN31 spacing
+				return '3px 12px';
 		}
 	}};
 
 	height: ${(props) => {
 		switch (props.$size) {
 			case 'small':
-				return '18px';
+				return '20px';
 			case 'large':
 				return '28px';
 			default:
-				return '23px'; // medium - standard WIN31 button height
+				return '24px';
 		}
 	}};
 
-	/* Authentic WIN31 typography */
 	font-family: ${SYSTEM_FONT};
 	font-size: ${(props) => {
 		switch (props.$size) {
@@ -177,32 +172,27 @@ export const Button = styled.button<{
 			case 'large':
 				return '12px';
 			default:
-				return '11px'; // Standard WIN31 button text size
+				return '11px';
 		}
 	}};
 	font-weight: normal;
 	text-align: center;
 	line-height: 1;
 
-	/* Authentic WIN31 border style */
 	border: 2px solid;
-	border-radius: 0; /* Sharp corners like authentic Windows */
+	border-radius: 0;
 	cursor: pointer;
 
-	/* Remove all modern effects */
 	box-shadow: none;
 	transition: none;
 	outline: none;
 	text-decoration: none;
 	user-select: none;
 
-	/* Apply variant-specific styles */
 	${(props) => getVariantStyles(props.variant)}
 
-	/* Authentic button press effect */
 	${(props) => !props.$disableClickEffect && retroButtonPress}
-	
-	/* Disabled state - authentic WIN31 grayed out look */
+
 	&:disabled {
 		cursor: not-allowed;
 		color: ${WIN31_BUTTON_SHADOW};
@@ -213,24 +203,20 @@ export const Button = styled.button<{
 		transform: none;
 	}
 
-	/* ButtonGroup integration - seamless borders */
 	${(props) =>
 		props.$isButtonGroup &&
 		css`
 			border-radius: 0;
 
-			/* Remove right border for group effect except last child */
 			& + & {
 				border-left-width: 1px;
 			}
 		`}
 
-	/* Loading state */
 	&[aria-busy='true'] {
 		cursor: progress;
 		position: relative;
 
-		/* Simple loading indicator - no fancy spinners in retro UI */
 		&::after {
 			content: '...';
 			position: absolute;

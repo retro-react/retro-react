@@ -34,9 +34,7 @@ const getPagerColors = (variant: PagerVariant) => {
 	}
 };
 
-export const PagerBody = styled.div<{
-	$variant: PagerVariant;
-}>`
+export const PagerBody = styled.div`
 	display: flex;
 	flex-direction: column;
 	box-sizing: border-box;
@@ -162,9 +160,7 @@ export const ButtonGroup = styled.div`
 	gap: 10px;
 `;
 
-export const PagerButton = styled.button<{
-	$variant: PagerVariant;
-}>`
+export const PagerButton = styled.button`
 	flex: 1;
 	height: 30px;
 	${raised}

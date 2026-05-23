@@ -69,9 +69,8 @@ export interface StatisticsProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 /**
- * The Statistics component is designed to display key numerical information with an optional label.
- * This component is highly customizable, allowing for a selection of colors, sizes, and additional prefix and suffix texts.
- * The component also supports vertical and horizontal layouts and icon display.
+ * Display a number with an optional label, prefix, suffix, and icon.
+ * Supports vertical and horizontal layouts and three sizes.
  *
  * @example
  * <Statistics number="1,000" label="Total Users" />

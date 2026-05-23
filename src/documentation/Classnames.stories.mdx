@@ -2,14 +2,14 @@ import { Meta, Source } from '@storybook/addon-docs';
 
 <Meta title="CSS/General" />
 
-# Class Names & Custom CSS
+# Class names and custom CSS
 
 Every component renders with two stable class hooks:
 
-- `retro-ui` — present on every component in the library
-- `<component>-root` — specific to each component (`button-root`, `card-root`, `modal-root`, etc.)
+- `retro-ui` is present on every component in the library.
+- `<component>-root` is specific to each component (`button-root`, `card-root`, `modal-root`, and so on).
 
-You can target these from any stylesheet to restyle the whole library at once, or just one component.
+You can target either from any stylesheet to restyle the whole library at once, or just one component.
 
 ## Restyle everything
 
@@ -37,7 +37,7 @@ You can target these from any stylesheet to restyle the whole library at once, o
 
 ## Per-instance overrides with `sx`
 
-For one-off changes, the `sx` prop is usually cleaner — it accepts standard CSS in object form and has access to the theme:
+For one-off changes, the `sx` prop is usually cleaner. It accepts standard CSS in object form and has access to the theme:
 
 <Source
 	dark
@@ -55,4 +55,4 @@ For one-off changes, the `sx` prop is usually cleaner — it accepts standard CS
 </Button>`}
 />
 
-Each component's docs page lists any **additional** class names it exposes for child elements (e.g. `card-header`, `modal-close-button`).
+Each component's docs page lists any additional class names it exposes for child elements (for example `card-header`, `modal-close-button`).

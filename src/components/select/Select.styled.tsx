@@ -160,6 +160,7 @@ export const Select = styled.select<{
 	$size: SelectSizes;
 	$fullWidth?: boolean;
 }>`
+	box-sizing: content-box;
 	width: ${(props) => (props.$fullWidth ? '100%' : 'auto')};
 	min-width: ${(props) => (props.$size === 'small' ? '150px' : '200px')};
 	font-size: ${(props) => sizeStyles[props.$size].fontSize};

@@ -232,6 +232,7 @@ export const DocumentUpload = forwardRef<HTMLInputElement, DocumentUploadProps>(
 				$isDragOver={isDragOver}
 				$isPressed={isPressed}
 				$isUploading={isUploading}
+				$color={color}
 				className={classNames(commonClassNames, className)}
 				onDragOver={handleDragOver}
 				onDragLeave={handleDragLeave}

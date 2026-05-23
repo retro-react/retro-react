@@ -35,7 +35,7 @@ type Story = StoryObj<typeof Marquee>;
 
 export const Default: Story = {
 	args: {
-		children: '★ Breaking news — retro is back! ★ Tune in for more updates.',
+		children: '★ Breaking news, retro is back! ★ Tune in for more updates.',
 		color: '#000000',
 		speed: '20s',
 		size: 'medium',

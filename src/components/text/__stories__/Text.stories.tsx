@@ -44,7 +44,7 @@ type Story = StoryObj<typeof Text>;
 export const Default: Story = {
 	args: {
 		children:
-			'It was the best of times, it was the worst of times — and retro-react was on the screen.',
+			'It was the best of times, it was the worst of times, and retro-react was on the screen.',
 		variant: 'paragraph',
 		color: '#000000',
 	},
@@ -60,11 +60,11 @@ export const Variants: Story = {
 			<Text variant="h5">Heading 5</Text>
 			<Text variant="h6">Heading 6</Text>
 			<Text variant="paragraph">
-				Paragraph — used for blocks of running prose.
+				Paragraph, used for blocks of running prose.
 			</Text>
-			<Text variant="body1">Body 1 — primary body copy.</Text>
-			<Text variant="body2">Body 2 — secondary body copy.</Text>
-			<Text variant="small">Small — fine print.</Text>
+			<Text variant="body1">Body 1, primary body copy.</Text>
+			<Text variant="body2">Body 2, secondary body copy.</Text>
+			<Text variant="small">Small, fine print.</Text>
 		</div>
 	),
 };

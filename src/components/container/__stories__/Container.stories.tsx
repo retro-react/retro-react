@@ -27,6 +27,6 @@ export const Fluid: Story = {
 	args: {
 		fluid: true,
 		sx: { background: '#e5e5e5', p: 3 },
-		children: 'Fluid container — spans the full available width.',
+		children: 'Fluid container, spans the full available width.',
 	},
 };

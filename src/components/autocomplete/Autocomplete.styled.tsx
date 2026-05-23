@@ -22,13 +22,15 @@ const sizeStyles: Record<
 	large: { fontSize: FONT_SIZES.MEDIUM, padding: '4px 8px', height: '30px' },
 };
 
-const getAutocompleteVariantStyles = ($color: string) => {
-	const retroInsetStyles = css`
+const getAutocompleteVariantStyles = (
+	variant: AutocompleteVariants,
+	$color: string,
+) => {
+	const filledStyles = css`
 		${sunken}
 		background: ${VGA_WHITE};
 		color: ${VGA_BLACK};
 		font-family: ${SYSTEM_FONT};
-
 		border-radius: 0;
 		transition: none;
 		-webkit-appearance: none;
@@ -42,21 +44,46 @@ const getAutocompleteVariantStyles = ($color: string) => {
 		&:focus {
 			outline: 1px dotted ${VGA_BLACK};
 			outline-offset: -3px;
-			border-color: ${$color !== 'greyscale' ? $color : WIN31_BUTTON_SHADOW}
-				${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_HIGHLIGHT}
-				${$color !== 'greyscale' ? $color : WIN31_BUTTON_SHADOW};
 		}
 
 		&:disabled {
 			background: ${WIN31_BUTTON_FACE};
 			color: ${WIN31_BUTTON_SHADOW};
-			border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
-				${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
 			cursor: not-allowed;
 		}
 	`;
 
-	return retroInsetStyles;
+	const outlinedStyles = css`
+		background: ${VGA_WHITE};
+		color: ${VGA_BLACK};
+		font-family: ${SYSTEM_FONT};
+		border: 1px solid ${WIN31_BUTTON_SHADOW};
+		border-radius: 0;
+		transition: none;
+		-webkit-appearance: none;
+		appearance: none;
+		box-shadow: none;
+
+		&::placeholder {
+			color: ${WIN31_BUTTON_SHADOW};
+			font-style: normal;
+		}
+
+		&:focus {
+			outline: none;
+			border-color: ${$color !== 'greyscale' ? $color : VGA_BLACK};
+			box-shadow: 0 0 0 1px ${$color !== 'greyscale' ? $color : VGA_BLACK};
+		}
+
+		&:disabled {
+			background: ${WIN31_BUTTON_FACE};
+			color: ${WIN31_BUTTON_SHADOW};
+			border-color: ${WIN31_BUTTON_SHADOW};
+			cursor: not-allowed;
+		}
+	`;
+
+	return variant === 'outlined' ? outlinedStyles : filledStyles;
 };
 
 export const AutocompleteContainer = styled.div<{
@@ -101,6 +128,7 @@ export const AutocompleteInput = styled.input<{
 
 	${(props) =>
 		getAutocompleteVariantStyles(
+			props.$variant,
 			props.$color === 'greyscale'
 				? WIN31_BUTTON_SHADOW
 				: getColorScheme(props.$color, props.theme),

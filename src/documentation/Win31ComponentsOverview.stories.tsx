@@ -51,8 +51,7 @@ const meta: Meta = {
 	parameters: {
 		docs: {
 			description: {
-				component:
-					'A comprehensive overview of all retro-styled components available in the react-retro library.',
+				component: 'Every component in the library, on one page.',
 			},
 		},
 		layout: 'fullscreen',
@@ -719,7 +718,7 @@ export const ComponentsOverview: Story = () => {
 							<PopoverButton variant="outline">Show Info</PopoverButton>
 							<PopoverContent>
 								<Text variant="body2">
-									System Information — Windows 3.1 — 4MB free
+									System Information - Windows 3.1 - 4MB free
 								</Text>
 							</PopoverContent>
 						</Popover>

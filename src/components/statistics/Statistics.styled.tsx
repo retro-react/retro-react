@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { darken } from 'polished';
 import { pressed, raised } from '../../constants/bevels';
@@ -50,19 +51,19 @@ export const StatisticsWrapper = styled.div<{
 
 	${({ $isClickable }) =>
 		$isClickable &&
-		`
-		cursor: pointer;
-		transition: none;
+		css`
+			cursor: pointer;
+			transition: background-color 80ms linear;
 
-		&:hover {
-			background-color: ${darken(0.05, WIN31_BUTTON_FACE)};
-		}
+			&:hover {
+				background-color: ${darken(0.05, WIN31_BUTTON_FACE)};
+			}
 
-		&:active {
-			${pressed.styles}
-			background-color: ${darken(0.1, WIN31_BUTTON_FACE)};
-		}
-	`};
+			&:active {
+				${pressed}
+				background-color: ${darken(0.1, WIN31_BUTTON_FACE)};
+			}
+		`};
 `;
 
 export const StatNumberWrapper = styled.div<{

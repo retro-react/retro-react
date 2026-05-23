@@ -6,27 +6,27 @@ const EDGE_LIGHT = '#dfdfdf';
 const EDGE_HIGHLIGHT = '#ffffff';
 
 export const raised = css`
-	border: 2px solid transparent;
+	border: 1px solid;
+	border-color: ${EDGE_LIGHT} ${EDGE_DARKEST} ${EDGE_DARKEST} ${EDGE_LIGHT};
 	border-radius: 0;
-	box-shadow: inset -1px -1px 0 ${EDGE_DARKEST},
-		inset 1px 1px 0 ${EDGE_HIGHLIGHT}, inset -2px -2px 0 ${EDGE_SHADOW},
-		inset 2px 2px 0 ${EDGE_LIGHT};
+	box-shadow: inset 1px 1px 0 ${EDGE_HIGHLIGHT},
+		inset -1px -1px 0 ${EDGE_SHADOW};
 `;
 
 export const sunken = css`
-	border: 2px solid transparent;
+	border: 1px solid;
+	border-color: ${EDGE_DARKEST} ${EDGE_LIGHT} ${EDGE_LIGHT} ${EDGE_DARKEST};
 	border-radius: 0;
-	box-shadow: inset -1px -1px 0 ${EDGE_HIGHLIGHT},
-		inset 1px 1px 0 ${EDGE_DARKEST}, inset -2px -2px 0 ${EDGE_LIGHT},
-		inset 2px 2px 0 ${EDGE_SHADOW};
+	box-shadow: inset 1px 1px 0 ${EDGE_SHADOW},
+		inset -1px -1px 0 ${EDGE_HIGHLIGHT};
 `;
 
 export const pressed = css`
-	border: 2px solid transparent;
+	border: 1px solid;
+	border-color: ${EDGE_DARKEST} ${EDGE_LIGHT} ${EDGE_LIGHT} ${EDGE_DARKEST};
 	border-radius: 0;
-	box-shadow: inset 1px 1px 0 ${EDGE_DARKEST},
-		inset -1px -1px 0 ${EDGE_HIGHLIGHT}, inset 2px 2px 0 ${EDGE_SHADOW},
-		inset -2px -2px 0 ${EDGE_LIGHT};
+	box-shadow: inset 1px 1px 0 ${EDGE_SHADOW},
+		inset -1px -1px 0 ${EDGE_HIGHLIGHT};
 `;
 
 export const windowFrame = raised;

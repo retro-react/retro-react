@@ -45,7 +45,7 @@ export const ContentOnly = Template.bind({});
 ContentOnly.args = {
 	children: (
 		<Text variant="paragraph">
-			A minimal card with just body content — useful for inline information
+			A minimal card with just body content, useful for inline information
 			panels.
 		</Text>
 	),

@@ -66,7 +66,10 @@ export const Navbar = forwardRef<HTMLDivElement, NavbarProps>(
 		const menuId = menuIdRef.current;
 		const containerRef = useRef<HTMLDivElement | null>(null);
 		const toggleMenu = () => {
-			setOpen(!open);
+			setOpen((prev) => !prev);
+		};
+		const closeMenuIfOpen = () => {
+			setOpen((prev) => (prev ? false : prev));
 		};
 
 		useEffect(() => {
@@ -142,7 +145,7 @@ export const Navbar = forwardRef<HTMLDivElement, NavbarProps>(
 							<Sc.NavbarItemWrapper key={`navbar-item-${index}`}>
 								{cloneElement(child as React.ReactElement, {
 									_internalVariant: variant,
-									_internalOnClick: toggleMenu,
+									_internalOnClick: closeMenuIfOpen,
 								})}
 							</Sc.NavbarItemWrapper>
 						);

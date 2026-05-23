@@ -37,7 +37,8 @@ export interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
 	 */
 	color?: AvatarColor;
 	/**
-	 * Determines if the Avatar should have rounded edges.
+	 * Soften the corners on the square variant. Has no effect when
+	 * `variant="circle"`, which is already round.
 	 *
 	 * @default false
 	 */

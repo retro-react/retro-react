@@ -19,7 +19,7 @@ export default {
 const Template: ComponentStory<typeof Box> = (args) => (
 	<Box {...args}>
 		<Text>
-			Classic Windows-style container box. Place any content inside — text, form
+			Classic Windows-style container box. Place any content inside, text, form
 			fields, lists, or other components.
 		</Text>
 	</Box>
@@ -40,16 +40,16 @@ export const Variants: ComponentStory<typeof Box> = () => (
 		}}
 	>
 		<Box variant="panel" sx={{ padding: '12px' }}>
-			<Text>Panel — face color background, subtle border.</Text>
+			<Text>Panel, face color background, subtle border.</Text>
 		</Box>
 		<Box variant="raised" sx={{ padding: '12px' }}>
-			<Text>Raised — 3D outset, button-like surface.</Text>
+			<Text>Raised, 3D outset, button-like surface.</Text>
 		</Box>
 		<Box variant="sunken" sx={{ padding: '12px' }}>
-			<Text>Sunken — inset, like input fields.</Text>
+			<Text>Sunken, inset, like input fields.</Text>
 		</Box>
 		<Box variant="flat" sx={{ padding: '12px' }}>
-			<Text>Flat — minimal single border.</Text>
+			<Text>Flat, minimal single border.</Text>
 		</Box>
 	</div>
 );

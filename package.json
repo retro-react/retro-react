@@ -3,7 +3,7 @@
 	"version": "1.5.0",
 	"type": "commonjs",
 	"private": false,
-	"description": "Authentic Windows 95/98 retro React UI library — 50+ typed, accessible components with bevels, sharp pixels, and CRT vibes.",
+	"description": "A React UI library that looks like Windows 95/98. 50+ typed, accessible components with classic 3D bevels and sharp pixel edges.",
 	"keywords": [
 		"react",
 		"react-component",

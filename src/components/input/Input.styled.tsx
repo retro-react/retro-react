@@ -165,7 +165,6 @@ export const Input = styled.input<{
 		return css`
 			font-size: ${props.$size};
 			padding: 2px 6px;
-			min-width: 200px;
 		`;
 	}}
 
