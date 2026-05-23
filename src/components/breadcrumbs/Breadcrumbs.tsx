@@ -2,8 +2,8 @@
 import { forwardRef } from 'react';
 import React from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import commonClassNames from '@src/constants/commonClassNames';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
 import {
 	Breadcrumb,
 	BreadcrumbActive,
@@ -121,7 +121,6 @@ export const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
 		{
 			id,
 			className,
-			children,
 			items = [],
 			maxItems,
 			separator = 'arrow',
@@ -152,28 +151,32 @@ export const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
 				if (item.disabled) return;
 
 				if (e.key === 'Enter' || e.key === ' ') {
-					e.preventDefault();
+					if (item.href) {
+						return;
+					}
 					if (item.onClick) {
-						item.onClick(e as any);
-					} else if (item.href) {
-						window.location.href = item.href;
+						e.preventDefault();
+						item.onClick(e as unknown as React.MouseEvent<HTMLAnchorElement>);
 					}
 				}
 			};
 
 		const handleCopyPath = () => {
 			const path = items.map((item) => item.text).join(' > ');
-			navigator.clipboard?.writeText(path).then(() => {
-				if (onCopy) {
-					onCopy(path);
-				}
-			});
+			if (!navigator.clipboard) return;
+			navigator.clipboard.writeText(path).then(
+				() => onCopy?.(path),
+				() => undefined,
+			);
 		};
 
-		// Truncation logic
 		const getDisplayItems = () => {
 			if (!maxItems || items.length <= maxItems) {
 				return items;
+			}
+
+			if (maxItems < 3) {
+				return items.slice(-maxItems);
 			}
 
 			const firstItem = items[0];
@@ -202,6 +205,7 @@ export const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
 			<BreadcrumbsWrapper
 				ref={ref}
 				id={id}
+				sx={sx}
 				className={classNames('breadcrumbs-root', className, commonClassNames)}
 				role="navigation"
 				aria-label="Breadcrumb navigation"
@@ -217,8 +221,10 @@ export const Breadcrumbs = forwardRef<HTMLDivElement, BreadcrumbsProps>(
 						>
 							{item.text === '...' ? (
 								<TruncationIndicator
-									title={`${items.length - maxItems! + 1} items hidden`}
-									aria-label={`${items.length - maxItems! + 1} items hidden`}
+									title={`${items.length - (maxItems ?? 0) + 1} items hidden`}
+									aria-label={`${
+										items.length - (maxItems ?? 0) + 1
+									} items hidden`}
 								>
 									...
 								</TruncationIndicator>

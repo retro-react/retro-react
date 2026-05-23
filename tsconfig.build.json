@@ -1,10 +1,18 @@
 {
 	"extends": "./tsconfig.json",
 	"compilerOptions": {
-		"plugins": [
-			{ "transform": "typescript-transform-paths" },
-			{ "transform": "typescript-transform-paths", "afterDeclarations": true }
-		]
+		"declaration": true,
+		"emitDeclarationOnly": true,
+		"outDir": "dist",
+		"noEmit": false
 	},
-	"exclude": ["node_modules", "src/**/__stories__", "src/**/__tests__"]
+	"include": ["src/**/*"],
+	"exclude": [
+		"node_modules",
+		"src/**/__stories__",
+		"src/**/__tests__",
+		"src/**/*.stories.tsx",
+		"src/**/*.stories.mdx",
+		"src/documentation"
+	]
 }

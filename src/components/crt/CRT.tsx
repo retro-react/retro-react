@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import * as Sc from './CRT.styled';
 
 export interface CRTProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -42,28 +42,38 @@ export interface CRTProps extends React.HTMLAttributes<HTMLDivElement> {
  * CRT component provides an authentic retro CRT monitor experience
  * with phosphor glow, scanlines, and curvature effects.
  */
-export const CRT: React.FC<CRTProps> = ({
-	children,
-	phosphor = 'green',
-	scanlines = true,
-	curvature = true,
-	flicker = false,
-	glowIntensity = 0.5,
-	...props
-}) => {
-	return (
-		<Sc.CRTContainer
-			$phosphor={phosphor}
-			$scanlines={scanlines}
-			$curvature={curvature}
-			$flicker={flicker}
-			$glowIntensity={glowIntensity}
-			{...props}
-		>
-			<Sc.CRTScreen>
-				<Sc.CRTContent>{children}</Sc.CRTContent>
-				{scanlines && <Sc.ScanlineOverlay />}
-			</Sc.CRTScreen>
-		</Sc.CRTContainer>
-	);
-};
+export const CRT = forwardRef<HTMLDivElement, CRTProps>(
+	(
+		{
+			children,
+			phosphor = 'green',
+			scanlines = true,
+			curvature = true,
+			flicker = false,
+			glowIntensity = 0.5,
+			...props
+		},
+		ref,
+	) => {
+		return (
+			<Sc.CRTContainer
+				ref={ref}
+				$phosphor={phosphor}
+				$scanlines={scanlines}
+				$curvature={curvature}
+				$flicker={flicker}
+				$glowIntensity={glowIntensity}
+				{...props}
+			>
+				<Sc.CRTScreen>
+					<Sc.CRTContent $phosphor={phosphor} $glowIntensity={glowIntensity}>
+						{children}
+					</Sc.CRTContent>
+					{scanlines && <Sc.ScanlineOverlay />}
+				</Sc.CRTScreen>
+			</Sc.CRTContainer>
+		);
+	},
+);
+
+CRT.displayName = 'CRT';

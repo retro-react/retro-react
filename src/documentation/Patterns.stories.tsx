@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Box } from '@src/components/box';
+import { Box } from '../components/box';
 
 const meta: Meta<typeof Box> = {
 	title: 'Overview/Retro Design Patterns',

@@ -1,52 +1,33 @@
-import type { ComponentMeta, ComponentStory } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 import { ToggleButton, ToggleButtonGroup } from '../index';
 
-export default {
+const meta: Meta<typeof ToggleButtonGroup> = {
 	title: 'Components/ToggleButtonGroup',
 	component: ToggleButtonGroup,
 	parameters: {
 		docs: {
 			description: {
 				component:
-					"A group of toggle buttons. It can be used to select one or multiple values. It's a controlled component. Uses `Button` to render the toggle buttons. You can apply the `Button` props to this component.",
+					'A group of toggle buttons used to pick one or many values from a small fixed set, similar to a segmented control.',
 			},
 		},
 	},
 	argTypes: {
-		children: {
-			control: { disable: true },
-			description:
-				'The children of this component, typically `ToggleButton` components.',
-		},
+		children: { control: { disable: true } },
 		size: {
-			control: { type: 'select', options: ['small', 'medium', 'large'] },
-			description:
-				'The size of the buttons. It will be passed to the `ToggleButton` children.',
+			control: 'inline-radio',
+			options: ['small', 'medium', 'large'],
+			description: 'Size of each toggle button in the group.',
 		},
-		value: {
-			control: { disable: true },
-			description:
-				'An array of values of the selected buttons in this group. It can be used to control the selection (controlled component).',
-		},
-		onValueChange: {
-			control: { disable: true },
-			description:
-				'A callback function that is called when the selected value changes. The new selection (array of values of the selected buttons) is passed as argument.',
-		},
+		value: { control: { disable: true } },
+		onValueChange: { control: { disable: true } },
 		multiple: {
 			control: 'boolean',
 			description:
-				'If true, multiple buttons can be selected. If false (default), only one button can be selected.',
-		},
-		sx: {
-			control: { disable: true },
-			description:
-				"Additional style that should be applied to the group. It's a style object defined by Theme UI.",
+				'Allow more than one option to be selected at the same time.',
 		},
 		color: {
 			control: 'select',
-			description:
-				'The color of the toggle buttons. This should be passed to the `ToggleButton` children.',
 			options: [
 				'primary',
 				'secondary',
@@ -58,57 +39,59 @@ export default {
 			],
 		},
 	},
-} as ComponentMeta<typeof ToggleButtonGroup>;
-
-const Template: ComponentStory<typeof ToggleButtonGroup> = (args) => (
-	<ToggleButtonGroup
-		{...args}
-		onValueChange={(value) => {
-			/* value selected */
-		}}
-	>
-		<ToggleButton value="first" color="greyscale">
-			A
-		</ToggleButton>
-		<ToggleButton value="second" color="greyscale">
-			B
-		</ToggleButton>
-		<ToggleButton value="third" color="greyscale">
-			C
-		</ToggleButton>
-	</ToggleButtonGroup>
-);
-
-export const Basic = Template.bind({});
-
-Basic.args = {
-	size: 'medium',
-	color: 'greyscale',
-	multiple: false,
 };
 
-const TemplateMultiple: ComponentStory<typeof ToggleButtonGroup> = (args) => (
-	<ToggleButtonGroup
-		{...args}
-		onValueChange={(value) => {
-			/* values selected */
-		}}
-	>
-		<ToggleButton value="first" color="greyscale">
-			A
-		</ToggleButton>
-		<ToggleButton value="second" color="greyscale">
-			B
-		</ToggleButton>
-		<ToggleButton value="third" color="greyscale">
-			C
-		</ToggleButton>
-	</ToggleButtonGroup>
-);
+export default meta;
+type Story = StoryObj<typeof ToggleButtonGroup>;
 
-export const Multiple = TemplateMultiple.bind({});
+export const Default: Story = {
+	args: {
+		size: 'medium',
+		color: 'greyscale',
+		multiple: false,
+	},
+	render: (args) => (
+		<ToggleButtonGroup {...args}>
+			<ToggleButton value="left">Left</ToggleButton>
+			<ToggleButton value="center">Center</ToggleButton>
+			<ToggleButton value="right">Right</ToggleButton>
+		</ToggleButtonGroup>
+	),
+};
 
-Multiple.args = {
-	size: 'medium',
-	multiple: true,
+export const Multiple: Story = {
+	args: {
+		size: 'medium',
+		color: 'primary',
+		multiple: true,
+	},
+	render: (args) => (
+		<ToggleButtonGroup {...args}>
+			<ToggleButton value="bold">B</ToggleButton>
+			<ToggleButton value="italic">I</ToggleButton>
+			<ToggleButton value="underline">U</ToggleButton>
+		</ToggleButtonGroup>
+	),
+};
+
+export const Sizes: Story = {
+	render: () => (
+		<div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+			<ToggleButtonGroup size="small">
+				<ToggleButton value="a">A</ToggleButton>
+				<ToggleButton value="b">B</ToggleButton>
+				<ToggleButton value="c">C</ToggleButton>
+			</ToggleButtonGroup>
+			<ToggleButtonGroup size="medium">
+				<ToggleButton value="a">A</ToggleButton>
+				<ToggleButton value="b">B</ToggleButton>
+				<ToggleButton value="c">C</ToggleButton>
+			</ToggleButtonGroup>
+			<ToggleButtonGroup size="large">
+				<ToggleButton value="a">A</ToggleButton>
+				<ToggleButton value="b">B</ToggleButton>
+				<ToggleButton value="c">C</ToggleButton>
+			</ToggleButtonGroup>
+		</div>
+	),
 };

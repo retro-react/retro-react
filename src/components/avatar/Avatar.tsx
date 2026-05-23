@@ -1,8 +1,8 @@
 /** @jsxImportSource theme-ui */
-import { forwardRef } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import commonClassNames from '@src/constants/commonClassNames';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
 import * as Sc from './Avatar.styled';
 
 export type AvatarColor =
@@ -82,12 +82,20 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
 		},
 		ref,
 	) => {
+		const [hasError, setHasError] = useState(false);
+
+		useEffect(() => {
+			setHasError(false);
+		}, [src]);
+
+		const resolvedSrc = src && !hasError ? src : undefined;
+
 		return (
 			<Sc.Avatar
 				id={id}
 				sx={sx}
 				ref={ref}
-				$src={src}
+				$src={resolvedSrc}
 				$color={color}
 				$size={size}
 				$rounded={rounded}
@@ -96,6 +104,15 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(
 				aria-label={children}
 				{...rest}
 			>
+				{src && !hasError && (
+					<img
+						src={src}
+						alt=""
+						onError={() => setHasError(true)}
+						style={{ display: 'none' }}
+						aria-hidden="true"
+					/>
+				)}
 				<span>{children}</span>
 			</Sc.Avatar>
 		);

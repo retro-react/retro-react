@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 export interface Position {
@@ -15,10 +15,13 @@ export interface PortalProps {
 
 export const Portal = ({ children, position }: PortalProps) => {
 	const [mounted, setMounted] = useState(false);
-	const elRef = useRef(document.createElement('div'));
+	const [element] = useState(() =>
+		typeof document !== 'undefined' ? document.createElement('div') : null,
+	);
 
 	useEffect(() => {
-		const element = elRef.current;
+		if (!element) return;
+
 		setMounted(true);
 		document.body.appendChild(element);
 
@@ -34,9 +37,11 @@ export const Portal = ({ children, position }: PortalProps) => {
 		}
 
 		return () => {
-			document.body.removeChild(element);
+			if (element.parentNode === document.body) {
+				document.body.removeChild(element);
+			}
 		};
-	}, [position]);
+	}, [position, element]);
 
-	return mounted ? ReactDOM.createPortal(children, elRef.current) : null;
+	return mounted && element ? ReactDOM.createPortal(children, element) : null;
 };

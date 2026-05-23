@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
-import { crtFlicker, scanlines } from '@src/utils/retroEffects';
-import { CRT_GREEN, VGA_BLACK, VGA_BLUE } from '@src/constants/colors';
+import { CRT_GREEN, VGA_BLACK, VGA_BLUE } from '../../constants/colors';
+import { CRT_FONT } from '../../constants/fonts';
+import { crtFlicker, scanlines } from '../../utils/retroEffects';
 
 const phosphorColors = {
 	green: CRT_GREEN,
@@ -76,7 +77,7 @@ export const CRTContent = styled.div<{
 }>`
 	position: relative;
 	padding: 16px;
-	font-family: 'Courier New', 'MS Sans Serif', monospace;
+	font-family: ${CRT_FONT};
 	font-size: 14px;
 	line-height: 1.2;
 	color: ${(props) => phosphorColors[props.$phosphor || 'green']};
@@ -84,8 +85,13 @@ export const CRTContent = styled.div<{
 	white-space: pre-wrap;
 
 	/* Phosphor glow effect */
-	text-shadow: 0 0 3px currentColor, 0 0 6px currentColor, 0 0 9px currentColor,
-		0 0 12px currentColor;
+	text-shadow: ${(props) => {
+		const intensity = props.$glowIntensity ?? 0.5;
+		const blur = (multiplier: number) =>
+			`${Math.max(0, multiplier * intensity * 2)}px`;
+		return `0 0 ${blur(3)} currentColor, 0 0 ${blur(6)} currentColor,
+		0 0 ${blur(9)} currentColor, 0 0 ${blur(12)} currentColor`;
+	}};
 
 	/* Letter spacing for authentic feel */
 	letter-spacing: 0.05em;

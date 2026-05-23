@@ -10,8 +10,8 @@ import {
 	WARN,
 	WIN31_BUTTON_FACE,
 	WIN31_BUTTON_SHADOW,
-} from '@src/constants/colors';
-import { FONT_SIZES, SYSTEM_FONT } from '@src/constants/fonts';
+} from '../../constants/colors';
+import { FONT_SIZES, SYSTEM_FONT } from '../../constants/fonts';
 import type { ChipColor } from './Chip';
 
 function getChipColorScheme(color: ChipColor) {
@@ -59,12 +59,12 @@ export const Chip = styled.div<{ $color: ChipColor; $clickable?: boolean }>`
 	border-radius: 0;
 	box-shadow: 1px 1px 0px ${VGA_BLACK};
 
-	/* Add a subtle inset appearance for non-clickable chips */
+	/* Flat inset appearance for non-clickable chips */
 	${({ $clickable }) =>
 		!$clickable &&
 		`
 		border-color: ${WIN31_BUTTON_SHADOW};
-		box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.2);
+		box-shadow: inset 1px 1px 0 ${WIN31_BUTTON_SHADOW};
 	`}
 
 	${({ $clickable }) =>

@@ -1,8 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useEffect, useState } from 'react';
-import { Button } from '@src/components/button';
-import { Container } from '@src/components/container';
-import { Text } from '@src/components/text';
+import { Button } from '../../../components/button';
+import { Text } from '../../../components/text';
 import { ProgressBar } from '../index';
 
 const meta: Meta<typeof ProgressBar> = {
@@ -12,8 +11,18 @@ const meta: Meta<typeof ProgressBar> = {
 		docs: {
 			description: {
 				component:
-					'Authentic Windows 3.1 style progress bar with classic inset border and diagonal stripe pattern. Features the iconic "barber pole" animation.',
+					'Windows 3.1 style progress bar with an inset border and diagonal stripe fill. Set `animated` for the classic "barber pole" effect.',
 			},
+		},
+	},
+	argTypes: {
+		value: {
+			control: { type: 'range', min: 0, max: 100, step: 1 },
+			description: 'Progress value (0-100).',
+		},
+		animated: {
+			control: { type: 'boolean' },
+			description: 'Enable the barber-pole stripe animation.',
 		},
 	},
 };
@@ -21,249 +30,96 @@ const meta: Meta<typeof ProgressBar> = {
 export default meta;
 type Story = StoryObj<typeof ProgressBar>;
 
-export const Basic: Story = {
-	args: {
-		value: 65,
-		animated: false,
-	},
-	render: (args) => {
-		return (
-			<Container sx={{ background: '#c0c0c0', padding: 3 }}>
-				<Text
-					sx={{
-						mb: 2,
-						fontFamily: 'MS Sans Serif, sans-serif',
-						fontSize: '11px',
-						fontWeight: 'bold',
-					}}
-				>
-					File Download Progress
-				</Text>
-				<div style={{ width: '300px', height: '20px' }}>
-					<ProgressBar {...args} />
-				</div>
-				<Text
-					sx={{
-						mt: 2,
-						fontFamily: 'MS Sans Serif, sans-serif',
-						fontSize: '11px',
-					}}
-				>
-					{args.value}% Complete
-				</Text>
-			</Container>
-		);
-	},
+const label = { fontFamily: 'MS Sans Serif, sans-serif', fontSize: '11px' };
+
+export const Default: Story = {
+	args: { value: 65, animated: false },
+	render: (args) => (
+		<div style={{ width: 320 }}>
+			<Text sx={{ ...label, mb: 2, fontWeight: 'bold' }}>
+				File Download Progress
+			</Text>
+			<ProgressBar {...args} />
+			<Text sx={{ ...label, mt: 2 }}>{args.value}% complete</Text>
+		</div>
+	),
 };
 
 export const Animated: Story = {
-	args: {
-		value: 45,
-		animated: true,
-	},
-	render: (args) => {
-		return (
-			<Container sx={{ background: '#c0c0c0', padding: 3 }}>
-				<Text
-					sx={{
-						mb: 2,
-						fontFamily: 'MS Sans Serif, sans-serif',
-						fontSize: '11px',
-						fontWeight: 'bold',
-					}}
-				>
-					Installing Program Manager... (Animated)
-				</Text>
-				<div style={{ width: '350px', height: '20px' }}>
-					<ProgressBar {...args} />
-				</div>
-				<Text
-					sx={{
-						mt: 2,
-						fontFamily: 'MS Sans Serif, sans-serif',
-						fontSize: '11px',
-					}}
-				>
-					{args.value}% Complete - Please wait...
-				</Text>
-			</Container>
-		);
-	},
+	args: { value: 45, animated: true },
+	render: (args) => (
+		<div style={{ width: 320 }}>
+			<Text sx={{ ...label, mb: 2, fontWeight: 'bold' }}>
+				Installing Program Manager...
+			</Text>
+			<ProgressBar {...args} />
+		</div>
+	),
 };
 
-export const VariousValues: Story = {
-	render: () => {
-		return (
-			<Container sx={{ background: '#c0c0c0', padding: 3 }}>
-				<Text
-					sx={{
-						mb: 3,
-						fontFamily: 'MS Sans Serif, sans-serif',
-						fontSize: '11px',
-						fontWeight: 'bold',
-					}}
-				>
-					Progress Bar Examples
-				</Text>
-
-				<div style={{ marginBottom: '20px' }}>
-					<Text
-						sx={{
-							mb: 1,
-							fontFamily: 'MS Sans Serif, sans-serif',
-							fontSize: '11px',
-						}}
-					>
-						Empty (0%)
-					</Text>
-					<div style={{ width: '250px', height: '20px' }}>
-						<ProgressBar value={0} />
-					</div>
+export const Steps: Story = {
+	render: () => (
+		<div
+			style={{ width: 320, display: 'flex', flexDirection: 'column', gap: 16 }}
+		>
+			{[0, 25, 50, 75, 100].map((v) => (
+				<div key={v}>
+					<Text sx={{ ...label, mb: 1 }}>{v}%</Text>
+					<ProgressBar value={v} />
 				</div>
-
-				<div style={{ marginBottom: '20px' }}>
-					<Text
-						sx={{
-							mb: 1,
-							fontFamily: 'MS Sans Serif, sans-serif',
-							fontSize: '11px',
-						}}
-					>
-						Quarter (25%)
-					</Text>
-					<div style={{ width: '250px', height: '20px' }}>
-						<ProgressBar value={25} />
-					</div>
-				</div>
-
-				<div style={{ marginBottom: '20px' }}>
-					<Text
-						sx={{
-							mb: 1,
-							fontFamily: 'MS Sans Serif, sans-serif',
-							fontSize: '11px',
-						}}
-					>
-						Half (50%)
-					</Text>
-					<div style={{ width: '250px', height: '20px' }}>
-						<ProgressBar value={50} />
-					</div>
-				</div>
-
-				<div style={{ marginBottom: '20px' }}>
-					<Text
-						sx={{
-							mb: 1,
-							fontFamily: 'MS Sans Serif, sans-serif',
-							fontSize: '11px',
-						}}
-					>
-						Three Quarters (75%)
-					</Text>
-					<div style={{ width: '250px', height: '20px' }}>
-						<ProgressBar value={75} />
-					</div>
-				</div>
-
-				<div style={{ marginBottom: '20px' }}>
-					<Text
-						sx={{
-							mb: 1,
-							fontFamily: 'MS Sans Serif, sans-serif',
-							fontSize: '11px',
-						}}
-					>
-						Complete (100%)
-					</Text>
-					<div style={{ width: '250px', height: '20px' }}>
-						<ProgressBar value={100} />
-					</div>
-				</div>
-			</Container>
-		);
-	},
+			))}
+		</div>
+	),
 };
 
-export const InteractiveDemo: Story = {
+export const Interactive: Story = {
 	render: () => {
 		const [progress, setProgress] = useState(0);
 		const [isRunning, setIsRunning] = useState(false);
 
 		useEffect(() => {
-			let interval: NodeJS.Timeout | null = null;
-
-			if (isRunning && progress < 100) {
-				interval = setInterval(() => {
-					setProgress((prev) => {
-						const next = prev + 1;
-						if (next >= 100) {
-							setIsRunning(false);
-							return 100;
-						}
-						return next;
-					});
-				}, 50);
-			}
-
-			return () => {
-				if (interval) clearInterval(interval);
-			};
+			if (!isRunning || progress >= 100) return;
+			const interval = setInterval(() => {
+				setProgress((p) => {
+					if (p + 1 >= 100) {
+						setIsRunning(false);
+						return 100;
+					}
+					return p + 1;
+				});
+			}, 50);
+			return () => clearInterval(interval);
 		}, [isRunning, progress]);
 
-		const handleStart = () => {
-			if (progress >= 100) {
-				setProgress(0);
-			}
-			setIsRunning(true);
-		};
-
-		const handleStop = () => {
-			setIsRunning(false);
-		};
-
-		const handleReset = () => {
-			setProgress(0);
-			setIsRunning(false);
-		};
-
 		return (
-			<Container sx={{ background: '#c0c0c0', padding: 3 }}>
-				<Text
-					sx={{
-						mb: 3,
-						fontFamily: 'MS Sans Serif, sans-serif',
-						fontSize: '11px',
-						fontWeight: 'bold',
-					}}
-				>
-					File Copy Operation - Enhanced Animation
+			<div style={{ width: 360 }}>
+				<Text sx={{ ...label, mb: 2, fontWeight: 'bold' }}>
+					Copying files... {progress}%
 				</Text>
-
-				<div style={{ width: '400px', height: '20px', marginBottom: '15px' }}>
-					<ProgressBar value={progress} animated={isRunning} />
-				</div>
-
-				<Text
-					sx={{
-						mb: 3,
-						fontFamily: 'MS Sans Serif, sans-serif',
-						fontSize: '11px',
-					}}
-				>
-					Copying files... {progress}% complete
-				</Text>
-
-				<div style={{ display: 'flex', gap: '8px' }}>
-					<Button onClick={handleStart} disabled={isRunning}>
+				<ProgressBar value={progress} animated={isRunning} />
+				<div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
+					<Button
+						onClick={() => {
+							if (progress >= 100) setProgress(0);
+							setIsRunning(true);
+						}}
+						disabled={isRunning}
+					>
 						{progress >= 100 ? 'Restart' : 'Start'}
 					</Button>
-					<Button onClick={handleStop} disabled={!isRunning}>
+					<Button onClick={() => setIsRunning(false)} disabled={!isRunning}>
 						Pause
 					</Button>
-					<Button onClick={handleReset}>Reset</Button>
+					<Button
+						onClick={() => {
+							setProgress(0);
+							setIsRunning(false);
+						}}
+					>
+						Reset
+					</Button>
 				</div>
-			</Container>
+			</div>
 		);
 	},
 };

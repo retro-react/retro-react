@@ -1,9 +1,9 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import { toKebabCase } from '@src/utils/ToKebabCase';
-import commonClassNames from '@src/constants/commonClassNames';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
+import { toKebabCase } from '../../utils/ToKebabCase';
 import {
 	StatIcon,
 	StatisticsWrapper,
@@ -94,6 +94,16 @@ export const Statistics = forwardRef<HTMLDivElement, StatisticsProps>(
 		},
 		ref,
 	) => {
+		const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+			if (!onClick) return;
+			if (event.key === 'Enter' || event.key === ' ') {
+				event.preventDefault();
+				onClick(
+					event as unknown as React.MouseEvent<HTMLDivElement, MouseEvent>,
+				);
+			}
+		};
+
 		return (
 			<StatisticsWrapper
 				$size={size}
@@ -104,6 +114,10 @@ export const Statistics = forwardRef<HTMLDivElement, StatisticsProps>(
 				ref={ref}
 				id={id}
 				sx={sx}
+				onClick={onClick}
+				onKeyDown={onClick ? handleKeyDown : undefined}
+				role={onClick ? 'button' : undefined}
+				tabIndex={onClick ? 0 : undefined}
 				{...rest}
 			>
 				{icon && (

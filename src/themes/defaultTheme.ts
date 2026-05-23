@@ -12,7 +12,7 @@ import {
 	WIN31_BUTTON_FACE,
 	WIN31_BUTTON_HIGHLIGHT,
 	WIN31_BUTTON_SHADOW,
-} from '@src/constants/colors';
+} from '../constants/colors';
 
 export default {
 	colors: {

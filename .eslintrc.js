@@ -37,6 +37,14 @@ module.exports = {
       'testing-library/no-debugging-utils': 'warn',
       'testing-library/no-dom-import': 'off'
     }
+  }, {
+    files: ['**/*.stories.@(ts|tsx|js|jsx|mdx)', '**/__stories__/**'],
+    rules: {
+      'react-hooks/rules-of-hooks': 'off',
+      '@typescript-eslint/no-empty-function': 'off',
+      'react/no-unescaped-entities': 'off',
+      'jsx-a11y/anchor-is-valid': 'off'
+    }
   }],
   rules: {
     'react/jsx-no-bind': 'off',
@@ -48,6 +56,7 @@ module.exports = {
     'no-mixed-spaces-and-tabs': ['error', 'smart-tabs'],
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
-    'linebreak-style': ['windows', 'unix']
+    'react/prop-types': 'off',
+    'react/no-unknown-property': ['error', { ignore: ['sx'] }]
   }
 };

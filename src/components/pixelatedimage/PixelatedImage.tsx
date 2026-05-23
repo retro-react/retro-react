@@ -6,10 +6,10 @@ import {
 	useImperativeHandle,
 	useRef,
 } from 'react';
-import { classNames } from '@src/utils/classNames';
+import { classNames } from '../../utils/classNames';
 
 export interface PixelatedImageProps
-	extends React.ImgHTMLAttributes<HTMLCanvasElement> {
+	extends React.CanvasHTMLAttributes<HTMLCanvasElement> {
 	/**
 	 * The image source.
 	 *
@@ -82,19 +82,36 @@ export const PixelatedImage = forwardRef<
 
 			ctx.imageSmoothingEnabled = false;
 
+			let cancelled = false;
+
+			const clampedBlockSize = Math.max(1, blockSize);
+
 			const img = new Image();
 			img.crossOrigin = 'Anonymous';
 			img.src = src;
 
 			img.onload = () => {
-				const size = blockSize * 0.01;
+				if (cancelled) return;
+
+				const size = clampedBlockSize * 0.01;
 				const w = canvas.width * size;
 				const h = canvas.height * size;
 
 				ctx.drawImage(img, 0, 0, w, h);
 				ctx.drawImage(canvas, 0, 0, w, h, 0, 0, canvas.width, canvas.height);
 			};
-		}, [src, blockSize]);
+
+			img.onerror = () => {
+				if (cancelled) return;
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
+			};
+
+			return () => {
+				cancelled = true;
+				img.onload = null;
+				img.onerror = null;
+			};
+		}, [src, blockSize, width, height]);
 
 		return (
 			<canvas

@@ -1,14 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Container } from '@src/components/container';
-import { Menu, MenuItem } from '@src/components/menu';
-import { Text } from '@src/components/text';
-import {
-	VGA_BLACK,
-	WIN31_BUTTON_FACE,
-	WIN31_BUTTON_HIGHLIGHT,
-	WIN31_BUTTON_SHADOW,
-} from '@src/constants/colors';
-import { SYSTEM_FONT } from '@src/constants/fonts';
+import { Container } from '../../../components/container';
+import { MenuItem } from '../../../components/menu';
+import { Text } from '../../../components/text';
+import { SYSTEM_FONT } from '../../../constants/fonts';
 import { Navbar, NavItem, NavLogo, NavMenu } from '../Navbar';
 
 const meta: Meta<typeof Navbar> = {
@@ -18,7 +12,7 @@ const meta: Meta<typeof Navbar> = {
 		docs: {
 			description: {
 				component:
-					'Authentic retro Navbar component with Windows 3.1 styling. Features multiple variants for different navigation contexts.',
+					'A Windows 3.1-styled navigation bar. Use the `default` variant for app headers, `menu-bar` for File/Edit/View dropdowns, and `status-bar` for footer-style indicators.',
 			},
 		},
 	},
@@ -26,113 +20,65 @@ const meta: Meta<typeof Navbar> = {
 		variant: {
 			control: { type: 'select' },
 			options: ['default', 'menu-bar', 'status-bar'],
-			description: 'Visual variant of the navbar',
+			description:
+				'Visual variant. `default`: top app bar, `menu-bar`: classic dropdown menu bar, `status-bar`: bottom status strip.',
 		},
-		children: {
-			control: false,
-		},
+		children: { control: false },
 	},
 };
 
 export default meta;
 type Story = StoryObj<typeof Navbar>;
 
-const PageContent = () => {
-	return (
-		<div
-			style={{
-				lineHeight: '2',
-				overflow: 'auto',
-				height: '100%',
-				backgroundColor: WIN31_BUTTON_FACE,
-				color: VGA_BLACK,
-				border: '2px solid',
-				borderColor: `${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}`,
-				borderTop: 'none',
-				padding: '1rem',
-				fontFamily: SYSTEM_FONT,
-				fontSize: '11px',
-			}}
-		>
-			Welcome to the retro computing era! A time of authentic Windows 3.1
-			interfaces, authentic VGA colors, and true period-appropriate design. This
-			navbar component captures the essence of early 1990s application design
-			with authentic button styling, proper color schemes, and classic
-			interaction patterns.
-			<br />
-			<br />
-			Navigate through different sections using the authentic Windows 3.1 styled
-			navigation items above. Each variant provides a different context - from
-			application menu bars to status bars.
-		</div>
-	);
-};
+const frame = (children: React.ReactNode) => (
+	<Container fluid sx={{ height: '300px', fontFamily: SYSTEM_FONT }}>
+		{children}
+	</Container>
+);
 
 export const Default: Story = {
-	args: {
-		variant: 'default',
-	},
-	render: (args) => (
-		<Container
-			fluid
-			sx={{
-				height: '400px',
-				marginBottom: '5rem',
-				fontFamily: SYSTEM_FONT,
-			}}
-		>
+	args: { variant: 'default' },
+	render: (args) =>
+		frame(
 			<Navbar {...args}>
 				<NavLogo>
-					<Text variant="body2" sx={{ color: 'white', fontWeight: 'bold' }}>
+					<Text variant="body2" color="#ffffff" sx={{ fontWeight: 'bold' }}>
 						RetroApp
 					</Text>
 				</NavLogo>
 				<NavItem>
 					<a href="#" onClick={(e) => e.preventDefault()}>
-						File
+						Home
 					</a>
 				</NavItem>
 				<NavItem>
 					<a href="#" onClick={(e) => e.preventDefault()}>
-						Edit
+						Products
 					</a>
 				</NavItem>
 				<NavItem>
 					<a href="#" onClick={(e) => e.preventDefault()}>
-						View
+						About
 					</a>
 				</NavItem>
 				<NavItem>
 					<a href="#" onClick={(e) => e.preventDefault()}>
-						Help
+						Contact
 					</a>
 				</NavItem>
-			</Navbar>
-			<PageContent />
-		</Container>
-	),
+			</Navbar>,
+		),
 };
 
 export const MenuBar: Story = {
-	args: {
-		variant: 'menu-bar',
-	},
-	render: (args) => (
-		<Container
-			fluid
-			sx={{
-				height: '400px',
-				marginBottom: '5rem',
-				fontFamily: SYSTEM_FONT,
-			}}
-		>
+	args: { variant: 'menu-bar' },
+	render: (args) =>
+		frame(
 			<Navbar {...args}>
 				<NavMenu label="File">
 					<MenuItem>New</MenuItem>
 					<MenuItem>Open...</MenuItem>
 					<MenuItem>Save</MenuItem>
-					<MenuItem>Save As...</MenuItem>
-					<MenuItem>Print...</MenuItem>
 					<MenuItem>Exit</MenuItem>
 				</NavMenu>
 				<NavMenu label="Edit">
@@ -140,68 +86,28 @@ export const MenuBar: Story = {
 					<MenuItem>Cut</MenuItem>
 					<MenuItem>Copy</MenuItem>
 					<MenuItem>Paste</MenuItem>
-					<MenuItem>Select All</MenuItem>
-					<MenuItem>Find...</MenuItem>
 				</NavMenu>
 				<NavMenu label="View">
 					<MenuItem>Normal</MenuItem>
-					<MenuItem>Print Layout</MenuItem>
-					<MenuItem>Outline</MenuItem>
 					<MenuItem>Zoom...</MenuItem>
-					<MenuItem>Ruler</MenuItem>
-				</NavMenu>
-				<NavMenu label="Insert">
-					<MenuItem>Page Break</MenuItem>
-					<MenuItem>Date and Time</MenuItem>
-					<MenuItem>Picture...</MenuItem>
-					<MenuItem>Object...</MenuItem>
-				</NavMenu>
-				<NavMenu label="Format">
-					<MenuItem>Font...</MenuItem>
-					<MenuItem>Paragraph...</MenuItem>
-					<MenuItem>Tabs...</MenuItem>
-				</NavMenu>
-				<NavMenu label="Tools">
-					<MenuItem>Spelling...</MenuItem>
-					<MenuItem>Options...</MenuItem>
-				</NavMenu>
-				<NavMenu label="Window">
-					<MenuItem>New Window</MenuItem>
-					<MenuItem>Arrange All</MenuItem>
 				</NavMenu>
 				<NavMenu label="Help">
 					<MenuItem>Contents</MenuItem>
-					<MenuItem>Search for Help on...</MenuItem>
-					<MenuItem>About WordPad</MenuItem>
+					<MenuItem>About</MenuItem>
 				</NavMenu>
-			</Navbar>
-			<PageContent />
-		</Container>
-	),
+			</Navbar>,
+		),
 };
 
 export const StatusBar: Story = {
-	args: {
-		variant: 'status-bar',
-	},
-	render: (args) => (
-		<Container
-			fluid
-			sx={{
-				height: '400px',
-				marginBottom: '5rem',
-				fontFamily: SYSTEM_FONT,
-			}}
-		>
-			<div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-				<PageContent />
-				<Navbar {...args}>
-					<NavItem>Ready</NavItem>
-					<NavItem>Line 1, Col 1</NavItem>
-					<NavItem>NUM</NavItem>
-					<NavItem>CAPS</NavItem>
-				</Navbar>
-			</div>
-		</Container>
-	),
+	args: { variant: 'status-bar' },
+	render: (args) =>
+		frame(
+			<Navbar {...args}>
+				<NavItem>Ready</NavItem>
+				<NavItem>Line 1, Col 1</NavItem>
+				<NavItem>NUM</NavItem>
+				<NavItem>CAPS</NavItem>
+			</Navbar>,
+		),
 };

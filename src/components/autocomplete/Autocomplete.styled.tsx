@@ -1,37 +1,34 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import getColorScheme, { ComponentColors } from '@src/utils/getColorScheme';
+import { sunken } from '../../constants/bevels';
 import {
 	VGA_BLACK,
 	VGA_WHITE,
+	WIN31_BLUE,
 	WIN31_BUTTON_FACE,
 	WIN31_BUTTON_HIGHLIGHT,
 	WIN31_BUTTON_SHADOW,
-} from '@src/constants/colors';
-import { FONT_SIZES, SYSTEM_FONT } from '@src/constants/fonts';
+} from '../../constants/colors';
+import { FONT_SIZES, SYSTEM_FONT } from '../../constants/fonts';
+import getColorScheme, { ComponentColors } from '../../utils/getColorScheme';
 import { AutocompleteSizes, AutocompleteVariants } from './Autocomplete';
 
-const sizeStyles = {
-	small: { fontSize: FONT_SIZES.TINY, padding: '2px 4px', height: '20px' },
-	medium: { fontSize: FONT_SIZES.NORMAL, padding: '2px 6px', height: '24px' },
+const sizeStyles: Record<
+	'small' | 'medium' | 'large',
+	{ fontSize: string; padding: string; height: string }
+> = {
+	small: { fontSize: FONT_SIZES.SMALL, padding: '2px 4px', height: '22px' },
+	medium: { fontSize: FONT_SIZES.NORMAL, padding: '2px 6px', height: '26px' },
+	large: { fontSize: FONT_SIZES.MEDIUM, padding: '4px 8px', height: '30px' },
 };
 
-// Consistent styling with password input and input components
-const getAutocompleteVariantStyles = (
-	$variant: AutocompleteVariants,
-	$color: string,
-) => {
-	// Authentic Windows 3.1/95 sunken style (consistent across all inputs)
+const getAutocompleteVariantStyles = ($color: string) => {
 	const retroInsetStyles = css`
-		border: 2px solid;
-		border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
-			${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
+		${sunken}
 		background: ${VGA_WHITE};
-		box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
 		color: ${VGA_BLACK};
 		font-family: ${SYSTEM_FONT};
 
-		/* Remove modern styling */
 		border-radius: 0;
 		transition: none;
 		-webkit-appearance: none;
@@ -59,14 +56,13 @@ const getAutocompleteVariantStyles = (
 		}
 	`;
 
-	// All variants use the same consistent styling
 	return retroInsetStyles;
 };
 
 export const AutocompleteContainer = styled.div<{
 	$fullWidth?: boolean;
 	$size?: AutocompleteSizes;
-	sx?: any; // Theme UI compatibility
+	sx?: any;
 }>`
 	position: relative;
 	display: inline-flex;
@@ -74,7 +70,6 @@ export const AutocompleteContainer = styled.div<{
 	width: ${(props) => (props.$fullWidth ? '100%' : 'auto')};
 	font-family: ${SYSTEM_FONT};
 
-	/* Apply Theme UI sx prop if provided */
 	${(props) => props.sx}
 `;
 
@@ -83,19 +78,29 @@ export const AutocompleteInput = styled.input<{
 	$color: ComponentColors | 'greyscale';
 	$size: AutocompleteSizes;
 	$fullWidth?: boolean;
-	$rounded?: boolean;
 }>`
 	width: ${(props) => (props.$fullWidth ? '100%' : 'auto')};
 	min-width: ${(props) => (props.$size === 'small' ? '150px' : '200px')};
-	font-size: ${(props) => sizeStyles[props.$size].fontSize};
-	padding: ${(props) => sizeStyles[props.$size].padding};
-	height: ${(props) => sizeStyles[props.$size].height};
+	font-size: ${(props) =>
+		(
+			sizeStyles[props.$size as 'small' | 'medium' | 'large'] ??
+			sizeStyles.medium
+		).fontSize};
+	padding: ${(props) =>
+		(
+			sizeStyles[props.$size as 'small' | 'medium' | 'large'] ??
+			sizeStyles.medium
+		).padding};
+	height: ${(props) =>
+		(
+			sizeStyles[props.$size as 'small' | 'medium' | 'large'] ??
+			sizeStyles.medium
+		).height};
 	font-family: ${SYSTEM_FONT};
 	outline: none;
 
 	${(props) =>
 		getAutocompleteVariantStyles(
-			props.$variant,
 			props.$color === 'greyscale'
 				? WIN31_BUTTON_SHADOW
 				: getColorScheme(props.$color, props.theme),
@@ -113,18 +118,15 @@ export const AutocompleteDropdown = styled.div<{
 	right: 0;
 	z-index: 1000;
 	background: ${VGA_WHITE};
-	border: 2px solid;
-	border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
-		${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
-	border-top: 1px solid ${WIN31_BUTTON_SHADOW};
-	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+	${sunken}
+	outline: 1px solid ${VGA_BLACK};
+	outline-offset: -1px;
 	max-height: 200px;
 	overflow-y: auto;
 	display: ${(props) => (props.$open === false ? 'none' : 'block')};
 	font-family: ${SYSTEM_FONT};
 	font-size: ${FONT_SIZES.NORMAL};
 
-	/* Retro scrollbar */
 	::-webkit-scrollbar {
 		width: 16px;
 		background: ${WIN31_BUTTON_FACE};
@@ -164,31 +166,23 @@ export const AutocompleteOption = styled.div<{
 	background: ${VGA_WHITE};
 	border: none;
 
-	/* Authentic Windows selection styling */
 	${(props) =>
 		props.$highlighted &&
 		css`
-			background: ${props.$color === 'greyscale'
-				? WIN31_BUTTON_SHADOW
-				: getColorScheme(props.$color, props.theme)};
+			background: ${WIN31_BLUE};
 			color: ${VGA_WHITE};
 		`}
 
 	${(props) =>
 		props.$selected &&
 		css`
-			background: ${props.$color === 'greyscale'
-				? WIN31_BUTTON_SHADOW
-				: getColorScheme(props.$color, props.theme)};
+			background: ${WIN31_BLUE};
 			color: ${VGA_WHITE};
 			font-weight: bold;
 		`}
 
 	&:hover {
-		background: ${(props) =>
-			props.$color === 'greyscale'
-				? WIN31_BUTTON_FACE
-				: getColorScheme(props.$color, props.theme)};
+		background: ${WIN31_BLUE};
 		color: ${VGA_WHITE};
 	}
 `;
@@ -237,7 +231,6 @@ export const AutocompleteHelperText = styled.div<{
 		`}
 `;
 
-// Legacy component names for compatibility
 export const AutocompleteWrapper = AutocompleteContainer;
 export const SuggestionsList = AutocompleteDropdown;
 export const SuggestionItem = AutocompleteOption;
@@ -268,6 +261,7 @@ export const ClearButton = styled.button`
 	}
 
 	&:disabled {
+		background: ${WIN31_BUTTON_FACE};
 		color: ${WIN31_BUTTON_SHADOW};
 		cursor: not-allowed;
 	}

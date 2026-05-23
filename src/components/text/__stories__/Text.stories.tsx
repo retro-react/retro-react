@@ -1,119 +1,98 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 import { Text } from '../index';
 
-// https://storybook.js.org/docs/react/writing-stories/introduction#default-export
-export default {
+const meta: Meta<typeof Text> = {
 	title: 'Components/Text',
 	component: Text,
 	argTypes: {
 		color: { control: 'color' },
+		variant: {
+			control: 'select',
+			options: [
+				'h1',
+				'h2',
+				'h3',
+				'h4',
+				'h5',
+				'h6',
+				'body1',
+				'body2',
+				'paragraph',
+				'small',
+			],
+			description:
+				'Typographic variant. Headings render semantic h1-h6 tags, others render p.',
+		},
+		bevel: {
+			control: 'boolean',
+			description: 'Apply a beveled emboss effect.',
+		},
+		blink: {
+			control: 'boolean',
+			description: 'Animate the text with a blink.',
+		},
+		align: {
+			control: 'inline-radio',
+			options: ['left', 'center', 'right', 'justify'],
+		},
 	},
-} as ComponentMeta<typeof Text>;
-
-/**
- * Component Template
- *
- * @see https://storybook.js.org/docs/react/writing-stories/introduction#using-args
- */
-const Template: ComponentStory<typeof Text> = (args) => {
-	return <Text {...args} />;
 };
 
-export const paragraph = Template.bind({});
-paragraph.args = {
-	children:
-		'paragraph -  It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.',
-	color: 'primary',
-	bevel: false,
-	blink: false,
-	variant: 'paragraph',
+export default meta;
+type Story = StoryObj<typeof Text>;
+
+export const Default: Story = {
+	args: {
+		children:
+			'It was the best of times, it was the worst of times — and retro-react was on the screen.',
+		variant: 'paragraph',
+		color: '#000000',
+	},
 };
 
-export const rainbow = Template.bind({});
-rainbow.args = {
-	children: 'Somewhere over the rainbow',
-	color: 'rainbow',
-	bevel: false,
-	blink: false,
-	variant: 'h2',
+export const Variants: Story = {
+	render: () => (
+		<div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+			<Text variant="h1">Heading 1</Text>
+			<Text variant="h2">Heading 2</Text>
+			<Text variant="h3">Heading 3</Text>
+			<Text variant="h4">Heading 4</Text>
+			<Text variant="h5">Heading 5</Text>
+			<Text variant="h6">Heading 6</Text>
+			<Text variant="paragraph">
+				Paragraph — used for blocks of running prose.
+			</Text>
+			<Text variant="body1">Body 1 — primary body copy.</Text>
+			<Text variant="body2">Body 2 — secondary body copy.</Text>
+			<Text variant="small">Small — fine print.</Text>
+		</div>
+	),
 };
 
-export const h1 = Template.bind({});
-h1.args = {
-	children:
-		'h1 -  It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.',
-	color: '#000000',
-	bevel: false,
-	blink: false,
-	variant: 'h1',
+export const Colors: Story = {
+	render: () => (
+		<div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+			<Text color="primary">Primary</Text>
+			<Text color="secondary">Secondary</Text>
+			<Text color="success">Success</Text>
+			<Text color="error">Error</Text>
+			<Text color="warn">Warn</Text>
+			<Text color="rainbow" variant="h3">
+				Somewhere over the rainbow
+			</Text>
+		</div>
+	),
 };
 
-export const h2 = Template.bind({});
-h2.args = {
-	children:
-		'h2 -  It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.',
-	color: '#000000',
-	bevel: false,
-	blink: false,
-	variant: 'h2',
-};
-
-export const h3 = Template.bind({});
-h3.args = {
-	children:
-		'h3 -  It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.',
-	color: '#000000',
-	bevel: false,
-	blink: false,
-	variant: 'h3',
-};
-
-export const h4 = Template.bind({});
-h4.args = {
-	children:
-		'h4 -  It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.',
-	color: '#000000',
-	bevel: false,
-	blink: false,
-	variant: 'h4',
-};
-
-export const h5 = Template.bind({});
-h5.args = {
-	children:
-		'h5 -  It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.',
-	color: '#000000',
-	bevel: false,
-	blink: false,
-	variant: 'h5',
-};
-
-export const h6 = Template.bind({});
-h6.args = {
-	children:
-		'h6 -  It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.',
-	color: '#000000',
-	bevel: false,
-	blink: false,
-	variant: 'h6',
-};
-
-export const body1 = Template.bind({});
-body1.args = {
-	children:
-		'body1 -  It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.',
-	color: '#000000',
-	bevel: false,
-	blink: false,
-	variant: 'body1',
-};
-
-export const body2 = Template.bind({});
-body2.args = {
-	children:
-		'body2 -  It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair.',
-	color: '#000000',
-	bevel: false,
-	blink: false,
-	variant: 'body2',
+export const Effects: Story = {
+	render: () => (
+		<div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+			<Text variant="h3" bevel>
+				Beveled heading
+			</Text>
+			<Text blink color="error">
+				Blinking warning text
+			</Text>
+		</div>
+	),
 };

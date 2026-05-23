@@ -1,5 +1,5 @@
 import { css, keyframes } from '@emotion/react';
-import { CRT_GREEN, CRT_SCAN_LINE, VGA_BLACK } from '@src/constants/colors';
+import { CRT_GREEN, CRT_SCAN_LINE, VGA_BLACK } from '../constants/colors';
 
 // CRT Scanline effect
 export const scanlines = keyframes`

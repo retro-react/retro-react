@@ -1,125 +1,67 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { Box } from 'theme-ui';
-import { Text } from '@src/components/text';
+import { Text } from '../../../components/text';
 import { Card } from '../index';
 
-// https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
 	title: 'Components/Card',
 	component: Card,
-	parameters: {
-		docs: {
-			description: {
-				component:
-					'Authentic retro-styled card component with classic raised border styling and vintage appearance.',
-			},
+	argTypes: {
+		header: {
+			control: 'text',
+			description: 'Optional header rendered above the image and content.',
+		},
+		image: {
+			control: 'text',
+			description: 'Optional image URL rendered between header and content.',
+		},
+		alt: {
+			control: 'text',
+			description: 'Alt text for the image.',
+		},
+		footer: {
+			control: 'text',
+			description: 'Optional footer rendered at the bottom of the card.',
 		},
 	},
 } as ComponentMeta<typeof Card>;
 
-/**
- * Component Template
- *
- * @see https://storybook.js.org/docs/react/writing-stories/introduction#using-args
- */
-
-const Template: ComponentStory<typeof Card> = (args) => {
-	return (
-		<Box
-			sx={{
-				display: 'flex',
-				justifyContent: 'center',
-				alignItems: 'center',
-				padding: '40px',
-				background: '#c0c0c0',
-			}}
-		>
-			<Card {...args} />
-		</Box>
-	);
-};
+const Template: ComponentStory<typeof Card> = (args) => <Card {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-	children: (
-		<Text variant="paragraph">
-			Welcome to the retro computing experience! This card component features
-			authentic styling reminiscent of classic desktop applications from the
-			1990s. Complete with traditional raised borders and vintage typography for
-			that genuine nostalgic feel.
-		</Text>
-	),
-	alt: 'Retro computer image',
-	header: (
-		<Text variant="h3" align="center">
-			System Information
-		</Text>
-	),
-	footer: 'Retro UI v1.0',
-	image: 'https://picsum.photos/300/150',
-	// @ts-ignore
-	sx: {
-		maxWidth: '400px',
-		maxHeight: '500px',
-	},
-};
-
-export const BasicCard = Template.bind({});
-BasicCard.args = {
-	children: (
-		<div>
-			<p style={{ margin: '0 0 8px 0', fontSize: '11px' }}>
-				A simple card with just content and no header, image, or footer.
-			</p>
-			<p style={{ margin: '0', fontSize: '11px' }}>
-				Perfect for displaying basic information in a retro-styled container.
-			</p>
-		</div>
-	),
-	sx: {
-		maxWidth: '300px',
-	},
-};
-
-export const TextOnlyCard = Template.bind({});
-TextOnlyCard.args = {
-	header: 'File Manager',
-	children: (
-		<div style={{ fontFamily: 'monospace', fontSize: '10px' }}>
-			<div>C:\&gt; DIR</div>
-			<div>
-				RETRO.EXE&nbsp;&nbsp;&nbsp;&nbsp;12,345&nbsp;&nbsp;&nbsp;07-20-25&nbsp;&nbsp;&nbsp;3:14p
-			</div>
-			<div>
-				CONFIG.SYS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;234&nbsp;&nbsp;&nbsp;07-20-25&nbsp;&nbsp;&nbsp;3:14p
-			</div>
-			<div>
-				AUTOEXEC.BAT&nbsp;&nbsp;&nbsp;&nbsp;456&nbsp;&nbsp;&nbsp;07-20-25&nbsp;&nbsp;&nbsp;3:14p
-			</div>
-			<div>&nbsp;</div>
-			<div>3 File(s)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;13,035 bytes</div>
-			<div>Available memory: 640K</div>
-		</div>
-	),
-	footer: 'Total: 3 files',
-	sx: {
-		maxWidth: '350px',
-	},
-};
-
-export const ImageCard = Template.bind({});
-ImageCard.args = {
-	header: 'Retro Computing',
-	image: 'https://picsum.photos/seed/retro/250/180',
+	header: 'System Information',
+	image: 'https://picsum.photos/seed/retro/320/180',
 	alt: 'Vintage computer setup',
 	children: (
 		<Text variant="paragraph">
-			Experience the nostalgia of early personal computing with authentic retro
-			styling and classic design elements.
+			A complete retro card with header, image, content, and footer.
 		</Text>
 	),
-	footer: 'Classic Design',
-	sx: {
-		maxWidth: '280px',
-	},
+	footer: 'Retro UI v1.0',
+	sx: { maxWidth: 360 },
+};
+
+export const ContentOnly = Template.bind({});
+ContentOnly.args = {
+	children: (
+		<Text variant="paragraph">
+			A minimal card with just body content — useful for inline information
+			panels.
+		</Text>
+	),
+	sx: { maxWidth: 320 },
+};
+
+export const WithHeaderAndFooter = Template.bind({});
+WithHeaderAndFooter.args = {
+	header: 'File Manager',
+	children: (
+		<div style={{ fontFamily: 'monospace', fontSize: 11 }}>
+			<div>RETRO.EXE&nbsp;&nbsp;12,345&nbsp;&nbsp;07-20-25</div>
+			<div>CONFIG.SYS&nbsp;&nbsp;&nbsp;&nbsp;234&nbsp;&nbsp;07-20-25</div>
+			<div>AUTOEXEC.BAT&nbsp;&nbsp;456&nbsp;&nbsp;07-20-25</div>
+		</div>
+	),
+	footer: '3 files · 13,035 bytes',
+	sx: { maxWidth: 360 },
 };

@@ -1,8 +1,8 @@
 /** @jsxImportSource theme-ui */
 import React, { forwardRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import commonClassNames from '@src/constants/commonClassNames';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
 import {
 	Step,
 	StepConnector,
@@ -99,7 +99,7 @@ export const Stepper = forwardRef<HTMLDivElement, StepperProps>(
 									$active={index === activeStep}
 									$completed={index < activeStep}
 									$variant={variant}
-									title={step} // Show full text on hover
+									title={step}
 								>
 									{step}
 								</StepLabel>

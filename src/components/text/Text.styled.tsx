@@ -1,10 +1,10 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { CSSProperties } from 'react';
-import getColorScheme from '@src/utils/getColorScheme';
-import { terminalBlink } from '@src/utils/retroEffects';
-import { RAINBOW_GRADIENT } from '@src/constants/colors';
-import { FONT_SIZES, SYSTEM_FONT } from '@src/constants/fonts';
+import { RAINBOW_GRADIENT } from '../../constants/colors';
+import { FONT_SIZES, SYSTEM_FONT } from '../../constants/fonts';
+import getColorScheme from '../../utils/getColorScheme';
+import { terminalBlink } from '../../utils/retroEffects';
 import {
 	fontSizeForBreakpoint,
 	fontSizeForVariant,
@@ -48,7 +48,7 @@ export const Text = styled.div<{
 		return css`
 			font-size: ${fontSizeForVariant(props.$variant)};
 			font-weight: ${props.$variant.startsWith('h') ? '700' : '400'};
-			${fontSizeForBreakpoint(props.$variant)}
+			${fontSizeForBreakpoint()}
 		`;
 	}}
 	

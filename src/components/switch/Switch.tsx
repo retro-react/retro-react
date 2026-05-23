@@ -1,9 +1,9 @@
 /** @jsxImportSource theme-ui */
-import { forwardRef } from 'react';
+import { forwardRef, useState } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import { ComponentColors } from '@src/utils/getColorScheme';
-import commonClassNames from '@src/constants/commonClassNames';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
+import { ComponentColors } from '../../utils/getColorScheme';
 import * as Sc from './Switch.styled';
 
 export type SwitchVariant = 'rounded' | 'square';
@@ -35,9 +35,16 @@ export interface SwitchProps
 	 *
 	 * The controlled state of the Switch.
 	 *
-	 * @default false
+	 * @default undefined
 	 */
 	toggled?: boolean;
+	/**
+	 *
+	 * The initial state of the Switch when uncontrolled.
+	 *
+	 * @default false
+	 */
+	defaultToggled?: boolean;
 	/**
 	 * Is the Switch disabled?
 	 *
@@ -51,6 +58,20 @@ export interface SwitchProps
 	 * @default undefined
 	 */
 	onChange?: React.ChangeEventHandler<HTMLInputElement>;
+	/**
+	 * The name of the underlying input, forwarded for form usage.
+	 */
+	name?: string;
+	/**
+	 * The value of the underlying input, forwarded for form usage.
+	 */
+	value?: string;
+	/**
+	 * The accessible label of the Switch.
+	 *
+	 * @default 'Toggle switch'
+	 */
+	'aria-label'?: string;
 	sx?: ThemeUICSSObject;
 }
 
@@ -71,16 +92,35 @@ export const Switch = forwardRef<HTMLLabelElement, SwitchProps>(
 			color = 'primary',
 			disabled = false,
 			toggled,
+			defaultToggled = false,
 			onChange,
+			name,
+			value,
+			'aria-label': ariaLabel = 'Toggle switch',
 			...rest
 		},
 		ref,
 	) => {
+		const isControlled = toggled !== undefined;
+		const [internalToggled, setInternalToggled] = useState(defaultToggled);
+		const checked = isControlled ? toggled : internalToggled;
+
+		const handleChange: React.ChangeEventHandler<HTMLInputElement> = (
+			event,
+		) => {
+			if (!isControlled) {
+				setInternalToggled(event.target.checked);
+			}
+			onChange?.(event);
+		};
+
 		return (
 			<Sc.Switch
 				ref={ref}
 				id={id}
 				sx={sx}
+				data-state={checked ? 'checked' : 'unchecked'}
+				data-disabled={disabled ? '' : undefined}
 				className={classNames('switch-root', className, commonClassNames)}
 				$disabled={disabled}
 				$size={size}
@@ -88,13 +128,15 @@ export const Switch = forwardRef<HTMLLabelElement, SwitchProps>(
 			>
 				<Sc.SwitchInput
 					type="checkbox"
-					checked={toggled}
-					onChange={onChange}
+					checked={checked}
+					onChange={handleChange}
 					disabled={disabled}
+					name={name}
+					value={value}
 					className="switch-input"
 					role="switch"
-					aria-checked={toggled}
-					aria-label="Toggle switch"
+					aria-checked={checked}
+					aria-label={ariaLabel}
 				/>
 				<Sc.SwitchSlider
 					className={`switch-${variant}-slider`}

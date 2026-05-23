@@ -14,11 +14,5 @@ module.exports = {
 	importOrderSeparation: false,
 	importOrderSortSpecifiers: true,
 	importOrderCaseInsensitive: true,
-	importOrder: [
-		'^@src/components/(.*)$',
-		'^@src/hooks/(.*)$',
-		'^@src/utils/(.*)$',
-		'^@src/constants/(.*)$',
-		'^[./]',
-	],
+	importOrder: ['^[./]'],
 };

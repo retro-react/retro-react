@@ -1,4 +1,3 @@
-// Tabs.styled.ts
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import {
@@ -6,8 +5,8 @@ import {
 	WIN31_BUTTON_FACE,
 	WIN31_BUTTON_HIGHLIGHT,
 	WIN31_BUTTON_SHADOW,
-} from '@src/constants/colors';
-import { SYSTEM_FONT } from '@src/constants/fonts';
+} from '../../constants/colors';
+import { FONT_SIZES, SYSTEM_FONT } from '../../constants/fonts';
 
 export const TabsWrapper = styled.div`
 	display: flex;
@@ -22,13 +21,11 @@ export const TabsWrapper = styled.div`
 export const TabList = styled.div`
 	display: flex;
 	background: ${WIN31_BUTTON_FACE};
-	/* No bottom border - tabs connect to content area */
 `;
 
 export const TabItem = styled.button<{
 	$isActive: boolean;
 }>`
-	/* Authentic WIN31 tab styling */
 	border: 2px solid;
 	border-color: ${(props) =>
 		props.$isActive
@@ -40,22 +37,19 @@ export const TabItem = styled.button<{
 	padding: 4px 12px;
 	margin: 0 1px 0 0;
 
-	background: ${(props) =>
-		props.$isActive ? WIN31_BUTTON_FACE : WIN31_BUTTON_FACE};
+	background: ${WIN31_BUTTON_FACE};
 
-	color: ${(props) => (props.$isActive ? VGA_BLACK : VGA_BLACK)};
+	color: ${VGA_BLACK};
 
 	font-family: ${SYSTEM_FONT};
-	font-size: 11px;
+	font-size: ${FONT_SIZES.SMALL};
 	font-weight: normal;
 	cursor: pointer;
 
-	/* Remove modern effects */
 	border-radius: 0;
 	transition: none;
 	outline: none;
 
-	/* Active tab appears "raised" and connected to content */
 	${(props) =>
 		props.$isActive &&
 		css`
@@ -65,7 +59,6 @@ export const TabItem = styled.button<{
 			padding-bottom: 6px;
 		`}
 
-	/* Inactive tabs are slightly "pressed" */
 	${(props) =>
 		!props.$isActive &&
 		css`
@@ -75,7 +68,6 @@ export const TabItem = styled.button<{
 		`}
 
 	&:hover:not(:disabled) {
-		/* Minimal hover effect - just slight highlight */
 		filter: brightness(1.02);
 	}
 
@@ -89,7 +81,6 @@ export const TabItem = styled.button<{
 		cursor: not-allowed;
 	}
 
-	/* First tab has no left margin */
 	&:first-of-type {
 		margin-left: 0;
 	}
@@ -98,10 +89,10 @@ export const TabItem = styled.button<{
 export const TabContent = styled.div`
 	padding: 12px;
 	background: ${WIN31_BUTTON_FACE};
-	border-top: none; /* Connected to active tab */
+	border-top: none;
 	color: ${VGA_BLACK};
 	font-family: ${SYSTEM_FONT};
-	font-size: 11px;
+	font-size: ${FONT_SIZES.SMALL};
 	line-height: 1.4;
 	min-height: 100px;
 `;

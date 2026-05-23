@@ -1,8 +1,8 @@
 /** @jsxImportSource theme-ui */
 import React, { forwardRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import commonClassNames from '@src/constants/commonClassNames';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
 import * as Sc from './FlexibleLayout.styled';
 
 interface CommonProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -15,12 +15,12 @@ interface CommonProps extends React.HTMLAttributes<HTMLDivElement> {
 	sx?: ThemeUICSSObject;
 }
 
-export interface FlexibleLayoutProps extends CommonProps {}
-export interface HeaderProps extends CommonProps {}
-export interface FooterProps extends CommonProps {}
-export interface SidebarLeftProps extends CommonProps {}
-export interface SidebarRightProps extends CommonProps {}
-export interface MainContentProps extends CommonProps {}
+export type FlexibleLayoutProps = CommonProps;
+export type HeaderProps = CommonProps;
+export type FooterProps = CommonProps;
+export type SidebarLeftProps = CommonProps;
+export type SidebarRightProps = CommonProps;
+export type MainContentProps = CommonProps;
 
 /**
  * FlexibleLayout with header, footer, sidebar, and content. Used for the main layout of the app. Similar to old school HTML tables.

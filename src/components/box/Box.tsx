@@ -1,13 +1,13 @@
 /** @jsxImportSource theme-ui */
-import { forwardRef } from 'react';
+import { ElementType, forwardRef, Ref } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import commonClassNames from '@src/constants/commonClassNames';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
 import * as Sc from './Box.styled';
 
 export type BoxVariants = 'raised' | 'sunken' | 'flat' | 'panel';
 
-export interface BoxProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface BoxProps extends React.HTMLAttributes<HTMLElement> {
 	/**
 	 * The visual variant of the Box.
 	 * - raised: 3D button-like appearance with raised borders
@@ -18,6 +18,14 @@ export interface BoxProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * @default 'panel'
 	 */
 	variant?: BoxVariants;
+
+	/**
+	 * Render Box as a different HTML element (`section`, `article`, `aside`, `main`, etc.)
+	 * for semantic markup. Defaults to `'div'`.
+	 *
+	 * @default 'div'
+	 */
+	as?: ElementType;
 
 	/**
 	 * Theme-UI sx prop for additional styling
@@ -47,12 +55,13 @@ export interface BoxProps extends React.HTMLAttributes<HTMLDivElement> {
  * // Simple flat box
  * <Box variant="flat">Minimal content</Box>
  */
-export const Box = forwardRef<HTMLDivElement, BoxProps>(
-	({ id, className, children, variant = 'panel', sx, ...rest }, ref) => {
+export const Box = forwardRef<HTMLElement, BoxProps>(
+	({ id, className, children, variant = 'panel', as, sx, ...rest }, ref) => {
 		return (
 			<Sc.Box
+				as={as}
 				$variant={variant}
-				ref={ref}
+				ref={ref as Ref<HTMLDivElement>}
 				id={id}
 				sx={sx}
 				className={classNames('box-root', className, commonClassNames)}

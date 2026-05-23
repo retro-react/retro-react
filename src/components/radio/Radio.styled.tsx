@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
+import { sunken } from '../../constants/bevels';
 import {
 	VGA_BLACK,
 	WIN31_BUTTON_FACE,
-	WIN31_BUTTON_HIGHLIGHT,
 	WIN31_BUTTON_SHADOW,
-} from '@src/constants/colors';
-import { SYSTEM_FONT } from '@src/constants/fonts';
+} from '../../constants/colors';
+import { FONT_SIZES, SYSTEM_FONT } from '../../constants/fonts';
 
 export const RadioGroup = styled.fieldset`
 	border: none;
@@ -16,19 +16,16 @@ export const RadioGroup = styled.fieldset`
 	flex-direction: column;
 	gap: 4px;
 
-	/* Authentic WIN31 fieldset styling */
 	font-family: ${SYSTEM_FONT};
 `;
 
 export const Radio = styled.input`
-	/* Reset default radio button appearance */
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
 	border: none;
 	outline: none;
 
-	/* Authentic WIN31 radio button styling */
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -36,22 +33,15 @@ export const Radio = styled.input`
 	height: 13px;
 	width: 13px;
 
-	/* Perfect circle with WIN31 inset styling */
 	border-radius: 50%;
 	cursor: pointer;
 	padding: 0;
 
-	/* Authentic inset border like WIN31 radio buttons */
 	background: ${WIN31_BUTTON_FACE};
-	border: 2px solid;
-	border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
-		${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
+	${sunken}
 
-	/* Remove modern effects */
 	transition: none;
-	box-shadow: none;
 
-	/* Authentic selected state - black dot in center */
 	&::after {
 		content: '';
 		position: absolute;
@@ -69,18 +59,10 @@ export const Radio = styled.input`
 		opacity: 1;
 	}
 
-	/* Minimal hover effect */
-	&:hover:not([disabled]) {
-		filter: brightness(1.02);
-	}
-
-	/* No active effect - keep authentic */
 	&:active:not([disabled]) {
-		/* Slight press effect */
 		transform: translate(0.5px, 0.5px);
 	}
 
-	/* Disabled state */
 	&:disabled {
 		cursor: not-allowed;
 		background: ${WIN31_BUTTON_FACE};
@@ -91,7 +73,6 @@ export const Radio = styled.input`
 		}
 	}
 
-	/* Authentic focus state with dotted outline */
 	&:focus {
 		outline: 1px dotted ${VGA_BLACK};
 		outline-offset: 2px;
@@ -103,23 +84,17 @@ export const RadioWrapper = styled.div`
 	align-items: center;
 	gap: 6px;
 
-	/* Better click target */
 	cursor: pointer;
-
-	/* Ensure proper alignment */
 	line-height: 1;
 `;
 
 export const RadioLabel = styled.label`
 	font-family: ${SYSTEM_FONT};
-	font-size: 11px;
+	font-size: ${FONT_SIZES.SMALL};
 	color: ${VGA_BLACK};
 	cursor: pointer;
-
-	/* Ensure text aligns properly with radio button */
 	line-height: 1.2;
 
-	/* Disabled state */
 	input:disabled + & {
 		color: ${WIN31_BUTTON_SHADOW};
 		cursor: not-allowed;

@@ -1,15 +1,17 @@
 /** @jsxImportSource theme-ui */
 import { ForwardedRef, forwardRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import commonClassNames from '@src/constants/commonClassNames';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
 import * as Sc from './Input.styled';
 
 export type InputVariants = 'outlined' | 'filled' | 'terminal' | 'classic';
 export type InputSizes = 'small' | 'medium' | 'large' | string;
 
-export interface OmitSizeInputHTMLAttributes
-	extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {}
+export type OmitSizeInputHTMLAttributes = Omit<
+	React.InputHTMLAttributes<HTMLInputElement>,
+	'size'
+>;
 
 export interface BaseInputProps extends OmitSizeInputHTMLAttributes {
 	/**
@@ -27,7 +29,7 @@ export interface BaseInputProps extends OmitSizeInputHTMLAttributes {
 	 * Supports predefined sizes: 'small', 'medium', 'large'
 	 * Or custom size string for font-size
 	 *
-	 * @default 'small'
+	 * @default 'medium'
 	 */
 	size?: InputSizes;
 	/**
@@ -37,6 +39,20 @@ export interface BaseInputProps extends OmitSizeInputHTMLAttributes {
 	 * @default false
 	 */
 	multiline?: boolean;
+	/**
+	 * Optional label rendered above the input.
+	 */
+	label?: string;
+	/**
+	 * Optional helper text rendered below the input.
+	 */
+	helperText?: string;
+	/**
+	 * If `true`, the input is rendered in an error state.
+	 *
+	 * @default false
+	 */
+	error?: boolean;
 	/**
 	 * Theme-UI sx prop for additional styling
 	 */
@@ -87,8 +103,11 @@ export const Input = forwardRef<
 			id,
 			className,
 			variant = 'filled',
-			size = 'small',
+			size = 'medium',
 			multiline = false,
+			label,
+			helperText,
+			error = false,
 			sx,
 			...rest
 		},
@@ -96,10 +115,10 @@ export const Input = forwardRef<
 	) => {
 		const Component = multiline ? 'textarea' : 'input';
 
-		return (
+		const input = (
 			<Sc.Input
 				as={Component}
-				// @ts-ignore-next-line
+				// @ts-expect-error — ref type widens when `as` polymorphism switches between input and textarea
 				ref={ref}
 				id={id}
 				$variant={variant}
@@ -115,7 +134,31 @@ export const Input = forwardRef<
 				{...rest}
 			/>
 		);
+
+		if (label === undefined && helperText === undefined && !error) {
+			return input;
+		}
+
+		return (
+			<Sc.InputContainer $variant={variant} $fullWidth={false}>
+				{label !== undefined && (
+					<Sc.InputLabel
+						htmlFor={id}
+						$variant={variant}
+						$required={!!rest.required}
+					>
+						{label}
+					</Sc.InputLabel>
+				)}
+				{input}
+				{helperText !== undefined && (
+					<Sc.InputHelperText $variant={variant} $error={error}>
+						{helperText}
+					</Sc.InputHelperText>
+				)}
+			</Sc.InputContainer>
+		);
 	},
 );
 
-Input.displayName = 'RetroInput';
+Input.displayName = 'Input';

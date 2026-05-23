@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
-import { Text } from '@src/components/text';
+import { Text } from '../../../components/text';
 import { Tree } from '../index';
 
 const meta: Meta<typeof Tree> = {
@@ -10,27 +10,27 @@ const meta: Meta<typeof Tree> = {
 		docs: {
 			description: {
 				component:
-					'Authentic retro Tree component with Windows 3.1 File Manager styling. Features classic expand/collapse buttons, proper indentation, and multiple retro variants.',
+					'Hierarchical tree view styled after the Windows 3.1 File Manager. Supports expand/collapse, selection and arbitrary node content.',
 			},
 		},
 	},
 	argTypes: {
 		variant: {
-			control: { type: 'select' },
+			control: 'inline-radio',
 			options: ['default', 'file-manager', 'explorer'],
-			description: 'Visual variant of the tree',
+			description: 'Visual treatment of the tree container and nodes.',
 		},
 		defaultCollapsed: {
-			control: { type: 'boolean' },
-			description: 'Default collapsed state of tree nodes',
+			control: 'boolean',
+			description: 'When true, all nodes start collapsed.',
 		},
+		data: { control: false },
 	},
 };
 
 export default meta;
 type Story = StoryObj<typeof Tree>;
 
-// Sample data for stories
 const fileSystemData = [
 	{
 		label: 'C:\\',
@@ -65,45 +65,7 @@ const fileSystemData = [
 	},
 ];
 
-const projectData = [
-	{
-		label: 'react-retro',
-		content: <Text variant="body2">Root project folder</Text>,
-		children: [
-			{
-				label: 'src',
-				children: [
-					{
-						label: 'components',
-						children: [
-							{ label: 'Button.tsx' },
-							{ label: 'Input.tsx' },
-							{ label: 'Tree.tsx' },
-						],
-					},
-					{ label: 'utils' },
-					{ label: 'constants' },
-				],
-			},
-			{
-				label: 'docs',
-				children: [{ label: 'README.md' }, { label: 'CHANGELOG.md' }],
-			},
-			{ label: 'package.json' },
-			{ label: 'tsconfig.json' },
-		],
-	},
-];
-
 export const Default: Story = {
-	args: {
-		variant: 'default',
-		defaultCollapsed: false,
-		data: projectData,
-	},
-};
-
-export const FileManager: Story = {
 	args: {
 		variant: 'file-manager',
 		defaultCollapsed: false,
@@ -111,28 +73,44 @@ export const FileManager: Story = {
 	},
 };
 
-export const Explorer: Story = {
-	args: {
-		variant: 'explorer',
-		defaultCollapsed: true,
-		data: fileSystemData,
-	},
+export const Variants: Story = {
+	render: () => (
+		<div
+			style={{
+				display: 'grid',
+				gridTemplateColumns: 'repeat(3, 1fr)',
+				gap: 16,
+			}}
+		>
+			<div>
+				<Text variant="h6">Default</Text>
+				<Tree variant="default" data={fileSystemData} />
+			</div>
+			<div>
+				<Text variant="h6">File Manager</Text>
+				<Tree variant="file-manager" data={fileSystemData} />
+			</div>
+			<div>
+				<Text variant="h6">Explorer</Text>
+				<Tree variant="explorer" data={fileSystemData} defaultCollapsed />
+			</div>
+		</div>
+	),
 };
 
 export const WithContent: Story = {
 	args: {
 		variant: 'default',
-		defaultCollapsed: false,
 		data: [
 			{
 				label: 'Documents',
-				content: <Text variant="body2">Important files and documents</Text>,
+				content: <Text variant="body2">Important files and documents.</Text>,
 				children: [
 					{
 						label: 'README.TXT',
 						content: (
 							<Text variant="body2">
-								Project documentation and setup instructions
+								Project documentation and setup instructions.
 							</Text>
 						),
 					},
@@ -142,12 +120,8 @@ export const WithContent: Story = {
 							{
 								label: 'Monthly Report.doc',
 								content: (
-									<Text variant="body2">Financial summary for the month</Text>
+									<Text variant="body2">Financial summary for the month.</Text>
 								),
-							},
-							{
-								label: 'Analysis.xls',
-								content: <Text variant="body2">Data analysis spreadsheet</Text>,
 							},
 						],
 					},
@@ -161,47 +135,16 @@ export const WithSelection: Story = {
 	render: () => {
 		const [selectedNode, setSelectedNode] =
 			React.useState<string>('README.TXT');
-
 		return (
 			<div>
 				<Text variant="body2">Selected: {selectedNode || 'None'}</Text>
-				<br />
 				<Tree
 					variant="file-manager"
 					selectedNode={selectedNode}
 					onNodeSelect={setSelectedNode}
-					onNodeToggle={(label, expanded) => {
-						// ${label} ${expanded ? 'expanded' : 'collapsed'}
-					}}
 					data={fileSystemData}
 				/>
 			</div>
 		);
 	},
-};
-
-// Comparison story showing all variants
-export const AllVariants: Story = {
-	render: () => (
-		<div
-			style={{
-				display: 'grid',
-				gridTemplateColumns: '1fr 1fr 1fr',
-				gap: '20px',
-			}}
-		>
-			<div>
-				<Text variant="h3">Default</Text>
-				<Tree variant="default" data={projectData} />
-			</div>
-			<div>
-				<Text variant="h3">File Manager</Text>
-				<Tree variant="file-manager" data={fileSystemData} />
-			</div>
-			<div>
-				<Text variant="h3">Explorer</Text>
-				<Tree variant="explorer" data={fileSystemData} defaultCollapsed />
-			</div>
-		</div>
-	),
 };

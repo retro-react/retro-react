@@ -4,7 +4,7 @@ import { ThemeUICSSObject } from 'theme-ui';
 import {
 	ColorGradients,
 	getColorGradientOptions,
-} from '@src/utils/getColorGradients';
+} from '../../utils/getColorGradients';
 
 export interface DividerProps extends React.HTMLAttributes<HTMLDivElement> {
 	/**

@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Container } from '@src/components/container';
 import { Skeleton } from '../index';
 
 const meta: Meta<typeof Skeleton> = {
@@ -9,17 +8,24 @@ const meta: Meta<typeof Skeleton> = {
 		docs: {
 			description: {
 				component:
-					'A retro skeleton loading component with authentic WIN31 styling. Features classic scan line and dithering effects reminiscent of early computer graphics.',
+					'A retro loading placeholder. Three effects evoke different eras of computing: `scanlines`, `dither`, and `processing`.',
 			},
 		},
 		backgrounds: {
 			default: 'win31',
-			values: [
-				{
-					name: 'win31',
-					value: '#C0C0C0',
-				},
-			],
+			values: [{ name: 'win31', value: '#C0C0C0' }],
+		},
+	},
+	argTypes: {
+		height: { description: 'Height as a CSS value or pixel number.' },
+		shape: {
+			control: { type: 'radio' },
+			options: ['rectangle', 'circle'],
+			description: 'For `circle`, the height is also used as width.',
+		},
+		effect: {
+			control: { type: 'radio' },
+			options: ['scanlines', 'dither', 'processing'],
 		},
 	},
 };
@@ -27,101 +33,60 @@ const meta: Meta<typeof Skeleton> = {
 export default meta;
 type Story = StoryObj<typeof Skeleton>;
 
-export const Basic: Story = {
+export const Default: Story = {
 	args: {
 		height: '20px',
 		shape: 'rectangle',
 		effect: 'scanlines',
 	},
-	render: (props) => (
-		<Container fluid style={{ padding: '20px', maxWidth: '600px' }}>
-			<h3
-				style={{
-					marginBottom: '16px',
-					fontFamily: 'MS Sans Serif',
-					fontSize: '11px',
-				}}
-			>
-				💾 Loading data...
-			</h3>
-			<Skeleton {...props} />
-			<Skeleton {...props} />
-			<Skeleton {...props} />
-		</Container>
+	render: (args) => (
+		<div
+			style={{ display: 'flex', flexDirection: 'column', gap: 8, width: 480 }}
+		>
+			<Skeleton {...args} />
+			<Skeleton {...args} />
+			<Skeleton {...args} />
+		</div>
 	),
 };
 
-export const AllEffects: Story = {
+export const Effects: Story = {
 	render: () => (
-		<Container fluid style={{ padding: '20px', maxWidth: '600px' }}>
-			<div style={{ marginBottom: '20px' }}>
-				<h4
-					style={{
-						fontFamily: 'MS Sans Serif',
-						fontSize: '11px',
-						marginBottom: '8px',
-					}}
-				>
-					📺 Scan Lines Effect (CRT Monitor)
-				</h4>
-				<Skeleton height="16px" effect="scanlines" />
-				<Skeleton height="20px" effect="scanlines" />
-				<Skeleton height="24px" effect="scanlines" />
-			</div>
-
-			<div style={{ marginBottom: '20px' }}>
-				<h4
-					style={{
-						fontFamily: 'MS Sans Serif',
-						fontSize: '11px',
-						marginBottom: '8px',
-					}}
-				>
-					🔲 Dither Pattern Effect (Early Graphics)
-				</h4>
-				<Skeleton height="16px" effect="dither" />
-				<Skeleton height="20px" effect="dither" />
-				<Skeleton height="24px" effect="dither" />
-			</div>
-
-			<div style={{ marginBottom: '20px' }}>
-				<h4
-					style={{
-						fontFamily: 'MS Sans Serif',
-						fontSize: '11px',
-						marginBottom: '8px',
-					}}
-				>
-					⚡ Processing Effect (WIN31 Progress)
-				</h4>
-				<Skeleton height="16px" effect="processing" />
-				<Skeleton height="20px" effect="processing" />
-				<Skeleton height="24px" effect="processing" />
-			</div>
-
-			<div>
-				<h4
-					style={{
-						fontFamily: 'MS Sans Serif',
-						fontSize: '11px',
-						marginBottom: '8px',
-					}}
-				>
-					👤 Circle Shapes (User Avatars)
-				</h4>
-				<div
-					style={{
-						display: 'flex',
-						gap: '12px',
-						alignItems: 'center',
-						flexWrap: 'wrap',
-					}}
-				>
-					<Skeleton height="32px" shape="circle" effect="scanlines" />
-					<Skeleton height="40px" shape="circle" effect="dither" />
-					<Skeleton height="48px" shape="circle" effect="processing" />
+		<div
+			style={{ display: 'flex', flexDirection: 'column', gap: 24, width: 480 }}
+		>
+			{(['scanlines', 'dither', 'processing'] as const).map((effect) => (
+				<div key={effect}>
+					<div
+						style={{
+							fontFamily: 'MS Sans Serif',
+							fontSize: 11,
+							marginBottom: 6,
+						}}
+					>
+						{effect}
+					</div>
+					<div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+						<Skeleton height="16px" effect={effect} />
+						<Skeleton height="20px" effect={effect} />
+						<Skeleton height="24px" effect={effect} />
+					</div>
 				</div>
+			))}
+		</div>
+	),
+};
+
+export const UserCardPlaceholder: Story = {
+	render: () => (
+		<div style={{ display: 'flex', gap: 16, alignItems: 'center', width: 360 }}>
+			<Skeleton height="48px" shape="circle" effect="scanlines" />
+			<div
+				style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 8 }}
+			>
+				<Skeleton height="16px" effect="scanlines" />
+				<Skeleton height="12px" effect="scanlines" sx={{ width: '60%' }} />
 			</div>
-		</Container>
+		</div>
 	),
 };

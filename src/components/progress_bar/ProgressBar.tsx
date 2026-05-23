@@ -1,8 +1,8 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import commonClassNames from '@src/constants/commonClassNames';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
 import * as Sc from './ProgressBar.styled';
 
 export interface ProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -33,23 +33,21 @@ export interface ProgressBarProps extends React.HTMLAttributes<HTMLDivElement> {
 export const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
 	({ id, className, value = 0, animated = false, sx, ...rest }, ref) => {
 		return (
-			<Sc.ProgressBarWrapper>
+			<Sc.ProgressBarWrapper
+				ref={ref}
+				className={classNames('progress-bar-wrapper', className)}
+				{...rest}
+			>
 				<Sc.ProgressBar
 					$value={value}
 					$animated={animated}
-					ref={ref}
 					id={id}
 					sx={sx}
-					className={classNames(
-						'progress-bar-root',
-						className,
-						commonClassNames,
-					)}
+					className={classNames('progress-bar-root', commonClassNames)}
 					role="progressbar"
 					aria-valuenow={value}
 					aria-valuemin={0}
 					aria-valuemax={100}
-					{...rest}
 				/>
 			</Sc.ProgressBarWrapper>
 		);

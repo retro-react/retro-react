@@ -9,31 +9,27 @@ const meta: Meta<typeof Popover> = {
 		docs: {
 			description: {
 				component:
-					'The Popover component is a WIN31-styled dropdown element for displaying contextual information. Features authentic Windows 3.1 dialog styling with proper raised borders and drop shadows.',
+					'A Windows 3.1-styled popover that renders its content in a portal. Compose with `PopoverButton` and `PopoverContent`.',
 			},
 		},
 		backgrounds: {
 			default: 'win31',
-			values: [
-				{
-					name: 'win31',
-					value: '#C0C0C0',
-				},
-			],
+			values: [{ name: 'win31', value: '#C0C0C0' }],
 		},
 	},
 	argTypes: {
 		position: {
 			options: ['top', 'right', 'bottom', 'left'],
 			control: { type: 'radio' },
-			description: 'Position of the popover relative to the trigger.',
-			table: {
-				defaultValue: { summary: 'bottom' },
-			},
+			description: 'Where the content opens relative to the trigger.',
 		},
 		closeOnClickOutside: {
+			control: { type: 'boolean' },
+			description: 'Dismiss the popover when clicking outside.',
+		},
+		isOpen: {
 			description:
-				'Whether or not the popover should close when clicking outside of it.',
+				'Optional. When provided, the popover becomes controlled — pair with `onOpenChange`.',
 		},
 	},
 };
@@ -41,37 +37,49 @@ const meta: Meta<typeof Popover> = {
 export default meta;
 type Story = StoryObj<typeof Popover>;
 
-export const Basic: Story = {
+export const Default: Story = {
 	args: {
-		closeOnClickOutside: true,
 		position: 'bottom',
-		children: [
-			<PopoverButton key="button">📁 Open Popover</PopoverButton>,
-			<PopoverContent key="content">
-				<Text
-					variant="paragraph"
-					sx={{
-						textAlign: 'left',
-						margin: 0,
-						fontSize: '11px',
-						lineHeight: 1.3,
-					}}
-				>
-					Welcome to Windows 3.1! This popover demonstrates authentic retro
-					styling with proper borders and typography.
-				</Text>
-			</PopoverContent>,
-		],
+		closeOnClickOutside: true,
 	},
 	render: (args) => (
+		<div style={{ display: 'flex', justifyContent: 'center', padding: 80 }}>
+			<Popover {...args}>
+				<PopoverButton>Open Popover</PopoverButton>
+				<PopoverContent>
+					<Text
+						variant="paragraph"
+						sx={{ margin: 0, fontSize: '11px', lineHeight: 1.3 }}
+					>
+						This popover is portal-rendered with authentic Win31 styling.
+					</Text>
+				</PopoverContent>
+			</Popover>
+		</div>
+	),
+};
+
+export const Positions: Story = {
+	render: () => (
 		<div
 			style={{
-				display: 'flex',
-				justifyContent: 'center',
-				padding: '100px',
+				display: 'grid',
+				gridTemplateColumns: 'repeat(2, 1fr)',
+				gap: 80,
+				padding: 80,
+				justifyItems: 'center',
 			}}
 		>
-			<Popover {...args} />
+			{(['top', 'right', 'bottom', 'left'] as const).map((position) => (
+				<Popover key={position} position={position}>
+					<PopoverButton>{position}</PopoverButton>
+					<PopoverContent>
+						<Text sx={{ margin: 0, fontSize: '11px' }}>
+							Position: {position}
+						</Text>
+					</PopoverContent>
+				</Popover>
+			))}
 		</div>
 	),
 };

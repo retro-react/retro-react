@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
-import { Container } from '@src/components/container';
-import { Text } from '@src/components/text';
+import { Container } from '../../../components/container';
+import { Text } from '../../../components/text';
 import { Accordion } from '../index';
 
 const meta: Meta<typeof Accordion> = {
@@ -9,39 +9,40 @@ const meta: Meta<typeof Accordion> = {
 	component: Accordion,
 	parameters: {
 		layout: 'padded',
-		docs: {
-			description: {
-				component:
-					'Enhanced retro-styled accordion with authentic WIN31 appearance, icons, loading states, and keyboard navigation.',
-			},
-		},
 	},
-	decorators: [
-		(Story) => (
-			<div
-				style={{
-					background: '#c0c0c0',
-					padding: '20px',
-					fontFamily: "'MS Sans Serif', sans-serif",
-					minHeight: '200px',
-				}}
-			>
-				<Story />
-			</div>
-		),
-	],
 	argTypes: {
+		title: {
+			control: 'text',
+			description: 'Text shown in the accordion header.',
+		},
+		icon: {
+			control: 'text',
+			description: 'Optional icon rendered before the title.',
+		},
 		defaultOpen: {
-			control: { type: 'boolean' },
+			control: 'boolean',
+			description: 'Initial open state when uncontrolled.',
+		},
+		open: {
+			control: 'boolean',
+			description:
+				'Controlled open state. When set, the component becomes controlled.',
 		},
 		disabled: {
-			control: { type: 'boolean' },
+			control: 'boolean',
+			description: 'Prevents interaction with the accordion.',
 		},
 		loading: {
-			control: { type: 'boolean' },
+			control: 'boolean',
+			description: 'Shows a loading indicator inside the content area.',
 		},
 		animated: {
-			control: { type: 'boolean' },
+			control: 'boolean',
+			description: 'Animates the expand/collapse transition.',
+		},
+		onToggle: {
+			action: 'toggled',
+			description: 'Called with the new open state when toggled.',
 		},
 	},
 };
@@ -49,83 +50,34 @@ const meta: Meta<typeof Accordion> = {
 export default meta;
 type Story = StoryObj<typeof Accordion>;
 
-export const Basic: Story = {
+export const Default: Story = {
 	args: {
 		title: 'System Configuration',
 		icon: '⚙️',
-		defaultOpen: false,
+		defaultOpen: true,
 		children: (
-			<div>
-				<Text variant="paragraph">
-					Configure your Windows 3.1 system settings including display drivers,
-					sound cards, and network protocols.
-				</Text>
-				<br />
-				<Text variant="small">
-					• Display: 256 Color VGA
-					<br />
-					• Sound: Sound Blaster Compatible
-					<br />
-					• Network: TCP/IP Protocol
-					<br />• Memory: 4MB Extended Memory
-				</Text>
-			</div>
+			<Text variant="paragraph">
+				Configure display drivers, sound cards, and network protocols for your
+				system.
+			</Text>
 		),
 	},
 };
 
-export const WithStates: Story = {
+export const States: Story = {
 	render: () => (
-		<Container sx={{ width: '100%', maxWidth: '500px', margin: '0 auto' }}>
-			<Accordion title="File Manager Options" icon="📁" defaultOpen={true}>
-				<div>
-					<Text variant="paragraph">
-						Customize File Manager behavior and display preferences.
-					</Text>
-					<br />
-					<div
-						style={{
-							fontFamily: "'MS Sans Serif', sans-serif",
-							fontSize: '11px',
-						}}
-					>
-						<label>
-							<input type="checkbox" /> Show hidden files
-						</label>
-						<br />
-						<label>
-							<input type="checkbox" defaultChecked /> Display file extensions
-						</label>
-						<br />
-						<label>
-							<input type="checkbox" defaultChecked /> Show system files
-						</label>
-					</div>
-				</div>
+		<Container
+			sx={{ display: 'flex', flexDirection: 'column', gap: 2, maxWidth: 500 }}
+		>
+			<Accordion title="Open by default" icon="📁" defaultOpen>
+				<Text variant="paragraph">This panel starts expanded.</Text>
 			</Accordion>
-
-			<Accordion
-				title="Network Connection Status"
-				icon="🌐"
-				loading={true}
-				defaultOpen={true}
-			/>
-
-			<Accordion title="Restricted System Area" icon="🔒" disabled={true}>
-				<Text variant="paragraph">
-					This area requires administrator privileges to access.
-				</Text>
+			<Accordion title="Loading state" icon="🌐" loading defaultOpen />
+			<Accordion title="Disabled" icon="🔒" disabled>
+				<Text variant="paragraph">Cannot be opened.</Text>
 			</Accordion>
 		</Container>
 	),
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'Demonstrates different accordion states: open, loading, and disabled.',
-			},
-		},
-	},
 };
 
 export const CustomIcons: Story = {
@@ -134,94 +86,28 @@ export const CustomIcons: Story = {
 		icon: '🔧',
 		expandIcon: '⊞',
 		collapseIcon: '⊟',
-		defaultOpen: false,
 		children: (
-			<div>
-				<Text variant="paragraph">
-					Advanced system configuration with custom toggle icons.
-				</Text>
-				<br />
-				<div
-					style={{
-						fontFamily: "'MS Sans Serif', sans-serif",
-						fontSize: '11px',
-					}}
-				>
-					<button
-						style={{
-							border: '1px outset #c0c0c0',
-							background: '#c0c0c0',
-							padding: '2px 8px',
-							fontFamily: "'MS Sans Serif', sans-serif",
-							fontSize: '11px',
-							marginRight: '4px',
-						}}
-					>
-						Registry Editor
-					</button>
-					<button
-						style={{
-							border: '1px outset #c0c0c0',
-							background: '#c0c0c0',
-							padding: '2px 8px',
-							fontFamily: "'MS Sans Serif', sans-serif",
-							fontSize: '11px',
-						}}
-					>
-						System Monitor
-					</button>
-				</div>
-			</div>
+			<Text variant="paragraph">
+				Override the default arrow with custom expand/collapse icons.
+			</Text>
 		),
-	},
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'Accordion with custom expand/collapse icons and interactive content.',
-			},
-		},
 	},
 };
 
-export const Interactive: Story = {
+export const Controlled: Story = {
 	render: () => {
-		const [toggleCount, setToggleCount] = React.useState(0);
-
+		const [open, setOpen] = React.useState(false);
 		return (
 			<Accordion
-				title={`Interactive Demo (Toggled ${toggleCount} times)`}
+				title={`Toggled: ${open ? 'open' : 'closed'}`}
 				icon="🎯"
-				defaultOpen={false}
-				onToggle={(isOpen) => {
-					setToggleCount((prev) => prev + 1);
-					// Accordion toggled: isOpen
-				}}
+				open={open}
+				onToggle={setOpen}
 			>
-				<div>
-					<Text variant="paragraph">
-						This demonstrates the onToggle callback and keyboard navigation.
-					</Text>
-					<br />
-					<div
-						style={{
-							fontFamily: "'MS Sans Serif', sans-serif",
-							fontSize: '11px',
-						}}
-					>
-						<em>Keyboard navigation:</em>
-						<br />• Tab to focus • Enter/Space to toggle
-					</div>
-				</div>
+				<Text variant="paragraph">
+					Pass `open` and `onToggle` to fully control the accordion state.
+				</Text>
 			</Accordion>
 		);
-	},
-	parameters: {
-		docs: {
-			description: {
-				story:
-					'Interactive accordion with callback functionality and keyboard navigation.',
-			},
-		},
 	},
 };

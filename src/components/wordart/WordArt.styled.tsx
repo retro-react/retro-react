@@ -143,16 +143,26 @@ const getWordArtStyle = (artStyle: WordArtStyle, variant: WordArtVariant) => {
 					6px 6px 4px rgba(0,0,0,0.4);
 				
 				/* Individual letter transforms for true arch effect */
-				span:nth-child(1) { transform: rotate(-15deg) translateY(10px); }
-				span:nth-child(2) { transform: rotate(-10deg) translateY(5px); }
-				span:nth-child(3) { transform: rotate(-5deg) translateY(2px); }
-				span:nth-child(4) { transform: rotate(0deg) translateY(0px); }
-				span:nth-child(5) { transform: rotate(5deg) translateY(2px); }
-				span:nth-child(6) { transform: rotate(10deg) translateY(5px); }
-				span:nth-child(7) { transform: rotate(15deg) translateY(10px); }
-				span:nth-child(8) { transform: rotate(20deg) translateY(15px); }
-				span:nth-child(9) { transform: rotate(25deg) translateY(20px); }
-				span:nth-child(10) { transform: rotate(30deg) translateY(25px); }
+				span:nth-child(1) { transform: rotate(-30deg) translateY(25px); }
+				span:nth-child(2) { transform: rotate(-25deg) translateY(20px); }
+				span:nth-child(3) { transform: rotate(-20deg) translateY(15px); }
+				span:nth-child(4) { transform: rotate(-15deg) translateY(10px); }
+				span:nth-child(5) { transform: rotate(-10deg) translateY(5px); }
+				span:nth-child(6) { transform: rotate(-5deg) translateY(2px); }
+				span:nth-child(7) { transform: rotate(0deg) translateY(0px); }
+				span:nth-child(8) { transform: rotate(5deg) translateY(2px); }
+				span:nth-child(9) { transform: rotate(10deg) translateY(5px); }
+				span:nth-child(10) { transform: rotate(15deg) translateY(10px); }
+				span:nth-child(11) { transform: rotate(20deg) translateY(15px); }
+				span:nth-child(12) { transform: rotate(25deg) translateY(20px); }
+				span:nth-child(13) { transform: rotate(30deg) translateY(25px); }
+				span:nth-child(14) { transform: rotate(35deg) translateY(30px); }
+				span:nth-child(15) { transform: rotate(40deg) translateY(36px); }
+				span:nth-child(16) { transform: rotate(45deg) translateY(42px); }
+				span:nth-child(17) { transform: rotate(50deg) translateY(48px); }
+				span:nth-child(18) { transform: rotate(55deg) translateY(54px); }
+				span:nth-child(19) { transform: rotate(60deg) translateY(60px); }
+				span:nth-child(20) { transform: rotate(65deg) translateY(66px); }
 				
 				span {
 					display: inline-block;
@@ -207,7 +217,6 @@ const getWordArtStyle = (artStyle: WordArtStyle, variant: WordArtVariant) => {
 					0 0 30px rgba(255,255,255,0.4),
 					inset 0 0 10px rgba(0,0,0,0.2);
 				border: 2px solid rgba(255,255,255,0.3);
-				border-radius: 10px;
 				padding: 0.2em 0.4em;
 				background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(0,0,0,0.1));
 				animation: inflate-pulse 2s ease-in-out infinite;

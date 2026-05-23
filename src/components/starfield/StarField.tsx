@@ -1,7 +1,14 @@
 /** @jsxImportSource theme-ui */
-import React, { CSSProperties, useEffect, useRef } from 'react';
+import {
+	CSSProperties,
+	forwardRef,
+	HTMLAttributes,
+	useEffect,
+	useImperativeHandle,
+	useRef,
+} from 'react';
 
-interface StarFieldProps {
+interface StarFieldProps extends HTMLAttributes<HTMLCanvasElement> {
 	/**
 	 * The number of stars to render.
 	 *
@@ -45,64 +52,88 @@ interface StarFieldProps {
  * </Container>
  * ```
  */
-export const StarField: React.FC<StarFieldProps> = ({
-	numStars = 100,
-	speed = 1,
-	size = 2,
-	starColor = 'white',
-	style,
-}) => {
-	const canvasRef = useRef<HTMLCanvasElement>(null);
+export const StarField = forwardRef<HTMLCanvasElement, StarFieldProps>(
+	(
+		{
+			id,
+			className,
+			numStars = 100,
+			speed = 1,
+			size = 2,
+			starColor = 'white',
+			style,
+			...rest
+		},
+		ref,
+	) => {
+		const canvasRef = useRef<HTMLCanvasElement>(null);
 
-	useEffect(() => {
-		const canvas = canvasRef.current;
-		if (!canvas) return;
-		const ctx = canvas.getContext('2d');
-		if (!ctx) return;
+		useImperativeHandle(ref, () => canvasRef.current as HTMLCanvasElement);
 
-		canvas.width = canvas.clientWidth;
-		canvas.height = canvas.clientHeight;
+		useEffect(() => {
+			const canvas = canvasRef.current;
+			if (!canvas) return;
+			const ctx = canvas.getContext('2d');
+			if (!ctx) return;
 
-		const stars = Array.from({ length: numStars }, () => ({
-			x: Math.random() * canvas.width,
-			y: Math.random() * canvas.height,
-			velocity: (Math.random() + 0.5) * speed,
-		}));
+			let stars: { x: number; y: number; velocity: number }[] = [];
 
-		let animationFrameId: number;
+			const generateStars = () => {
+				canvas.width = canvas.clientWidth;
+				canvas.height = canvas.clientHeight;
+				stars = Array.from({ length: numStars }, () => ({
+					x: Math.random() * canvas.width,
+					y: Math.random() * canvas.height,
+					velocity: (Math.random() + 0.5) * speed,
+				}));
+			};
 
-		const animate = () => {
-			ctx.fillStyle = 'black';
-			ctx.fillRect(0, 0, canvas.width, canvas.height);
+			generateStars();
 
-			stars.forEach((star) => {
-				ctx.fillStyle = starColor;
-				ctx.fillRect(star.x, star.y, size, size);
+			let animationFrameId: number;
 
-				star.y += star.velocity;
-				if (star.y > canvas.height) {
-					star.y = 0;
-					star.x = Math.random() * canvas.width;
-				}
+			const animate = () => {
+				ctx.fillStyle = 'black';
+				ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+				stars.forEach((star) => {
+					ctx.fillStyle = starColor;
+					ctx.fillRect(star.x, star.y, size, size);
+
+					star.y += star.velocity;
+					if (star.y > canvas.height) {
+						star.y = 0;
+						star.x = Math.random() * canvas.width;
+					}
+				});
+
+				animationFrameId = requestAnimationFrame(animate);
+			};
+
+			animate();
+
+			const resizeObserver = new ResizeObserver(() => {
+				generateStars();
 			});
+			resizeObserver.observe(canvas);
 
-			animationFrameId = requestAnimationFrame(animate);
-		};
+			return () => {
+				// Clean up the animation
+				cancelAnimationFrame(animationFrameId);
+				resizeObserver.disconnect();
+			};
+		}, [numStars, speed, size, starColor]);
 
-		animate();
-
-		return () => {
-			// Clean up the animation
-			cancelAnimationFrame(animationFrameId);
-		};
-	}, [canvasRef, numStars, speed, size, starColor]);
-
-	return (
-		<canvas
-			ref={canvasRef}
-			style={{ width: '100%', height: '100%', ...style }}
-		/>
-	);
-};
+		return (
+			<canvas
+				ref={canvasRef}
+				id={id}
+				className={className}
+				style={{ width: '100%', height: '100%', ...style }}
+				{...rest}
+			/>
+		);
+	},
+);
 
 StarField.displayName = 'StarField';

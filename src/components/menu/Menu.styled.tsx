@@ -1,15 +1,23 @@
 import styled from '@emotion/styled';
+import { raised } from '../../constants/bevels';
+import {
+	BLACK,
+	WHITE,
+	WIN31_BLUE,
+	WIN31_BUTTON_FACE,
+	WIN31_BUTTON_HIGHLIGHT,
+	WIN31_BUTTON_SHADOW,
+} from '../../constants/colors';
+import { FONT_SIZES, SYSTEM_FONT } from '../../constants/fonts';
 
 export const MenuContainer = styled.div`
 	position: relative;
 	display: inline-block;
-	background-color: #c0c0c0;
-	border: 2px solid;
-	border-color: #ffffff #808080 #808080 #ffffff;
-	font-family: 'MS Sans Serif', sans-serif;
-	font-size: 11px;
+	${raised}
+	background-color: ${WIN31_BUTTON_FACE};
+	font-family: ${SYSTEM_FONT};
+	font-size: ${FONT_SIZES.SMALL};
 	min-width: 150px;
-	box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 
 	/* Add subtle dithering pattern for authentic WIN31 look */
 	background-image: radial-gradient(
@@ -24,44 +32,44 @@ export const MenuStyled = styled.ul`
 	list-style: none;
 	margin: 0;
 	padding: 2px;
-	background-color: #c0c0c0;
+	background-color: ${WIN31_BUTTON_FACE};
 `;
 
 export const MenuItemDivider = styled.hr`
 	border: none;
-	border-top: 1px solid #808080;
-	border-bottom: 1px solid #ffffff;
+	border-top: 1px solid ${WIN31_BUTTON_SHADOW};
+	border-bottom: 1px solid ${WIN31_BUTTON_HIGHLIGHT};
 	margin: 2px 4px;
 	height: 0;
 `;
 
 export const MenuItem = styled.li`
-	font-family: 'MS Sans Serif', sans-serif;
-	font-size: 11px;
+	font-family: ${SYSTEM_FONT};
+	font-size: ${FONT_SIZES.SMALL};
 	padding: 4px 16px;
 	background-color: transparent;
-	color: #000000;
+	color: ${BLACK};
 	cursor: pointer;
 	position: relative;
 	line-height: 1.2;
 
 	&:hover {
-		background-color: #0000ff;
-		color: #ffffff;
+		background-color: ${WIN31_BLUE};
+		color: ${WHITE};
 	}
 
 	&:active {
-		background-color: #000080;
-		color: #ffffff;
+		background-color: ${WIN31_BLUE};
+		color: ${WHITE};
 	}
 
 	/* Add keyboard focus indicator */
 	&:focus {
-		outline: 1px dotted #000000;
+		outline: 1px dotted ${BLACK};
 		outline-offset: -1px;
 	}
 
 	&:hover:focus {
-		outline-color: #ffffff;
+		outline-color: ${WHITE};
 	}
 `;

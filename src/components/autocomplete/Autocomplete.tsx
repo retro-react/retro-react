@@ -4,13 +4,14 @@ import {
 	forwardRef,
 	KeyboardEvent,
 	useEffect,
+	useId,
 	useRef,
 	useState,
 } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import { ComponentColors } from '@src/utils/getColorScheme';
-import commonClassNames from '@src/constants/commonClassNames';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
+import { ComponentColors } from '../../utils/getColorScheme';
 import {
 	AutocompleteInput,
 	AutocompleteWrapper,
@@ -23,7 +24,10 @@ export type AutocompleteVariants = 'outlined' | 'filled';
 export type AutocompleteSizes = 'small' | 'medium' | string;
 
 export interface AutocompleteInputProps
-	extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
+	extends Omit<
+		React.InputHTMLAttributes<HTMLInputElement>,
+		'size' | 'value' | 'onChange'
+	> {
 	/**
 	 * Specifies the visual variant of the Autocomplete input.
 	 *
@@ -47,13 +51,6 @@ export interface AutocompleteInputProps
 	 * @default 'medium'
 	 */
 	size?: AutocompleteSizes;
-
-	/**
-	 * Determines if the Autocomplete input should have rounded edges.
-	 *
-	 * @default false
-	 */
-	rounded?: boolean;
 
 	/**
 	 * Message to display when there are no suggestions.
@@ -86,6 +83,18 @@ export interface AutocompleteProps extends AutocompleteInputProps {
 	 * @default undefined
 	 */
 	onSuggestionSelect?: (selected: string) => void;
+	/**
+	 * Controls the input value. When provided, the Autocomplete is controlled.
+	 *
+	 * @default undefined
+	 */
+	value?: string;
+	/**
+	 * Callback function called when the input value changes.
+	 *
+	 * @default undefined
+	 */
+	onChange?: (value: string) => void;
 }
 
 export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
@@ -93,9 +102,10 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
 		{
 			suggestions = [],
 			onSuggestionSelect,
+			value,
+			onChange,
 			variant = 'filled',
 			size = 'medium',
-			rounded = false,
 			color = 'primary',
 			noResultsMessage = 'No suggestions',
 			clearable = true,
@@ -106,7 +116,19 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
 		ref: ForwardedRef<HTMLInputElement>,
 	) => {
 		const suggestionsListRef = useRef<HTMLDivElement>(null);
-		const [inputValue, setInputValue] = useState('');
+		const suggestionsListId = `autocomplete-suggestions-${useId()}`;
+		const isControlled = value !== undefined;
+		const [internalValue, setInternalValue] = useState('');
+		const inputValue = isControlled ? value : internalValue;
+
+		const setInputValue = (next: string) => {
+			if (!isControlled) {
+				setInternalValue(next);
+			}
+			if (onChange) {
+				onChange(next);
+			}
+		};
 		const [filteredSuggestions, setFilteredSuggestions] = useState<string[]>(
 			[],
 		);
@@ -144,7 +166,7 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
 				);
 				setFilteredSuggestions(filtered);
 				setShowSuggestions(true);
-				setActiveSuggestionIndex(-1); // Reset to no selection when filtering
+				setActiveSuggestionIndex(-1);
 			} else {
 				setShowSuggestions(false);
 				setActiveSuggestionIndex(-1);
@@ -170,7 +192,7 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
 					if (activeSuggestionIndex < filteredSuggestions.length - 1) {
 						setActiveSuggestionIndex(activeSuggestionIndex + 1);
 					} else {
-						setActiveSuggestionIndex(0); // Wrap to first item
+						setActiveSuggestionIndex(0);
 					}
 				}
 			} else if (e.key === 'ArrowUp') {
@@ -179,7 +201,7 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
 					if (activeSuggestionIndex > 0) {
 						setActiveSuggestionIndex(activeSuggestionIndex - 1);
 					} else {
-						setActiveSuggestionIndex(filteredSuggestions.length - 1); // Wrap to last item
+						setActiveSuggestionIndex(filteredSuggestions.length - 1);
 					}
 				}
 			} else if (e.key === 'Enter') {
@@ -202,8 +224,9 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
 		};
 
 		const handleBlur = () => {
-			if (!wasSuggestionSelected && !isInteractingWithList) {
-				setInputValue('');
+			if (!isInteractingWithList) {
+				setShowSuggestions(false);
+				setActiveSuggestionIndex(-1);
 			}
 		};
 
@@ -215,6 +238,14 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
 			setIsInteractingWithList(false);
 		};
 
+		const optionId = (index: number) => `${suggestionsListId}-option-${index}`;
+		const activeOptionId =
+			showSuggestions &&
+			activeSuggestionIndex >= 0 &&
+			filteredSuggestions[activeSuggestionIndex]
+				? optionId(activeSuggestionIndex)
+				: undefined;
+
 		return (
 			<AutocompleteWrapper
 				className={classNames('autocomplete-root', className, commonClassNames)}
@@ -224,18 +255,24 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
 					value={inputValue}
 					$variant={variant}
 					$size={size}
-					$rounded={rounded}
 					$color={color}
 					onBlur={handleBlur}
 					onChange={handleChange}
 					onKeyDown={handleKeyDown}
 					ref={ref}
 					className="autocomplete-input"
+					role="combobox"
+					aria-expanded={showSuggestions}
+					aria-controls={suggestionsListId}
+					aria-autocomplete="list"
+					aria-activedescendant={activeOptionId}
 					{...rest}
 				/>
 				{showSuggestions && (
 					<SuggestionsList
 						ref={suggestionsListRef}
+						id={suggestionsListId}
+						role="listbox"
 						$color={color}
 						onMouseDown={handleListMouseDown}
 						onMouseUp={handleListMouseUp}
@@ -245,6 +282,9 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
 							filteredSuggestions.map((suggestion, index) => (
 								<SuggestionItem
 									key={suggestion}
+									id={optionId(index)}
+									role="option"
+									aria-selected={index === activeSuggestionIndex}
 									$color={color}
 									$highlighted={index === activeSuggestionIndex}
 									$selected={false}
@@ -260,7 +300,9 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
 								</SuggestionItem>
 							))
 						) : (
-							<li
+							<div
+								role="status"
+								aria-live="polite"
 								style={{
 									padding: '0.5rem 1rem',
 									color: 'inherit',
@@ -268,7 +310,7 @@ export const Autocomplete = forwardRef<HTMLInputElement, AutocompleteProps>(
 								}}
 							>
 								{noResultsMessage}
-							</li>
+							</div>
 						)}
 					</SuggestionsList>
 				)}

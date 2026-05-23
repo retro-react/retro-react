@@ -1,8 +1,8 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import commonClassNames from '@src/constants/commonClassNames';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
 import * as Sc from './Chip.styled';
 
 export type ChipColor =
@@ -36,6 +36,19 @@ export const Chip = forwardRef<HTMLDivElement, ChipProps>(
 	({ id, className, color = 'primary', children, sx, ...rest }, ref) => {
 		const isClickable = !!rest.onClick || !!rest.onKeyDown;
 
+		const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+			rest.onKeyDown?.(event);
+
+			if (
+				rest.onClick &&
+				!event.defaultPrevented &&
+				(event.key === 'Enter' || event.key === ' ')
+			) {
+				event.preventDefault();
+				rest.onClick(event as unknown as React.MouseEvent<HTMLDivElement>);
+			}
+		};
+
 		return (
 			<Sc.Chip
 				id={id}
@@ -45,6 +58,11 @@ export const Chip = forwardRef<HTMLDivElement, ChipProps>(
 				$clickable={isClickable}
 				className={classNames('chip-root', className, commonClassNames)}
 				{...rest}
+				{...(isClickable && {
+					role: 'button',
+					tabIndex: 0,
+					onKeyDown: handleKeyDown,
+				})}
 			>
 				{children}
 			</Sc.Chip>

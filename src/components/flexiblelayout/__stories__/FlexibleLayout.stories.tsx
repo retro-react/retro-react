@@ -9,109 +9,66 @@ import {
 	LayoutSidebarRight,
 } from '../FlexibleLayout';
 
-const meta: Meta = {
+const meta: Meta<typeof FlexibleLayout> = {
 	title: 'Layout/FlexibleLayout',
 	component: FlexibleLayout,
 	argTypes: {
-		children: {
-			control: false,
-		},
+		children: { control: false },
 	},
 };
 
 export default meta;
-
 type Story = StoryObj<typeof FlexibleLayout>;
 
-const ListContent = () => (
-	<ul>
-		<li>
-			<a href="#" onClick={(e) => e.preventDefault()}>
-				Home
-			</a>
-		</li>
-		<li>
-			<a href="#" onClick={(e) => e.preventDefault()}>
-				TV Shows
-			</a>
-		</li>
-		<li>
-			<a href="#" onClick={(e) => e.preventDefault()}>
-				Music
-			</a>
-		</li>
-		<li>
-			<a href="#" onClick={(e) => e.preventDefault()}>
-				Fashion
-			</a>
-		</li>
-		<li>
-			<a href="#" onClick={(e) => e.preventDefault()}>
-				Toys & Games
-			</a>
-		</li>
-	</ul>
-);
-
-const QuizContent = () => (
-	<>
-		<Text variant="paragraph">What's your favorite 90s sitcom?</Text>
-		<ul>
-			<li>
-				<input type="radio" name="sitcom" /> Friends
-			</li>
-			<li>
-				<input type="radio" name="sitcom" /> Seinfeld
-			</li>
-			<li>
-				<input type="radio" name="sitcom" /> The Fresh Prince of Bel-Air
-			</li>
-			<li>
-				<input type="radio" name="sitcom" /> Frasier
-			</li>
-		</ul>
-		<button>Vote</button>
-	</>
-);
-
-const ParagraphContent = () => (
-	<>
-		<Text variant="paragraph">Welcome to the 90s Nostalgia Zone!</Text>
-		<p>
-			Take a trip down memory lane and relive the best decade ever! Our website
-			is dedicated to everything that made the 90s unique - from our favorite TV
-			shows and music, to the toys and games we loved to play. So, grab a Surge
-			soda, put on your LA Lights sneakers, and let's dive into the world of 90s
-			nostalgia!
-		</p>
-	</>
-);
-
-export const Basic: Story = {
-	args: {
-		sx: {
-			'& .flexible-layout-child-cell': {
-				border: '1px solid black',
-				backgroundColor: 'lightgray',
-			},
-		},
+const cellStyles = {
+	'& .flexible-layout-child-cell': {
+		border: '1px solid #888',
+		backgroundColor: '#f3f3f3',
+		padding: 2,
 	},
+};
+
+export const Default: Story = {
+	args: { sx: cellStyles },
 	render: (args) => (
 		<FlexibleLayout {...args}>
 			<LayoutHeader>
-				<Text variant="h4">90s Nostalgia Zone</Text>
+				<Text variant="h4">Dashboard</Text>
 			</LayoutHeader>
-			<LayoutFooter>
-				<Text variant="paragraph">© 1999 - 90s Nostalgia Zone</Text>
-			</LayoutFooter>
 			<LayoutSidebarLeft>
-				<ListContent />
+				<ul style={{ paddingLeft: 16 }}>
+					<li>Home</li>
+					<li>Reports</li>
+					<li>Settings</li>
+				</ul>
 			</LayoutSidebarLeft>
-			<LayoutSidebarRight>
-				<QuizContent />
-			</LayoutSidebarRight>
 			<LayoutMain>
-				<ParagraphContent />
+				<Text variant="paragraph">
+					Main content goes here. The layout uses CSS Grid and reflows on
+					smaller screens — sidebars stack above and below the main area.
+				</Text>
+			</LayoutMain>
+			<LayoutSidebarRight>
+				<Text variant="paragraph">Activity feed</Text>
+			</LayoutSidebarRight>
+			<LayoutFooter>
+				<Text variant="paragraph">© 2026 Acme Inc.</Text>
+			</LayoutFooter>
+		</FlexibleLayout>
+	),
+};
+
+export const HeaderMainOnly: Story = {
+	args: { sx: cellStyles },
+	render: (args) => (
+		<FlexibleLayout {...args}>
+			<LayoutHeader>
+				<Text variant="h4">Article title</Text>
+			</LayoutHeader>
+			<LayoutMain>
+				<Text variant="paragraph">
+					Slots are optional — render only the regions you need.
+				</Text>
 			</LayoutMain>
 		</FlexibleLayout>
 	),

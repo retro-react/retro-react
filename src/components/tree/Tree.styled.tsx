@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { pressed, sunken } from '../../constants/bevels';
 import {
 	VGA_BLACK,
 	VGA_BLUE,
@@ -6,12 +7,11 @@ import {
 	WIN31_BUTTON_FACE,
 	WIN31_BUTTON_HIGHLIGHT,
 	WIN31_BUTTON_SHADOW,
-} from '@src/constants/colors';
-import { SYSTEM_FONT } from '@src/constants/fonts';
+} from '../../constants/colors';
+import { FONT_SIZES, SYSTEM_FONT } from '../../constants/fonts';
 
 export type TreeVariant = 'default' | 'file-manager' | 'explorer';
 
-// Get authentic retro colors for tree variants
 const getTreeColors = (variant: TreeVariant) => {
 	switch (variant) {
 		case 'file-manager':
@@ -56,20 +56,14 @@ export const TreeContainer = styled.section<{
 	$variant: TreeVariant;
 }>`
 	font-family: ${SYSTEM_FONT};
-	font-size: 11px;
+	font-size: ${FONT_SIZES.SMALL};
 	background: ${({ $variant }) => getTreeColors($variant).background};
-	border: 2px solid;
-	border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
-		${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
 
-	/* Authentic Windows 3.1 sunken panel styling */
-	box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.3),
-		inset -1px -1px 0 rgba(255, 255, 255, 0.1);
+	${sunken}
 
 	overflow: auto;
 	min-height: 200px;
 
-	/* Retro scrollbar styling */
 	::-webkit-scrollbar {
 		width: 16px;
 		background: ${WIN31_BUTTON_FACE};
@@ -94,7 +88,7 @@ export const TreeNodeContainer = styled.section<{
 	$selected?: boolean;
 }>`
 	position: relative;
-	font-size: 11px;
+	font-size: ${FONT_SIZES.SMALL};
 	box-sizing: border-box;
 	background: ${({ $selected, $variant }) =>
 		$selected ? getTreeColors($variant).selected : 'transparent'};
@@ -112,16 +106,6 @@ export const TreeNodeContainer = styled.section<{
 	}
 `;
 
-export const TreeLine = styled.div<{ $show: boolean }>`
-	display: ${({ $show }) => ($show ? 'block' : 'none')};
-	border-left: 1px dashed ${VGA_BLACK};
-	height: 100%;
-	position: absolute;
-	left: 8px;
-	top: 0;
-	z-index: 1;
-`;
-
 export const NodeLabel = styled.div<{
 	$collapsible: boolean;
 	$variant: TreeVariant;
@@ -131,7 +115,7 @@ export const NodeLabel = styled.div<{
 	user-select: none;
 	font-weight: normal;
 	position: relative;
-	font-size: 11px;
+	font-size: ${FONT_SIZES.SMALL};
 	font-family: ${SYSTEM_FONT};
 	margin: 0;
 	padding: 2px 4px;
@@ -155,7 +139,7 @@ export const NodeContent = styled.div`
 	margin-left: 20px;
 	padding: 2px 4px;
 	font-family: ${SYSTEM_FONT};
-	font-size: 11px;
+	font-size: ${FONT_SIZES.SMALL};
 	line-height: 1.2;
 `;
 
@@ -166,13 +150,9 @@ export const TreeNodeWrapper = styled.div<{
 	margin-left: 16px;
 `;
 
-export const NodeContainer = styled.div`
-	/* Simplified container for retro styling */
-`;
+export const NodeContainer = styled.div``;
 
-export const ChildrenContainer = styled.div`
-	/* Children already indented by TreeNodeWrapper */
-`;
+export const ChildrenContainer = styled.div``;
 
 export const ExpandIcon = styled.span<{
 	$variant: TreeVariant;
@@ -194,13 +174,10 @@ export const ExpandIcon = styled.span<{
 	color: ${VGA_BLACK};
 	cursor: pointer;
 
-	/* Authentic Windows 3.1 button styling */
 	box-shadow: inset 1px 1px 0 ${WIN31_BUTTON_HIGHLIGHT},
 		inset -1px -1px 0 ${WIN31_BUTTON_SHADOW};
 
 	&:active {
-		border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
-			${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
-		box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.3);
+		${pressed}
 	}
 `;

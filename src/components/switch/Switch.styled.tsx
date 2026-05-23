@@ -1,13 +1,13 @@
 import styled from '@emotion/styled';
-import getColorScheme, { ComponentColors } from '@src/utils/getColorScheme';
 import {
 	VGA_BLACK,
 	VGA_WHITE,
 	WIN31_BUTTON_FACE,
 	WIN31_BUTTON_HIGHLIGHT,
 	WIN31_BUTTON_SHADOW,
-} from '@src/constants/colors';
-import { FONT_SIZES, SYSTEM_FONT } from '@src/constants/fonts';
+} from '../../constants/colors';
+import { FONT_SIZES, SYSTEM_FONT } from '../../constants/fonts';
+import getColorScheme, { ComponentColors } from '../../utils/getColorScheme';
 import { SwitchSize, SwitchVariant } from './Switch';
 
 export const Switch = styled.label<{ $size: SwitchSize; $disabled: boolean }>`
@@ -61,7 +61,7 @@ export const SwitchSlider = styled.span<{
 	border-color: ${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT}
 		${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
 	border-radius: ${({ $variant }) => ($variant === 'rounded' ? '20px' : '0')};
-	box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
+	box-shadow: inset 1px 1px 0 ${WIN31_BUTTON_SHADOW};
 	transition: none;
 
 	&:before {
@@ -97,7 +97,6 @@ export const SwitchSlider = styled.span<{
 		}}
 	}
 
-	/* Checked state */
 	input:checked + &:before {
 		${({ $size }) => {
 			switch ($size) {
@@ -117,24 +116,22 @@ export const SwitchSlider = styled.span<{
 			${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW};
 	}
 
-	/* Checked track background */
 	input:checked + & {
 		background: ${(props) =>
 			props.$color === 'greyscale'
 				? WIN31_BUTTON_FACE
 				: getColorScheme(props.$color, props.theme)};
 		border-color: ${(props) =>
-			props.$color === 'greyscale'
-				? WIN31_BUTTON_SHADOW
-				: getColorScheme(props.$color, props.theme)}
-		${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_HIGHLIGHT}
-		${(props) =>
-			props.$color === 'greyscale'
-				? WIN31_BUTTON_SHADOW
-				: getColorScheme(props.$color, props.theme)};
+				props.$color === 'greyscale'
+					? WIN31_BUTTON_SHADOW
+					: getColorScheme(props.$color, props.theme)}
+			${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_HIGHLIGHT}
+			${(props) =>
+				props.$color === 'greyscale'
+					? WIN31_BUTTON_SHADOW
+					: getColorScheme(props.$color, props.theme)};
 	}
 
-	/* Disabled state */
 	${(props) =>
 		props.$disabled &&
 		`
@@ -167,5 +164,4 @@ export const SwitchLabel = styled.span<{
 	vertical-align: middle;
 `;
 
-// Keep legacy export for compatibility
 export const SwitchText = SwitchLabel;

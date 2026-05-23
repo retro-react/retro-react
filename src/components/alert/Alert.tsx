@@ -1,9 +1,8 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef, MouseEventHandler } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import commonClassNames from '@src/constants/commonClassNames';
-import closeIcon from '../../assets/svg/close_icon.svg';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
 import { Portal } from '../portal/Portal';
 import * as Sc from './Alert.styled';
 
@@ -106,8 +105,10 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
 				id={id}
 				$color={color}
 				$isOpenProp={isOpenProp}
+				$position={position}
 				sx={sx}
 				ref={ref}
+				role="alert"
 				className={classNames('alert-root', className, commonClassNames)}
 				{...rest}
 			>
@@ -115,14 +116,11 @@ export const Alert = forwardRef<HTMLDivElement, AlertProps>(
 					<Sc.CloseButton
 						className="alert-close-button"
 						onClick={onClose}
-						$icon={closeIcon}
 						aria-label="Close alert"
 						$color={color}
 					/>
 				)}
-				<Sc.Title className="alert-title" aria-label="Alert title">
-					{title}
-				</Sc.Title>
+				<Sc.Title className="alert-title">{title}</Sc.Title>
 				{children}
 			</Sc.Alert>
 		);

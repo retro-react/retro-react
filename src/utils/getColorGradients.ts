@@ -6,7 +6,7 @@ import {
 	RAINBOW_GRADIENT,
 	RETRO_GRADIENT,
 	SECONDARY,
-} from '@src/constants/colors';
+} from '../constants/colors';
 
 export type ColorGradients =
 	| 'rainbow'

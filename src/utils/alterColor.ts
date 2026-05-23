@@ -1,10 +1,4 @@
-import {
-	ERROR,
-	PRIMARY,
-	SECONDARY,
-	SUCCESS,
-	WARN,
-} from '@src/constants/colors';
+import { ERROR, PRIMARY, SECONDARY, SUCCESS, WARN } from '../constants/colors';
 
 const themeColors = {
 	primary: PRIMARY,

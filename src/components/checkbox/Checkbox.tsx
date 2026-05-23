@@ -1,9 +1,9 @@
 /** @jsxImportSource theme-ui */
-import _ from 'lodash';
-import { forwardRef, useEffect, useRef } from 'react';
+import { forwardRef, useCallback, useEffect, useRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import commonClassNames from '@src/constants/commonClassNames';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
+import { uniqueId } from '../../utils/uniqueId';
 import * as Sc from './Checkbox.styled';
 
 export type CheckboxColor =
@@ -59,25 +59,37 @@ export const Checkbox = forwardRef(
 		}: CheckboxProps,
 		ref: React.Ref<HTMLInputElement>,
 	) => {
-		id = id ?? `retro-checkbox-${_.uniqueId()}`;
-		const localRef = useRef<HTMLInputElement>(null);
-		const resolvedRef = (ref as React.RefObject<HTMLInputElement>) || localRef;
+		id = id ?? uniqueId('retro-checkbox-');
+		const localRef = useRef<HTMLInputElement | null>(null);
+
+		const setRefs = useCallback(
+			(node: HTMLInputElement | null) => {
+				localRef.current = node;
+				if (typeof ref === 'function') {
+					ref(node);
+				} else if (ref && typeof ref === 'object') {
+					(ref as React.MutableRefObject<HTMLInputElement | null>).current =
+						node;
+				}
+			},
+			[ref],
+		);
 
 		useEffect(() => {
-			if ('current' in resolvedRef && resolvedRef.current) {
-				resolvedRef.current.indeterminate = indeterminate ?? false;
+			if (localRef.current) {
+				localRef.current.indeterminate = indeterminate ?? false;
 			}
-		}, [resolvedRef, indeterminate]);
+		}, [indeterminate]);
 
 		const checkbox = (
 			<Sc.Checkbox
 				id={id}
 				type="checkbox"
-				className={classNames(commonClassNames, className)}
+				className={label ? undefined : classNames(commonClassNames, className)}
 				onClick={onClick}
 				$color={color}
 				sx={sx}
-				ref={resolvedRef}
+				ref={setRefs}
 				{...rest}
 			/>
 		);

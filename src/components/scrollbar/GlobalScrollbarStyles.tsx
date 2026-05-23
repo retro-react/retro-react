@@ -5,7 +5,7 @@ import {
 	VGA_YELLOW,
 	WIN31_BUTTON_FACE,
 	WIN31_BUTTON_SHADOW,
-} from '@src/constants/colors';
+} from '../../constants/colors';
 import { ScrollbarVariant } from './Scrollbar';
 
 const getScrollbarStyles = (variant: ScrollbarVariant) => css`
@@ -15,7 +15,7 @@ const getScrollbarStyles = (variant: ScrollbarVariant) => css`
 		background-color: ${variant === 'default'
 			? WIN31_BUTTON_FACE
 			: variant === 'windows'
-			? '#c0c0c0'
+			? WIN31_BUTTON_FACE
 			: variant === 'terminal'
 			? VGA_BLACK
 			: '#2b1810'}; /* amber */
@@ -28,7 +28,7 @@ const getScrollbarStyles = (variant: ScrollbarVariant) => css`
 		background-color: ${variant === 'default'
 			? WIN31_BUTTON_FACE
 			: variant === 'windows'
-			? '#c0c0c0'
+			? WIN31_BUTTON_FACE
 			: variant === 'terminal'
 			? VGA_BLACK
 			: '#2b1810'};
@@ -78,7 +78,7 @@ const getScrollbarStyles = (variant: ScrollbarVariant) => css`
 		background-color: ${variant === 'default'
 			? WIN31_BUTTON_FACE
 			: variant === 'windows'
-			? '#c0c0c0'
+			? WIN31_BUTTON_FACE
 			: variant === 'terminal'
 			? VGA_BLACK
 			: '#2b1810'};
@@ -109,7 +109,7 @@ const getScrollbarStyles = (variant: ScrollbarVariant) => css`
 		background-color: ${variant === 'default'
 			? WIN31_BUTTON_FACE
 			: variant === 'windows'
-			? '#c0c0c0'
+			? WIN31_BUTTON_FACE
 			: variant === 'terminal'
 			? VGA_BLACK
 			: '#2b1810'};

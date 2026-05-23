@@ -4,57 +4,79 @@ import { Badge, BadgeProps } from '../index';
 export default {
 	title: 'Components/Badge',
 	component: Badge,
+	argTypes: {
+		color: {
+			control: { type: 'select' },
+			options: [
+				'primary',
+				'secondary',
+				'success',
+				'error',
+				'warn',
+				'highlight',
+			],
+			description: 'Color of the badge dot.',
+		},
+		size: {
+			control: { type: 'radio' },
+			options: ['small', 'medium', 'large'],
+			description: 'Size of the badge.',
+		},
+		badgeContent: {
+			control: 'text',
+			description:
+				'Text or number rendered inside the badge. Hidden when 0/null/undefined unless `showZero` is true.',
+		},
+		pulse: {
+			control: 'boolean',
+			description: 'Animates the badge with a pulsing effect.',
+		},
+		showZero: {
+			control: 'boolean',
+			description: 'Renders the badge even when the numeric content is 0.',
+		},
+	},
 } as Meta;
+
+const Anchor = () => (
+	<div
+		style={{
+			display: 'grid',
+			placeItems: 'center',
+			width: 80,
+			height: 80,
+			border: '1px solid #808080',
+			background: '#c0c0c0',
+		}}
+	>
+		Inbox
+	</div>
+);
 
 const Template: Story<BadgeProps> = (args) => (
 	<Badge {...args}>
-		<div
-			style={{
-				display: 'grid',
-				placeItems: 'center',
-				// Width and height are required for the badge to show correctly
-				width: '100px',
-				height: '100px',
-				border: '1px solid black',
-			}}
-		>
-			100x100
-		</div>
+		<Anchor />
 	</Badge>
 );
 
 export const Default = Template.bind({});
 Default.args = {
 	color: 'primary',
-	badgeContent: 15,
+	badgeContent: 12,
 	size: 'medium',
-	pulse: false,
-	showZero: false,
 };
 
-export const WithWords = Template.bind({});
-WithWords.args = {
-	color: 'primary',
-	badgeContent: 'NEW',
-	size: 'medium',
-	pulse: false,
-	showZero: false,
-};
-
-export const Highlight = Template.bind({});
-Highlight.args = {
+export const TextContent = Template.bind({});
+TextContent.args = {
 	color: 'highlight',
 	badgeContent: 'NEW',
 	size: 'medium',
-	pulse: false,
-	showZero: false,
 };
 
-export const Pulsating = Template.bind({});
-Pulsating.args = {
-	color: 'primary',
-	badgeContent: 5,
+export const Pulse = Template.bind({});
+Pulse.args = {
+	color: 'error',
+	badgeContent: 3,
 	pulse: true,
 	size: 'medium',
-	showZero: false,
 };

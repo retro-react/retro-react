@@ -5,14 +5,17 @@ import {
 	ReactNode,
 	useCallback,
 	useEffect,
+	useRef,
 	useState,
 } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import commonClassNames from '@src/constants/commonClassNames';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
+import { usePrefersReducedMotion } from '../../utils/usePrefersReducedMotion';
 import * as Sc from './Carousel.styled';
 
-export interface CarouselProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface CarouselProps
+	extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
 	/**
 	 * The interval between slides, in milliseconds.
 	 *
@@ -24,13 +27,25 @@ export interface CarouselProps extends React.HTMLAttributes<HTMLDivElement> {
 	 *
 	 * @default []
 	 */
-	children: ReactNode[];
+	children?: ReactNode | ReactNode[];
 	/**
 	 * Hide the arrow buttons.
 	 *
 	 * @default false
 	 */
 	hideArrows?: boolean;
+	/**
+	 * Controls the active slide index. When provided, the Carousel is controlled.
+	 *
+	 * @default undefined
+	 */
+	activeIndex?: number;
+	/**
+	 * Callback fired when the active slide index changes.
+	 *
+	 * @default undefined
+	 */
+	onChange?: (index: number) => void;
 	sx?: ThemeUICSSObject;
 }
 
@@ -49,30 +64,76 @@ export interface CarouselProps extends React.HTMLAttributes<HTMLDivElement> {
  * </Carousel>
  */
 export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
-	({ id, className, children, interval = 3000, sx, ...rest }, ref) => {
-		const [activeIndex, setActiveIndex] = useState(0);
+	(
+		{
+			id,
+			className,
+			children,
+			interval = 3000,
+			hideArrows = false,
+			activeIndex: activeIndexProp,
+			onChange,
+			sx,
+			...rest
+		},
+		ref,
+	) => {
+		const slides = Children.toArray(children);
+		const slideCount = slides.length;
+		const reducedMotion = usePrefersReducedMotion();
+
+		const isControlled = activeIndexProp !== undefined;
+		const [internalIndex, setInternalIndex] = useState(0);
+		const activeIndex = activeIndexProp ?? internalIndex;
+		const [isPaused, setIsPaused] = useState(false);
+
+		const setActiveIndex = useCallback(
+			(updater: number | ((prev: number) => number)) => {
+				const current = activeIndexProp ?? internalIndex;
+				const next =
+					typeof updater === 'function'
+						? (updater as (prev: number) => number)(current)
+						: updater;
+				if (!isControlled) {
+					setInternalIndex(next);
+				}
+				if (onChange) {
+					onChange(next);
+				}
+			},
+			[isControlled, activeIndexProp, internalIndex, onChange],
+		);
+
+		const setActiveIndexRef = useRef(setActiveIndex);
+		setActiveIndexRef.current = setActiveIndex;
 
 		useEffect(() => {
+			if (slideCount <= 1 || isPaused || reducedMotion) return;
+
 			const timer = setTimeout(() => {
-				setActiveIndex((prevIndex) =>
-					prevIndex === children.length - 1 ? 0 : prevIndex + 1,
+				setActiveIndexRef.current((prevIndex) =>
+					prevIndex >= slideCount - 1 ? 0 : prevIndex + 1,
 				);
-			}, interval); // Adjust the time interval as needed
+			}, interval);
 
 			return () => clearTimeout(timer);
-		}, [activeIndex, children, interval]);
+		}, [activeIndex, slideCount, interval, isPaused, reducedMotion]);
 
 		const handlePrev = useCallback(() => {
 			setActiveIndex((prevIndex) =>
-				prevIndex === 0 ? children.length - 1 : prevIndex - 1,
+				prevIndex === 0 ? slideCount - 1 : prevIndex - 1,
 			);
-		}, [children]);
+		}, [setActiveIndex, slideCount]);
 
 		const handleNext = useCallback(() => {
 			setActiveIndex((prevIndex) =>
-				prevIndex === children.length - 1 ? 0 : prevIndex + 1,
+				prevIndex >= slideCount - 1 ? 0 : prevIndex + 1,
 			);
-		}, [children]);
+		}, [setActiveIndex, slideCount]);
+
+		if (slideCount === 0) {
+			return null;
+		}
 
 		return (
 			<Sc.CarouselWrapper
@@ -80,12 +141,14 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
 				id={id}
 				sx={sx}
 				className={classNames('carousel-root', className, commonClassNames)}
+				onMouseEnter={() => setIsPaused(true)}
+				onMouseLeave={() => setIsPaused(false)}
 				{...rest}
 			>
 				<Sc.CarouselTrack
 					style={{ transform: `translateX(-${activeIndex * 100}%)` }}
 				>
-					{Children.map(children, (child, index) => (
+					{slides.map((child, index) => (
 						<Sc.CarouselItem key={index} className="carousel-item">
 							{child}
 						</Sc.CarouselItem>
@@ -93,7 +156,7 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
 				</Sc.CarouselTrack>
 
 				<Sc.CarouselNav>
-					{Children.map(children, (_, index) => (
+					{slides.map((_, index) => (
 						<Sc.CarouselDot
 							key={index}
 							isActive={index === activeIndex}
@@ -103,7 +166,7 @@ export const Carousel = forwardRef<HTMLDivElement, CarouselProps>(
 					))}
 				</Sc.CarouselNav>
 
-				{!rest.hideArrows && (
+				{!hideArrows && slideCount > 1 && (
 					<>
 						<Sc.CarouselButton
 							$position="left"

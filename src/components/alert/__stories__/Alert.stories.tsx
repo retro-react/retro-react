@@ -1,83 +1,70 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { useState } from 'react';
 import { Flex } from 'theme-ui';
-import { Button } from '@src/components/button';
-import { Alert, AlertProps } from '../index';
+import { Alert } from '../index';
 
 export default {
 	title: 'Components/Alert',
 	component: Alert,
 	argTypes: {
 		color: {
-			control: 'color',
+			control: { type: 'select' },
+			options: ['primary', 'secondary', 'success', 'warn', 'error'],
+			description: 'Semantic color of the alert.',
 		},
 		title: {
 			control: 'text',
-		},
-		open: {
-			control: 'boolean',
+			description: 'Alert heading text.',
 		},
 		showCloseButton: {
 			control: 'boolean',
+			description: 'Renders a close button in the top-right corner.',
 		},
-		onClose: {
-			control: false,
+		open: {
+			control: 'boolean',
+			description:
+				'If provided, the Alert renders into a Portal positioned via `position`. Leave undefined for inline rendering.',
 		},
-		children: {
-			control: 'text',
+		position: {
+			control: { type: 'select' },
+			options: ['bottom-left', 'bottom-right', 'top-left', 'top-right'],
+			description: 'Portal position when `open` is set.',
 		},
+		onClose: { control: false },
 	},
 } as ComponentMeta<typeof Alert>;
 
-const Template: ComponentStory<typeof Alert> = ({
-	color,
-	title,
-	showCloseButton,
-	children,
-}: AlertProps) => {
-	const [open, setOpen] = useState(false);
-
-	return (
-		<>
-			<Button onClick={() => setOpen(!open)}>Toggle Alert</Button>
-			<Alert
-				color={color}
-				title={title}
-				open={open}
-				showCloseButton={showCloseButton}
-				onClose={() => setOpen(false)}
-			>
-				{children}
-			</Alert>
-		</>
-	);
-};
+const Template: ComponentStory<typeof Alert> = (args) => <Alert {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-	color: 'primary',
-	title: 'Primary Alert',
-	open: true,
+	color: 'success',
+	title: 'Account created',
 	showCloseButton: true,
-	children: 'The quick brown fox jumps over the lazy dog.',
+	children: 'Your account has been created successfully.',
 };
 
-export const AlertColors: ComponentStory<typeof Alert> = () => (
-	<Flex sx={{ flexDirection: 'column', gap: '1rem', width: '300px' }}>
-		<Alert color="primary" title="Primary Alert">
-			The quick brown fox jumps over the lazy dog.
+export const Variants: ComponentStory<typeof Alert> = () => (
+	<Flex sx={{ flexDirection: 'column', gap: '1rem', width: '320px' }}>
+		<Alert color="primary" title="Information">
+			A new update is available for download.
 		</Alert>
-		<Alert color="secondary" title="Secondary Alert">
-			The quick brown fox jumps over the lazy dog.
+		<Alert color="success" title="Success">
+			Your changes have been saved.
 		</Alert>
-		<Alert color="success" title="Success Alert">
-			The quick brown fox jumps over the lazy dog.
+		<Alert color="warn" title="Warning">
+			Your session will expire in 5 minutes.
 		</Alert>
-		<Alert color="warn" title="Warn Alert">
-			The quick brown fox jumps over the lazy dog.
-		</Alert>
-		<Alert color="error" title="Error Alert">
-			The quick brown fox jumps over the lazy dog.
+		<Alert color="error" title="Error">
+			Unable to connect to the server.
 		</Alert>
 	</Flex>
 );
+
+export const Dismissible = Template.bind({});
+Dismissible.args = {
+	color: 'warn',
+	title: 'Unsaved changes',
+	showCloseButton: true,
+	children:
+		'You have unsaved changes. They will be lost if you leave this page.',
+};

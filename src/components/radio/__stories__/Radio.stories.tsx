@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useState } from 'react';
-import { Container } from '@src/components/container';
-import { Text } from '@src/components/text';
+import { Text } from '../../../components/text';
 import { Radio, RadioGroup } from '../index';
 
 const meta: Meta<typeof RadioGroup> = {
@@ -11,8 +10,16 @@ const meta: Meta<typeof RadioGroup> = {
 		docs: {
 			description: {
 				component:
-					'Authentic Windows 3.1 style radio buttons for single-selection forms. Features classic inset radio buttons with proper dotted focus indicators.',
+					'Windows 3.1 style radio buttons for single-selection forms. Wrap `Radio` children inside a `RadioGroup` and share a `name`.',
 			},
+		},
+	},
+	argTypes: {
+		defaultValue: { description: 'Initial selected value (uncontrolled).' },
+		value: { description: 'Selected value when controlled.' },
+		disabled: {
+			control: { type: 'boolean' },
+			description: 'Disable every radio in the group.',
 		},
 	},
 };
@@ -20,169 +27,71 @@ const meta: Meta<typeof RadioGroup> = {
 export default meta;
 type Story = StoryObj<typeof RadioGroup>;
 
-export const Basic: Story = {
-	args: {
-		defaultValue: 'playstation',
-		disabled: false,
-	},
-	render(args) {
-		const [value, setValue] = useState(args.defaultValue);
+const label = { fontFamily: 'MS Sans Serif, sans-serif', fontSize: '11px' };
 
+export const Default: Story = {
+	args: { defaultValue: 'card' },
+	render: (args) => {
+		const [value, setValue] = useState(args.defaultValue);
 		return (
-			<Container sx={{ background: '#c0c0c0', padding: 3 }}>
-				<Text
-					sx={{
-						mb: 3,
-						fontFamily: 'MS Sans Serif, sans-serif',
-						fontSize: '11px',
-						fontWeight: 'bold',
-					}}
-				>
-					Select your favorite retro gaming console:
+			<div style={{ maxWidth: 320 }}>
+				<Text sx={{ ...label, mb: 2, fontWeight: 'bold' }}>
+					Choose payment method:
 				</Text>
 				<RadioGroup {...args} onChange={setValue}>
-					<Radio
-						label="Super Nintendo Entertainment System"
-						name="console"
-						value="snes"
-					/>
-					<Radio
-						label="Sega Genesis / Mega Drive"
-						name="console"
-						value="genesis"
-					/>
-					<Radio label="Sony PlayStation" name="console" value="playstation" />
-					<Radio label="Nintendo Game Boy" name="console" value="gameboy" />
-					<Radio label="Atari 2600" name="console" value="atari" />
+					<Radio label="Credit card" name="payment" value="card" />
+					<Radio label="PayPal" name="payment" value="paypal" />
+					<Radio label="Bank transfer" name="payment" value="bank" />
+					<Radio label="Cash on delivery" name="payment" value="cod" />
 				</RadioGroup>
-				<Text
-					sx={{
-						mt: 3,
-						fontFamily: 'MS Sans Serif, sans-serif',
-						fontSize: '11px',
-						fontWeight: 'bold',
-					}}
-				>
-					Selected: {value}
-				</Text>
-			</Container>
+				<Text sx={{ ...label, mt: 2 }}>Selected: {value}</Text>
+			</div>
 		);
 	},
 };
 
 export const Disabled: Story = {
-	args: {
-		defaultValue: 'windows',
-		disabled: true,
-	},
-	render(args) {
-		return (
-			<Container sx={{ background: '#c0c0c0', padding: 3 }}>
-				<Text
-					sx={{
-						mb: 3,
-						fontFamily: 'MS Sans Serif, sans-serif',
-						fontSize: '11px',
-						fontWeight: 'bold',
-					}}
-				>
-					Operating System (Disabled):
-				</Text>
-				<RadioGroup {...args}>
-					<Radio label="Windows 3.1" name="os" value="windows" />
-					<Radio label="MS-DOS 6.22" name="os" value="msdos" />
-					<Radio label="OS/2 Warp" name="os" value="os2" />
-				</RadioGroup>
-			</Container>
-		);
-	},
+	args: { defaultValue: 'windows', disabled: true },
+	render: (args) => (
+		<div style={{ maxWidth: 320 }}>
+			<Text sx={{ ...label, mb: 2, fontWeight: 'bold' }}>
+				Operating system:
+			</Text>
+			<RadioGroup {...args}>
+				<Radio label="Windows 3.1" name="os" value="windows" />
+				<Radio label="MS-DOS 6.22" name="os" value="msdos" />
+				<Radio label="OS/2 Warp" name="os" value="os2" />
+			</RadioGroup>
+		</div>
+	),
 };
 
-export const WithoutLabels: Story = {
-	args: {
-		defaultValue: 'option2',
-	},
-	render(args) {
+export const WithLongLabels: Story = {
+	args: { defaultValue: 'balanced' },
+	render: (args) => {
 		const [value, setValue] = useState(args.defaultValue);
-
 		return (
-			<Container sx={{ background: '#c0c0c0', padding: 3 }}>
-				<Text
-					sx={{
-						mb: 3,
-						fontFamily: 'MS Sans Serif, sans-serif',
-						fontSize: '11px',
-						fontWeight: 'bold',
-					}}
-				>
-					Basic Options:
-				</Text>
-				<RadioGroup {...args} onChange={setValue}>
-					<Radio name="basicOptions" value="option1" />
-					<Radio name="basicOptions" value="option2" />
-					<Radio name="basicOptions" value="option3" />
-				</RadioGroup>
-				<Text
-					sx={{
-						mt: 3,
-						fontFamily: 'MS Sans Serif, sans-serif',
-						fontSize: '11px',
-					}}
-				>
-					Selected option: {value}
-				</Text>
-			</Container>
-		);
-	},
-};
-
-export const LongLabels: Story = {
-	args: {
-		defaultValue: 'performance',
-	},
-	render(args) {
-		const [value, setValue] = useState(args.defaultValue);
-
-		return (
-			<Container sx={{ background: '#c0c0c0', padding: 3, maxWidth: '400px' }}>
-				<Text
-					sx={{
-						mb: 3,
-						fontFamily: 'MS Sans Serif, sans-serif',
-						fontSize: '11px',
-						fontWeight: 'bold',
-					}}
-				>
-					System Configuration:
-				</Text>
+			<div style={{ maxWidth: 420 }}>
+				<Text sx={{ ...label, mb: 2, fontWeight: 'bold' }}>Power plan:</Text>
 				<RadioGroup {...args} onChange={setValue}>
 					<Radio
-						label="High Performance - Maximum speed and responsiveness"
+						label="High Performance — maximum speed and responsiveness"
 						name="config"
 						value="performance"
 					/>
 					<Radio
-						label="Balanced - Good performance with power efficiency"
+						label="Balanced — good performance with power efficiency"
 						name="config"
 						value="balanced"
 					/>
 					<Radio
-						label="Power Saver - Extended battery life on laptops"
+						label="Power Saver — extended battery life on laptops"
 						name="config"
 						value="powersaver"
 					/>
 				</RadioGroup>
-				<Text
-					sx={{
-						mt: 3,
-						fontFamily: 'MS Sans Serif, sans-serif',
-						fontSize: '11px',
-						fontWeight: 'bold',
-					}}
-				>
-					Selected: {value}
-				</Text>
-			</Container>
+				<Text sx={{ ...label, mt: 2 }}>Selected: {value}</Text>
+			</div>
 		);
 	},
 };

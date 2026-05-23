@@ -1,8 +1,8 @@
 /** @jsxImportSource theme-ui */
 import { forwardRef } from 'react';
 import { ThemeUICSSObject } from 'theme-ui';
-import { classNames } from '@src/utils/classNames';
-import commonClassNames from '@src/constants/commonClassNames';
+import commonClassNames from '../../constants/commonClassNames';
+import { classNames } from '../../utils/classNames';
 import * as Sc from './WordArt.styled';
 
 export type WordArtStyle =
@@ -44,8 +44,6 @@ export interface WordArtProps extends React.HTMLAttributes<HTMLDivElement> {
 	 * - curved: 3D perspective curved effect
 	 * - arch: True arched text with individual letter positioning
 	 * - extruded: Thick 3D dimensional text with deep shadow layers
-	 * - perspective: 3D perspective transformation
-	 * - inflate: Inflated bubble-like effect
 	 * - perspective: 3D perspective transformation
 	 * - inflate: Inflated bubble-like effect
 	 *
@@ -114,7 +112,7 @@ export const WordArt = forwardRef<HTMLDivElement, WordArtProps>(
 			...rest
 		},
 		ref,
-	) => {
+	): JSX.Element => {
 		// Split text into individual spans for arch effect
 		const renderText = () => {
 			if (artStyle === 'arch' && typeof children === 'string') {

@@ -1,72 +1,113 @@
-import { Heading, Meta, Source, Subtitle, Title } from '@storybook/addon-docs';
+import { Meta, Source } from '@storybook/addon-docs';
 
 <Meta title="Overview/Introduction" />
 
-# Welcome to Retro React UI 📟
+# Retro React 📟
 
-> Relive the nostalgic 90s web experience with our old-school inspired design system
+> A React component library inspired by Windows 95/98 — authentic bevels, sharp pixels, and 50+ accessible, typed components.
 
-## Installation
+## Install
 
-Get started by installing Retro React in your project:
+```bash
+npm install retro-react
+```
 
-<Source dark language="bash" code={`npm install retro-react`} />
+That's it. `@emotion/react`, `@emotion/styled`, and `theme-ui` install automatically. React is the only peer dependency (16.8 – 19).
 
-## Quick Usage
-
-Easily incorporate retro components into your project for a vintage look:
+## Quick start
 
 <Source
 	dark
 	language="tsx"
-	code={`import React from 'react';
-import { Button } from 'retro-react';
+	code={`import { Button, Card, Input } from 'retro-react';
 
-function App() {
-return <Button>Click me</Button>;
-}
-`}
+export default function App() {
+	return (
+		<Card header="Sign in">
+			<Input placeholder="Username" />
+			<Button variant="primary">OK</Button>
+			<Button variant="outline">Cancel</Button>
+		</Card>
+	);
+}`}
 />
 
-- The `pattern` prop is noticeably different in dark mode vs light mode. Explore the components in both modes to see the difference.
+## What's in the box
 
-### Global styles
+- **50+ components** — Button, Input, Select, Modal, Drawer, Tabs, Accordion, Table, Tree, Tooltip, ProgressBar, Pager, CRT, Terminal, WordArt, and more.
+- **Controlled & uncontrolled** — Every stateful component supports both patterns (`value` / `defaultValue`, `open` / `defaultOpen`, etc.).
+- **TypeScript-first** — Full type definitions ship with the package; props are documented inline.
+- **Accessible** — Proper ARIA roles, keyboard navigation, focus traps where it matters.
+- **Tree-shakeable** — Single ESM + CJS bundles with `sideEffects: false`.
+- **Tiny core** — ~300 KB minified, no peer dep installs required.
 
-Every component in Retro React has a `retro-ui` class name attached to it. This allows you to easily style all components at once. For example, you can change the font family of all components by adding the following CSS to your main stylesheet:
+## Controlled vs uncontrolled
+
+Most stateful components work both ways out of the box:
+
+<Source
+	dark
+	language="tsx"
+	code={`// Uncontrolled — the component manages its own state
+<Accordion title="Settings" defaultOpen>
+	General preferences…
+</Accordion>
+
+// Controlled — your state, your rules
+const [open, setOpen] = useState(false);
+<Accordion title="Settings" open={open} onToggle={setOpen}>
+	General preferences…
+</Accordion>`}
+/>
+
+Same pattern for `Tabs`, `Switch`, `Slider`, `Select`, `RadioGroup`, `Carousel`, `Tree`, `ToggleButtonGroup`, `Popover`, and more.
+
+## Theming with `sx`
+
+Every component accepts the `sx` prop ([Theme UI](https://theme-ui.com)) for one-off styling, with full theme access:
+
+<Source
+	dark
+	language="tsx"
+	code={`<Button
+	sx={{
+		minWidth: 200,
+		'&:hover': { filter: 'brightness(1.1)' },
+	}}
+>
+	Wide Button
+</Button>`}
+/>
+
+## Global styling
+
+Every rendered element carries a `retro-ui` class plus a component-specific `<name>-root` class — so you can blanket-style across the library:
 
 <Source
 	dark
 	language="css"
 	code={`.retro-ui {
-	font-family: 'Comic Sans MS', cursive, sans-serif !important;
+	font-family: 'Perfect DOS VGA 437', monospace !important;
+}
+
+.button-root {
+	letter-spacing: 0.5px;
 }`}
 />
 
-Check the other classes in the [CSS docs](/docs/css-general--docs) to see what else you can do.
+See the [CSS docs](/docs/css-general--docs) for the full class-name map.
 
-### `sx` prop
+## Browse
 
-All components in Retro React support the `sx` prop, which allows you to style components inline without writing CSS. This is powered by [Theme UI](https://theme-ui.com/), which is built on top of [Emotion](https://emotion.sh/docs/introduction).
+- **Layout** — Container, FlexibleLayout, Navbar
+- **Forms** — Input, Checkbox, Radio, Select, Slider, Switch, Autocomplete, PasswordInput, DocumentUpload
+- **Data Display** — Table, Statistics, Tree, Avatar, Badge, SevenSegmentDisplay
+- **Feedback** — Alert, Spinner, Skeleton, ProgressBar, Stepper
+- **Navigation** — Tabs, Menu, Breadcrumbs, Pager
+- **Layout & Containers** — Box, Card, Container, Accordion, Divider
+- **Retro Effects** — Text, WordArt, Marquee, TypewriterText, CRT, Terminal
+- **Overlays** — Modal, Drawer, Popover, Tooltip
 
-<Source
-	dark
-	language="tsx"
-	code={`
-import { Button } from 'retro-react';
+Or just go straight to the [components showcase](/story/overview-retro-components--components-overview).
 
-<Button
-	sx={{
-		backgroundColor: '#ff0080',
-		color: 'white',
-		fontSize: 4,
-	}}
->
-	Cool Button
-</Button>
-`} />
-
-All components have a main **COMPONENT-root** class name attached to them, which allows you to style the root element of a component through CSS or the `sx` prop. Check the Class Names section of each component's documentation to see the class name for that component.
-
----
-
-Take a trip down memory lane and explore our collection of retro-styled components that evoke the charm of the 90s internet. Customize and adapt these components to create a unique experience for your users. Happy coding! 🚀
+Happy hacking. 🚀

@@ -1,119 +1,121 @@
-# React Retro UI Library
+# retro-react
 
 [![npm version](https://badge.fury.io/js/retro-react.svg)](https://www.npmjs.com/package/retro-react)
 [![npm license](https://img.shields.io/npm/l/retro-react.svg)](https://www.npmjs.com/package/retro-react)
 
-React Retro UI Library is a retro-themed UI library for React that offers a unique set of over 20 components to help you effortlessly build nostalgic user interfaces. The library includes components such as buttons, containers, inputs, boxes, cards, text, modals, progress bars, chips, and alerts, among others.
+Authentic Windows 95 / 98 component library for React. 50+ typed, tree-shakable components with classic 3D bevels, sharp pixels, and CRT vibes — including buttons, inputs, modals, tabs, accordions, tables, trees, popovers, alerts, plus retro one-of-a-kind extras like `Pager`, `CRT`, `Terminal`, `WordArt`, `Marquee`, `TypewriterText`, and `SevenSegmentDisplay`.
 
-There are also some unique components such as the `MouseTrail` component, which creates a trail of mouse cursors that follow the user's mouse movements, `PixelatedImage`, which pixelates an image, and many more. Additional components can be found in the demo.
+→ **[Live demo & docs](https://retro-react.github.io/retro-react/?path=/docs/overview-introduction--docs/)**
 
-The library is in it's early stages, so there are still many components to be added. Suggestions are always welcome, so feel free to open an issue [here](https://github.com/retro-react/retro-react).
+## Highlights
 
-For detailed changes between versions, please refer to the github [releases](https://github.com/retro-react/retro-react/releases) page. Stay tuned for frequent updates!
+- **Authentic Win9x look** — sunken / raised / pressed bevels, system fonts, navy-and-silver palette, no rounded corners
+- **One-command install** — no peer dep dance, no theme provider, no global CSS
+- **Tree-shakable** — `sideEffects: false`, single ESM + CJS entry, ships only what you import
+- **First-class TypeScript** — strict types ship with the package; works with `tsc`, Vite, Next.js, Remix
+- **Controlled & uncontrolled** — every form-style component supports both
+- **Accessible by default** — focus trap on dialogs, ARIA on combobox/tree/tabs/menu, full keyboard nav
+- **React 16.8 – 19** as the only peer dependency
 
-## Demo
-
-Explore the [demo](https://retro-react.github.io/retro-react/?path=/docs/overview-introduction--docs/) of the library to see all the components in action.
-
-## Installation
-
-You can install the `retro-react` package using npm or yarn:
+## Install
 
 ```bash
 npm install retro-react
-```
-
-or
-
-```bash
+# or
 yarn add retro-react
+# or
+pnpm add retro-react
 ```
 
-## Usage
+That's it. `@emotion/react`, `@emotion/styled`, and `theme-ui` install transitively. No provider setup required.
 
-You can import the components from the retro-react package and use them in your React application as follows:
+## Quick start
 
-```jsx
-import React from 'react';
-import {
-	Alert,
-	Box,
-	Button,
-	Card,
-	Chip,
-	Container,
-	Input,
-	Modal,
-	ProgressBar,
-	Text,
-} from 'retro-react';
+```tsx
+import { Button, Card, Input, Modal } from 'retro-react';
+import { useState } from 'react';
 
-const App = () => {
+export default function App() {
+	const [open, setOpen] = useState(false);
+
 	return (
-		<div>
-			<Button>Click me</Button>
-			<Container>{/* Your content here */}</Container>
-			<Input placeholder="Enter text" />
-			<Box>Box content</Box>
-			<Card header="Header" footer="Footer">
-				{/* Card content */}
-			</Card>
-			<Text variant="h1">Hello, world!</Text>
-			<Modal open={true}>{/* Modal content */}</Modal>
-			<ProgressBar value={50} />
-			<Chip color="primary">Chip</Chip>
-			<Alert open={true} color="success">
-				{/* Alert content */}
-			</Alert>
-		</div>
+		<Card header="Sign in">
+			<Input placeholder="Username" />
+			<Button variant="primary" onClick={() => setOpen(true)}>
+				OK
+			</Button>
+			<Button variant="outline">Cancel</Button>
+
+			<Modal open={open} onClose={() => setOpen(false)} title="Welcome">
+				<p>Logged in.</p>
+			</Modal>
+		</Card>
 	);
-};
-
-export default App;
-```
-
-## Components
-
-Please refer to the [demo](https://retro-react.github.io/retro-react/?path=/docs/overview-introduction--docs/) for a complete list of components and their props.
-
-## Global styles
-
-Every component in React Retro UI has a `retro-ui` class name attached. This makes it easy to apply global styling to all components. For instance, you can change the font family of all components by adding the following CSS to your main stylesheet:
-
-```css
-.retro-ui {
-	font-family: 'Roboto', sans-serif !important;
 }
 ```
 
-## `sx` prop
+## What's in the box
 
-All components in React Retro UI support the `sx` prop, which allows you to add custom styles to the component. The `sx` prop accepts an object with CSS properties and values. For more information on the `sx` prop, please refer to the [documentation](https://theme-ui.com/sx-prop).
+**Buttons & actions** — `Button`, `ButtonGroup`, `ToggleButton`, `ToggleButtonGroup`, `Chip`
 
-```jsx
-<Button sx={{ backgroundColor: 'red' }}>Click me</Button>
-<Text sx={{ color: 'blue' }}>Hello, world!</Text>
-<Container sx={{ border: '1px solid black', width: '100vh' }}>{/* Your content here */}</Container>
-```
+**Form controls** — `Input`, `PasswordInput`, `Select`, `Autocomplete`, `Checkbox`, `Radio`, `Switch`, `Slider`, `DocumentUpload`
+
+**Data display** — `Table`, `Statistics`, `Avatar`, `Badge`, `Tree`, `SevenSegmentDisplay`, `Carousel`
+
+**Feedback & status** — `Alert`, `ProgressBar`, `Spinner`, `Skeleton`, `Stepper`
+
+**Navigation** — `Tabs`, `Menu`, `Navbar`, `Breadcrumbs`, `Pager`
+
+**Layout & containers** — `Box`, `Card`, `Container`, `Accordion`, `Divider`, `FlexibleLayout`, `Group`
+
+**Retro text effects** — `Text`, `WordArt`, `Marquee`, `TypewriterText`
+
+**Dialogs & overlays** — `Modal`, `Drawer`, `Popover`, `Tooltip`
+
+**Atmosphere** — `CRT`, `Terminal`, `StarField`, `MouseTrail`, `PixelatedImage`, `Scrollbar`, `Background`
+
+See the [demo](https://retro-react.github.io/retro-react/?path=/docs/overview-introduction--docs/) for live props, controls, and source for every component.
 
 ## Styling
 
-Emotion is used for styling the components. You can create your own components by using the `styled` function from Emotion or use the theme values using the `useTheme` hook. For more information on styling, please refer to this [documentation](https://emotion.sh/docs/styled).
+### `sx` prop
 
-```jsx
-import React from 'react';
+Every component accepts an `sx` prop for one-off overrides:
+
+```tsx
+<Button sx={{ minWidth: 120 }}>Send</Button>
+<Text sx={{ color: '#000080' }}>Heading</Text>
+```
+
+### `retro-ui` class
+
+Every component carries the `retro-ui` class so you can override globally without targeting internals:
+
+```css
+.retro-ui {
+	font-family: 'Pixelated MS Sans Serif', system-ui;
+}
+```
+
+### Emotion
+
+`styled` and `useTheme` are re-exported for consumers that want their own retro-styled components:
+
+```tsx
 import { styled, useTheme } from 'retro-react';
 
-const StyledButton = styled('button')`
-	background-color: ${(props) => props.theme.colors.primary};
-	color: ${(props) => props.theme.colors.white};
+const Bevel = styled('div')`
+	border: 2px solid;
+	border-color: #fff #808080 #808080 #fff;
+	background: #c0c0c0;
+	padding: 8px 12px;
 `;
 ```
 
-## License
-
-This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit/).
-
 ## Contributing
 
-Contributions are welcome! People who want to contribute to this project can open an issue or submit a pull request [here](https://github.com/retro-react/retro-react). If you are dedicated to contributing to this project, you can also contact me there.
+Issues and PRs are welcome at [github.com/retro-react/retro-react](https://github.com/retro-react/retro-react). For non-trivial changes please open an issue first.
+
+## License
+
+MIT
