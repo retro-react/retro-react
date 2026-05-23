@@ -56,7 +56,7 @@
 		"build": "tsup && tsc -p tsconfig.build.json && cp dist/index.d.ts dist/index.d.mts",
 		"build:storybook": "storybook build -o docs-build",
 		"changeset": "changeset",
-		"lint": "eslint . --ext .ts,.tsx,.js,.jsx",
+		"lint": "eslint src --ext .ts,.tsx",
 		"prepare": "husky install",
 		"prepublishOnly": "npm run build",
 		"release": "changeset publish",
