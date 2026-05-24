@@ -5,6 +5,8 @@
 
 A React component library that looks like Windows 95 / 98. 50+ typed, tree-shakable components with classic 3D bevels and sharp pixel edges. Includes the usual lineup (buttons, inputs, modals, tabs, accordions, tables, trees, popovers, alerts) plus one-of-a-kind retro pieces like `Pager`, `CRT`, `Terminal`, `WordArt`, `Marquee`, `TypewriterText`, and `SevenSegmentDisplay`.
 
+![retro-react hero](https://raw.githubusercontent.com/retro-react/retro-react/main/docs/images/hero.png)
+
 [Live demo and docs](https://retro-react.github.io/retro-react/?path=/docs/overview-introduction--docs/)
 
 ## Highlights
@@ -57,6 +59,8 @@ export default function App() {
 
 ## What's in the box
 
+![Buttons, forms, and chips](https://raw.githubusercontent.com/retro-react/retro-react/main/docs/images/buttons-and-forms.png)
+
 Buttons and actions: `Button`, `ButtonGroup`, `ToggleButton`, `ToggleButtonGroup`, `Chip`.
 
 Form controls: `Input`, `PasswordInput`, `Select`, `Autocomplete`, `Checkbox`, `Radio`, `Switch`, `Slider`, `DocumentUpload`.
@@ -74,6 +78,8 @@ Retro text effects: `Text`, `WordArt`, `Marquee`, `TypewriterText`.
 Dialogs and overlays: `Modal`, `Drawer`, `Popover`, `Tooltip`.
 
 Atmosphere: `CRT`, `Terminal`, `StarField`, `MouseTrail`, `PixelatedImage`, `Scrollbar`, `Background`.
+
+![Atmosphere components](https://raw.githubusercontent.com/retro-react/retro-react/main/docs/images/atmosphere.png)
 
 See the [demo](https://retro-react.github.io/retro-react/?path=/docs/overview-introduction--docs/) for live props, controls, and source for every component.
 
