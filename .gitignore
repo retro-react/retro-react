@@ -24,3 +24,4 @@ docs-build
 # local screenshots
 audit-shots/
 *.png
+!docs/images/*.png
