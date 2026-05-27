@@ -6,10 +6,10 @@ import { SYSTEM_FONT } from '../../constants/fonts';
 
 const progressAnimation = keyframes`
 	0% {
-		background-position: 0 0;
+		background-position: 16px 0;
 	}
 	100% {
-		background-position: 11.3137px 0;
+		background-position: 0 0;
 	}
 `;
 
@@ -34,23 +34,28 @@ export const ProgressBar = styled.div<{
 	&::after {
 		content: '';
 		position: absolute;
-		top: 0;
-		left: 0;
-		width: ${(props) => Math.min(Math.max(props.$value, 0), 100)}%;
-		height: 100%;
-		background: ${VGA_BLUE};
-		background-image: repeating-linear-gradient(
-			45deg,
-			${VGA_BLUE} 0px,
-			${VGA_BLUE} 4px,
-			${WIN31_BUTTON_FACE} 4px,
-			${WIN31_BUTTON_FACE} 8px
+		top: 1px;
+		left: 1px;
+		bottom: 1px;
+		width: calc(${(props) => Math.min(Math.max(props.$value, 0), 100)}% - 2px);
+		max-width: calc(100% - 2px);
+		background-color: ${VGA_BLUE};
+		background-image: linear-gradient(
+			-45deg,
+			${WIN31_BUTTON_FACE} 25%,
+			transparent 25%,
+			transparent 50%,
+			${WIN31_BUTTON_FACE} 50%,
+			${WIN31_BUTTON_FACE} 75%,
+			transparent 75%,
+			transparent
 		);
+		background-size: 16px 16px;
 
 		${(props) =>
 			props.$animated &&
 			css`
-				animation: ${progressAnimation} 1.2s linear infinite;
+				animation: ${progressAnimation} 1s linear infinite;
 			`}
 
 		box-sizing: border-box;

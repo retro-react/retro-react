@@ -63,7 +63,6 @@ export const MenuItem = styled.li`
 		color: ${WHITE};
 	}
 
-	/* Add keyboard focus indicator */
 	&:focus {
 		outline: 1px dotted ${BLACK};
 		outline-offset: -1px;
@@ -71,5 +70,17 @@ export const MenuItem = styled.li`
 
 	&:hover:focus {
 		outline-color: ${WHITE};
+	}
+
+	&[aria-disabled='true'] {
+		color: ${WIN31_BUTTON_SHADOW};
+		cursor: not-allowed;
+		text-shadow: 1px 1px 0 ${WHITE};
+
+		&:hover,
+		&:active {
+			background-color: transparent;
+			color: ${WIN31_BUTTON_SHADOW};
+		}
 	}
 `;

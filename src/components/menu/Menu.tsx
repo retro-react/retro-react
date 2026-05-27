@@ -27,6 +27,12 @@ export interface MenuProps extends React.HTMLAttributes<HTMLDivElement> {
  */
 export interface MenuItemProps extends React.LiHTMLAttributes<HTMLLIElement> {
 	/**
+	 * Greys out the item and disables click and keyboard activation.
+	 *
+	 * @default false
+	 */
+	disabled?: boolean;
+	/**
 	 * Theme-ui styling properties
 	 *
 	 * @example { backgroundColor: 'primary', ':hover': { backgroundColor: 'secondary' } }
@@ -118,14 +124,28 @@ export const MenuItem: React.FC<MenuItemProps> = ({
 	children,
 	sx,
 	tabIndex = 0,
+	disabled = false,
+	onClick,
+	onKeyDown,
 	...rest
 }) => {
 	return (
 		<Sc.MenuItem
 			role="menuitem"
-			tabIndex={tabIndex}
+			tabIndex={disabled ? -1 : tabIndex}
+			aria-disabled={disabled || undefined}
+			data-disabled={disabled || undefined}
 			className={classNames('menu-item', commonClassNames)}
 			sx={sx}
+			onClick={
+				disabled
+					? (e) => {
+							e.preventDefault();
+							e.stopPropagation();
+					  }
+					: onClick
+			}
+			onKeyDown={disabled ? undefined : onKeyDown}
 			{...rest}
 		>
 			{children}
