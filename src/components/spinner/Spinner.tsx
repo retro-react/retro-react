@@ -5,7 +5,7 @@ import commonClassNames from '../../constants/commonClassNames';
 import { classNames } from '../../utils/classNames';
 import * as Sc from './Spinner.styled';
 
-export type SpinnerVariant = 'hourglass' | 'dots' | 'bars' | 'rotating';
+export type SpinnerVariant = 'hourglass' | 'dots' | 'bars' | 'bar' | 'rotating';
 export type SpinnerSize = 'small' | 'medium' | 'large';
 
 export interface SpinnerProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -55,7 +55,7 @@ export const Spinner = forwardRef<HTMLDivElement, SpinnerProps>(
 						<Sc.Dot />
 					</Sc.DotsSpinner>
 				)}
-				{variant === 'bars' && (
+				{(variant === 'bars' || variant === 'bar') && (
 					<Sc.BarsSpinner $size={size}>
 						<Sc.Bar />
 						<Sc.Bar />

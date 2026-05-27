@@ -28,9 +28,20 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
 	 */
 	pulse?: boolean;
 	/**
-	 * Badge contents, typically a number or string. If `null`, `0`, or `undefined`, the badge will be hidden.
+	 * The value the badge shows, typically a count or short label. The badge
+	 * is hidden when this is `null`, `undefined`, or `0` unless `showZero` is
+	 * set.
 	 */
 	badgeContent?: number | string;
+	/**
+	 * The element the badge anchors to. The badge floats in the top-right
+	 * corner of this child. Most commonly an icon, button, or avatar.
+	 *
+	 * @example
+	 * <Badge badgeContent={5} color="error">
+	 *   <Avatar>AB</Avatar>
+	 * </Badge>
+	 */
 	children?: React.ReactNode;
 	/**
 	 *	The size of the Badge.

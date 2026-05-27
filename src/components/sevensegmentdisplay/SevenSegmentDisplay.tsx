@@ -31,6 +31,13 @@ interface SevenSegmentDisplayProps
 	 * @default 'medium'
 	 */
 	size?: 'small' | 'medium' | 'large';
+	/**
+	 * Pad the displayed value with leading zeros up to this many digits.
+	 * If the value has more digits than this, all digits render.
+	 *
+	 * @default undefined
+	 */
+	digits?: number;
 	sx?: ThemeUICSSObject;
 }
 
@@ -110,6 +117,7 @@ export const SevenSegmentDisplay = forwardRef<
 			segmentThickness = 'none',
 			color = 'black',
 			size = 'medium',
+			digits: digitCount,
 			sx,
 			...rest
 		},
@@ -118,10 +126,12 @@ export const SevenSegmentDisplay = forwardRef<
 		const safeValue = Number.isFinite(value) ? value : 0;
 		const isNegative = safeValue < 0;
 
-		const digits = Math.abs(safeValue)
-			.toString()
-			.split('')
-			.filter((char) => char.match(/[0-9]/));
+		const rawDigits = Math.abs(safeValue).toString();
+		const padded =
+			digitCount && digitCount > rawDigits.length
+				? rawDigits.padStart(digitCount, '0')
+				: rawDigits;
+		const digits = padded.split('').filter((char) => char.match(/[0-9]/));
 
 		const colorScheme = getColorScheme(color);
 

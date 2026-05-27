@@ -4,6 +4,7 @@ import {
 	VGA_BLACK,
 	VGA_BLUE,
 	VGA_GREEN,
+	VGA_RED,
 	VGA_WHITE,
 	VGA_YELLOW,
 	WIN31_BUTTON_FACE,
@@ -71,6 +72,19 @@ const getVariantStyles = (variant: ButtonVariant) => {
 
 				&:focus:not(:disabled) {
 					outline: 1px dotted ${VGA_BLACK};
+					outline-offset: -3px;
+				}
+			`;
+
+		case 'error':
+			return css`
+				background: ${VGA_RED};
+				color: ${VGA_WHITE};
+				border-color: ${WIN31_BUTTON_HIGHLIGHT} ${WIN31_BUTTON_SHADOW}
+					${WIN31_BUTTON_SHADOW} ${WIN31_BUTTON_HIGHLIGHT};
+
+				&:focus:not(:disabled) {
+					outline: 1px dotted ${VGA_WHITE};
 					outline-offset: -3px;
 				}
 			`;
@@ -158,7 +172,7 @@ export const Button = styled.button<{
 			case 'small':
 				return '28px';
 			case 'large':
-				return '36px';
+				return '40px';
 			default:
 				return '32px';
 		}

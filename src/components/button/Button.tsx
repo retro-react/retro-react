@@ -10,6 +10,7 @@ export type ButtonVariant =
 	| 'secondary'
 	| 'success'
 	| 'warning'
+	| 'error'
 	| 'outline'
 	| 'flat';
 
@@ -23,6 +24,7 @@ export interface ButtonProps
 	 * - secondary: Classic grey secondary button
 	 * - success: Classic green success button
 	 * - warning: Classic yellow warning button
+	 * - error: Classic red destructive button
 	 * - outline: Outlined button style
 	 * - flat: Flat button style
 	 *
